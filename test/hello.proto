@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package com.yoozoo.ts;
+
+// ClassName = UserService
+// ApiUrl = "https://jsonplaceholder.typicode.com/users"
+// DataType = User
+// DataTypeFile = user
+// string ClassName = 2;
+// string ApiUrl = 3;
+// string DataType = 4;
+// string DataTypeFile = 5;
+
+message HelloRequest {
+    string greeting = 1;  
+}
+
+message HelloResponse {
+    string reply = 1;
+}
+
+service HelloService {
+    rpc SayHello (HelloRequest) returns (HelloResponse);
+}
