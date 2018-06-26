@@ -26,7 +26,7 @@ This README would normally document whatever steps are necessary to get your app
 * build the plugin: 
     * run cli: `go build` in the cloned repo folder
     * you will see a `[folder-name].exe` file is created in the repo root directory
-    * rename the .exe file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
+    * rename the `.exe` file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
 
 * run the plugin:
     * `protoc -I=. --plugin=./protoc-gen-ts --ts_out=lang=ts:. test/hello.proto`
