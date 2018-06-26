@@ -17,7 +17,7 @@ This README would normally document whatever steps are necessary to get your app
 3. Make sure protoc is installed in correct folder: 
 * [follow the steps here](http://google.github.io/proto-lens/installing-protoc.html)
 4. Get other relevant lib:
-* run cli: `go run` in the cloned repo folder
+* run cli: `go get` in the cloned repo folder
 5. build the plugin: 
 * run cli: `go build` in the cloned repo folder
 * make sure a `protoc-gen-ts.exe` file is created in the repo root directory
