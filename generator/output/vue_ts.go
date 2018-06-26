@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"protoc-gen-ts/generator/data"
+	"protoapi/generator/data"
 	"strings"
 	"text/template"
 )

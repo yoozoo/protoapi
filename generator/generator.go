@@ -8,9 +8,9 @@ import (
 	"reflect"
 	"strings"
 
-	"protoc-gen-ts/generator/data"
+	"protoapi/generator/data"
 	// this is to let the output plugins initialize themselves and add to the output plugin registra
-	_ "protoc-gen-ts/generator/output"
+	_ "protoapi/generator/output"
 
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"

@@ -8,7 +8,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 
-	"protoc-gen-ts/generator"
+	"protoapi/generator"
 )
 
 func main() {
