@@ -9,20 +9,29 @@ This README would normally document whatever steps are necessary to get your app
 
 ### Getting Started ###
 
-1. go to the place you want to clone the repo: 
-* `git clone https://zhuql@bitbucket.org/yoozoosg/protoc-gen-ts.git`
-2. Install protoc-gen-go:
-* go to `/usr/local` directory (same dir with .bash_profile for Mac)
-* run cli: `go get -u github.com/golang/protobuf/protoc-gen-go` => installed in $GOBIN, defaulting to $GOPATH/bin
-3. Make sure protoc is installed in correct folder: 
-* [follow the steps here](http://google.github.io/proto-lens/installing-protoc.html)
-4. Get other relevant lib:
-* run cli: `go get` in the cloned repo folder
-5. build the plugin: 
-* run cli: `go build` in the cloned repo folder
-* make sure a `protoc-gen-ts.exe` file is created in the repo root directory
-6. run the plugin:
-* `protoc -I=. --plugin=./protoc-gen-ts --ts_out=lang=ts:. test/hello.proto`
+* go to the place you want to clone the repo: 
+    * `git clone https://zhuql@bitbucket.org/yoozoosg/protoc-gen-ts.git`
+
+* Install protoc-gen-go if you have not done so:
+    * go to `/usr/local` directory (same dir with .bash_profile for Mac)
+    * run cli: `go get -u github.com/golang/protobuf/protoc-gen-go` => installed in $GOBIN, defaulting to $GOPATH/bin
+
+* Make sure protoc is installed in correct folder: 
+    * [follow the steps here](http://google.github.io/proto-lens/installing-protoc.html)
+
+* Get other relevant lib:
+    * go to the cloned project folder: `cd protoapi`
+    * run cli: `go get` in the cloned repo folder
+
+* build the plugin: 
+    * run cli: `go build` in the cloned repo folder
+    * you will see a `[folder-name].exe` file is created in the repo root directory
+    * rename the .exe file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
+
+* run the plugin:
+    * `protoc -I=. --plugin=./protoc-gen-ts --ts_out=lang=ts:. test/hello.proto`
+    * if you have other `.proto` files to test, just change the cli to: `protoc -I=. --plugin=./protoc-gen-ts --ts_out=lang=ts:. $SRC_DIR/$TEST_FILE.proto`
+
 
 ### Contribution guidelines ###
 
