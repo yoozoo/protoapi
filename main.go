@@ -33,12 +33,6 @@ func main() {
 
 	request := new(plugin.CodeGeneratorRequest)
 
-	files := request.GetProtoFile()
-
-	for _, v := range files {
-		fmt.Println("file: ", v)
-	}
-
 	proto.Unmarshal(input, request)
 	if len(request.FileToGenerate) != 1 {
 		fmt.Fprintf(os.Stderr, "input files are： %v\nwe only support one proto file\n", request.FileToGenerate)

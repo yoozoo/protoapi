@@ -25,12 +25,15 @@ This README would normally document whatever steps are necessary to get your app
 
 * build the plugin: 
     * run cli: `go build` in the cloned repo folder
-    * you will see a `[folder-name].exe` file is created in the repo root directory
-    * rename the `.exe` file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
+    * you will see a `[folder-name]` file is created in the repo root directory
+
+* set up env:
+    * rename the file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
+    * or soft link `protoapi` with `protoc-gen-ts` in $GOBIN: `ln -s $PATH-TO-GENERATED-FILE protoc-gen-ts`
 
 * run the plugin:
-    * `protoc -I=. --plugin=./protoc-gen-ts --ts_out=lang=ts:. test/hello.proto`
-    * if you have other `.proto` files to test, just change the cli to: `protoc -I=. --plugin=./protoc-gen-ts --ts_out=lang=ts:. $SRC_DIR/$TEST_FILE.proto`
+    * `protoc -I=. --ts_out=lang=ts:. test/hello.proto`
+    * if you have other `.proto` files to test, just change the cli to: `protoc -I=. --ts_out=lang=ts:. $SRC_DIR/$TEST_FILE.proto`
 
 
 ### Contribution guidelines ###

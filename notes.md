@@ -25,4 +25,14 @@ e.g. `protoc -I=. --java_out=test test/test.proto`
 4. git add remote url:
     - create bitbucket repo from side menu
     - `git init`
-    - `git remote add origin https://zhuql@bitbucket.org/yoozoosg/protoc-gen-ts.git`  
+    - `git remote add origin https://zhuql@bitbucket.org/yoozoosg/protoapi.git`  
+
+5. soft link:
+```
+ln [-Ffhinsv] source_file [target_file]
+ln [-Ffhinsv] source_file ... target_dir
+link source_file target_file
+```
+link generated protoapi with protoc-gen-ts in $GOBIN
+`ln -s /Users/zhuqinglei/go/src/protoapi/protoapi protoc-gen-ts`
+then rebuild `go build`
