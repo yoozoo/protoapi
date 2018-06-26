@@ -10,7 +10,7 @@ This README would normally document whatever steps are necessary to get your app
 ### Getting Started ###
 
 * go to the place you want to clone the repo: 
-    * `git clone https://zhuql@bitbucket.org/yoozoosg/protoc-gen-ts.git`
+    * `git clone https://zhuql@bitbucket.org/yoozoosg/protoapi.git`
 
 * Install protoc-gen-go if you have not done so:
     * go to `/usr/local` directory (same dir with .bash_profile for Mac)
