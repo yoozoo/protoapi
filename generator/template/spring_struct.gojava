@@ -1,0 +1,19 @@
+package {{.Package}};
+
+public class {{.ClassName}} {
+    {{- range .Fields }}
+    private final {{.Type}}: {{ .Name }}
+    {{ end }}
+
+    public {{.ClassName}}({{.ContructParam}}) {
+    {{- range .Fields }}
+        this.{{ .Name }} = .{{ .Name }};
+    {{ end }}
+    }
+
+    {{- range .Fields }}
+    public {{.Type}} get{{ .Name }}() {
+        return {{ .Name }};
+    }
+    {{ end }}
+}
