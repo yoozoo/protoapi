@@ -56,21 +56,21 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 
 			switch field.GetType().String() {
 			case "TYPE_STRING":
-				msgField.Data = data.StringFieldType
+				msgField.DataType = data.StringFieldType
 			case "TYPE_BYTES":
-				msgField.Data = data.StringFieldType
+				msgField.DataType = data.StringFieldType
 			case "TYPE_ENUM":
-				msgField.Data = field.GetTypeName()
+				msgField.DataType = field.GetTypeName()
 			case "TYPE_MESSAGE":
-				msgField.Data = field.GetTypeName()
+				msgField.DataType = field.GetTypeName()
 			case "TYPE_FLOAT":
-				msgField.Data = data.DoubleFieldType
+				msgField.DataType = data.DoubleFieldType
 			case "TYPE_DOUBLE":
-				msgField.Data = data.DoubleFieldType
+				msgField.DataType = data.DoubleFieldType
 			case "TYPE_BOOL":
-				msgField.Data = data.BooleanFieldType
+				msgField.DataType = data.BooleanFieldType
 			default:
-				msgField.Data = data.IntFieldType
+				msgField.DataType = data.IntFieldType
 			}
 
 			msgData.Fields = append(msgData.Fields, msgField)
@@ -209,9 +209,9 @@ func findRootObject(file string, messages []*data.MessageData, msgMap map[string
 	// check how many other messages are depending on it.
 	for k := range rootMsgs {
 		for _, field := range msgMap[k].Fields {
-			if !isPrimitiveType(field.Data) {
-				if v, ok := rootMsgs[field.Data]; ok {
-					rootMsgs[field.Data] = v + 1
+			if !isPrimitiveType(field.DataType) {
+				if v, ok := rootMsgs[field.DataType]; ok {
+					rootMsgs[field.DataType] = v + 1
 				}
 			}
 		}
@@ -249,14 +249,14 @@ func buildDepGraph(rootMsg *data.MessageData, msgMap map[string]*data.MessageDat
 		var depList = make(map[string]bool)
 
 		for _, field := range msg.Fields {
-			if !isPrimitiveType(field.Data) {
+			if !isPrimitiveType(field.DataType) {
 				// make sure the message does not reference itself
-				if strings.Compare(field.Data, msg.Name) != 0 {
-					if _, ok := msgMap[field.Data]; ok {
-						if _, ok := result[field.Data]; !ok {
-							pendingMsgs = append(pendingMsgs, msgMap[field.Data])
+				if strings.Compare(field.DataType, msg.Name) != 0 {
+					if _, ok := msgMap[field.DataType]; ok {
+						if _, ok := result[field.DataType]; !ok {
+							pendingMsgs = append(pendingMsgs, msgMap[field.DataType])
 						}
-						depList[field.Data] = true
+						depList[field.DataType] = true
 					}
 				} else {
 					log.Printf("Object cant reference itself: %s (in %s)\n", msg.Name, msg.File)
@@ -341,9 +341,9 @@ func fixMessageName(messages []*data.MessageData, enums []*data.EnumData) {
 	for _, msg := range messages {
 		msg.Name = translateTable[msg.Name]
 		for idx := range msg.Fields {
-			if _, ok := translateTable[msg.Fields[idx].Data]; ok {
+			if _, ok := translateTable[msg.Fields[idx].DataType]; ok {
 				// assign use the index access only, as the array is not a point array
-				msg.Fields[idx].Data = translateTable[msg.Fields[idx].Data]
+				msg.Fields[idx].DataType = translateTable[msg.Fields[idx].DataType]
 			}
 		}
 	}
@@ -383,10 +383,10 @@ func filterMessages(file string, messages []*data.MessageData, enums []*data.Enu
 		msg := msgMap[name]
 		resultMsgs = append(resultMsgs, msg)
 		for _, field := range msg.Fields {
-			if _, ok := enumMap[field.Data]; ok {
-				resultEnums = append(resultEnums, enumMap[field.Data])
+			if _, ok := enumMap[field.DataType]; ok {
+				resultEnums = append(resultEnums, enumMap[field.DataType])
 				// make sure we only add the enum once
-				delete(enumMap, field.Data)
+				delete(enumMap, field.DataType)
 			}
 		}
 	}
@@ -402,9 +402,9 @@ func createKeyList(prefix string, msg *data.MessageData, msgMap map[string]*data
 	log.Printf("msg: %s\n", msg.Name)
 	log.Printf("msg.Fields: %s\n", msg.Fields)
 	for _, field := range msg.Fields {
-		if _, ok := msgMap[field.Data]; ok {
+		if _, ok := msgMap[field.DataType]; ok {
 
-			tmp := createKeyList(prefix+field.Name+data.PathSeparator, msgMap[field.Data], msgMap)
+			tmp := createKeyList(prefix+field.Name+data.PathSeparator, msgMap[field.DataType], msgMap)
 			for _, v := range tmp {
 				result = append(result, v)
 			}

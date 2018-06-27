@@ -29,9 +29,9 @@ type EnumData struct {
 
 // MessageField a field for the defined message.
 type MessageField struct {
-	Name string // message variable name
-	Data string // message variable type
-	Key  string // coresponding key name for the variable, default is the same as variable name
+	Name     string // message variable name
+	DataType string // message variable type
+	Key      string // coresponding key name for the variable, default is the same as variable name
 }
 
 // MessageData a structure to represent a message datatype
