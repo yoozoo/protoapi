@@ -3,7 +3,7 @@ package generator
 
 import (
 	"fmt"
-	"os"
+	"log"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -113,7 +113,7 @@ func getMethods(pkg string, methods []*descriptor.MethodDescriptorProto) []data.
 	var resultMtd []data.Method
 
 	for _, mtd := range methods {
-		fmt.Fprintf(os.Stderr, "mtd: %s\n", mtd)
+		log.Printf("mtd: %s\n", mtd)
 		var mtdData = data.Method{
 			Name:       mtd.GetName(),
 			InputType:  mtd.GetInputType()[len(pkg)+2:],
@@ -121,7 +121,7 @@ func getMethods(pkg string, methods []*descriptor.MethodDescriptorProto) []data.
 		}
 		resultMtd = append(resultMtd, mtdData)
 	}
-	fmt.Fprintf(os.Stderr, "mtds: %s\n", resultMtd)
+	log.Printf("mtds: %s\n", resultMtd)
 	return resultMtd
 }
 
@@ -138,7 +138,7 @@ func createServices(file string, pkg string, services []*descriptor.ServiceDescr
 		serData.Name = service.GetName()
 		serData.Methods = mtds
 
-		fmt.Fprintf(os.Stderr, "service: %s\n", service)
+		log.Printf("service: %s\n", service)
 		resultSers = append(resultSers, serData)
 	}
 	return resultSers
@@ -221,7 +221,7 @@ func findRootObject(file string, messages []*data.MessageData, msgMap map[string
 	// find root object, if find more than one, it is fatal error
 	var rootMsg *data.MessageData
 	for k, v := range rootMsgs {
-		// fmt.Fprintf(os.Stderr, "root msg", v, k)
+		// log.Printf("root msg", v, k)
 		if v == 0 {
 			if rootMsg == nil {
 				rootMsg = msgMap[k]
@@ -230,7 +230,7 @@ func findRootObject(file string, messages []*data.MessageData, msgMap map[string
 	}
 	// no root object find, error also
 	if rootMsg == nil {
-		fmt.Fprintf(os.Stderr, "We could not find root configuration object\n")
+		log.Printf("We could not find root configuration object\n")
 	}
 	return rootMsg
 }
@@ -260,7 +260,7 @@ func buildDepGraph(rootMsg *data.MessageData, msgMap map[string]*data.MessageDat
 						depList[field.Data] = true
 					}
 				} else {
-					fmt.Fprintf(os.Stderr, "Object cant reference itself: %s (in %s)\n", msg.Name, msg.File)
+					log.Printf("Object cant reference itself: %s (in %s)\n", msg.Name, msg.File)
 					return nil
 				}
 			}
@@ -288,7 +288,7 @@ func findDepOrder(rootMsg *data.MessageData, msgMap map[string]*data.MessageData
 		}
 		// if curcular dependency found, error out
 		if len(msgName) == 0 {
-			fmt.Fprintf(os.Stderr, "Circular dependency found. This is not supported.\n")
+			log.Printf("Circular dependency found. This is not supported.\n")
 			return nil
 		}
 
@@ -393,20 +393,15 @@ func filterMessages(file string, messages []*data.MessageData, enums []*data.Enu
 	}
 
 	fixMessageName(resultMsgs, resultEnums)
-	for _, v := range resultMsgs {
-		fmt.Fprintf(os.Stderr, "msg: %s\n", v)
-	}
-	for _, v := range resultEnums {
-		fmt.Fprintf(os.Stderr, "enum: %s\n", v)
-	}
+
 	return resultMsgs, resultEnums
 }
 
 //createkeyList recursively create the key list
 func createKeyList(prefix string, msg *data.MessageData, msgMap map[string]*data.MessageData) []string {
 	var result []string
-	fmt.Fprintf(os.Stderr, "msg: %s\n", msg.Name)
-	fmt.Fprintf(os.Stderr, "msg.Fields: %s\n", msg.Fields)
+	log.Printf("msg: %s\n", msg.Name)
+	log.Printf("msg.Fields: %s\n", msg.Fields)
 	for _, field := range msg.Fields {
 		if _, ok := msgMap[field.Data]; ok {
 
@@ -414,12 +409,12 @@ func createKeyList(prefix string, msg *data.MessageData, msgMap map[string]*data
 			for _, v := range tmp {
 				result = append(result, v)
 			}
-			fmt.Fprintf(os.Stderr, "tmp: %s\n", tmp)
+			log.Printf("tmp: %s\n", tmp)
 		} else {
 			result = append(result, prefix+field.Name)
 		}
 	}
-	//fmt.Fprintf(os.Stderr, "keys: %s\n", result)
+	//log.Printf("keys: %s\n", result)
 	return result
 }
 
@@ -428,8 +423,8 @@ func generateKeyList(messages []*data.MessageData) []string {
 	var msgMap = make(map[string]*data.MessageData)
 	for _, msg := range messages {
 		msgMap[msg.Name] = msg
-		fmt.Fprintf(os.Stderr, "msg.Name: %s\n", msg.Name)
-		fmt.Fprintf(os.Stderr, "msg: %s\n", msg)
+		log.Printf("msg.Name: %s\n", msg.Name)
+		log.Printf("msg: %s\n", msg)
 	}
 	return createKeyList("", messages[len(messages)-1], msgMap)
 }
@@ -447,11 +442,11 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 				outputLang = kv[1]
 			}
 		}
-		fmt.Fprintf(os.Stderr, "parameter is %s\n", *request.Parameter)
+		log.Printf("parameter is %s\n", *request.Parameter)
 	}
 
 	applicationFile := filepath.Base(request.FileToGenerate[0])
-	fmt.Fprintf(os.Stderr, "application File: %s\n", applicationFile)
+	log.Printf("application File: %s\n", applicationFile)
 
 	applicationName := applicationFile[0 : len(applicationFile)-len(filepath.Ext(applicationFile))]
 
@@ -464,17 +459,11 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 	if services == nil {
 		return nil, nil
 	}
-	fmt.Fprintf(os.Stderr, "Service: %s\n", request.ProtoFile[0].Service)
+	log.Printf("Service: %s\n", request.ProtoFile[0].Service)
 
 	if messages == nil {
 		return nil, nil
 	}
-	// keys := generateKeyList(messages)
-
-	// if len(keys) == 0 {
-	// 	err := errors.New("Configuration key count is 0")
-	// 	return nil, err
-	// }
 
 	if outputFunc, ok := data.OutputMap[outputLang]; ok {
 		response := new(plugin.CodeGeneratorResponse)

@@ -2,9 +2,8 @@ package output
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
-	"os"
+	"log"
 	"path/filepath"
 	"protoapi/generator/data"
 	"strings"
@@ -38,7 +37,7 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 
 	// Data Struct file
 	dataFile := strings.Title(strings.Replace(applicationName, ".proto", "", -1)) + ".ts"
-	fmt.Fprintf(os.Stderr, "dataFile is %s\n", dataFile)
+	log.Printf("dataFile is %s\n", dataFile)
 
 	//读取template文件: 一个是class generation， 一个是 data type （interface） generation
 	vue_path, err := filepath.Abs("generator/template/vue_ts.gots")
