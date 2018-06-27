@@ -41,7 +41,7 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	fmt.Fprintf(os.Stderr, "dataFile is %s\n", dataFile)
 
 	//读取template文件: 一个是class generation， 一个是 data type （interface） generation
-	vue_path, err := filepath.Abs("generator/template/vue_ts.tmpl")
+	vue_path, err := filepath.Abs("generator/template/vue_ts.gots")
 	// interface_path, err := filepath.Abs("generator/template/interface_ts.tmpl")
 
 	if err != nil {
