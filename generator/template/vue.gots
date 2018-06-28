@@ -1,0 +1,39 @@
+import { Component, Vue } from 'vue-property-decorator';
+import VueResource from 'vue-resource';
+import { {{.Request}} , {{.Response}} } from './{{.DataTypeFile}}';
+import { generatePostUrl, generateGetUrl } from './Helper'
+
+Vue.use(VueResource);
+
+@Component
+export default class {{.ClassName}} extends Vue {
+    // constructor
+    constructor() {
+        super()
+    }
+
+    // Base Url
+    private baseUrl: string = "http://localhost:8080"
+
+    // GET 
+    {{.FunctionName}}(param: {{.Request}}): PromiseLike<{{.Response}}[] | Error> {
+
+        // TODO: determine use get/post according to request
+        // if use post
+        const postUrl: string = generatePostUrl(this.baseUrl, "{{.ClassName}}", "{{.FunctionName}}");
+        // if use get
+        const getUrl: string = generateGetUrl(this.baseUrl, param);
+
+        // TODO: determine use get/post according to request
+        return this.$http.get(getUrl).then(
+            response => {
+                console.log(response);
+                return response.data as {{.Response}};
+            },
+            error => {
+                console.log(error);
+                return new Error("Something wrong");
+            }
+        );
+    }
+}

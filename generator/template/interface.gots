@@ -1,0 +1,7 @@
+{{ range .DataTypes }}
+export interface {{.Name}} {
+    {{ range .Fields }}
+     {{.Name}}: {{ .Data }}
+    {{ end }}
+}
+{{ end }}

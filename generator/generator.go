@@ -470,8 +470,10 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 		results, err := outputFunc(applicationName, packageName, services[0], messages, enums)
 		for file, content := range results {
 			var resultFile = new(plugin.CodeGeneratorResponse_File)
-			resultFile.Name = &file
-			resultFile.Content = &content
+			fileName := file
+			resultFile.Name = &fileName
+			fileContent := content
+			resultFile.Content = &fileContent
 			response.File = append(response.File, resultFile)
 		}
 		return response, err
