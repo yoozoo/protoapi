@@ -111,13 +111,13 @@ func getMessages(files []*descriptor.FileDescriptorProto) ([]*data.MessageData, 
 // map MethodDescriptorProto to Method
 func getMethods(pkg string, methods []*descriptor.MethodDescriptorProto) []data.Method {
 	var resultMtd []data.Method
-
+	log.Printf("pkg: %s\n", pkg)
 	for _, mtd := range methods {
 		log.Printf("mtd: %s\n", mtd)
 		var mtdData = data.Method{
 			Name:       mtd.GetName(),
-			InputType:  mtd.GetInputType()[len(pkg)+2:],
-			OutputType: mtd.GetOutputType()[len(pkg)+2:],
+			InputType:  strings.Replace(mtd.GetInputType(), ".", "", -1),
+			OutputType: strings.Replace(mtd.GetOutputType(), ".", "", -1),
 		}
 		resultMtd = append(resultMtd, mtdData)
 	}
@@ -138,7 +138,6 @@ func createServices(file string, pkg string, services []*descriptor.ServiceDescr
 		serData.Name = service.GetName()
 		serData.Methods = mtds
 
-		log.Printf("service: %s\n", service)
 		resultSers = append(resultSers, serData)
 	}
 	return resultSers
@@ -453,15 +452,12 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 	packageName := getPackageName(request)
 
 	messages, enums := getMessages(request.ProtoFile)
-
-	services := getServices(request.ProtoFile)
-
-	if services == nil {
+	if messages == nil {
 		return nil, nil
 	}
-	log.Printf("Service: %s\n", request.ProtoFile[0].Service)
 
-	if messages == nil {
+	services := getServices(request.ProtoFile)
+	if services == nil {
 		return nil, nil
 	}
 
