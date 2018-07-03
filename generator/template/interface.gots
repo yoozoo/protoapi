@@ -1,7 +1,7 @@
 {{ range .DataTypes }}
 export interface {{.Name}} {
     {{ range .Fields }}
-     {{.Name}}: {{ .Data }}
+     {{.Name}}: {{ .DataType }}
     {{ end }}
 }
 {{ end }}

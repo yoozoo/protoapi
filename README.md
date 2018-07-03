@@ -9,30 +9,31 @@ This README would normally document whatever steps are necessary to get your app
 
 ### Getting Started ###
 
-* go to the place you want to clone the repo: 
+* go to the place you want to clone the repo:
     * `git clone https://zhuql@bitbucket.org/yoozoosg/protoapi.git`
 
 * Install protoc-gen-go if you have not done so:
     * go to `/usr/local` directory (same dir with .bash_profile for Mac)
     * run cli: `go get -u github.com/golang/protobuf/protoc-gen-go` => installed in $GOBIN, defaulting to $GOPATH/bin
 
-* Make sure protoc is installed in correct folder: 
+* Make sure protoc is installed in correct folder:
     * [follow the steps here](http://google.github.io/proto-lens/installing-protoc.html)
 
 * Get other relevant lib:
     * go to the cloned project folder: `cd protoapi`
     * run cli: `go get` in the cloned repo folder
 
-* build the plugin: 
+* build the plugin:
     * run cli: `go build` in the cloned repo folder
     * you will see a `[folder-name]` file is created in the repo root directory
+    * run cli  `go generate` in the cloned repo folder
 
 * set up env:
     * rename the file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
     * or soft link `protoapi` with `protoc-gen-ts` in $GOBIN: `ln -s $PATH-TO-GENERATED-FILE protoc-gen-ts`
 
 * run the plugin:
-    * `protoc -I=. --ts_out=lang=ts:. test/hello.proto`
+    * `protoc -I=. --ts_out :. test/hello.proto`
     * if you have other `.proto` files to test, just change the cli to: `protoc -I=. --ts_out=lang=ts:. $SRC_DIR/$TEST_FILE.proto`
 
 
