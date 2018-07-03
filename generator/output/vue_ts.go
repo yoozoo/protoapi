@@ -46,7 +46,6 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	vueTpl := data.FSMustString(false, "/generator/template/vue.gots")
 	interfaceTpl := data.FSMustString(false, "/generator/template/interface.gots")
 	helperTpl := data.FSMustString(false, "/generator/template/helper.gots")
-
 	// map messages and service
 	serviceData := vueResource{
 		ClassName:    service.Name,
