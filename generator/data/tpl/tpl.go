@@ -241,13 +241,13 @@ H4sIAAAAAAAC/wEAAP//AAAAAAAAAAA=
 
 	"/generator/template/spring_struct.gojava": {
 		local:   "generator/template/spring_struct.gojava",
-		size:    384,
-		modtime: 1530604495,
+		size:    392,
+		modtime: 1530611826,
 		compressed: `
-H4sIAAAAAAAC/4SPTUoEMRCF9znFW44LcwAHV4JLmYUXKDNlG0zHkKQFKeruUsaWtkWmVvWon/e9QuGV
-JoaIP41W9ehcWZ5SDAiJWrPZnTUPNLMqxAGAyDUq5Ynh7yOnc4Pq16DU+E6d8RwzJbt9/CisegMReHux
-LoqA89nUuBuWv80OJt9yr0voJ6o0q15dArDqL7H5jSFusZXHHYCpb4z/c/3wjUCYuG9eHlYuq8p9qRl/
-HPfB1X0GAAD//0tPnT6AAQAA
+H4sIAAAAAAAC/4SPTU7EMAyF9znFWw4LcgBGrEAs0Sy4gElNiUhDlKRIyPLdkSmFUoTGKz/5532vUHih
+kSHiT0urenSuzI8pBoRErdnsxpp7mlgV4gBA5BKV8sjwd5HT0KD6OSg1vlFnPMVMyW5vqdPDe2HVK4jA
+25t1WQScB1PL7WL72/Bg8jX3Ood+okqT6sU5CKv+HJvfGOIaW3ncAZj6wvg/2zffTyiM3DdvDyubVeU+
+14w/rvvw6j4CAAD//3OIOEmIAQAA
 `,
 	},
 

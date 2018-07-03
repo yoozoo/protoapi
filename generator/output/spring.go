@@ -45,7 +45,8 @@ func (g *springGen) init() {
 	var err error
 	tpl := template.New("gen")
 
-	g.structTpl, err = tpl.Parse("")
+	tplStr := data.LoadTpl("/generator/template/spring_struct.gojava")
+	g.structTpl, err = tpl.Parse(tplStr)
 	if err != nil {
 		panic(err)
 	}
@@ -58,7 +59,7 @@ func (g *springGen) getStructFilename(msg *data.MessageData) string {
 func (g *springGen) genStruct(msg *data.MessageData) string {
 	buf := bytes.NewBufferString("")
 
-	obj := &springStruct{msg}
+	obj := &springStruct{msg, g.PackageName}
 	err := g.structTpl.Execute(buf, obj)
 	if err != nil {
 		panic(err)
@@ -68,6 +69,7 @@ func (g *springGen) genStruct(msg *data.MessageData) string {
 
 func genSpringCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData) (result map[string]string, err error) {
 	gen := newSpringGen(applicationName, packageName)
+	result = make(map[string]string)
 
 	for _, msg := range messages {
 		filename := gen.getStructFilename(msg)
@@ -77,4 +79,8 @@ func genSpringCode(applicationName string, packageName string, service *data.Ser
 	}
 
 	return
+}
+
+func init() {
+	data.OutputMap["spring"] = genSpringCode
 }

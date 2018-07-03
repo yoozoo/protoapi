@@ -2,7 +2,7 @@ package {{.Package}};
 
 public class {{.ClassName}} {
     {{- range .Fields }}
-    private final {{.Type}}: {{ .Name }}
+    private final {{.DataType}}: {{ .Name }}
     {{ end }}
 
     public {{.ClassName}}({{.ContructParam}}) {
@@ -12,7 +12,7 @@ public class {{.ClassName}} {
     }
 
     {{- range .Fields }}
-    public {{.Type}} get{{ .Name }}() {
+    public {{.DataType}} get{{ .Name }}() {
         return {{ .Name }};
     }
     {{ end }}
