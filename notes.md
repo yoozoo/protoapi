@@ -1,16 +1,21 @@
-1. install PROTOC
-    ```
-    PROTOC_ZIP=protoc-3.3.0-osx-x86_64.zip
-    curl -OL https://github.com/google/protobuf/releases/download/v3.3.0/$PROTOC_ZIP
-    sudo unzip -o $PROTOC_ZIP -d /usr/local bin/protoc
-    rm -f $PROTOC_ZIP
-    ```
-    [reference](http://google.github.io/proto-lens/installing-protoc.html)
+# Install PROTOC on mac
 
-2. Run
-`protoc -I=$SRC_DIR --java_out=$DST_DIR $SRC_DIR/addressbook.proto`
-e.g. `protoc -I=. --java_out=test test/test.proto`
+```bash
+PROTOC_ZIP=protoc-3.3.0-osx-x86_64.zip
+curl -OL https://github.com/google/protobuf/releases/download/v3.3.0/$PROTOC_ZIP
+sudo unzip -o $PROTOC_ZIP -d /usr/local bin/protoc
+rm -f $PROTOC_ZIP
+```
 
+[reference](http://google.github.io/proto-lens/installing-protoc.html)
+
+# Run
+
+    protoc -I=$SRC_DIR --java_out=$DST_DIR $SRC_DIR/addressbook.proto
+
+e.g.
+
+    protoc -I=. --java_out=test test/test.proto`
 
 # Issues:
 
@@ -25,14 +30,16 @@ e.g. `protoc -I=. --java_out=test test/test.proto`
 4. git add remote url:
     - create bitbucket repo from side menu
     - `git init`
-    - `git remote add origin https://zhuql@bitbucket.org/yoozoosg/protoapi.git`  
+    - `git remote add origin https://zhuql@bitbucket.org/yoozoosg/protoapi.git`
 
 5. soft link:
-```
+
+```bash
 ln [-Ffhinsv] source_file [target_file]
 ln [-Ffhinsv] source_file ... target_dir
 link source_file target_file
 ```
+
 link generated protoapi with protoc-gen-ts in $GOBIN
 `ln -s /Users/zhuqinglei/go/src/protoapi/protoapi protoc-gen-ts`
 then rebuild `go build`
