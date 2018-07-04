@@ -59,7 +59,7 @@ func (g *springGen) getStructFilename(msg *data.MessageData) string {
 func (g *springGen) genStruct(msg *data.MessageData) string {
 	buf := bytes.NewBufferString("")
 
-	obj := &springStruct{msg, g.PackageName}
+	obj := newSpringStruct(msg, g.PackageName)
 	err := g.structTpl.Execute(buf, obj)
 	if err != nil {
 		panic(err)
