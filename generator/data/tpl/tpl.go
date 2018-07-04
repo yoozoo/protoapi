@@ -226,10 +226,14 @@ qOZSUFBQQOhzy0zNSQFrUoBIQBVagdTATYXJV1crpOalgHi1XAg2IAAA//9CAdkdhgAAAA==
 
 	"/generator/template/spring_service.gojava": {
 		local:   "generator/template/spring_service.gojava",
-		size:    0,
-		modtime: 1530670152,
+		size:    708,
+		modtime: 1530692503,
 		compressed: `
-H4sIAAAAAAAC/wEAAP//AAAAAAAAAAA=
+H4sIAAAAAAAC/6yRPW7DMAyFd52CyOQM0QW8BFmCDmmDohegbdYRklCqRCMIBN698A9qD+3QtJoEPT29
+T48B6zO2BDnb47hVLY1x1+CjgI+tTSE6bt8jXunm49neqLKV48YisxcU59nuSQ4YguO2/K316NPD3ldK
+wXOinW/uD5g/Okoyek3oqourAaskEWuB+oIp9a0845VUd5gIsgEAyDkitwT2QHLyTYKN6iBsF18pVkOh
+clJdrUd1CTucTJE525dOQidv90Cqc2b/XLFdYPbSE883Ha8npn5Fki7ybC8cr8tBVTMSzFP6D7w9SfE3
+oK+yf8z4JqCchrAB4gZUjZrPAAAA//8s8GFExAIAAA==
 `,
 	},
 
