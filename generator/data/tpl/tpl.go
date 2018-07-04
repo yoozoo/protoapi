@@ -192,48 +192,42 @@ var _escData = map[string]*_escFile{
 
 	"/generator/template/helper.gots": {
 		local:   "generator/template/helper.gots",
-		size:    3525,
-		modtime: 1530604495,
+		size:    2363,
+		modtime: 1530687262,
 		compressed: `
-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
+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
+AAA=
 `,
 	},
 
 	"/generator/template/interface.gots": {
 		local:   "generator/template/interface.gots",
-		size:    130,
-		modtime: 1530606345,
+		size:    134,
+		modtime: 1530687262,
 		compressed: `
 H4sIAAAAAAAC/6quVihKzEtPVdBzSSxJDKksSC1WqK3lSq0oyC8qUcjMK0ktSktMTlWortbzS8xNra1V
-qOZSUFBQQOhzy0zNSQFrUoBIQBVagdSATYXJVVcrpOalgHi1XAg2IAAA//+lF0FoggAAAA==
+qOZSUFBQQOhzy0zNSQFrUoBIQBVagdTATYXJV1crpOalgHi1XAg2IAAA//9CAdkdhgAAAA==
 `,
 	},
 
 	"/generator/template/spring_service.gojava": {
 		local:   "generator/template/spring_service.gojava",
 		size:    0,
-		modtime: 1530604495,
+		modtime: 1530670152,
 		compressed: `
 H4sIAAAAAAAC/wEAAP//AAAAAAAAAAA=
 `,
@@ -242,7 +236,7 @@ H4sIAAAAAAAC/wEAAP//AAAAAAAAAAA=
 	"/generator/template/spring_struct.gojava": {
 		local:   "generator/template/spring_struct.gojava",
 		size:    392,
-		modtime: 1530611826,
+		modtime: 1530687340,
 		compressed: `
 H4sIAAAAAAAC/4SPTU7EMAyF9znFWw4LcgBGrEAs0Sy4gElNiUhDlKRIyPLdkSmFUoTGKz/5532vUHih
 kSHiT0urenSuzI8pBoRErdnsxpp7mlgV4gBA5BKV8sjwd5HT0KD6OSg1vlFnPMVMyW5vqdPDe2HVK4jA
