@@ -432,20 +432,27 @@ func generateKeyList(messages []*data.MessageData) []string {
 func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorResponse, error) {
 
 	var outputLang = "ts"
+	var params = make(map[string]string)
+	parameter := request.GetParameter()
 
-	if request.Parameter != nil {
-		parameters := strings.Split(*(request.Parameter), ":")
+	if parameter != "" {
+		parameters := strings.Split(*(request.Parameter), ",")
 		for _, parameter := range parameters {
 			kv := strings.Split(parameter, "=")
-			if len(kv) == 2 && strings.Compare(kv[0], "lang") == 0 {
-				outputLang = kv[1]
+			if len(kv) == 2 {
+				if strings.Compare(kv[0], "lang") == 0 {
+					outputLang = kv[1]
+				}
+				params[kv[0]] = kv[1]
+			} else {
+				params[kv[0]] = ""
 			}
 		}
-		log.Printf("parameter is %s\n", *request.Parameter)
 	}
 
 	applicationFile := filepath.Base(request.FileToGenerate[0])
 	log.Printf("application File: %s\n", applicationFile)
+	log.Printf("outputLang: %s\n", outputLang)
 
 	applicationName := applicationFile[0 : len(applicationFile)-len(filepath.Ext(applicationFile))]
 

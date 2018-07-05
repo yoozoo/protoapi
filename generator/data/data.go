@@ -1,6 +1,11 @@
 // Package data data structure , constant values and global variables used in protoconf generator related code
 package data
 
+import (
+	"os"
+	"protoapi/generator/data/tpl"
+)
+
 const (
 	//IntFieldType datatype string for interge, it is assumed to be of signed and at least 64 bit
 	IntFieldType = "int"
@@ -14,6 +19,16 @@ const (
 	// PathSeparator the path seperator used to form the full key (ie, key/sub_key )
 	PathSeparator = "/"
 )
+
+var debugTpl = os.Getenv("debugTpl") == "true"
+
+// LoadTpl is the function to load template file as string
+// It loads file content from esc embed by default
+// Set environment variable debugTpl to "true" to load template from disk directly
+func LoadTpl(tplPath string) string {
+	//useLocal is true, the filesystem's contents are instead used.
+	return tpl.FSMustString(debugTpl, tplPath)
+}
 
 // EnumField a enum entry for enum datatype
 type EnumField struct {

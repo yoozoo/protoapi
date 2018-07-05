@@ -1,19 +1,19 @@
 package {{.Package}};
 
 public class {{.ClassName}} {
-    {{- range .Fields }}
-    private final {{.Type}}: {{ .Name }}
-    {{ end }}
+    {{range .Fields -}}
+    private final {{.JavaType}} {{ .Name }};
+    {{- end }}
 
     public {{.ClassName}}({{.ContructParam}}) {
-    {{- range .Fields }}
-        this.{{ .Name }} = .{{ .Name }};
-    {{ end }}
+    {{- range .Fields}}
+        this.{{ .Name }} = {{ .Name }};
+    {{- end }}
     }
 
-    {{- range .Fields }}
-    public {{.Type}} get{{ .Name }}() {
+    {{range .Fields -}}
+    public {{.JavaType}} get{{ .Title }}() {
         return {{ .Name }};
     }
-    {{ end }}
+    {{- end }}
 }

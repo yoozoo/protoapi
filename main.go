@@ -1,6 +1,6 @@
 package main
 
-//go:generate esc -o generator/data/tpl.go -pkg=data generator/template
+//go:generate esc -o generator/data/tpl/tpl.go -pkg=tpl generator/template
 
 import (
 	"io/ioutil"

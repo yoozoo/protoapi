@@ -1,0 +1,24 @@
+package {{.Package}};
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+
+public abstract class {{.Name}}Base {
+    {{range .Methods -}}
+    @PostMapping("{{.Path}}")
+    @ResponseBody
+    public {{.OutputType}} {{.Name}}Post(@RequestBody {{.InputType}} in) {
+        return {{.Name}}(in);
+    }
+
+    @GetMapping("{{.Path}}")
+    @ResponseBody
+    public {{.OutputType}} {{.Name}}Get({{.InputType}} in) {
+        return {{.Name}}(in);
+    }
+
+    abstract {{.OutputType}} {{.Name}}({{.InputType}} in);
+    {{- end }}
+}
