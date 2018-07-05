@@ -43,3 +43,13 @@ link source_file target_file
 link generated protoapi with protoc-gen-ts in $GOBIN
 `ln -s /Users/zhuqinglei/go/src/protoapi/protoapi protoc-gen-ts`
 then rebuild `go build`
+
+6. see hidden file in mac: `shift + command + .`
+
+7. how to use vi:
+    - `i`: insert
+    - `esc`: quit insertion
+    - `:w`: write/save
+    - `:q`: quit editor
+    - `:wq`: write and quit
+    - `:q!`: force quit
