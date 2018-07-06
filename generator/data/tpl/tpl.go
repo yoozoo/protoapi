@@ -240,7 +240,7 @@ oK+yf8z4JqCchrAB4gZUjZrPAAAA//8s8GFExAIAAA==
 	"/generator/template/spring_struct.gojava": {
 		local:   "generator/template/spring_struct.gojava",
 		size:    392,
-		modtime: 1530781426,
+		modtime: 1530865079,
 		compressed: `
 H4sIAAAAAAAC/3yPsU7EMAyG9zzFPx5D8wKICYmBAd1wL2BypkTkQpSkJ6HI747clKoFcZ7sRP6/z4nc
 B42M1uyxtyL3xqTpNXgHF6gU/XvU5oUuLIJmAKC1THFk2CfP4VwwiMzvKfsrVcabjxR09ZmudPpK82aD
