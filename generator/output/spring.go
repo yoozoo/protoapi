@@ -103,7 +103,8 @@ func genSpringCode(applicationName string, packageName string, service *data.Ser
 		result[filename] = content
 	}
 
-	filename := service.Name + "_base.java"
+	// make file name same as java class name
+	filename := service.Name + "Base.java"
 	content := gen.genServie(service)
 	result[filename] = content
 
