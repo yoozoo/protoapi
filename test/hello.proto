@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package com.yoozoo.ts;
 
+option java_package = "com.yoozoo.spring";
+
 import "test/messages.proto";
 // ClassName = UserService
 // ApiUrl = "https://jsonplaceholder.typicode.com/users"

@@ -162,12 +162,21 @@ func getServices(files []*descriptor.FileDescriptorProto) []*data.ServiceData {
 	return resultSers
 }
 
-// getPackageName returns the package name from the .proto file on the command line
+// getPackageName returns the package name from the .proto file on the command line and if java package is defined, return java package name
 func getPackageName(request *plugin.CodeGeneratorRequest) string {
 	for _, file := range request.ProtoFile {
 		if strings.Compare(file.GetName(), request.FileToGenerate[0]) == 0 {
+			// check options from .proto file
+			if options := file.GetOptions(); options != nil {
+				// get java package from options
+				if javaPackageName := options.GetJavaPackage(); javaPackageName != "" {
+					return javaPackageName
+				}
+			}
+			// get package name if java package is not defined
 			packageName := file.Package
-			if len(*packageName) != 0 {
+			// checking pointer nil instead of string length
+			if packageName != nil {
 				return *packageName
 			}
 
@@ -473,7 +482,8 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 		results, err := outputFunc(applicationName, packageName, services[0], messages, enums)
 		for file, content := range results {
 			var resultFile = new(plugin.CodeGeneratorResponse_File)
-			fileName := file
+			// generate the file to the specified package
+			fileName := strings.Replace(packageName, ".", "/", -1) + "/" + file
 			resultFile.Name = &fileName
 			fileContent := content
 			resultFile.Content = &fileContent

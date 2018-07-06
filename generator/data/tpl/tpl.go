@@ -193,7 +193,7 @@ var _escData = map[string]*_escFile{
 	"/generator/template/helper.gots": {
 		local:   "generator/template/helper.gots",
 		size:    2363,
-		modtime: 1530776449,
+		modtime: 1530694642,
 		compressed: `
 H4sIAAAAAAAC/4xWbW/bNhD+7l9xE7ZKil0p2zqgUKamL+u6DkMdxMknwx8Y62SzpkmNopxoTf77cKQk
 y29bggC27p57Ht4LT47PzgZA//C2YJqtYcMEMCiN5nJhzRpNpWUJTALKucowa7xglszAnEm4Q2BFgTID
@@ -217,7 +217,7 @@ AAA=
 	"/generator/template/interface.gots": {
 		local:   "generator/template/interface.gots",
 		size:    134,
-		modtime: 1530776449,
+		modtime: 1530694642,
 		compressed: `
 H4sIAAAAAAAC/6quVihKzEtPVdBzSSxJDKksSC1WqK3lSq0oyC8qUcjMK0ktSktMTlWortbzS8xNra1V
 qOZSUFBQQOhzy0zNSQFrUoBIQBVagdTATYXJV1crpOalgHi1XAg2IAAA//9CAdkdhgAAAA==
@@ -227,7 +227,7 @@ qOZSUFBQQOhzy0zNSQFrUoBIQBVagdTATYXJV1crpOalgHi1XAg2IAAA//9CAdkdhgAAAA==
 	"/generator/template/spring_service.gojava": {
 		local:   "generator/template/spring_service.gojava",
 		size:    708,
-		modtime: 1530779649,
+		modtime: 1530781426,
 		compressed: `
 H4sIAAAAAAAC/6yRPW7DMAyFd52CyOQM0QW8BFmCDmmDohegbdYRklCqRCMIBN698A9qD+3QtJoEPT29
 T48B6zO2BDnb47hVLY1x1+CjgI+tTSE6bt8jXunm49neqLKV48YisxcU59nuSQ4YguO2/K316NPD3ldK
@@ -240,7 +240,7 @@ oK+yf8z4JqCchrAB4gZUjZrPAAAA//8s8GFExAIAAA==
 	"/generator/template/spring_struct.gojava": {
 		local:   "generator/template/spring_struct.gojava",
 		size:    392,
-		modtime: 1530779649,
+		modtime: 1530781426,
 		compressed: `
 H4sIAAAAAAAC/3yPsU7EMAyG9zzFPx5D8wKICYmBAd1wL2BypkTkQpSkJ6HI747clKoFcZ7sRP6/z4nc
 B42M1uyxtyL3xqTpNXgHF6gU/XvU5oUuLIJmAKC1THFk2CfP4VwwiMzvKfsrVcabjxR09ZmudPpK82aD
@@ -252,7 +252,7 @@ B42M1uyxtyL3xqTpNXgHF6gU/XvU5oUuLIJmAKC1THFk2CfP4VwwiMzvKfsrVcabjxR09ZmudPpK82aD
 	"/generator/template/vue.gots": {
 		local:   "generator/template/vue.gots",
 		size:    1199,
-		modtime: 1530161983,
+		modtime: 1530694642,
 		compressed: `
 H4sIAAAAAAAC/6xTT2+cTgy98yks9JMC0gZyjMgvUdX866FqojTJpephCl4WFcZTjyd/ROe7Vwy7FFaN
 eumext5nv+dn03SGWKCHc+oMadSygkeH4GHN1MHBk8NDw2SQ5fWwwpJYCfHBSbQtfHR4h5Yclzir4G3q
