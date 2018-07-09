@@ -50,8 +50,32 @@ This README would normally document whatever steps are necessary to get your app
 
 # Todo
 
-## spring
+## spring ##
 
 * complex data type support
+  * support object data type: it is to be declared in the message.proto. Example:
+
+  ```protobuf
+  syntax = "proto3";
+
+  message HelloRequest {
+      Greeting greeting = 1;
+  }
+
+  message HelloResponse {
+      string reply = 1;
+  }
+
+  message Greeting {
+      string greetingMsg = 1;
+  }
+  ```
+
 * java package name
+  * user can declare java package name as options in the service.proto file. and the java classes will be generated in the specific packages. If no java_package_options is declared, files will be generate to the package in proto file.
+
+  ```protobuf
+  option java_package = "com.yoozoo.spring";
+  ```
+
 * service name options
