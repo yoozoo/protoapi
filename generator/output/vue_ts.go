@@ -42,6 +42,9 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	dataFile = dataFile + "/" + strings.Title(strings.Replace(applicationName, ".proto", "", -1)) + ".ts"
 	log.Printf("dataFile is %s\n", dataFile)
 
+	// Helper file
+	helperFile := strings.Replace(packageName, ".", "/", -1) + "/Helper.ts"
+
 	// Get template path: one for class generation，one for data type （interface） generation
 	vueTpl := data.LoadTpl("/generator/template/vue.gots")
 	interfaceTpl := data.LoadTpl("/generator/template/interface.gots")
@@ -94,7 +97,7 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	// append generated file in result
 	result[serviceFile] = serviceContent
 	result[dataFile] = dataContent
-	result["com/yoozoo/ts/Helper.ts"] = helperTpl
+	result[helperFile] = helperTpl
 
 	return result, nil
 }

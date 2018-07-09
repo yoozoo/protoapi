@@ -484,6 +484,7 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 			var resultFile = new(plugin.CodeGeneratorResponse_File)
 			// generate the file to the specified package
 			fileName := strings.Replace(packageName, ".", "/", -1) + "/" + file
+			log.Println(fileName)
 			resultFile.Name = &fileName
 			fileContent := content
 			resultFile.Content = &fileContent
