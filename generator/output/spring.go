@@ -26,6 +26,7 @@ var javaTypes = map[string]string{
 	"bytes":    "ByteString",
 }
 
+// JavaPackageOption is Java package option constant
 const JavaPackageOption = "javaPackageOption"
 
 func toJavaType(dataType string) string {
