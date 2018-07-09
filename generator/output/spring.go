@@ -25,6 +25,15 @@ var javaTypes = map[string]string{
 	"bytes":    "ByteString",
 }
 
+func toJavaType(dataType string) string {
+	var javaType = javaTypes[dataType]
+	if javaType != "" {
+		return javaType
+	}
+	// if not primary type return data type and ignore the . in the data type
+	return dataType[1:]
+}
+
 type springGen struct {
 	ApplicationName string
 	PackageName     string
@@ -94,7 +103,8 @@ func genSpringCode(applicationName string, packageName string, service *data.Ser
 		result[filename] = content
 	}
 
-	filename := service.Name + "_base.java"
+	// make file name same as java class name
+	filename := service.Name + "Base.java"
 	content := gen.genServie(service)
 	result[filename] = content
 

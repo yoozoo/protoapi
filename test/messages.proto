@@ -1,9 +1,13 @@
 syntax = "proto3";
 
 message HelloRequest {
-    string greeting = 1;  
+    Greeting greeting = 1;
 }
 
 message HelloResponse {
     string reply = 1;
+}
+
+message Greeting {
+    string greetingMsg = 1;
 }
