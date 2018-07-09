@@ -33,7 +33,8 @@ This README would normally document whatever steps are necessary to get your app
     * or soft link `protoapi` with `protoc-gen-ts` in $GOBIN: `ln -s $PATH-TO-GENERATED-FILE protoc-gen-ts`
 
 * run the plugin:
-    * `protoc -I=. --ts_out :. test/hello.proto`
+    * `protoc -I=. --ts_out :. test/hello.proto`:  generate TS files
+    * `protoc -I=. --ts_out=lang=spring:. test/hello.proto`: generate spring files
     * if you have other `.proto` files to test, just change the cli to: `protoc -I=. --ts_out=lang=ts:. $SRC_DIR/$TEST_FILE.proto`
 
 
