@@ -3,6 +3,7 @@ package output
 import (
 	"bytes"
 	"protoapi/generator/data"
+	"strings"
 	"text/template"
 )
 
@@ -25,10 +26,12 @@ var javaTypes = map[string]string{
 	"bytes":    "ByteString",
 }
 
+const JavaPackageOption = "javaPackageOption"
+
 func toJavaType(dataType string) string {
-	var javaType = javaTypes[dataType]
-	if javaType != "" {
-		return javaType
+	// check if primary type
+	if primaryType, ok := javaTypes[dataType]; ok {
+		return primaryType
 	}
 	// if not primary type return data type and ignore the . in the data type
 	return dataType[1:]
@@ -92,19 +95,32 @@ func (g *springGen) genServie(service *data.ServiceData) string {
 	return buf.String()
 }
 
-func genSpringCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData) (result map[string]string, err error) {
+func genSpringPackageName(packageName string, options []*data.Option) string {
+	if options != nil {
+		for _, option := range options {
+			if option.Name == JavaPackageOption {
+				return option.Value
+			}
+		}
+	}
+
+	return packageName
+}
+
+func genSpringCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (result map[string]string, err error) {
+	packageName = genSpringPackageName(packageName, options)
 	gen := newSpringGen(applicationName, packageName)
 	result = make(map[string]string)
 
 	for _, msg := range messages {
-		filename := gen.getStructFilename(msg)
+		filename := strings.Replace(packageName, ".", "/", -1) + "/" + gen.getStructFilename(msg)
 		content := gen.genStruct(msg)
 
 		result[filename] = content
 	}
 
 	// make file name same as java class name
-	filename := service.Name + "Base.java"
+	filename := strings.Replace(packageName, ".", "/", -1) + "/" + service.Name + "Base.java"
 	content := gen.genServie(service)
 	result[filename] = content
 

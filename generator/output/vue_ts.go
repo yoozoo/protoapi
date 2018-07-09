@@ -31,7 +31,7 @@ func generateFuncName(title string) string {
 	return result
 }
 
-func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData) (map[string]string, error) {
+func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (map[string]string, error) {
 
 	// Code file
 	serviceFile := strings.Replace(packageName, ".", "/", -1)
