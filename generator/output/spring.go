@@ -35,7 +35,7 @@ func toJavaType(dataType string) string {
 		return primaryType
 	}
 	// if not primary type return data type and ignore the . in the data type
-	return dataType[1:]
+	return dataType
 }
 
 type springGen struct {
@@ -70,8 +70,8 @@ func (g *springGen) init() {
 	g.serviceTpl = g.getTpl("/generator/template/spring_service.gojava")
 }
 
-func (g *springGen) getStructFilename(msg *data.MessageData) string {
-	return msg.Name + ".java"
+func (g *springGen) getStructFilename(packageName string, msg *data.MessageData) string {
+	return strings.Replace(packageName, ".", "/", -1) + "/" + msg.Name + ".java"
 }
 
 func (g *springGen) genStruct(msg *data.MessageData) string {
@@ -108,20 +108,25 @@ func genSpringPackageName(packageName string, options []*data.Option) string {
 	return packageName
 }
 
+func genServiceFileName(packageName string, service *data.ServiceData) string {
+	return strings.Replace(packageName, ".", "/", -1) + "/" + service.Name + "Base.java"
+}
+
 func genSpringCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (result map[string]string, err error) {
+	// get java package name from options
 	packageName = genSpringPackageName(packageName, options)
 	gen := newSpringGen(applicationName, packageName)
 	result = make(map[string]string)
 
 	for _, msg := range messages {
-		filename := strings.Replace(packageName, ".", "/", -1) + "/" + gen.getStructFilename(msg)
+		filename := gen.getStructFilename(packageName, msg)
 		content := gen.genStruct(msg)
 
 		result[filename] = content
 	}
 
 	// make file name same as java class name
-	filename := strings.Replace(packageName, ".", "/", -1) + "/" + service.Name + "Base.java"
+	filename := genServiceFileName(packageName, service)
 	content := gen.genServie(service)
 	result[filename] = content
 

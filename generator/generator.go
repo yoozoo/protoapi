@@ -63,7 +63,7 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 			case "TYPE_ENUM":
 				msgField.DataType = field.GetTypeName()
 			case "TYPE_MESSAGE":
-				msgField.DataType = field.GetTypeName()
+				msgField.DataType = parseMessageDataType(field.GetTypeName())
 			case "TYPE_FLOAT":
 				msgField.DataType = data.DoubleFieldType
 			case "TYPE_DOUBLE":
@@ -84,6 +84,11 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 		resultMsg = append(resultMsg, msgData)
 	}
 	return resultMsg, resultEnum
+}
+
+//
+func parseMessageDataType(dataType string) string {
+	return dataType[1:]
 }
 
 // getMessages returns the flattened message and enum definitions generated from the discriptors

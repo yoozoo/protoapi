@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "com.yoozoo.spring.service";
+option java_package = "com.yoozoo.spring";
 
 package com.yoozoo.ts;
 
