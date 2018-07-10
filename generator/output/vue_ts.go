@@ -45,14 +45,19 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	// Helper file
 	helperFile := strings.Replace(packageName, ".", "/", -1) + "/Helper.ts"
 
+	// tsconfig.json file
+	tsConfigFile := strings.Replace(packageName, ".", "/", -1) + "/tsconfig.json"
+
 	// Get template path: one for class generation，one for data type （interface） generation
 	vueTpl := data.LoadTpl("/generator/template/vue.gots")
 	interfaceTpl := data.LoadTpl("/generator/template/interface.gots")
 	helperTpl := data.LoadTpl("/generator/template/helper.gots")
+	tsConfigTpl := data.LoadTpl("/generator/template/tsconfig.gojson")
+
 	// map messages and service
 	serviceData := vueResource{
 		ClassName:    service.Name,
-		DataTypeFile: strings.Title(strings.Replace(applicationName, ".proto", "", -1)) + ".ts",
+		DataTypeFile: strings.Title(strings.Replace(applicationName, ".proto", "", -1)),
 		DataTypes:    messages,
 		FunctionName: service.Methods[0].Name,
 		Request:      service.Methods[0].InputType,
@@ -98,6 +103,7 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	result[serviceFile] = serviceContent
 	result[dataFile] = dataContent
 	result[helperFile] = helperTpl
+	result[tsConfigFile] = tsConfigTpl
 
 	return result, nil
 }

@@ -249,6 +249,21 @@ B42M1uyxtyL3xqTpNXgHF6gU/XvU5oUuLIJmAKC1THFk2CfP4VwwiMzvKfsrVcabjxR09ZmudPpK82aD
 `,
 	},
 
+	"/generator/template/tsconfig.gojson": {
+		local:   "generator/template/tsconfig.gojson",
+		size:    663,
+		modtime: 1531189096,
+		compressed: `
+H4sIAAAAAAAC/2SRT2/UQAzF7/sprLlwoH+gEhxy7qWHCqlIXBBSZycvWdPJeLA9XRDiu6Nkt4HdHqLI
+evYb/56vr8ktSRl4vPpuUja/N0REIclUOUM/VWcpFjo6CETBpGnCfayhI9eGi6MwW+3YKGYei9GefUdf
+Gt4YbVX2BiVrtYr6i5FHHeGhowD7EM5tUOI2w8hcOTmUuAxQlAQaRKmPHqmqVKgzjKTQ4zz3uK65zIWO
+hphtXTIUuZtq5sT+AG+6oJ1R8EDNuIy0x7bG9EQ3b0mUVHJu9YJcKOMZGkeQK0C2i09cxu7liUn6lnHg
+unn3/h/aUXmASW5zrnNPkR7/wyt+NFb0C+Vhj+eGy5Sj2eV8Fikoa4b4WaE8oXjMt0ii0UXPmQIm9lW9
+h8c5vfOmmLPsP/8qvoNzusUQW/a7ab7YK8PM29DR12NJFHqZVgg6PehSfjwt51iuqsrEhnAUvi3/P5v5
++xsAAP//+QR6tJcCAAA=
+`,
+	},
+
 	"/generator/template/vue.gots": {
 		local:   "generator/template/vue.gots",
 		size:    1199,
