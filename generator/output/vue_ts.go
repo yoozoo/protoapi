@@ -13,9 +13,7 @@ type vueResource struct {
 	ClassName    string
 	DataTypes    []*data.MessageData
 	DataTypeFile string
-	FunctionName string
-	Request      string
-	Response     string
+	Functions    []data.Method
 }
 
 type vueInterface struct {
@@ -23,12 +21,18 @@ type vueInterface struct {
 }
 
 func generateFuncName(title string) string {
+	log.Printf("title is %s\n", title)
 	titles := strings.Split(title, "/")
 	result := "get"
 	for _, t := range titles {
 		result += strings.Title(t)
 	}
+	log.Printf("result is %s\n", result)
 	return result
+}
+
+func isGet(function string) bool {
+	return strings.Contains(function, "Get")
 }
 
 func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (map[string]string, error) {
@@ -59,9 +63,7 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 		ClassName:    service.Name,
 		DataTypeFile: strings.Title(strings.Replace(applicationName, ".proto", "", -1)),
 		DataTypes:    messages,
-		FunctionName: service.Methods[0].Name,
-		Request:      service.Methods[0].InputType,
-		Response:     service.Methods[0].OutputType,
+		Functions:    service.Methods,
 	}
 
 	interfaceData := vueInterface{
