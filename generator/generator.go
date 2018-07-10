@@ -88,7 +88,7 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 
 //
 func parseMessageDataType(dataType string) string {
-	return dataType[1:]
+	return dataType[strings.LastIndexByte(dataType, '.')+1:]
 }
 
 // getMessages returns the flattened message and enum definitions generated from the discriptors
@@ -122,8 +122,8 @@ func getMethods(pkg string, methods []*descriptor.MethodDescriptorProto) []data.
 		log.Printf("mtd: %s\n", mtd)
 		var mtdData = data.Method{
 			Name:       mtd.GetName(),
-			InputType:  strings.Replace(mtd.GetInputType(), ".", "", -1),
-			OutputType: strings.Replace(mtd.GetOutputType(), ".", "", -1),
+			InputType:  parseMessageDataType(mtd.GetInputType()),
+			OutputType: parseMessageDataType(mtd.GetOutputType()),
 		}
 		resultMtd = append(resultMtd, mtdData)
 	}

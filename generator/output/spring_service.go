@@ -32,6 +32,7 @@ func newSpringService(msg *data.ServiceData, packageName string) *springService 
 func (s *springService) init() {
 	s.Methods = make([]*springMethod, len(s.ServiceData.Methods))
 	for i, f := range s.ServiceData.Methods {
-		s.Methods[i] = &springMethod{&f, s.Name}
+		mtd := f
+		s.Methods[i] = &springMethod{&mtd, s.Name}
 	}
 }

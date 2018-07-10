@@ -193,7 +193,7 @@ var _escData = map[string]*_escFile{
 	"/generator/template/helper.gots": {
 		local:   "generator/template/helper.gots",
 		size:    2363,
-		modtime: 1530776449,
+		modtime: 1530694642,
 		compressed: `
 H4sIAAAAAAAC/4xWbW/bNhD+7l9xE7ZKil0p2zqgUKamL+u6DkMdxMknwx8Y62SzpkmNopxoTf77cKQk
 y29bggC27p57Ht4LT47PzgZA//C2YJqtYcMEMCiN5nJhzRpNpWUJTALKucowa7xglszAnEm4Q2BFgTID
@@ -217,7 +217,7 @@ AAA=
 	"/generator/template/interface.gots": {
 		local:   "generator/template/interface.gots",
 		size:    134,
-		modtime: 1530776449,
+		modtime: 1530694642,
 		compressed: `
 H4sIAAAAAAAC/6quVihKzEtPVdBzSSxJDKksSC1WqK3lSq0oyC8qUcjMK0ktSktMTlWortbzS8xNra1V
 qOZSUFBQQOhzy0zNSQFrUoBIQBVagdTATYXJV1crpOalgHi1XAg2IAAA//9CAdkdhgAAAA==
@@ -227,7 +227,7 @@ qOZSUFBQQOhzy0zNSQFrUoBIQBVagdTATYXJV1crpOalgHi1XAg2IAAA//9CAdkdhgAAAA==
 	"/generator/template/spring_service.gojava": {
 		local:   "generator/template/spring_service.gojava",
 		size:    708,
-		modtime: 1530779649,
+		modtime: 1531214841,
 		compressed: `
 H4sIAAAAAAAC/6yRPW7DMAyFd52CyOQM0QW8BFmCDmmDohegbdYRklCqRCMIBN698A9qD+3QtJoEPT29
 T48B6zO2BDnb47hVLY1x1+CjgI+tTSE6bt8jXunm49neqLKV48YisxcU59nuSQ4YguO2/K316NPD3ldK
@@ -240,19 +240,19 @@ oK+yf8z4JqCchrAB4gZUjZrPAAAA//8s8GFExAIAAA==
 	"/generator/template/spring_struct.gojava": {
 		local:   "generator/template/spring_struct.gojava",
 		size:    392,
-		modtime: 1530779649,
+		modtime: 1531215175,
 		compressed: `
-H4sIAAAAAAAC/3yPsU7EMAyG9zzFPx5D8wKICYmBAd1wL2BypkTkQpSkJ6HI747clKoFcZ7sRP6/z4nc
-B42M1uyxtyL3xqTpNXgHF6gU/XvU5oUuLIJmAKC1THFk2CfP4VwwiMzvKfsrVcabjxR09ZmudPpK82aD
-1RAoo4cM4HiGiOnLHbsHHnT8jDVPrh4p00XkbpUYsNNYJLTquy92Q8TDTb6Oi8W/p612m5tGrhp78jVo
-7uFHTStznXL8i5XfcDHfAQAA///dOjtLiAEAAA==
+H4sIAAAAAAAC/4SPP07FMAyH95zCYxmaCyAmJAYG1KEXMKkpEWmIkrQSsnx35P5BrZDe82Qn8vf9nNB9
+4UjAbLutFXk0Js3vwTtwAUvRv2dt3nAiEWADAMDcQsY4EtgXT2EoIut7yn7BSvDhIwZdfcUF+5+0bjJY
+hYA6DgjFAUTMtrxpr8JGx+9Y8+xqhxknkYc7IbTqpy/2ZISnm34d9xTMFya0x2l/6U43jVQV2/salNsc
+0bQy1TnH/1rZNatb6WJ+AwAA///K46o1iAEAAA==
 `,
 	},
 
 	"/generator/template/tsconfig.gojson": {
 		local:   "generator/template/tsconfig.gojson",
 		size:    663,
-		modtime: 1531189096,
+		modtime: 1531207706,
 		compressed: `
 H4sIAAAAAAAC/2SRT2/UQAzF7/sprLlwoH+gEhxy7qWHCqlIXBBSZycvWdPJeLA9XRDiu6Nkt4HdHqLI
 evYb/56vr8ktSRl4vPpuUja/N0REIclUOUM/VWcpFjo6CETBpGnCfayhI9eGi6MwW+3YKGYei9GefUdf
@@ -267,7 +267,7 @@ h8c5vfOmmLPsP/8qvoNzusUQW/a7ab7YK8PM29DR12NJFHqZVgg6PehSfjwt51iuqsrEhnAUvi3/P5v5
 	"/generator/template/vue.gots": {
 		local:   "generator/template/vue.gots",
 		size:    1199,
-		modtime: 1530161983,
+		modtime: 1530694642,
 		compressed: `
 H4sIAAAAAAAC/6xTT2+cTgy98yks9JMC0gZyjMgvUdX866FqojTJpephCl4WFcZTjyd/ROe7Vwy7FFaN
 eumext5nv+dn03SGWKCHc+oMadSygkeH4GHN1MHBk8NDw2SQ5fWwwpJYCfHBSbQtfHR4h5Yclzir4G3q
