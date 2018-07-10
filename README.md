@@ -46,8 +46,11 @@ This README would normally document whatever steps are necessary to get your app
 
 ### Who do I talk to? ###
 
-* Repo owner or admin - [Qinglei](ZHUQL@YOOZOO.COM)
-* Other community or team contact - [WenTian](WengW@yoozoo.com)
+* Repo owner or admin
+    - [Qinglei](ZHUQL@YOOZOO.COM)
+* Other community or team contact
+    - [WenTian](WengW@yoozoo.com)
+    - [HongBo](WuHongbo@yoozoo.com)
 
 # Todo
 

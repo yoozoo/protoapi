@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+// package
+package yoozoo.protoconf.ts;
+option java_package = "yoozoo.protoconf.spring";
+
+// group list
+message GroupListRequest {
+}
+
+message GroupListResponse {
+    repeated Group group = 1;
+}
+
+// app list
+message AppListRequest {
+    string group_id = 1;
+    string group_name = 2;
+}
+
+message AppListResponse {
+    repeated App app = 1;
+}
+
+// key list
+// PS: separate key list & key value because proto and kv store may be on different endpoint
+message KeyListRequest {
+    string app_id = 1;
+    string app_name = 2;
+}
+
+message KeyListResponse {
+    repeated string key = 1;
+}
+
+// key value
+message KeyValueListRequest {
+    repeated string key = 1;
+}
+
+message KeyValueListResponse {
+    repeated KeyValue key_value = 1;
+}
+
+message KeyValueRequest {
+    KeyValue key_value = 1;
+}
+
+message KeyValueResponse {
+    KeyValue key_value = 1;
+}
+
+// other building blocks
+message Group {
+    string group_id = 1;
+    string group_name = 2;
+}
+
+message App {
+    string app_id = 1;
+    string app_name = 2;
+}
+
+message KeyValue {
+    string key = 1;
+    string value = 2;
+}
+
+/**
+* This service contains all the rpc related with apps
+*/
+service AppService {
+    // get a list of groups that contains apps
+    rpc GetGroups (GroupListRequest) returns (GroupListResponse);
+
+    // get a list of apps under specified group
+    rpc GetApps (AppListRequest) returns (AppListResponse);
+
+    // get a list of keys of the specified app
+    rpc GetKeyList (KeyListRequest) returns (KeyListResponse);
+
+    // get key-value pairs given the list of keys
+    rpc GetKeyValueList (KeyValueListRequest) returns (KeyValueListResponse);
+
+    // update value by key
+    rpc UpdateKeyValue (KeyValueRequest) returns (KeyValueResponse);
+}
