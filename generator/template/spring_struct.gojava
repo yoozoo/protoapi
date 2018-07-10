@@ -1,5 +1,7 @@
 package {{.Package}};
 
+import java.util.List;
+
 public class {{.ClassName}} {
     {{- range .Fields}}
     private final {{.JavaType}} {{ .Name }};

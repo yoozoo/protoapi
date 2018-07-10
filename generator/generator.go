@@ -54,6 +54,7 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 			var msgField data.MessageField
 			msgField.Name = field.GetName()
 			msgField.Key = field.GetName()
+			msgField.Label = field.GetLabel().String()
 
 			switch field.GetType().String() {
 			case "TYPE_STRING":

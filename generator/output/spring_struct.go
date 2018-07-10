@@ -14,7 +14,7 @@ func (s *springField) Title() string {
 }
 
 func (s *springField) JavaType() string {
-	return toJavaType(s.MessageField.DataType)
+	return toJavaType(s.MessageField.DataType, s.MessageField.Label)
 }
 
 func newSpringStruct(msg *data.MessageData, packageName string) *springStruct {
