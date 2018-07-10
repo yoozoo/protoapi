@@ -67,8 +67,14 @@ type ServiceData struct {
 	Methods []Method
 }
 
+// Option is a structure represents the option declared in a proto file
+type Option struct {
+	Name  string
+	Value string
+}
+
 // OutputFunc the code output plugin prototype
-type OutputFunc func(applicationName string, packageName string, services *ServiceData, messages []*MessageData, enums []*EnumData) (map[string]string, error)
+type OutputFunc func(applicationName string, packageName string, services *ServiceData, messages []*MessageData, enums []*EnumData, options []*Option) (map[string]string, error)
 
 // OutputMap the registra for output code type and its associated output plugin
 var OutputMap = make(map[string]OutputFunc)

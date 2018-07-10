@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package com.yoozoo.ts;
-
 option java_package = "com.yoozoo.spring";
+
+package com.yoozoo.ts;
 
 import "test/messages.proto";
 // ClassName = UserService

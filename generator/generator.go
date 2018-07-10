@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
+	"protoapi/generator/output"
 	"reflect"
 	"strings"
 
@@ -62,7 +63,7 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 			case "TYPE_ENUM":
 				msgField.DataType = field.GetTypeName()
 			case "TYPE_MESSAGE":
-				msgField.DataType = field.GetTypeName()
+				msgField.DataType = parseMessageDataType(field.GetTypeName())
 			case "TYPE_FLOAT":
 				msgField.DataType = data.DoubleFieldType
 			case "TYPE_DOUBLE":
@@ -83,6 +84,11 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 		resultMsg = append(resultMsg, msgData)
 	}
 	return resultMsg, resultEnum
+}
+
+//
+func parseMessageDataType(dataType string) string {
+	return dataType[1:]
 }
 
 // getMessages returns the flattened message and enum definitions generated from the discriptors
@@ -166,18 +172,9 @@ func getServices(files []*descriptor.FileDescriptorProto) []*data.ServiceData {
 func getPackageName(request *plugin.CodeGeneratorRequest) string {
 	for _, file := range request.ProtoFile {
 		if strings.Compare(file.GetName(), request.FileToGenerate[0]) == 0 {
-			// check options from .proto file
-			if options := file.GetOptions(); options != nil {
-				// get java package from options
-				if javaPackageName := options.GetJavaPackage(); javaPackageName != "" {
-					return javaPackageName
-				}
-			}
-			// get package name if java package is not defined
-			packageName := file.Package
-			// checking pointer nil instead of string length
-			if packageName != nil {
-				return *packageName
+			// get package name
+			if packageName := file.GetPackage(); packageName != "" {
+				return packageName
 			}
 
 		}
@@ -437,6 +434,29 @@ func generateKeyList(messages []*data.MessageData) []string {
 	return createKeyList("", messages[len(messages)-1], msgMap)
 }
 
+// Get options from proto file
+func getOptions(request *plugin.CodeGeneratorRequest) []*data.Option {
+	for _, file := range request.ProtoFile {
+		if strings.Compare(file.GetName(), request.FileToGenerate[0]) == 0 {
+			// check options from .proto file
+			if fileOptions := file.GetOptions(); fileOptions != nil {
+				var options []*data.Option
+				// get java package from options
+				if javaPackageName := fileOptions.GetJavaPackage(); javaPackageName != "" {
+					option := data.Option{
+						Name:  output.JavaPackageOption,
+						Value: javaPackageName,
+					}
+					options = append(options, &option)
+				}
+				return options
+			}
+
+		}
+	}
+	return nil
+}
+
 // Generate the entry point for the code generation module
 func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorResponse, error) {
 
@@ -467,6 +487,8 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 
 	packageName := getPackageName(request)
 
+	options := getOptions(request)
+
 	messages, enums := getMessages(request.ProtoFile)
 	if messages == nil {
 		return nil, nil
@@ -479,12 +501,11 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 
 	if outputFunc, ok := data.OutputMap[outputLang]; ok {
 		response := new(plugin.CodeGeneratorResponse)
-		results, err := outputFunc(applicationName, packageName, services[0], messages, enums)
+		results, err := outputFunc(applicationName, packageName, services[0], messages, enums, options)
 		for file, content := range results {
 			var resultFile = new(plugin.CodeGeneratorResponse_File)
 			// generate the file to the specified package
-			fileName := strings.Replace(packageName, ".", "/", -1) + "/" + file
-			log.Println(fileName)
+			fileName := file
 			resultFile.Name = &fileName
 			fileContent := content
 			resultFile.Content = &fileContent
