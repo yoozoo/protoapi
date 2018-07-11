@@ -33,8 +33,16 @@ This README would normally document whatever steps are necessary to get your app
     * or soft link `protoapi` with `protoc-gen-ts` in $GOBIN: `ln -s $PATH-TO-GENERATED-FILE protoc-gen-ts`
 
 * run the plugin:
-    * `protoc -I=. --ts_out :. test/hello.proto`:  generate TS files
-    * `protoc -I=. --ts_out=lang=spring:. test/hello.proto`: generate spring files
+
+    * for Mac Users:
+        * `protoc -I=. --ts_out :. test/hello.proto`:  generate TS files
+        * `protoc -I=. --ts_out=lang=spring:. test/hello.proto`: generate spring files
+
+    * for Windows users:
+        * if no softlink: `protoc --plugin=protoc-gen-ts=C:\Users\Admin\go\src\protoapi\protoapi.exe --ts_out=. .\test\protoconf\apps.proto`
+        * if with softlink or renamed to `protoc-gen-ts`: `protoc --ts_out . test\hello.proto`
+        * how to make a softlink(command): `mklink <Link to be created> <Target file>`; e.g. `mklink C:\Users\Admin\go\bin\protoc-gen-ts.exe C:\Users\Admin\go\src\protoapi\protoapi.exe`
+
     * if you have other `.proto` files to test, just change the cli to: `protoc -I=. --ts_out=lang=ts:. $SRC_DIR/$TEST_FILE.proto`
 
 
