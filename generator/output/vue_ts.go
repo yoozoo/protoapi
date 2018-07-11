@@ -73,6 +73,7 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	// function map
 	funcMap := template.FuncMap{
 		"Title": generateFuncName,
+		"isGet": strings.Contains,
 	}
 
 	// create templates

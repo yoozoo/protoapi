@@ -120,16 +120,26 @@ func getMethods(pkg string, methods []*descriptor.MethodDescriptorProto) []data.
 	var resultMtd []data.Method
 	log.Printf("pkg: %s\n", pkg)
 	for _, mtd := range methods {
-		log.Printf("mtd: %s\n", mtd)
 		var mtdData = data.Method{
 			Name:       mtd.GetName(),
 			InputType:  parseMessageDataType(mtd.GetInputType()),
 			OutputType: parseMessageDataType(mtd.GetOutputType()),
+			HttpMtd:    mapHttpMtd(mtd.GetName()),
 		}
 		resultMtd = append(resultMtd, mtdData)
 	}
 	log.Printf("mtds: %s\n", resultMtd)
 	return resultMtd
+}
+
+// map http method according to the method name, assume only post and get for now
+func mapHttpMtd(method string) string {
+	isGet:= strings.Contains(method, "Get")
+	if(isGet){
+		return "get"
+	}else{
+		return "post"
+	}
 }
 
 // createMessages create message and enum definitions from the passed in descriptor

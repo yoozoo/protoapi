@@ -61,6 +61,7 @@ type Method struct {
 	Name       string
 	InputType  string
 	OutputType string
+	HttpMtd    string
 }
 
 type ServiceData struct {

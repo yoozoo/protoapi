@@ -18,21 +18,17 @@ export default class {{.ClassName}} extends Vue {
 
     // Base Url
     private baseUrl: string = "http://localhost:8080"
-
+    {{$className := .ClassName }}
     {{range .Functions}}
     {{.Name}}(param: {{.InputType}}): PromiseLike<{{.OutputType}}[] | Error> {
-
+            {{if (eq .HttpMtd "get")}}
+            // if use get 
+            const url: string = generateGetUrl(this.baseUrl, param);
+            {{else}} // if use post 
+            const url: string = generatePostUrl(this.baseUrl,"{{$className}}", "{{.Name}}");
+            {{end}}
             // TODO: determine use get/post according to request
-
-            // if use get
-            const getUrl: string = generateGetUrl(this.baseUrl, param);
-
-            // if use post
-            {{/* const postUrl: string = generatePostUrl(this.baseUrl,"{{.ClassName}}", "{{.Name}}");*/}}
-
-
-            // TODO: determine use get/post according to request
-            return this.$http.get(getUrl).then(
+            return this.$http.{{.HttpMtd}}(url).then(
                 response => {
                     console.log(response);
                     return response.data as {{.OutputType}};
