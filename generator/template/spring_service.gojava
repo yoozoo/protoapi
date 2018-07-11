@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public abstract class {{.Name}}Base {
-    {{range .Methods -}}
+    {{- range .Methods }}
     @PostMapping("{{.Path}}")
     @ResponseBody
     public {{.OutputType}} {{.Name}}Post(@RequestBody {{.InputType}} in) {

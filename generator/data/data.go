@@ -47,6 +47,7 @@ type MessageField struct {
 	Name     string // message variable name
 	DataType string // message variable type
 	Key      string // coresponding key name for the variable, default is the same as variable name
+	Label    string
 }
 
 // MessageData a structure to represent a message datatype

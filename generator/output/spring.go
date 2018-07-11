@@ -26,10 +26,40 @@ var javaTypes = map[string]string{
 	"bytes":    "ByteString",
 }
 
-// JavaPackageOption is Java package option constant
-const JavaPackageOption = "javaPackageOption"
+var wrapperTypes = map[string]string{
+	"double":   "Double",
+	"float":    "Float",
+	"int32":    "Integer",
+	"int64":    "Long",
+	"uint32":   "Integer",
+	"uint64":   "Long",
+	"sint32":   "Integer",
+	"sint64":   "Long",
+	"fixed32":  "Integer",
+	"fixed64":  "Long",
+	"sfixed32": "Integer",
+	"sfixed64": "Long",
+	"bool":     "Boolean",
+	"string":   "String",
+	"bytes":    "Byte",
+}
 
-func toJavaType(dataType string) string {
+const (
+	// JavaPackageOption is Java package option constant
+	JavaPackageOption  = "javaPackageOption"
+	fieldRepeatedLabel = "LABEL_REPEATED"
+)
+
+func toJavaType(dataType string, label string) string {
+	// check if the field is repeated
+	if label == fieldRepeatedLabel {
+		// check if wrapper type
+		if wrapperType, ok := wrapperTypes[dataType]; ok {
+			return "List<" + wrapperType + ">"
+		}
+		return "List<" + dataType + ">"
+	}
+	// if not repeated filed
 	// check if primary type
 	if primaryType, ok := javaTypes[dataType]; ok {
 		return primaryType
