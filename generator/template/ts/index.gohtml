@@ -1,0 +1,9 @@
+<v-app>
+    <v-layout row justify-space-around wrap>
+       {{range .Functions}}
+        <v-flex xs12 sm6 md3>
+            <v-btn round large v-on:click="{{.Name}}" color="success"> {{.Name}} </v-btn>
+        </v-flex>
+        {{end}}
+    </v-layout>
+</v-app>

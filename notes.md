@@ -53,3 +53,8 @@ then rebuild `go build`
     - `:q`: quit editor
     - `:wq`: write and quit
     - `:q!`: force quit
+
+8. [webpack issue](https://stackoverflow.com/questions/35810172/webpack-is-not-recognized-as-a-internal-or-external-command-operable-program-or)
+
+* when run `webpack`, you may encounter the issue that even though webpack and webpack-cli are downloaded, the npm could not allocate them and continue to prompt you to download webpack-cli. 
+* to solve this, we need to go to `C:\Users\<User>\AppData\Roaming\npm`, see if webpack.exe is there, then we install webpack-cli from there
