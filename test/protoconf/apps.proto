@@ -2,7 +2,7 @@ syntax = "proto3";
 
 // package
 package yoozoo.protoconf.ts;
-option java_package = "yoozoo.protoconf.spring";
+option java_package = "com.yoozoo.spring";
 
 // group list
 message GroupListRequest {
