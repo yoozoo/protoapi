@@ -9,6 +9,8 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/golang/protobuf/proto"
+
 	"protoapi/generator/data"
 	// this is to let the output plugins initialize themselves and add to the output plugin registra
 	_ "protoapi/generator/output"
@@ -125,6 +127,7 @@ func getMethods(pkg string, methods []*descriptor.MethodDescriptorProto) []data.
 			InputType:  parseMessageDataType(mtd.GetInputType()),
 			OutputType: parseMessageDataType(mtd.GetOutputType()),
 			HttpMtd:    mapHttpMtd(mtd.GetName()),
+			Option:     getMethodOption(mtd),
 		}
 		resultMtd = append(resultMtd, mtdData)
 	}
@@ -134,10 +137,10 @@ func getMethods(pkg string, methods []*descriptor.MethodDescriptorProto) []data.
 
 // map http method according to the method name, assume only post and get for now
 func mapHttpMtd(method string) string {
-	isGet:= strings.Contains(method, "Get")
-	if(isGet){
+	isGet := strings.Contains(method, "Get")
+	if isGet {
 		return "get"
-	}else{
+	} else {
 		return "post"
 	}
 }
@@ -445,7 +448,26 @@ func generateKeyList(messages []*data.MessageData) []string {
 	return createKeyList("", messages[len(messages)-1], msgMap)
 }
 
-// Get options from proto file
+// Get method options from proto file
+func getMethodOption(method *descriptor.MethodDescriptorProto) data.Option {
+	// create extension description
+	var extDesc = &proto.ExtensionDesc{
+		ExtendedType:  (*descriptor.MethodOptions)(nil),
+		ExtensionType: (*string)(nil),
+		Field:         output.ServiceMethodField,
+		Name:          output.ServiceMethodName,
+		Tag:           "bytes," + string(output.ServiceMethodField) + ",opt,name=" + output.ServiceMethodName,
+	}
+
+	ext, err := proto.GetExtension(method.GetOptions(), extDesc)
+	if err == nil {
+		// add the service method option to the method data
+		return data.Option{Name: output.ServiceMethodName, Value: *ext.(*string)}
+	}
+	return data.Option{}
+}
+
+// Get s from proto file
 func getOptions(request *plugin.CodeGeneratorRequest) []*data.Option {
 	for _, file := range request.ProtoFile {
 		if strings.Compare(file.GetName(), request.FileToGenerate[0]) == 0 {

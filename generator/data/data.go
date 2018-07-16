@@ -62,6 +62,7 @@ type Method struct {
 	InputType  string
 	OutputType string
 	HttpMtd    string
+	Option     Option // service method option (default is GET and POST)
 }
 
 type ServiceData struct {
