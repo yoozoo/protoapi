@@ -230,25 +230,25 @@ rlpAAAAA//+mjc10OAAAAA==
 
 	"/generator/template/ts/helper.gots": {
 		local:   "generator/template/ts/helper.gots",
-		size:    2449,
-		modtime: 1531716287,
+		size:    2447,
+		modtime: 1531726074,
 		compressed: `
-H4sIAAAAAAAC/5RWbW/bNhD+bsD/4SZslVS7UrZ1QKFMTV/WdR2GOoiTT4Y/MNLJZk2TGkUp0dr894Gk
-JEuxhbYBAoh3zz33yqPDp0+nEzD/8ConkuyhIgwIFEpSvrFyiaqUvADCAXkiUkwbNagtUZAQDrcIJM+R
-p6AEkJxCKZk2DqcTvM+FVJCVPFFUtBReRVjU0PjtB3yeTgAArMMGeXP14a3Y54IjV9rKDyzIAnNGEvTC
-n56fhRs6B/eVe1r/62urj0b0vzwPN3NwfxxTv7Xm8zH9mTGfjah/e2PNV2P6P6x+7frn08nDdDKdNJ2B
-NyVlKRC4ufoHbuumyrpWpluFrrfaIiBP+00sJYPIKG5JgeaYCWkEBcqKJthHN1TWQOK/JRYKxO0nTFQA
-GGwCY/wXMiauGu2dKFmq265NLBREBqrOcQAcTFAE3ShBVjIGN5K1rX9mfLx/d62z3GEdVoSVCDmhsrAk
-eE/2OcPInHRa2joGZ6tUHoUhEwlhW1Go6MXZizPHoIjcQAyfOdljBM4d8s0dUmcOnCY7K1CUcOfBgNvY
-4pdwkvJC08QdyxNNEnccI9O+QY6SKHyP6kay369feqXsBn/eVD6C66M7QDPwfrBqv5X17kYp2bkVmmnR
-HwyV5lMFxLBan2uxVejCelq7wxoohxOsWluRlrL1v7AjkEuhhO5ssCXF4o5fSpGjVLW3w9of0Og/vT/i
-xsdqh/W6R9rF2now4DgGrqfhyxczPyKDVuyWPMWMckzdIz+2EGPkJt25Jip6kDDUXmkBREpSH4USKLE0
-TfB8637VTPZrDV8fx7CD2BR1Bu5q7fZjAWQFjsCP6mU6VhE2WiqNCTIh35Fk61V6Qh8xd4mlROFQZXIb
-zexPyvBEYsYpxKANPywXre35MarzbAmHgKYMOoS2s9a9BY/7/Xu5+BjYC0Gz2qsee34YHs3YB3lZbL3m
-edn5uimxC7PuwfH9XnX9w+1px6VASQmj/2F6afdh3PB+EpR77hOzmw+X8zF8kIteuLMY9GUPKE/xfpF5
-7oVri//sZ7gA98KFCDQrzI5cD4M7XPnh2/B44X/rum9EH8ke+xDQ+62Pa5dYB+y22gHZLOXv2Ml97zE4
-5rFYWpkFDNzG4CxJbUDON23psE8YtLZf2c6Xoji5nnuxHoT9+L72E8bMATihY5vcJT4DJ3BmAyr78P8f
-AAD//6tj6RqRCQAA
+H4sIAAAAAAAC/5RWbW/bNhD+bsD/4SZslVS7UrZ1QKFMTV/WbR2GuouTT4Y/MNLJZk2TGkUp0dr894Gk
+JEuxhaYBAoh3zz33yqPDp0+nEzD/8ConkuyhIgwIFEpSvrFyiaqUvADCAXkiUkwbNagtUZAQDjcIJM+R
+p6AEkJxCKZk2DqcTvMuFVJCVPFFUtBReRVjU0PjtB3yeTgAArMMGeX35/q3Y54IjV9rKDyzIAnNGEvTC
+H56fhRs6B/eVe1r/82urj0b0Pz0PN3Nwvx9Tv7Xm8zH9mTGfjah/eWPNV2P636x+7frn08n9dDKdNJ2B
+NyVlKRC4vvwbbuqmyrpWpluFrrfaIiBP+00sJYPIKG5IgeaYCWkEBcqKJthHN1TWQOK/JRYKxM0nTFQA
+GGwCY/wnMiYuG+2tKFmq265NLBREBqrOcQAcTFAE3ShBVjIG15K1rX9mfPzx7kpnucM6rAgrEXJCZWFJ
+8I7sc4aROem0tHUMzlapPApDJhLCtqJQ0YuzF2eOQRG5gRg+c7LHCJxb5JtbpM4cOE12VqAo4c69Abex
+xS/hJOWFpok7lieaJO44RqZ9gxwlUfhPibK+luzXq5deKbvRnze1j+Dq6BbQDLzvrNpvZb3bUUp2boVm
+XvQHQ6X5VAExrNbnWmwVurSe1u6wBsrhBKvWVqSlbP0v7BDkUiihextsSbG45R+lyFGq2tth7Q9o9J/e
+IHHjY7XDet0j7WJtPRhwHAPX8/Dli5kgkUErdkueYkY5pu6RH1uIMXKT7lwTFT1IGGqvtAAiJamPQgmU
+WJomeL51v2pm+7WGr49j2EFsijoDd7V2+7EAsgJH4Ef1Mh2rCBstlcYEmZDvSLL1Kj2jD5i7xFKicKgy
+uY1m9jtleCIx4xRi0Ibvl4vW9vwY1Xm2hENAUwYdQttZ696Cx/3+tVx8COyFoFntVQ893w+PZuyDvCy2
+XvPA7HzdlNiFWffk+H6vuv7h9rTjUqCkhNH/MP1oN2Lc8H4SlHvuE7OdD5fzIXyQi165sxj0ZQ8oT/Fu
+kXnuhWuL/+xHuAD3woUINCvMjlwPgztc+eHr8HDlP3bhN6IPZI99COgN18e1a6wDdnvtgGzW8jds5b73
+GBzzXCytzAIGbmNwlqQ2IOdRezrsEwat7Vf286nV3IvzIOzH9rUfMGYGwAkd2+Au6Rk4gTMbUNln//8A
+AAD//8c9h/ePCQAA
 `,
 	},
 
@@ -329,10 +329,35 @@ z8v8eVku/gUAAP///d4K2K8CAAA=
 `,
 	},
 
+<<<<<<< HEAD
+	"/generator/template/ts/vue.gots": {
+		local:   "generator/template/ts/vue.gots",
+		size:    1357,
+		modtime: 1531726106,
+		compressed: `
+H4sIAAAAAAAC/4xU72/TMBD9Xqn/wymatFTqnBVpMDKGEBvTkIDxY9t3k1zTiMT2zuf9UPD/jtzWW5pO
+gD81L+987927pm6NJoYOTnRrtELFU7h2CB7mpFvYvXW4Z0gbJH7YK7HQJFnT7tF4tK68dvgdrXZUYK+E
+1lCP2I1HAABdR1JVCOLMqYJrraz38Y34qIzjyweD3sM0ABeOe0jkoSpDUdQosq4Tp5Jl4J3VDXrf7wsV
+KiTJeEXN9PHhm0N6uKIGnm45x8Yg7Y5H49G1Q+Espj13k6Pw4t3jnMYjvF82KHEuXcNQNNLaIPok/Pgi
+26AZ7xlVaZczXU8gy6DQyjK5gjWtsB6QTiIxHOsMUjpZAT4oWF/xXlqEK2pWgKH6VjLCT2mDzRwsU60q
+OIZkwWzyLJu9fiFmLw/FbHYgDl7lh/uH+0mc504RFUN+DE/64Smav4S2cpoaSbLNBylOcvhKuq0tfqp/
+4Zthor/hA5Gmt33H4Ww+NcjgNkz1Ek15UVux9j1N+ma8T6aQPCpMQoL9e7uunkOKNyDOmc1nLiGpkJNJ
+9BZPlkE9B2cRKuSBNkdNT09cqtSFVVtOZLvpensHHS4vTi9yKJGR2lphbJcZbRlkUWgqg3fWQHjj0PLm
+DYTsSMFyGDshctF10Zb3Qc9E8AJVulm2KrVGK4twvJVDPGE9dYOi0VUa6UNjAyWRJkrJEqQd/pufqfbT
+bQzDfvynsiX3H7IU3q12Lk1+6BZ5EYZ6R1pVyXOVg5z6FD/8Go1HfwIAAP//cYl0rE0FAAA=
+`,
+	},
+
+	"/generator/template/ts/webpack.config.gojs": {
+		local:   "generator/template/ts/webpack.config.gojs",
+		size:    2606,
+		modtime: 1531716294,
+=======
 	"/generator/template/vue.gots": {
 		local:   "generator/template/vue.gots",
 		size:    1407,
 		modtime: 1531377895,
+>>>>>>> master
 		compressed: `
 H4sIAAAAAAAC/5RW3Y7bNhO9X2DfYeIEoA3Y0r0AI/jwJUVbtEkAp+2Fayy40khiliJZzki22913L6gf
 S/Y6zWYv1iaHc2bm8MzQjfTgJJewBo9/1crjXIS1WNzeBNse751MH6bmfiucSK0hhh+50n90m590XSgz

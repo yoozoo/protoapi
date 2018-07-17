@@ -15,7 +15,7 @@ message GroupListRequest {
 }
 
 message GroupListResponse {
-    repeated Group group = 1;
+    repeated Group groups = 1;
 }
 
 // app list
@@ -25,7 +25,9 @@ message AppListRequest {
 }
 
 message AppListResponse {
-    repeated App app = 1;
+    repeated App apps = 1;
+    string group_id = 2;
+    string group_name = 3;
 }
 
 // key list
@@ -36,16 +38,22 @@ message KeyListRequest {
 }
 
 message KeyListResponse {
-    repeated string key = 1;
+    repeated string keys = 1;
+    string app_id = 2;
+    string app_name = 3;
 }
 
 // key value
 message KeyValueListRequest {
-    repeated string key = 1;
+    repeated string keys = 1;
 }
 
 message KeyValueListResponse {
-    repeated KeyValue key_value = 1;
+    repeated KeyValue key_values = 1;
+    string app_id = 2;
+    string app_name = 3;
+    string group_id = 4;
+    string group_name = 5;
 }
 
 message KeyValueRequest {
@@ -53,7 +61,11 @@ message KeyValueRequest {
 }
 
 message KeyValueResponse {
-    KeyValue key_value = 1;
+    KeyValue key_values = 1;
+    string app_id = 2;
+    string app_name = 3;
+    string group_id = 4;
+    string group_name = 5;
 }
 
 // other building blocks
