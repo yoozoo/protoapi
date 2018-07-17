@@ -48,6 +48,10 @@ const (
 	// JavaPackageOption is Java package option constant
 	JavaPackageOption  = "javaPackageOption"
 	fieldRepeatedLabel = "LABEL_REPEATED"
+	// ServiceMethodName is the service method option name
+	ServiceMethodName = "service_method"
+	// ServiceMethodField is the service method option field
+	ServiceMethodField = 50006
 )
 
 func toJavaType(dataType string, label string) string {

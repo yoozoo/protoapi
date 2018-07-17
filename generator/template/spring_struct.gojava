@@ -1,5 +1,8 @@
 package {{.Package}};
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class {{.ClassName}} {
@@ -7,6 +10,7 @@ public class {{.ClassName}} {
     private final {{.JavaType}} {{ .Name }};
     {{- end }}
 
+    @JsonCreator
     public {{.ClassName}}({{.ContructParam}}) {
     {{- range .Fields}}
         this.{{ .Name }} = {{ .Name }};

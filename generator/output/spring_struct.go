@@ -43,7 +43,7 @@ func (s *springStruct) init() {
 func (s *springStruct) ContructParam() string {
 	params := make([]string, len(s.Fields))
 	for i, f := range s.Fields {
-		params[i] = f.JavaType() + " " + f.Name
+		params[i] = "@JsonProperty(\"" + f.Name + "\") " + f.JavaType() + " " + f.Name
 	}
 	return strings.Join(params, ", ")
 }
