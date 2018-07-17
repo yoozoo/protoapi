@@ -24,7 +24,7 @@ export function encode(val: string): string {
  * arg = {name: "wengwei", nick: "wentian"}
  * returns => http://localhost:8080?name="wengwei"&nick="wentian"
  */
-export function generateGetUrl<T>(url: string, params: T): string {
+export function generateQueryUrl<T>(url: string, params: T): string {
     if (!params) {
         return url;
     }
@@ -81,6 +81,6 @@ export function generateGetUrl<T>(url: string, params: T): string {
  * functionName = "SayHello"
  * returns => http://localhost:8080/HelloService.SayHello
  */
-export function generatePostUrl<T>(url: string, serviceName: string, functionName: string): string {
+export function generateUrl<T>(url: string, serviceName: string, functionName: string): string {
     return url + "/" + serviceName + "."+ functionName;
 }
