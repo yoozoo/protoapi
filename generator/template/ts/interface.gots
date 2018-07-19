@@ -1,7 +1,7 @@
 {{ range .DataTypes }}
 export interface {{.Name}} {
     {{ range .Fields }}
-     {{.Name}}: {{ .DataType }}{{if eq {{.Label}} "LABEL_REPEATED"}}[]{{end}}
+     {{.Name}}: {{ .DataType }}{{if eq .Label "LABEL_REPEATED"}}[]{{end}}
     {{ end }}
 }
 {{ end }}
