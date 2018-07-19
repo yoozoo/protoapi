@@ -20,15 +20,15 @@ export default class {{.ClassName}} extends Vue {
     private baseUrl: string = "http://192.168.115.57:8080"
     {{$className := .ClassName }}
     {{range .Functions}}
-    {{.Name}}(param: {{.InputType}}): PromiseLike<{{.OutputType}} | Error> {
+    {{.Name}}(params: {{.InputType}}): PromiseLike<{{.OutputType}} | Error> {
             
             let url: string = generateUrl(this.baseUrl,"{{$className}}", "{{.Name}}");
-            {{if (eq .HttpMtd "get")}}
+            {{/*if (eq .HttpMtd "get")*/}}
             // if use get 
-            url = generateQueryUrl(url, param);
-            {{end}}
+            //url = generateQueryUrl(url, param);
+            {{/*end*/}}
             // TODO: determine use get/post according to request
-            return this.$http.{{.HttpMtd}}(url).then(
+            return this.$http.{{.HttpMtd}}(url, {{if eq .HttpMtd "get"}}{params}{{else}}params{{end}}).then(
                 response => {
                     console.log(response);
                     return response.data as {{.OutputType}};
