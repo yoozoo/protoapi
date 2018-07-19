@@ -220,7 +220,7 @@ vQ9OvJqvZkJ9TNJz+CW83qNmhNo23wEAAP//c5VntTUCAAA=
 	"/generator/template/ts/README.md": {
 		local:   "generator/template/ts/README.md",
 		size:    723,
-		modtime: 1531719894,
+		modtime: 1531734388,
 		compressed: `
 H4sIAAAAAAAC/4SRT2vcMBTE7wZ/h4FAaWHXS/8ecsspzW0hOS5EsvTWVlZ+z5We2G4/fZHjLBRKezBY
 8JvRzOgG96R4VJuUfNu0zc0NvssZKniirLgnpmSVPJ4e4cQTSg48YJ9ExQkfcbd/qLqPHYaVXbhbmHlh
@@ -236,7 +236,7 @@ AgAA
 	"/generator/template/ts/babel.config.gojs": {
 		local:   "generator/template/ts/babel.config.gojs",
 		size:    56,
-		modtime: 1531716287,
+		modtime: 1531734388,
 		compressed: `
 H4sIAAAAAAAC/8rNTynNSdVLrSjILyopVrBVqOblUlAoKEotTi0ptlKIBvEUFNQdykpT9RMLCtRB/Fhe
 rlpAAAAA//+mjc10OAAAAA==
@@ -270,7 +270,7 @@ AAD//8c9h/ePCQAA
 	"/generator/template/ts/index.gohtml": {
 		local:   "generator/template/ts/index.gohtml",
 		size:    269,
-		modtime: 1531716276,
+		modtime: 1531734388,
 		compressed: `
 H4sIAAAAAAAC/0yQzU6FMBCF9ze573DSfa9RExcGWLr0HcZSCFpa0mn5SdN3N5WALOecM9/8VLOkaWru
 NwCoZmloczHAuwXfkcPQbZInUlqSd9G2WDwdaQApebK9xuMjWhUGZznn0yy4zugVKz+/gMc3jO3rf+8R
@@ -282,7 +282,7 @@ g98AAAD//7vGqw8NAQAA
 	"/generator/template/ts/index.gots": {
 		local:   "generator/template/ts/index.gots",
 		size:    497,
-		modtime: 1531718934,
+		modtime: 1531734388,
 		compressed: `
 H4sIAAAAAAAC/1yQzW7rIBCF90i8wyj3SsZRhPeu3E2lLrvMnoZJjWR+aoY0kcW7V7i27JYVzHznzGGM
 DX4kOCeE6+gtVLeE1RNnW53M9bH1ymvXnyb5MqgY35TFnBdMNr/LhedsQAKyYYAORvxMZkRRycY4jXfZ

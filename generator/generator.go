@@ -20,7 +20,8 @@ import (
 )
 
 const (
-	defaultPackageName = "com.yoozoo.configuration"
+	defaultPackageName        = "com.yoozoo.configuration"
+	googleDescriptorProtoName = "google/protobuf/descriptor.proto"
 )
 
 // createEnums create EnumData objects from the passed in enum discriptor
@@ -99,19 +100,21 @@ func getMessages(files []*descriptor.FileDescriptorProto) ([]*data.MessageData, 
 	var resultMsg []*data.MessageData
 	var resultEnum []*data.EnumData
 	for _, file := range files {
-		packageName := file.GetPackage()
-		// packageName for this file
-		if len(packageName) > 0 {
-			packageName = "." + packageName
+		// exclude google protobuf descriptor proto file
+		if file.GetName() != googleDescriptorProtoName {
+			packageName := file.GetPackage()
+			// packageName for this file
+			if len(packageName) > 0 {
+				packageName = "." + packageName
+			}
+
+			//enums at file level
+			resultEnum = append(resultEnum, createEnums(packageName, file.GetEnumType())...)
+			//messages at file level
+			msgs, enums := createMessages(file.GetName(), packageName, file.GetMessageType())
+			resultEnum = append(resultEnum, enums...)
+			resultMsg = append(resultMsg, msgs...)
 		}
-
-		//enums at file level
-		resultEnum = append(resultEnum, createEnums(packageName, file.GetEnumType())...)
-		//messages at file level
-		msgs, enums := createMessages(file.GetName(), packageName, file.GetMessageType())
-		resultEnum = append(resultEnum, enums...)
-		resultMsg = append(resultMsg, msgs...)
-
 	}
 
 	return resultMsg, resultEnum
