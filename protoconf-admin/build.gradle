@@ -8,8 +8,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -27,5 +25,7 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("com.coreos:jetcd-core:0.0.2")
+    compile files('libs/etcd-java-1.0-SNAPSHOT.jar')
     testCompile("junit:junit")
 }
