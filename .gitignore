@@ -1,4 +1,12 @@
-com/
-yoozoo/
+/com
+/yoozoo
 *.exe
 protoapi
+.gradle
+.idea
+build
+out
+bin
+.classpath
+.project
+.settings
