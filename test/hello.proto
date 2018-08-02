@@ -5,14 +5,6 @@ option java_package = "com.yoozoo.spring";
 package com.yoozoo.ts;
 
 import "test/messages.proto";
-// ClassName = UserService
-// ApiUrl = "https://jsonplaceholder.typicode.com/users"
-// DataType = User
-// DataTypeFile = user
-// string ClassName = 2;
-// string ApiUrl = 3;
-// string DataType = 4;
-// string DataTypeFile = 5;
 
 service HelloService {
     rpc SayHello (HelloRequest) returns (HelloResponse);

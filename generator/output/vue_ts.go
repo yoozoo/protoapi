@@ -53,18 +53,18 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	helperFile := prefix + "/src/Helper.ts"
 
 	// index html & ts for testing API functions
-	indexHtmlFile := prefix + "/src/index.html"
-	indexTSFile := prefix + "/src/index.ts"
+	// indexHtmlFile := prefix + "/src/index.html"
+	// indexTSFile := prefix + "/src/index.ts"
 
 	/** 
 	* Other configurations files 
 	*/
-	tsConfigFile := prefix + "/tsconfig.json"
-	webpackConfigFile := prefix + "/webpack.config.js"
-	babelConfigFile := prefix + "/babel.config.js"
-	packageFile := prefix + "/package.json"
-	publicIndexFile := prefix + "/public/index.html"
-	readMeFile := prefix + "/README.md"
+	// tsConfigFile := prefix + "/tsconfig.json"
+	// webpackConfigFile := prefix + "/webpack.config.js"
+	// babelConfigFile := prefix + "/babel.config.js"
+	// packageFile := prefix + "/package.json"
+	// publicIndexFile := prefix + "/public/index.html"
+	// readMeFile := prefix + "/README.md"
 
 	/**
 	* Get TEMPLATE path
@@ -72,16 +72,16 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	vueTpl := data.LoadTpl("/generator/template/ts/vue.gots")
 	interfaceTpl := data.LoadTpl("/generator/template/ts/interface.gots")
 	helperTpl := data.LoadTpl("/generator/template/ts/helper.gots")
-	tsConfigTpl := data.LoadTpl("/generator/template/ts/tsconfig.gojson")
+	// tsConfigTpl := data.LoadTpl("/generator/template/ts/tsconfig.gojson")
 	
-	indexHtmlTpl := data.LoadTpl("/generator/template/ts/index.gohtml")
-	indexTsTpl := data.LoadTpl("/generator/template/ts/index.gots")
+	// indexHtmlTpl := data.LoadTpl("/generator/template/ts/index.gohtml")
+	// indexTsTpl := data.LoadTpl("/generator/template/ts/index.gots")
 
-	pkgTpl := data.LoadTpl("/generator/template/ts/package.gojson")
-	webpackConfigTpl := data.LoadTpl("/generator/template/ts/webpack.config.gojs")
-	publicIndexTpl := data.LoadTpl("/generator/template/ts/public_index.gohtml")
-	babelConfigTpl := data.LoadTpl("/generator/template/ts/babel.config.gojs")
-	readMeTpl := data.LoadTpl("/generator/template/ts/README.md")
+	// pkgTpl := data.LoadTpl("/generator/template/ts/package.gojson")
+	// webpackConfigTpl := data.LoadTpl("/generator/template/ts/webpack.config.gojs")
+	// publicIndexTpl := data.LoadTpl("/generator/template/ts/public_index.gohtml")
+	// babelConfigTpl := data.LoadTpl("/generator/template/ts/babel.config.gojs")
+	// readMeTpl := data.LoadTpl("/generator/template/ts/README.md")
 
 	/**
 	* Map Data: messages and service
@@ -116,14 +116,14 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	if err != nil {
 		return nil, err
 	}
-	tmpl3, err := template.New("index html").Funcs(funcMap).Parse(indexHtmlTpl)
-	if err != nil {
-		return nil, err
-	}
-	tmpl4, err := template.New("index ts").Funcs(funcMap).Parse(indexTsTpl)
-	if err != nil {
-		return nil, err
-	}
+	// tmpl3, err := template.New("index html").Funcs(funcMap).Parse(indexHtmlTpl)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// tmpl4, err := template.New("index ts").Funcs(funcMap).Parse(indexTsTpl)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	/**
 	* combine data with template
@@ -134,16 +134,16 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	buf2 := bytes.NewBufferString("")
 	err = tmpl2.Execute(buf2, interfaceData)
 
-	buf3 := bytes.NewBufferString("")
-	err = tmpl3.Execute(buf3, serviceData)
+	// buf3 := bytes.NewBufferString("")
+	// err = tmpl3.Execute(buf3, serviceData)
 
-	buf4 := bytes.NewBufferString("")
-	err = tmpl4.Execute(buf4, serviceData)
+	// buf4 := bytes.NewBufferString("")
+	// err = tmpl4.Execute(buf4, serviceData)
 
 	serviceContent := buf.String()
 	dataContent := buf2.String()
-	indexHtml := buf3.String()
-	indexTS := buf4.String()
+	// indexHtml := buf3.String()
+	// indexTS := buf4.String()
 
 	if err != nil {
 		return nil, err
@@ -154,16 +154,16 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	// append generated file in result
 	result[serviceFile] = serviceContent
 	result[dataFile] = dataContent
-	result[indexHtmlFile] = indexHtml
-	result[indexTSFile] = indexTS
+	// result[indexHtmlFile] = indexHtml
+	// result[indexTSFile] = indexTS
 	result[helperFile] = helperTpl
-	// config files
-	result[tsConfigFile] = tsConfigTpl
-	result[webpackConfigFile] = webpackConfigTpl
-	result[packageFile] = pkgTpl
-	result[babelConfigFile] = babelConfigTpl
-	result[publicIndexFile] = publicIndexTpl
-	result[readMeFile] = readMeTpl
+	// // config files
+	// result[tsConfigFile] = tsConfigTpl
+	// result[webpackConfigFile] = webpackConfigTpl
+	// result[packageFile] = pkgTpl
+	// result[babelConfigFile] = babelConfigTpl
+	// result[publicIndexFile] = publicIndexTpl
+	// result[readMeFile] = readMeTpl
 	
 	return result, nil
 }

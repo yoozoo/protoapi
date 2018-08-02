@@ -5,7 +5,7 @@ import {
     {{.InputType}} , {{.OutputType}} ,
     {{end}}
 } from './{{.DataTypeFile}}';
-import { generateUrl, generateQueryUrl } from './Helper'
+import { generateUrl } from './Helper'
 
 Vue.use(VueResource);
 
@@ -17,18 +17,18 @@ export default class {{.ClassName}} extends Vue {
     }
 
     // Base Url
-    private baseUrl: string = "http://192.168.115.57:8080"
+    private baseUrl: string = "http://localhost:8080"
     {{$className := .ClassName }}
     {{range .Functions}}
     {{.Name}}(params: {{.InputType}}): PromiseLike<{{.OutputType}} | Error> {
             
             let url: string = generateUrl(this.baseUrl,"{{$className}}", "{{.Name}}");
-            {{/*if (eq .HttpMtd "get")*/}}
+            {{/*if (eq .HttpMtd "get")
             // if use get 
             //url = generateQueryUrl(url, param);
-            {{/*end*/}}
+            end*/}}
             // TODO: determine use get/post according to request
-            return this.$http.{{.HttpMtd}}(url, {{if eq .HttpMtd "get"}}{params}{{else}}params{{end}}).then(
+            return this.$http.{{- if ne .Option.Value "GET" }}post{{else}}get{{end}}(url,  {{- if ne .Option.Value "GET" }}params{{else}}{params}{{end}}).then(
                 response => {
                     console.log(response);
                     return response.data as {{.OutputType}};
