@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MethodOptions {
+    string service_method = 50006;
+}
