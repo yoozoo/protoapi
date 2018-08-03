@@ -295,7 +295,7 @@ GLzSQB62vcH7A4zuDiqEQ0Eazsr/VAiilv+tT45E9U+FUM0DvwMAAP//2n8kv/EBAAA=
 	"/generator/template/ts/interface.gots": {
 		local:   "generator/template/ts/interface.gots",
 		size:    183,
-		modtime: 1531972006,
+		modtime: 1533204160,
 		compressed: `
 H4sIAAAAAAAC/0yMTQrCMBCF94Xc4dED5ADuKo2rICLdichophKoscYslGHuLlr/lo/3fZ8IMqUjw7ZU
 qLuPfIWqqfg2nnNBTIVzTweGiF3SiVUhpgKAn7mIPIRJw/S80dkT+oahKhJ78AXW054H1L6ZO79bu5Vr
@@ -356,7 +356,7 @@ z8v8eVku/gUAAP///d4K2K8CAAA=
 	"/generator/template/ts/vue.gots": {
 		local:   "generator/template/ts/vue.gots",
 		size:    1443,
-		modtime: 1533203166,
+		modtime: 1533204213,
 		compressed: `
 H4sIAAAAAAAC/4xUS2/bPBC8G/B/WAgBIgeOlGPgfPlQNI+mQFv3kfjOSmtZKEUyy2UeUPnfC1pSQitB
 U56k5cxyZodS3RhNDC2c6cZohYrnsHIIHtakG9i/c3hoSBskfjwssdAkWNP+yXTSM1cOv6PVjgqMKNSX
