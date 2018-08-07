@@ -1,37 +1,44 @@
 package {{.Package}}
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
 )
 
-func main() {
-	e := echo.New()
+type {{.Name}} interface {
+	{{- range .Methods }}
+    {{.Name}}(*{{.InputType}}) (*{{.OutputType}}, error)
+    {{- end }}
+}
 
-	//CORS
-	e.Use(middleware.CORS())
+{{- range .Methods }}
+func _{{.Name}}_Handler(srv interface{}) echo.HandlerFunc {
+	return func(c echo.Context) (err error) {
+		in := new({{.InputType}})
 
-	// Root level middleware
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+		if err = c.Bind(in); err != nil {
+			return
+		}
 
-    var service ServiceBase
+		out, err := srv.({{$.Name}}).{{.Name}}(in)
+		if err != nil {
+			return
+		}
 
+		return c.JSON(http.StatusOK, out)
+	}
+}
+{{- end }}
+
+func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
     {{- range .Methods }}
     {{- if ne .Option.Value "GET" }}
-    e.GET("{{.Path}}", service.{{.Name}})
+    e.GET("{{.Path}}", _{{.Name}}_Handler(srv))
     {{- end }}
 
     {{- if ne .Option.Value "POST" }}
-    e.POST("{{.Path}}", service.{{.Name}})
+    e.POST("{{.Path}}", _{{.Name}}_Handler(srv))
     {{- end }}
-    {{- end}}
-
-	e.Logger.Fatal(e.Start(":1323"))
-}
-
-type ServiceBase interface {
-    {{- range .Methods }}
-    {{.Name}}(in {{.InputType}}) (out {{.OutputType}}, err error)
     {{- end }}
 }

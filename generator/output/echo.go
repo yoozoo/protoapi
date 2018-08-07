@@ -10,7 +10,7 @@ import (
 func toGoType(dataType string, label string) string {
 	// check if the field is repeated
 	if label == fieldRepeatedLabel {
-		return "[]" + dataType
+		return "*[]" + dataType
 	}
 	// if not primary type return data type and ignore the . in the data type
 	return dataType
