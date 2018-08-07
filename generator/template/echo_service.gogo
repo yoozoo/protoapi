@@ -1,0 +1,37 @@
+package {{.Package}}
+
+import (
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
+)
+
+func main() {
+	e := echo.New()
+
+	//CORS
+	e.Use(middleware.CORS())
+
+	// Root level middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+    var service ServiceBase
+
+    {{- range .Methods }}
+    {{- if ne .Option.Value "GET" }}
+    e.GET("{{.Path}}", service.{{.Name}})
+    {{- end }}
+
+    {{- if ne .Option.Value "POST" }}
+    e.POST("{{.Path}}", service.{{.Name}})
+    {{- end }}
+    {{- end}}
+
+	e.Logger.Fatal(e.Start(":1323"))
+}
+
+type ServiceBase interface {
+    {{- range .Methods }}
+    {{.Name}}(in {{.InputType}}) (out {{.OutputType}}, err error)
+    {{- end }}
+}

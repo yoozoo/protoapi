@@ -1,0 +1,8 @@
+package {{.Package}}
+
+// {{.ClassName}}
+type {{.ClassName}} struct {
+    {{ range .Fields }}
+    {{.Title}} {{.Type}} `json:"{{.Name}}" form:"{{.Name}}" query:"{{.Name}}"`
+    {{ end }}
+}
