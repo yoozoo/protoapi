@@ -6,13 +6,14 @@ import (
 	"github.com/labstack/echo"
 )
 
+// {{.Name}} is the interface contains all the controllers
 type {{.Name}} interface {
 	{{- range .Methods }}
     {{Title .Name}}(*{{.InputType}}) (*{{.OutputType}}, error)
     {{- end }}
 }
-
 {{- range .Methods }}
+
 func _{{.Name}}_Handler(srv interface{}) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		in := new({{.InputType}})
@@ -31,13 +32,14 @@ func _{{.Name}}_Handler(srv interface{}) echo.HandlerFunc {
 }
 {{- end }}
 
+// Register{{.Name}} is used to bind routers
 func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
     {{- range .Methods }}
-    {{- if ne .Option.Value "GET" }}
+    {{- if ne .Option.Value "POST" }}
     e.GET("{{.Path}}", _{{.Name}}_Handler(srv))
     {{- end }}
 
-    {{- if ne .Option.Value "POST" }}
+    {{- if ne .Option.Value "GET" }}
     e.POST("{{.Path}}", _{{.Name}}_Handler(srv))
     {{- end }}
     {{- end }}
