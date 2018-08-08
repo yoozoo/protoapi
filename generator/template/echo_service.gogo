@@ -8,7 +8,7 @@ import (
 
 type {{.Name}} interface {
 	{{- range .Methods }}
-    {{.Name}}(*{{.InputType}}) (*{{.OutputType}}, error)
+    {{Title .Name}}(*{{.InputType}}) (*{{.OutputType}}, error)
     {{- end }}
 }
 
@@ -21,7 +21,7 @@ func _{{.Name}}_Handler(srv interface{}) echo.HandlerFunc {
 			return
 		}
 
-		out, err := srv.({{$.Name}}).{{.Name}}(in)
+		out, err := srv.({{$.Name}}).{{Title .Name}}(in)
 		if err != nil {
 			return
 		}
