@@ -10,6 +10,10 @@ type echoMethod struct {
 	ServiceName string
 }
 
+func (m *echoMethod) Title() string {
+	return strings.Title(m.Name)
+}
+
 func (m *echoMethod) Path() string {
 	return "/" + m.ServiceName + "." + m.Name
 }

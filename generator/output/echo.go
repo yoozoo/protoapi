@@ -34,9 +34,7 @@ func newEchoGen(applicationName, packageName string) *echoGen {
 
 func (g *echoGen) getTpl(path string) *template.Template {
 	var err error
-	tpl := template.New("tpl").Funcs(template.FuncMap{
-		"Title": strings.Title,
-	})
+	tpl := template.New("tpl")
 	tplStr := data.LoadTpl(path)
 	result, err := tpl.Parse(tplStr)
 	if err != nil {

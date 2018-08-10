@@ -9,7 +9,7 @@ import (
 // {{.Name}} is the interface contains all the controllers
 type {{.Name}} interface {
 	{{- range .Methods }}
-    {{Title .Name}}(*{{.InputType}}) (*{{.OutputType}}, error)
+    {{.Title}}(*{{.InputType}}) (*{{.OutputType}}, error)
     {{- end }}
 }
 {{- range .Methods }}
@@ -22,7 +22,7 @@ func _{{.Name}}_Handler(srv interface{}) echo.HandlerFunc {
 			return
 		}
 
-		out, err := srv.({{$.Name}}).{{Title .Name}}(in)
+		out, err := srv.({{$.Name}}).{{.Title}}(in)
 		if err != nil {
 			return
 		}
