@@ -14,7 +14,7 @@ type {{.Name}} interface {
 }
 {{- range .Methods }}
 
-func _{{.Name}}_Handler(srv {{.Name}}) echo.HandlerFunc {
+func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		in := new({{.InputType}})
 

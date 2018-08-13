@@ -78,7 +78,12 @@ func genEchoFileName(packageName string, service *data.ServiceData) string {
 	return strings.Replace(packageName, ".", "/", -1) + "/" + service.Name + "Base.go"
 }
 
+func genEchoPackageName(packageName string) string {
+	return strings.Replace(packageName, ".", "_", -1)
+}
+
 func genEchoCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (result map[string]string, err error) {
+	packageName = genEchoPackageName(packageName)
 	gen := newEchoGen(applicationName, packageName)
 	result = make(map[string]string)
 
