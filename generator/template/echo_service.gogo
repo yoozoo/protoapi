@@ -14,7 +14,7 @@ type {{.Name}} interface {
 }
 {{- range .Methods }}
 
-func _{{.Name}}_Handler(srv interface{}) echo.HandlerFunc {
+func _{{.Name}}_Handler(srv {{.Name}}) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		in := new({{.InputType}})
 
@@ -22,7 +22,7 @@ func _{{.Name}}_Handler(srv interface{}) echo.HandlerFunc {
 			return
 		}
 
-		out, err := srv.({{$.Name}}).{{.Title}}(in)
+		out, err := srv.{{.Title}}(in)
 		if err != nil {
 			return
 		}
