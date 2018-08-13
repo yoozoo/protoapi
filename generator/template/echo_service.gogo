@@ -1,0 +1,46 @@
+package {{.Package}}
+
+import (
+	"net/http"
+
+	"github.com/labstack/echo"
+)
+
+// {{.Name}} is the interface contains all the controllers
+type {{.Name}} interface {
+	{{- range .Methods }}
+    {{.Title}}(*{{.InputType}}) (*{{.OutputType}}, error)
+    {{- end }}
+}
+{{- range .Methods }}
+
+func _{{.Name}}_Handler(srv interface{}) echo.HandlerFunc {
+	return func(c echo.Context) (err error) {
+		in := new({{.InputType}})
+
+		if err = c.Bind(in); err != nil {
+			return
+		}
+
+		out, err := srv.({{$.Name}}).{{.Title}}(in)
+		if err != nil {
+			return
+		}
+
+		return c.JSON(http.StatusOK, out)
+	}
+}
+{{- end }}
+
+// Register{{.Name}} is used to bind routers
+func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
+    {{- range .Methods }}
+    {{- if ne .Option.Value "POST" }}
+    e.GET("{{.Path}}", _{{.Name}}_Handler(srv))
+    {{- end }}
+
+    {{- if ne .Option.Value "GET" }}
+    e.POST("{{.Path}}", _{{.Name}}_Handler(srv))
+    {{- end }}
+    {{- end }}
+}
