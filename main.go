@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
+	"strings"
 
 	"github.com/golang/protobuf/proto"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
@@ -14,13 +16,13 @@ import (
 )
 
 func main() {
-	argsWithoutProg := os.Args[1:]
+	args := os.Args
 	var input []byte
-	if len(argsWithoutProg) > 0 {
+	if len(args[1:]) > 0 {
 		var err error
-		input, err = ioutil.ReadFile(argsWithoutProg[0])
+		input, err = ioutil.ReadFile(args[2])
 		if err != nil {
-			log.Fatalf("reading file %s error: %s\n", argsWithoutProg[0], err.Error())
+			log.Fatalf("reading file %s error: %s\n", args[2], err.Error())
 		}
 	} else {
 		var err error
@@ -28,6 +30,24 @@ func main() {
 		if err != nil {
 			log.Fatalf("reading stdin error: %s\n", err.Error())
 		}
+	}
+
+	// if run with protoapi then run protoc with plugin
+	if args[0] == "protoapi" {
+		executable, _ := os.Executable()
+
+		args[0] = "--plugin=protoc-gen-custom=" + executable
+		args[1] = strings.Replace(args[1], "--", "--custom_out=", 1)
+
+		// Run protoc command
+		cmd := exec.Command("protoc", args...)
+		cmd.Stderr = os.Stderr
+
+		if err := cmd.Run(); err != nil {
+			log.Fatal(err)
+		}
+
+		return
 	}
 
 	request := new(plugin.CodeGeneratorRequest)
