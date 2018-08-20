@@ -9,9 +9,15 @@ import (
 // {{.Name}} is the interface contains all the controllers
 type {{.Name}} interface {
 	{{- range .Methods }}
-    {{.Title}}(*{{.InputType}}) (*{{.OutputType}}, error)
+    {{.Title}}(*{{.InputType}}) (*{{.OutputType}}, *Error)
     {{- end }}
 }
+
+type Response struct {
+	response interface{}
+	errorResp *Error
+}
+
 {{- range .Methods }}
 
 func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
@@ -19,15 +25,19 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 		in := new({{.InputType}})
 
 		if err = c.Bind(in); err != nil {
-			return
+			resp := Response {
+				errorResp: NewError(1000, err),
+			}
+			return c.JSON(http.StatusBadRequest, resp)
 		}
 
-		out, err := srv.{{.Title}}(in)
-		if err != nil {
-			return
+		out, errorResp := srv.{{.Title}}(in)
+		resp := Response {
+			response: out,
+			errorResp: errorResp,
 		}
 
-		return c.JSON(http.StatusOK, out)
+		return c.JSON(http.StatusOK, resp)
 	}
 }
 {{- end }}
@@ -43,4 +53,9 @@ func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
     e.POST("{{.Path}}", _{{.Name}}_Handler(srv))
     {{- end }}
     {{- end }}
+}
+
+// NewError Creates error response
+func NewError(code int, err error) *Error {
+	return &Error{Code: code, Message: err.Error()};
 }
