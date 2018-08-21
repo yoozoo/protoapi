@@ -14,8 +14,8 @@ type {{.Name}} interface {
 }
 
 type Response struct {
-	response interface{}
-	errorResp *Error
+	Output    interface{} `json:"output"`
+	ErrorResp *Error      `json:"error"`
 }
 
 {{- range .Methods }}
@@ -26,15 +26,15 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 
 		if err = c.Bind(in); err != nil {
 			resp := Response {
-				errorResp: NewError(1000, err),
+				ErrorResp: NewError(1000, err),
 			}
 			return c.JSON(http.StatusBadRequest, resp)
 		}
 
 		out, errorResp := srv.{{.Title}}(in)
 		resp := Response {
-			response: out,
-			errorResp: errorResp,
+			Output: out,
+			ErrorResp: errorResp,
 		}
 
 		return c.JSON(http.StatusOK, resp)
