@@ -1,66 +1,69 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+这份文档包含使用protoapi所需条件， 以及如何使用protoapi
 
-### What is this repository for? ###
+## 项目介绍
 
-* Quick summary: This repo is a plugin that auto generates boiler template Vue code with TypeScript for API services.
-* Version 0.1
+* 本项目基于`go`的实现
+* 目的：自动生成前后端API的基础代码， 
+    * 前端生成TypeScript的代码
+    * 后端目前支持生成java (spring) 和go的代码
+* 当前版本： 0.1
 
-### Getting Started ###
 
-* go to the place you want to clone the repo:
-    * `git clone https://zhuql@bitbucket.org/yoozoosg/protoapi.git`
+## 项目安装
 
-* Install protoc-gen-go if you have not done so:
+* 下载项目代码:
+    * `git clone https://version.uuzu.com/Merlion/protoapi.git`
+
+* 安装`protoc`:
+    * [安装步骤请戳这里](http://google.github.io/proto-lens/installing-protoc.html)
+
+* 安装 `protoc-gen-go`:
     * go to `/usr/local` directory (same dir with .bash_profile for Mac)
     * run cli: `go get -u github.com/golang/protobuf/protoc-gen-go` => installed in $GOBIN, defaulting to $GOPATH/bin
 
-* Make sure protoc is installed in correct folder:
-    * [follow the steps here](http://google.github.io/proto-lens/installing-protoc.html)
-
-* Get other relevant lib:
+* 下载所需的第三方库:
     * go to the cloned project folder: `cd protoapi`
     * run cli: `go get` in the cloned repo folder
 
-* build the plugin:
+## 建立插件
+
+* 生成插件:
     * run cli: `go build` in the cloned repo folder
     * you will see a `[folder-name]` file is created in the repo root directory
     * run cli  `go generate` in the cloned repo folder
 
-* set up env:
+* 配置环境:
     * rename the file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
     * or soft link `protoapi` with `protoc-gen-ts` in $GOBIN: `ln -s $PATH-TO-GENERATED-FILE protoc-gen-ts`
 
-* run the plugin:
+## 如何使用插件 
 
-    * for Mac Users:
-        * `protoc --ts_out :. test/hello.proto`:  generate TS files
-        * `protoc --ts_out=lang=spring:. ./test/hello.proto`: generate spring files
+### Mac用户
 
-    * for Windows users:
-        * if no softlink: `protoc --plugin=protoc-gen-ts=C:\Users\Admin\go\src\protoapi\protoapi.exe --ts_out=. .\test\protoconf\apps.proto`
-        * if with softlink or renamed to `protoc-gen-ts`: `protoc --ts_out . .\test\protoconf\apps.proto`
-        * generate spring files: `protoc --ts_out=lang=spring:. ./test/hello.proto`
-        * how to make a softlink(command): `mklink <Link to be created> <Target file>`; e.g. `mklink C:\Users\Admin\go\bin\protoc-gen-ts.exe C:\Users\Admin\go\src\protoapi\protoapi.exe`
+    * 生成typescript代码： `protoc --ts_out :. test/hello.proto`
+    * 生成后端代码： `protoc --ts_out=lang=spring:. ./test/hello.proto`
+
+### Windows用户
+    * if no softlink: `protoc --plugin=protoc-gen-ts=C:\Users\Admin\go\src\protoapi\protoapi.exe --ts_out=. .\test\protoconf\apps.proto`
+    * if with softlink or renamed to `protoc-gen-ts`: `protoc --ts_out . .\test\protoconf\apps.proto`
+    * generate spring files: `protoc --ts_out=lang=spring:. ./test/hello.proto`
+    * how to make a softlink(command): `mklink <Link to be created> <Target file>`; e.g. `mklink C:\Users\Admin\go\bin\protoc-gen-ts.exe C:\Users\Admin\go\src\protoapi\protoapi.exe`
 
     * if you have other `.proto` files to test, just change the cli to: `protoc -I=. --ts_out=lang=ts:. $SRC_DIR/$TEST_FILE.proto`
 
-### Contribution guidelines ###
+## 如何参与项目 ###
 
 * Writing tests
 * Code review
 * Other guidelines
 
-### Who do I talk to? ###
+## 项目负责人/联系人
 
-* Repo owner or admin
-    - [Qinglei](ZHUQL@YOOZOO.COM)
-* Other community or team contact
-    - [WenTian](WengW@yoozoo.com)
-    - [HongBo](WuHongbo@yoozoo.com)
-
-# Todo
+- [Qinglei](ZHUQL@YOOZOO.COM)
+- [WenTian](WengW@yoozoo.com)
+- [HongBo](WuHongbo@yoozoo.com)
 
 ## spring ##
 
