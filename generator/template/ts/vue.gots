@@ -4,8 +4,8 @@ import {
     {{range .Functions}}
     {{.InputType}} , {{.OutputType}} ,
     {{end}}
-} from './{{.DataTypeFile}}';
-import { generateUrl } from './Helper'
+} from './data';
+import { generateUrl } from './helper'
 
 Vue.use(VueResource);
 
@@ -29,11 +29,15 @@ export default class {{.ClassName}} extends Vue {
             end*/}}
             // TODO: determine use get/post according to request
             return this.$http.{{- if ne .Option.Value "GET" }}post{{else}}get{{end}}(url,  {{- if ne .Option.Value "GET" }}params{{else}}{params}{{end}}).then(
-                response => {
-                    console.log(response);
-                    return response.data as {{.OutputType}};
+                res => {
+                    console.log(res);
+                    // error handling
+                    if(res.data.error){
+                        return new Error(res.data.error)
+                    }
+                    return res.data.response as {{.OutputType}};
                 },
-                error => {
+                error => { // other errors such as 500, no network
                     console.log(error);
                     return new Error("Something wrong");
                 }

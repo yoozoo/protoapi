@@ -2,169 +2,140 @@ package output
 
 import (
 	"bytes"
-	"log"
 	"protoapi/generator/data"
 	"strings"
 	"text/template"
 )
 
-// create template data struct
-type vueResource struct {
-	ClassName    string
-	DataTypes    []*data.MessageData
-	DataTypeFile string
-	Functions    []data.Method
+/**
+*  Map go type to ts types
+ */
+var tsTypes = map[string]string{
+	"int":      "number",
+	"double":   "number",
+	"float":    "number",
+	"int32":    "number",
+	"int64":    "number",
+	"uint32":   "number",
+	"uint64":   "number",
+	"sint32":   "number",
+	"sint64":   "number",
+	"fixed32":  "number",
+	"fixed64":  "number",
+	"sfixed32": "number",
+	"sfixed64": "number",
+	"bool":     "boolean",
+	"string":   "string",
 }
 
-type vueInterface struct {
+type tsGen struct {
+	vueResourceFile string
+	axiosFile       string
+	dataFile        string
+	helperFile      string
+	vueResourceTpl  *template.Template
+	axiosTpl        *template.Template
+	dataTpl         *template.Template
+	helperTpl       *template.Template
+}
+
+type tsStruct struct {
+	ClassName string
 	DataTypes []*data.MessageData
+	Functions []data.Method
 }
 
-func generateFuncName(title string) string {
-	log.Printf("title is %s\n", title)
-	titles := strings.Split(title, "/")
-	result := "get"
-	for _, t := range titles {
-		result += strings.Title(t)
+func toTypeScriptType(dataType string) string {
+	if primaryType, ok := tsTypes[dataType]; ok {
+		return primaryType
 	}
-	log.Printf("result is %s\n", result)
+	return dataType
+}
+
+func genFileName(packageName string, fileName string) string {
+	return strings.Replace(packageName, ".", "/", -1) + "/" + fileName + ".ts"
+}
+
+/**
+* Get TEMPLATE
+ */
+func (g *tsGen) loadTpl() {
+	g.vueResourceTpl = g.getTpl("/generator/template/ts/vue.gots")
+	g.axiosTpl = g.getTpl("/generator/template/ts/vue_ts.govue")
+	g.dataTpl = g.getTpl("/generator/template/ts/interface.gots")
+	g.helperTpl = g.getTpl("/generator/template/ts/helper.gots")
+}
+
+/**
+* Parse TEMPLATE
+ */
+func (g *tsGen) getTpl(path string) *template.Template {
+	var funcs = template.FuncMap{
+		"tsType": toTypeScriptType,
+	}
+	var err error
+	tpl := template.New("tpl").Funcs(funcs)
+	tplStr := data.LoadTpl(path)
+	result, err := tpl.Parse(tplStr)
+	if err != nil {
+		panic(err)
+	}
 	return result
 }
 
-func isGet(function string) bool {
-	return strings.Contains(function, "Get")
+/**
+* load CONTENT into TEMPLATE
+ */
+func (g *tsGen) genContent(tpl *template.Template, data tsStruct) string {
+	buf := bytes.NewBufferString("")
+	err := tpl.Execute(buf, data)
+	if err != nil {
+		panic(err)
+	}
+	return buf.String()
+}
+
+/**
+* init filename with path
+ */
+func initFiles(packageName string, service *data.ServiceData) *tsGen {
+	gen := &tsGen{
+		vueResourceFile: genFileName(packageName, service.Name),
+		axiosFile:       genFileName(packageName, "api"),
+		dataFile:        genFileName(packageName, "data"),
+		helperFile:      genFileName(packageName, "helper"),
+	}
+	return gen
 }
 
 func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (map[string]string, error) {
-
-	// base path of files generated
-	prefix := strings.Replace(packageName, ".", "/", -1)
-
-	/** 
-	* Generate code files in /src folder 
-	*/
-	// Service file
-	serviceFile := prefix + "/src/" + service.Name  + ".ts"
-
-	// Data Struct file
-	dataFile := prefix + "/src/" + strings.Title(strings.Replace(applicationName, ".proto", "", -1)) + ".ts"
-
-	// Helper file
-	helperFile := prefix + "/src/Helper.ts"
-
-	// index html & ts for testing API functions
-	// indexHtmlFile := prefix + "/src/index.html"
-	// indexTSFile := prefix + "/src/index.ts"
-
-	/** 
-	* Other configurations files 
-	*/
-	// tsConfigFile := prefix + "/tsconfig.json"
-	// webpackConfigFile := prefix + "/webpack.config.js"
-	// babelConfigFile := prefix + "/babel.config.js"
-	// packageFile := prefix + "/package.json"
-	// publicIndexFile := prefix + "/public/index.html"
-	// readMeFile := prefix + "/README.md"
+	/**
+	* name files
+	 */
+	gen := initFiles(packageName, service)
 
 	/**
-	* Get TEMPLATE path
-	*/
-	vueTpl := data.LoadTpl("/generator/template/ts/vue.gots")
-	interfaceTpl := data.LoadTpl("/generator/template/ts/interface.gots")
-	helperTpl := data.LoadTpl("/generator/template/ts/helper.gots")
-	// tsConfigTpl := data.LoadTpl("/generator/template/ts/tsconfig.gojson")
-	
-	// indexHtmlTpl := data.LoadTpl("/generator/template/ts/index.gohtml")
-	// indexTsTpl := data.LoadTpl("/generator/template/ts/index.gots")
-
-	// pkgTpl := data.LoadTpl("/generator/template/ts/package.gojson")
-	// webpackConfigTpl := data.LoadTpl("/generator/template/ts/webpack.config.gojs")
-	// publicIndexTpl := data.LoadTpl("/generator/template/ts/public_index.gohtml")
-	// babelConfigTpl := data.LoadTpl("/generator/template/ts/babel.config.gojs")
-	// readMeTpl := data.LoadTpl("/generator/template/ts/README.md")
+	* prep template
+	 */
+	gen.loadTpl()
 
 	/**
 	* Map Data: messages and service
-	*/
-	serviceData := vueResource{
-		ClassName:    service.Name,
-		DataTypeFile: strings.Title(strings.Replace(applicationName, ".proto", "", -1)),
-		DataTypes:    messages,
-		Functions:    service.Methods,
-	}
-
-	interfaceData := vueInterface{
+	 */
+	dataMap := tsStruct{
+		ClassName: service.Name,
 		DataTypes: messages,
+		Functions: service.Methods,
 	}
-
-	/** 
-	* function map 
-	*/
-	funcMap := template.FuncMap{
-		"Title": generateFuncName,
-		"isGet": strings.Contains,
-	}
-
-	/**
-	* create necessary templates
-	*/
-	tmpl, err := template.New("service").Funcs(funcMap).Parse(vueTpl)
-	if err != nil {
-		return nil, err
-	}
-	tmpl2, err := template.New("datatype").Funcs(funcMap).Parse(interfaceTpl)
-	if err != nil {
-		return nil, err
-	}
-	// tmpl3, err := template.New("index html").Funcs(funcMap).Parse(indexHtmlTpl)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// tmpl4, err := template.New("index ts").Funcs(funcMap).Parse(indexTsTpl)
-	// if err != nil {
-	// 	return nil, err
-	// }
 
 	/**
 	* combine data with template
-	*/
-	buf := bytes.NewBufferString("")
-	err = tmpl.Execute(buf, serviceData)
-
-	buf2 := bytes.NewBufferString("")
-	err = tmpl2.Execute(buf2, interfaceData)
-
-	// buf3 := bytes.NewBufferString("")
-	// err = tmpl3.Execute(buf3, serviceData)
-
-	// buf4 := bytes.NewBufferString("")
-	// err = tmpl4.Execute(buf4, serviceData)
-
-	serviceContent := buf.String()
-	dataContent := buf2.String()
-	// indexHtml := buf3.String()
-	// indexTS := buf4.String()
-
-	if err != nil {
-		return nil, err
-	}
-
+	 */
 	var result = make(map[string]string)
-
-	// append generated file in result
-	result[serviceFile] = serviceContent
-	result[dataFile] = dataContent
-	// result[indexHtmlFile] = indexHtml
-	// result[indexTSFile] = indexTS
-	result[helperFile] = helperTpl
-	// // config files
-	// result[tsConfigFile] = tsConfigTpl
-	// result[webpackConfigFile] = webpackConfigTpl
-	// result[packageFile] = pkgTpl
-	// result[babelConfigFile] = babelConfigTpl
-	// result[publicIndexFile] = publicIndexTpl
-	// result[readMeFile] = readMeTpl
-	
+	result[gen.vueResourceFile] = gen.genContent(gen.vueResourceTpl, dataMap)
+	result[gen.axiosFile] = gen.genContent(gen.axiosTpl, dataMap)
+	result[gen.dataFile] = gen.genContent(gen.dataTpl, dataMap)
+	result[gen.helperFile] = data.LoadTpl("/generator/template/ts/helper.gots")
 	return result, nil
 }
 
