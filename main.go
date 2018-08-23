@@ -30,6 +30,7 @@ func main() {
 		executable, _ := os.Executable()
 
 		langFlag := flag.String("lang", "echo:.", "output language and output directory")
+		flag.Parse()
 
 		flags := []string{}
 		flags = append(flags, "--plugin=protoc-gen-custom="+executable)
