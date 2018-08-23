@@ -5,117 +5,89 @@
 ## 项目介绍
 
 * 本项目基于`go`的实现
-* 目的：自动生成前后端API的基础代码， 
+* 目的：自动生成前后端API的基础代码，节省开发时间
     * 前端生成TypeScript的代码
-    * 后端目前支持生成java (spring) 和go的代码
+    * 后端目前支持生成java (spring) 和go (echo)的代码
 * 当前版本： 0.1
 
+## 项目安装 （还在修改）
 
-## 项目安装
-
-* 下载项目代码:
+1. 下载项目代码:
     * `git clone https://version.uuzu.com/Merlion/protoapi.git`
 
-* 安装`protoc`:
+2. 安装`protoc`:
     * [安装步骤请戳这里](http://google.github.io/proto-lens/installing-protoc.html)
 
-* 安装 `protoc-gen-go`:
-    * go to `/usr/local` directory (same dir with .bash_profile for Mac)
-    * run cli: `go get -u github.com/golang/protobuf/protoc-gen-go` => installed in $GOBIN, defaulting to $GOPATH/bin
+3. 下载所需的第三方库:
+    * 进入下载下来的项目内: `cd protoapi`
+    * 下载所需第三方库: `go get -u`
+---
+## 建立执行文件/插件
 
-* 下载所需的第三方库:
-    * go to the cloned project folder: `cd protoapi`
-    * run cli: `go get` in the cloned repo folder
+* 如果是第一次使用， 或有改代码/template， 需要重新生成执行文件， 在项目路径里跑：
+    * `go generate` => 引入新的template到tpl.go
+    * `go build` => 重新生成执行文件 - `protoapi.exe`
+* 如果项目路径内已有`protoapi.exe`，也没有更改任何代码和template， 可跳过此步
 
-## 建立插件
+## 如何使用插件 （还在修改）
 
-* 生成插件:
-    * run cli: `go build` in the cloned repo folder
-    * you will see a `[folder-name]` file is created in the repo root directory
-    * run cli  `go generate` in the cloned repo folder
+#### Mac用户
 
-<<<<<<< HEAD
-* run the plugin:
+* 生成前端TypeScript代码: `protoapi --lang=ts:[output_folder] [proto file path]`
+* 生成后端spring代码：`protoapi --lang=spring:[output_folder] [proto file path]`
+* 生成后端echo代码：`protoapi --lang=echo:[output_folder] [proto file path]`
 
-    * for Mac Users:
-        * `protoapi --lang=ts:[output_folder] [proto file path]`:  generate TS files
-        * `protoapi --lang=spring:[output_folder] [proto file path]`: generate spring files
-        * `protoapi --lang=echo:[output_folder] [proto file path]`: generate echo files
+例如：
+* 生成typescript代码： `protoc --ts_out :. test/hello.proto`
+* 生成后端spring代码： `protoc --ts_out=lang=spring:. ./test/hello.proto`
 
-    * for Windows users:
-        * generate ts files: `protoapi.exe --lang=ts:[output_folder] [proto file path]`
-        * generate spring files: `protoapi.exe --lang=spring:[output_folder] [proto file path]`
-        * generate echo files: `protoapi.exe --lang=echo:[output_folder] [proto file path]`
-* 配置环境:
-    * rename the file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
-    * or soft link `protoapi` with `protoc-gen-ts` in $GOBIN: `ln -s $PATH-TO-GENERATED-FILE protoc-gen-ts`
+#### Windows用户
 
-## 如何使用插件 
+* 生成前端TypeScript代码：`protoapi.exe --lang=ts:[output_folder] [proto file path]`
+* 生成后端spring代码： `protoapi.exe --lang=spring:[output_folder] [proto file path]`
+* 生成后端echo代码：`protoapi.exe --lang=echo:[output_folder] [proto file path]`
 
-### Mac用户
+---
 
-    * 生成typescript代码： `protoc --ts_out :. test/hello.proto`
-    * 生成后端代码： `protoc --ts_out=lang=spring:. ./test/hello.proto`
+## 项目结构
+* generator
+    * data 包含数据结构
+        * tpl/tpl.go
+        * data.go 定义共享的数据结构
+    * output 包含代码生成的具体逻辑
+        * echo_xx.go 支持生成echo的代码
+        * spring_xx.go 支持生成spring的代码
+        * vue_ts.go 支持生成vue(使用ts)的代码
+    * template 包含所有模板文件
+        * ts
+            xx.gots TS的模板
+            xx.govue Vue的模板
+        * echo_xx.gogo go的模板(对应echo)
+        * spring_xx.gojava java的模板(对应spring)
+    * generator.go 包含一些共享的代码生成函数逻辑
+* test 包含所有测试代码生成的proto文件
 
-=======
-* 配置环境:
-    * rename the file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
-    * or soft link `protoapi` with `protoc-gen-ts` in $GOBIN: `ln -s $PATH-TO-GENERATED-FILE protoc-gen-ts`
+## 如何参与项目
 
-## 如何使用插件 
+* 写测试 Writing test
+* 代码审查 Code review
+* 添加新的template
 
-### Mac用户
+### 添加新的template
 
-    * 生成typescript代码： `protoc --ts_out :. test/hello.proto`
-    * 生成后端代码： `protoc --ts_out=lang=spring:. ./test/hello.proto`
+1. 在generator/template文件夹里添加新的template， 具体语法可参考[这里](https://golang.org/pkg/text/template/)
+2. 在generator/output文件夹里添加新的xxx.go文件，包含代码生成的逻辑， 后端代码可参考generator/output/spring.go， 前端代码可参考generator/output/vue_ts.go
+3. 参考【建立执行文件/插件】 和 【如何使用插件】测试新加的模板
 
->>>>>>> 06b84b04ca058aed345947c8e72600b234419957
-### Windows用户
-    * if no softlink: `protoc --plugin=protoc-gen-ts=C:\Users\Admin\go\src\protoapi\protoapi.exe --ts_out=. .\test\protoconf\apps.proto`
-    * if with softlink or renamed to `protoc-gen-ts`: `protoc --ts_out . .\test\protoconf\apps.proto`
-    * generate spring files: `protoc --ts_out=lang=spring:. ./test/hello.proto`
-    * how to make a softlink(command): `mklink <Link to be created> <Target file>`; e.g. `mklink C:\Users\Admin\go\bin\protoc-gen-ts.exe C:\Users\Admin\go\src\protoapi\protoapi.exe`
+### 相关资料
+1. [go的基本语法和使用](https://golang.org/doc/)
+2. [template的基本语法](https://golang.org/pkg/text/template/)
+3. [spring](https://spring.io/guides)
 
-    * if you have other `.proto` files to test, just change the cli to: `protoc -I=. --ts_out=lang=ts:. $SRC_DIR/$TEST_FILE.proto`
-
-## 如何参与项目 ###
-
-* Writing tests
-* Code review
-* Other guidelines
+---
 
 ## 项目负责人/联系人
 
 - [Qinglei](ZHUQL@YOOZOO.COM)
 - [WenTian](WengW@yoozoo.com)
 - [HongBo](WuHongbo@yoozoo.com)
-
-## spring ##
-
-* complex data type support
-  * support object data type: it is to be declared in the message.proto. Example:
-
-  ```protobuf
-  syntax = "proto3";
-
-  message HelloRequest {
-      Greeting greeting = 1;
-  }
-
-  message HelloResponse {
-      string reply = 1;
-  }
-
-  message Greeting {
-      string greetingMsg = 1;
-  }
-  ```
-
-* java package name
-  * user can declare java package name as options in the service.proto file. and the java classes will be generated in the specific packages. If no java_package_options is declared, files will be generate to the package in proto file.
-
-  ```protobuf
-  option java_package = "com.yoozoo.spring";
-  ```
-
-* service name options

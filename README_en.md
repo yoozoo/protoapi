@@ -1,16 +1,13 @@
 # README #
 
 This README would normally document whatever steps are necessary to get your application up and running.
-
-这份文档包含使用protoapi所需条件， 以及如何使用protoapi
+This file is not updated, please refer to README.md for latest version
 
 ### What is this repository for?
 
 * Quick summary: This repo is a plugin that auto generates boiler template frontend (Vue code with TypeScript) and backend code (java and go) for API services.
-    这个项目旨在自动生成前后端API的基础代码， 前端生成Vue和TS实现的代码， 后端目前支持生成java和go的代码
-
-* Version 0.1   
-    当前版本： 0.1
+  
+* Version 0.1
 
 
 ### Getting Started ###
@@ -65,35 +62,3 @@ This README would normally document whatever steps are necessary to get your app
 * Other community or team contact
     - [WenTian](WengW@yoozoo.com)
     - [HongBo](WuHongbo@yoozoo.com)
-
-# Todo
-
-## spring ##
-
-* complex data type support
-  * support object data type: it is to be declared in the message.proto. Example:
-
-  ```protobuf
-  syntax = "proto3";
-
-  message HelloRequest {
-      Greeting greeting = 1;
-  }
-
-  message HelloResponse {
-      string reply = 1;
-  }
-
-  message Greeting {
-      string greetingMsg = 1;
-  }
-  ```
-
-* java package name
-  * user can declare java package name as options in the service.proto file. and the java classes will be generated in the specific packages. If no java_package_options is declared, files will be generate to the package in proto file.
-
-  ```protobuf
-  option java_package = "com.yoozoo.spring";
-  ```
-
-* service name options
