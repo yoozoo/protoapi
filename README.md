@@ -8,8 +8,7 @@
 * 目的：自动生成前后端API的基础代码，节省开发时间
     * 前端生成TypeScript的代码
     * 后端目前支持生成java (spring) 和go (echo)的代码
-* 当前版本： 0.1
-* [版本发布](ChangeLog.md)
+* 当前版本： 0.1.0
 
 ## 项目安装 （还在修改）
 
@@ -34,6 +33,7 @@
 
 #### Mac用户
 
+* 在项目路径里跑： `go get`
 * 生成前端TypeScript代码: `protoapi --lang=ts:[output_folder] [proto file path]`
 * 生成后端Spring代码：`protoapi --lang=spring:[output_folder] [proto file path]`
 * 生成后端echo代码：`protoapi --lang=echo:[output_folder] [proto file path]`
