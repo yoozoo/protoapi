@@ -34,6 +34,7 @@
     * you will see a `[folder-name]` file is created in the repo root directory
     * run cli  `go generate` in the cloned repo folder
 
+<<<<<<< HEAD
 * run the plugin:
 
     * for Mac Users:
@@ -56,6 +57,19 @@
     * 生成typescript代码： `protoc --ts_out :. test/hello.proto`
     * 生成后端代码： `protoc --ts_out=lang=spring:. ./test/hello.proto`
 
+=======
+* 配置环境:
+    * rename the file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
+    * or soft link `protoapi` with `protoc-gen-ts` in $GOBIN: `ln -s $PATH-TO-GENERATED-FILE protoc-gen-ts`
+
+## 如何使用插件 
+
+### Mac用户
+
+    * 生成typescript代码： `protoc --ts_out :. test/hello.proto`
+    * 生成后端代码： `protoc --ts_out=lang=spring:. ./test/hello.proto`
+
+>>>>>>> 06b84b04ca058aed345947c8e72600b234419957
 ### Windows用户
     * if no softlink: `protoc --plugin=protoc-gen-ts=C:\Users\Admin\go\src\protoapi\protoapi.exe --ts_out=. .\test\protoconf\apps.proto`
     * if with softlink or renamed to `protoc-gen-ts`: `protoc --ts_out . .\test\protoconf\apps.proto`
