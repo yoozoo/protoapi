@@ -1,0 +1,256 @@
+/**
+* 这个文件用于生成相关的前后端API代码
+* 用protoapi指定此文件生成相关代码
+*/
+syntax = "proto3";
+
+import "test/common.proto";
+
+// package
+package yoozoo.protoconf.ts;
+option java_package = "com.yoozoo.spring";
+
+// tag list - 用于分类
+message TagListRequest {
+}
+
+message TagListResponse {
+    repeated Tag tags = 1;
+    string error = 2;
+}
+
+// product list
+message ProductListRequest {
+    int32 env_id = 1; // DEV, UAT, PROD etc
+}
+
+message ProductListResponse {
+    repeated Product products = 1;
+    string error = 2;
+}
+
+// service list
+message ServiceListRequest{
+    repeated int32 tag_ids = 1; // optional, for filter
+    int32 env_id = 2;
+    int32 offset = 3;
+    int32 limit = 4;
+}
+
+// service list
+message ServiceSearchRequest{
+    repeated int32 tag_ids = 1; // optional, for filter
+    string prefix = 2;
+    int32 env_id = 3;
+    int32 offset = 4;
+    int32 limit = 5;
+}
+
+message ServiceListResponse{
+    repeated Service services = 1;
+    int32 offset = 2;
+    int32 limit = 3;
+    int32 total = 4;
+    string error = 5;
+}
+
+// key list
+// PS: separate key list & key value because proto and kv store may be on different endpoint
+message KeyListRequest {
+    int32 service_id = 1;
+    int32 env_id = 2;
+}
+
+message KeyListResponse {
+    repeated Key keys = 1;
+    string error = 2;
+}
+
+// key value
+message KeyValueListRequest {
+    repeated Key keys = 1;
+}
+
+message SearchKeyValueListRequest {
+    string key = 1;
+    int32 service_id = 2;
+    int32 env_id = 3;
+}
+
+message KeyValueListResponse {
+    repeated KeyValue key_values = 1;
+    string error = 2;
+}
+
+message KeyValueRequest {
+    repeated KeyValue key_values = 1;
+}
+
+message KeyValueResponse {
+    repeated KeyValue key_values = 1;
+    string error = 2;
+}
+
+message KVHistoryRequest {
+    int32 key_id = 1;
+}
+
+message KVHistoryResponse {
+    repeated KVHistoryItem KVhistorys = 1;
+    string error = 2;
+}
+
+message RegisterServiceRequest {
+    int32 env_id = 1;
+    string product_id = 2;
+    string service_name = 3;
+    repeated Tag tags = 4;
+    string desc = 5;
+}
+
+message RegisterServiceResponse {
+    int32 env_id = 1;
+    string product_id = 2;
+    int32 service_id = 3;
+    string service_name = 4;
+    string error = 5;
+}
+
+message UpdateServiceRequest {
+    int32 service_id = 1;
+    repeated Tag tags = 3;
+    string desc = 4;
+}
+
+message UpdateServiceResponse {
+    int32 service_id = 1;
+    repeated Tag tags = 3;
+    string desc = 4;
+    string error = 5;
+}
+
+message UploadProtoFileRequest {
+    int32 service_id = 1;
+    int32 env_id = 2;
+    string file = 3;
+}
+
+message UploadProtoFileResponse {
+    int32 service_id = 1;
+    int32 env_id = 2;
+    int32 key_count = 3;
+    string error = 4;
+}
+
+message EnvListRequest {
+}
+
+message EnvListResponse {
+    repeated Env envs = 1;
+    string error = 2;
+}
+
+// other building blocks
+message Env {
+    int32 env_id = 1;
+    string env_name = 2;
+}
+
+// 用于分类
+message Tag {
+    int32 tag_id = 1;
+    string tag_name = 2;
+}
+
+message Product {
+    string product_id = 1;
+    string product_name = 2;
+}
+
+message Service {
+    int32 service_id = 1;
+    string service_name = 2;
+    string product_id = 3;
+    string product_name = 4;
+    string desc = 5;
+    repeated Tag tags = 6;
+}
+
+message Key {
+    int32 key_id = 1;
+    string key = 2;
+    string dataType = 3;
+    string defaultValue = 4;
+    bool isWatched = 5;
+}
+
+message KeyValue {
+    int32 key_id = 1;
+    string key = 2;
+    string dataType = 3;
+    string defaultValue = 4;
+    bool isWatched = 5;
+    string value = 6;
+}
+
+message KVHistoryItem {
+    string updated_value = 1;
+    string updated_date = 2;
+    string updated_by = 3;
+}
+
+/**
+* This service contains all the rpc related with services
+*/
+service AppService {
+    // get env
+    rpc getEnv (EnvListRequest) returns (EnvListResponse){
+        option (service_method) = "GET";
+    }
+
+    // register a service
+    rpc registerService (RegisterServiceRequest) returns (RegisterServiceResponse);
+
+    // update a service
+    rpc updateService (UpdateServiceRequest) returns (UpdateServiceResponse);
+
+    // upload proto file
+    rpc uploadProtoFile (UploadProtoFileRequest) returns (UploadProtoFileResponse);
+
+    // get a list of tags that contains apps
+    rpc getTags (TagListRequest) returns (TagListResponse) {
+        option (service_method) = "GET";
+    }
+
+    // get a list of apps under specified tag
+    rpc getProducts (ProductListRequest) returns (ProductListResponse) {
+        option (service_method) = "POST";
+    }
+
+    // get a list of services under specified tag
+    rpc getServices (ServiceListRequest) returns (ServiceListResponse) {
+        option (service_method) = "POST";
+    }
+
+    // search services
+    rpc searchServices (ServiceSearchRequest) returns (ServiceListResponse){
+        option (service_method) = "POST";
+    }
+
+    // get a list of keys of the specified service
+    rpc getKeyList (KeyListRequest) returns (KeyListResponse);
+
+    // get key-value pairs given the list of keys
+    rpc getKeyValueList (KeyValueListRequest) returns (KeyValueListResponse);
+
+    // search key value list by key or value
+    rpc searchKeyValueList (SearchKeyValueListRequest) returns (KeyValueListResponse){
+        option (service_method) = "GET";
+    }
+
+    // update value by key
+    rpc updateKeyValue (KeyValueRequest) returns (KeyValueResponse);
+
+    // fetch key's value change history
+    rpc fetchKeyHistory (KVHistoryRequest) returns (KVHistoryResponse);
+}
