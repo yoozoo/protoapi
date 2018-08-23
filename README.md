@@ -21,7 +21,7 @@
 3. 下载所需的第三方库:
     * 进入下载下来的项目内: `cd protoapi`
     * 下载所需第三方库: `go get -u`
----
+
 ## 建立执行文件/插件
 
 * 如果是第一次使用， 或有改代码/template， 需要重新生成执行文件， 在项目路径里跑：
@@ -47,7 +47,6 @@
 * 生成后端spring代码： `protoapi.exe --lang=spring:[output_folder] [proto file path]`
 * 生成后端echo代码：`protoapi.exe --lang=echo:[output_folder] [proto file path]`
 
----
 
 ## 项目结构
 * generator
@@ -84,7 +83,6 @@
 2. [template的基本语法](https://golang.org/pkg/text/template/)
 3. [spring](https://spring.io/guides)
 
----
 
 ## 项目负责人/联系人
 
