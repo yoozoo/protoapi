@@ -9,6 +9,7 @@
     * 前端生成TypeScript的代码
     * 后端目前支持生成java (spring) 和go (echo)的代码
 * 当前版本： 0.1
+* [版本发布](ChangeLog.md)
 
 ## 项目安装 （还在修改）
 
@@ -29,24 +30,31 @@
     * `go build` => 重新生成执行文件 - `protoapi.exe`
 * 如果项目路径内已有`protoapi.exe`，也没有更改任何代码和template， 可跳过此步
 
-## 如何使用插件 （还在修改）
+## 如何使用插件
 
 #### Mac用户
 
 * 生成前端TypeScript代码: `protoapi --lang=ts:[output_folder] [proto file path]`
-* 生成后端spring代码：`protoapi --lang=spring:[output_folder] [proto file path]`
+* 生成后端Spring代码：`protoapi --lang=spring:[output_folder] [proto file path]`
 * 生成后端echo代码：`protoapi --lang=echo:[output_folder] [proto file path]`
 
 例如：
-* 生成typescript代码： `protoc --ts_out :. test/hello.proto`
-* 生成后端spring代码： `protoc --ts_out=lang=spring:. ./test/hello.proto`
+* 生成前端TypeScript代码： `protoapi --lang=ts:. ./test/hello.proto`
+* 生成后端Spring代码： `protoapi --lang=spring:. ./test/hello.proto`
+* 生成新的文件夹yoozoo/protoconf/ts,包含新生成的TS文件； 文件夹yoozoo/protoconf/spring里包含了新生成的spring文件
 
 #### Windows用户
 
+* 在项目路径里跑： `go get`
 * 生成前端TypeScript代码：`protoapi.exe --lang=ts:[output_folder] [proto file path]`
-* 生成后端spring代码： `protoapi.exe --lang=spring:[output_folder] [proto file path]`
+* 生成后端Spring代码： `protoapi.exe --lang=spring:[output_folder] [proto file path]`
 * 生成后端echo代码：`protoapi.exe --lang=echo:[output_folder] [proto file path]`
 
+例如：
+* `go get`
+* `protoapi.exe --lang=ts:. .\test\hello.proto`
+* `protoapi.exe --lang=spring:. .\test\hello.proto`
+* 生成新的文件夹yoozoo/protoconf/ts,包含新生成的TS文件； 文件夹yoozoo/protoconf/spring里包含了新生成的spring文件
 
 ## 项目结构
 * generator
@@ -77,11 +85,32 @@
 1. 在generator/template文件夹里添加新的template， 具体语法可参考[这里](https://golang.org/pkg/text/template/)
 2. 在generator/output文件夹里添加新的xxx.go文件，包含代码生成的逻辑， 后端代码可参考generator/output/spring.go， 前端代码可参考generator/output/vue_ts.go
 3. 参考【建立执行文件/插件】 和 【如何使用插件】测试新加的模板
+    * 测试proto文件：protoapi/test/hello.proto
+    * 或自定义proto文件
+
+### Proto文件举例
+
+```
+syntax = "proto3"; // 使用proto3的语法
+
+option java_package = "com.yoozoo.spring"; //生成的java文件在[output_folder]/com/yoozoo/spring文件夹内
+
+package com.yoozoo.ts; //生成的ts文件在[output_folder]/com/yoozoo/ts文件夹内
+
+import "test/messages.proto"; //引用其他proto文件
+
+// 定义service
+service HelloService {
+    rpc SayHello (HelloRequest) returns (HelloResponse);
+}
+
+```
 
 ### 相关资料
 1. [go的基本语法和使用](https://golang.org/doc/)
-2. [template的基本语法](https://golang.org/pkg/text/template/)
-3. [spring](https://spring.io/guides)
+2. [protobuf(proto3)基本语法](https://developers.google.com/protocol-buffers/docs/proto3)
+3. [template的基本语法](https://golang.org/pkg/text/template/)
+4. [spring](https://spring.io/guides)
 
 
 ## 项目负责人/联系人
