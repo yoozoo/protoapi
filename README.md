@@ -91,11 +91,12 @@
     * 后端代码可参考generator/output/spring.go
     * 前端代码可参考generator/output/vue_ts.go
     * 例如，如果想要多生成一个ts文件：
-        1. 添加新的模板： generator/template/ts/example.gots 
-        2. 在generator/output/ts.go里面：
+        * 添加新的模板： generator/template/ts/example.gots 
+        * 在generator/output/ts.go里面
+        
         ```go
         type tsGen struct {
-            // 添加数据
+            // 1. 添加数据
             ...
             exampleFile string
             ...
@@ -108,17 +109,17 @@
         */
         func (g *tsGen) loadTpl() {
             ...
-            // 添加输入的模板
+            // 2. 添加输入的模板
             g.exampleTpl = g.getTpl("/generator/template/ts/example.gots")
         }
-        
+
         /**
         * init filename with path
         */
         func initFiles(packageName string, service *data.ServiceData) *tsGen {
             gen := &tsGen{
                 ...
-                // 添加生成的文件名
+                // 3. 添加生成的文件名
                 // 新生成文件会命名为： example.ts, 并根据packageName指定生成于哪个文件夹
                 // 例如： packageName = yoozoo.protoconf.ts的话， 文件会生成与 $output_dir/yoozoo/protoconf/ts
                 // packageName 定义于proto文件内： “package yoozoo.protoconf.ts;”
@@ -128,12 +129,12 @@
         }
 
         func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (map[string]string, error) {
-            
+
             ...
             /**
             * combine data with template
             */
-            // 最后输出生成的文件
+            // 4. 最后输出生成的文件
             ...
             result[gen.exampleFile] = gen.genContent(gen.exampleTpl, dataMap)
             ...
