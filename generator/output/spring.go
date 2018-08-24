@@ -2,9 +2,10 @@ package output
 
 import (
 	"bytes"
-	"protoapi/generator/data"
 	"strings"
 	"text/template"
+
+	"version.uuzu.com/Merlion/protoapi/generator/data"
 )
 
 var javaTypes = map[string]string{

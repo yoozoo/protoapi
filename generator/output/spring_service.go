@@ -1,7 +1,7 @@
 package output
 
 import (
-	"protoapi/generator/data"
+	"version.uuzu.com/Merlion/protoapi/generator/data"
 )
 
 type springMethod struct {

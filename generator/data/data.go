@@ -3,7 +3,8 @@ package data
 
 import (
 	"os"
-	"protoapi/generator/data/tpl"
+
+	"version.uuzu.com/Merlion/protoapi/generator/data/tpl"
 )
 
 const (
