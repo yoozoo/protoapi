@@ -66,7 +66,7 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 			case "TYPE_BYTES":
 				msgField.DataType = data.StringFieldType
 			case "TYPE_ENUM":
-				msgField.DataType = field.GetTypeName()
+				msgField.DataType = parseMessageDataType(field.GetTypeName())
 			case "TYPE_MESSAGE":
 				msgField.DataType = parseMessageDataType(field.GetTypeName())
 			case "TYPE_FLOAT":
