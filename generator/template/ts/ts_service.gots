@@ -23,7 +23,16 @@ const baseUrl = "http://192.168.115.60:8080";
 {{- range .Functions}}
 export function {{.Name}}(params: {{.InputType}}): AxiosPromise {
     let url: string = generateUrl(baseUrl,"{{$className}}", "{{.Name}}");
-    return axios.{{- if ne .Option.Value "GET" }}post{{else}}get{{end}}(url, {{if ne .Option.Value "GET" }}params{{else}}{ params }{{end}});
+    // test
+    return axios.{{- if ne .Option.Value "GET" }}post{{else}}get{{end}}(url, {{if ne .Option.Value "GET" }}params{{else}}{ params }{{end}})
+        .then(res => {
+            // handle error
+            if (res.data.error) {
+                    return Promise.reject(res.data.error)
+            }
+            // handle success data
+            return Promise.resolve(res)
+        });
 }
 {{end}}
 

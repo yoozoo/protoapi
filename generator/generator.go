@@ -5,15 +5,16 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
-	"protoapi/generator/output"
 	"reflect"
 	"strings"
 
+	"version.uuzu.com/Merlion/protoapi/generator/output"
+
 	"github.com/golang/protobuf/proto"
 
-	"protoapi/generator/data"
+	"version.uuzu.com/Merlion/protoapi/generator/data"
 	// this is to let the output plugins initialize themselves and add to the output plugin registra
-	_ "protoapi/generator/output"
+	_ "version.uuzu.com/Merlion/protoapi/generator/output"
 
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"

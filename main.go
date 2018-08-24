@@ -12,7 +12,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 
-	"protoapi/generator"
+	"version.uuzu.com/Merlion/protoapi/generator"
 )
 
 func main() {
