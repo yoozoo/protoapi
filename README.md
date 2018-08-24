@@ -10,30 +10,32 @@
     * 后端目前支持生成java (spring) 和go (echo)的代码
 * 当前版本： 0.1.0
 
-## 项目安装 （还在修改）
+## 配置环境
 
-1. 下载项目代码:
-    * `git clone https://version.uuzu.com/Merlion/protoapi.git`
-
+1. 安装`go`:
+    * [安装步骤请戳这里](https://golang.org/doc/install)
+    * 需要确保$GOPATH设置正确
 2. 安装`protoc`:
     * [安装步骤请戳这里](http://google.github.io/proto-lens/installing-protoc.html)
 
-3. 下载所需的第三方库:
-    * 进入下载下来的项目内: `cd protoapi`
-    * 下载所需第三方库: `go get -u`
+## 项目安装
+
+1. 下载项目代码:
+    * `go get version.uuzu.com/Merlion/protoapi`
+
+2. 进入下载下来的项目内: `cd $GOPATH/src/version.uuzu.com/Merlion/protoapi`
 
 ## 建立执行文件/插件
 
-* 如果是第一次使用， 或有改代码/template， 需要重新生成执行文件， 在项目路径里跑：
+* 如果是有改代码/template， 需要重新生成执行文件， 在项目路径里跑：
     * `go generate` => 引入新的template到tpl.go
     * `go build` => 重新生成执行文件 - `protoapi.exe`
-* 如果项目路径内已有`protoapi.exe`，也没有更改任何代码和template， 可跳过此步
+* 如果没有改代码，可跳过此步
 
 ## 如何使用插件
 
 #### Mac用户
 
-* 在项目路径里跑： `go get`
 * 生成前端TypeScript代码: `protoapi --lang=ts:[output_folder] [proto file path]`
 * 生成后端Spring代码：`protoapi --lang=spring:[output_folder] [proto file path]`
 * 生成后端echo代码：`protoapi --lang=echo:[output_folder] [proto file path]`
@@ -45,15 +47,13 @@
 
 #### Windows用户
 
-* 在项目路径里跑： `go get`
-* 生成前端TypeScript代码：`protoapi.exe --lang=ts:[output_folder] [proto file path]`
-* 生成后端Spring代码： `protoapi.exe --lang=spring:[output_folder] [proto file path]`
-* 生成后端echo代码：`protoapi.exe --lang=echo:[output_folder] [proto file path]`
+* 生成前端TypeScript代码：`protoapi --lang=ts:[output_folder] [proto file path]`
+* 生成后端Spring代码： `protoapi --lang=spring:[output_folder] [proto file path]`
+* 生成后端echo代码：`protoapi --lang=echo:[output_folder] [proto file path]`
 
 例如：
-* `go get`
-* `protoapi.exe --lang=ts:. .\test\hello.proto`
-* `protoapi.exe --lang=spring:. .\test\hello.proto`
+* `protoapi --lang=ts:. .\test\hello.proto`
+* `protoapi --lang=spring:. .\test\hello.proto`
 * 生成新的文件夹yoozoo/protoconf/ts,包含新生成的TS文件； 文件夹yoozoo/protoconf/spring里包含了新生成的spring文件
 
 ## 项目结构
@@ -82,11 +82,68 @@
 
 ### 添加新的template
 
-1. 在generator/template文件夹里添加新的template， 具体语法可参考[这里](https://golang.org/pkg/text/template/)
-2. 在generator/output文件夹里添加新的xxx.go文件，包含代码生成的逻辑， 后端代码可参考generator/output/spring.go， 前端代码可参考generator/output/vue_ts.go
+1. 在generator/template文件夹里添加新的template：
+    * 具体语法可参考[这里](https://golang.org/pkg/text/template/)
+    * 现有例子可参考generator/template里已有的template
+    * 新添加template文件根据生成文件命名后缀， 如生成ts文件则命名为：xxx.gots, 生成java文件则叫xxx.gojava等
+
+2. 在generator/output文件夹里添加新的xxx.go文件或改动现有文件的逻辑
+    * 后端代码可参考generator/output/spring.go
+    * 前端代码可参考generator/output/vue_ts.go
+    * 例如，如果想要多生成一个ts文件：
+        1. 添加新的模板： generator/template/ts/example.gots 
+        2. 在generator/output/ts.go里面：
+        ```go
+        type tsGen struct {
+            // 添加数据
+            ...
+            exampleFile string
+            ...
+            exampleTpl       *template.Template
+
+        }
+        ...
+        /**
+        * Get TEMPLATE
+        */
+        func (g *tsGen) loadTpl() {
+            ...
+            // 添加输入的模板
+            g.exampleTpl = g.getTpl("/generator/template/ts/example.gots")
+        }
+        
+        /**
+        * init filename with path
+        */
+        func initFiles(packageName string, service *data.ServiceData) *tsGen {
+            gen := &tsGen{
+                ...
+                // 添加生成的文件名
+                // 新生成文件会命名为： example.ts, 并根据packageName指定生成于哪个文件夹
+                // 例如： packageName = yoozoo.protoconf.ts的话， 文件会生成与 $output_dir/yoozoo/protoconf/ts
+                // packageName 定义于proto文件内： “package yoozoo.protoconf.ts;”
+                exampleFile:      genFileName(packageName, "example"),
+            }
+            return gen
+        }
+
+        func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (map[string]string, error) {
+            
+            ...
+            /**
+            * combine data with template
+            */
+            // 最后输出生成的文件
+            ...
+            result[gen.exampleFile] = gen.genContent(gen.exampleTpl, dataMap)
+            ...
+        }
+
+        ```
+
 3. 参考【建立执行文件/插件】 和 【如何使用插件】测试新加的模板
-    * 测试proto文件：protoapi/test/hello.proto
-    * 或自定义proto文件
+    * 可测试现有的proto样本文件：`protoapi/test/hello.proto`
+    * 或自定义proto文件测试
 
 ### Proto文件举例
 
