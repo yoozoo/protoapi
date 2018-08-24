@@ -10,13 +10,20 @@ import "test/common.proto";
 package yoozoo.protoconf.ts;
 option java_package = "com.yoozoo.spring";
 
+// env list - 环境
+message EnvListRequest {
+}
+
+message EnvListResponse {
+    repeated Env envs = 1;
+}
+
 // tag list - 用于分类
 message TagListRequest {
 }
 
 message TagListResponse {
     repeated Tag tags = 1;
-    string error = 2;
 }
 
 // product list
@@ -26,7 +33,6 @@ message ProductListRequest {
 
 message ProductListResponse {
     repeated Product products = 1;
-    string error = 2;
 }
 
 // service list
@@ -51,7 +57,6 @@ message ServiceListResponse{
     int32 offset = 2;
     int32 limit = 3;
     int32 total = 4;
-    string error = 5;
 }
 
 // key list
@@ -63,12 +68,12 @@ message KeyListRequest {
 
 message KeyListResponse {
     repeated Key keys = 1;
-    string error = 2;
 }
 
 // key value
 message KeyValueListRequest {
-    repeated Key keys = 1;
+	int32 service_id = 1;
+    repeated Key keys = 2;
 }
 
 message SearchKeyValueListRequest {
@@ -79,25 +84,25 @@ message SearchKeyValueListRequest {
 
 message KeyValueListResponse {
     repeated KeyValue key_values = 1;
-    string error = 2;
 }
 
 message KeyValueRequest {
-    repeated KeyValue key_values = 1;
+    int32 service_id = 1;
+    repeated KeyValue key_values = 2;
+
 }
 
 message KeyValueResponse {
     repeated KeyValue key_values = 1;
-    string error = 2;
 }
 
 message KVHistoryRequest {
-    int32 key_id = 1;
+	int32 service_id = 1;
+    int32 key_id = 2;
 }
 
 message KVHistoryResponse {
     repeated KVHistoryItem KVhistorys = 1;
-    string error = 2;
 }
 
 message RegisterServiceRequest {
@@ -113,7 +118,6 @@ message RegisterServiceResponse {
     string product_id = 2;
     int32 service_id = 3;
     string service_name = 4;
-    string error = 5;
 }
 
 message UpdateServiceRequest {
@@ -126,7 +130,6 @@ message UpdateServiceResponse {
     int32 service_id = 1;
     repeated Tag tags = 3;
     string desc = 4;
-    string error = 5;
 }
 
 message UploadProtoFileRequest {
@@ -139,15 +142,6 @@ message UploadProtoFileResponse {
     int32 service_id = 1;
     int32 env_id = 2;
     int32 key_count = 3;
-    string error = 4;
-}
-
-message EnvListRequest {
-}
-
-message EnvListResponse {
-    repeated Env envs = 1;
-    string error = 2;
 }
 
 // other building blocks
@@ -201,25 +195,30 @@ message KVHistoryItem {
 
 /**
 * This service contains all the rpc related with services
+* option (service_method) can be "POST" or "GET", if not specified, both post and get methods will be supported
 */
 service AppService {
     // get env
     rpc getEnv (EnvListRequest) returns (EnvListResponse){
-        option (service_method) = "GET";
+        option (service_method) = "POST";
     }
 
     // register a service
-    rpc registerService (RegisterServiceRequest) returns (RegisterServiceResponse);
-
+    rpc registerService (RegisterServiceRequest) returns (RegisterServiceResponse){
+        option (service_method) = "POST";
+    }
+    
     // update a service
-    rpc updateService (UpdateServiceRequest) returns (UpdateServiceResponse);
-
+    rpc updateService (UpdateServiceRequest) returns (UpdateServiceResponse){
+        option (service_method) = "POST";
+    }
     // upload proto file
-    rpc uploadProtoFile (UploadProtoFileRequest) returns (UploadProtoFileResponse);
-
+    rpc uploadProtoFile (UploadProtoFileRequest) returns (UploadProtoFileResponse){
+        option (service_method) = "POST";
+    }
     // get a list of tags that contains apps
     rpc getTags (TagListRequest) returns (TagListResponse) {
-        option (service_method) = "GET";
+        option (service_method) = "POST";
     }
 
     // get a list of apps under specified tag
@@ -238,19 +237,27 @@ service AppService {
     }
 
     // get a list of keys of the specified service
-    rpc getKeyList (KeyListRequest) returns (KeyListResponse);
+    rpc getKeyList (KeyListRequest) returns (KeyListResponse){
+        option (service_method) = "POST";
+    }
 
     // get key-value pairs given the list of keys
-    rpc getKeyValueList (KeyValueListRequest) returns (KeyValueListResponse);
+    rpc getKeyValueList (KeyValueListRequest) returns (KeyValueListResponse){
+        option (service_method) = "POST";
+    }
 
     // search key value list by key or value
     rpc searchKeyValueList (SearchKeyValueListRequest) returns (KeyValueListResponse){
-        option (service_method) = "GET";
+        option (service_method) = "POST";
     }
 
     // update value by key
-    rpc updateKeyValue (KeyValueRequest) returns (KeyValueResponse);
+    rpc updateKeyValue (KeyValueRequest) returns (KeyValueResponse){
+        option (service_method) = "POST";
+    }
 
     // fetch key's value change history
-    rpc fetchKeyHistory (KVHistoryRequest) returns (KVHistoryResponse);
+    rpc fetchKeyHistory (KVHistoryRequest) returns (KVHistoryResponse){
+        option (service_method) = "POST";
+    }
 }
