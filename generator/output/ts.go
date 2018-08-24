@@ -2,9 +2,10 @@ package output
 
 import (
 	"bytes"
-	"protoapi/generator/data"
 	"strings"
 	"text/template"
+
+	"version.uuzu.com/Merlion/protoapi/generator/data"
 )
 
 /**
@@ -60,8 +61,8 @@ func genFileName(packageName string, fileName string) string {
 * Get TEMPLATE
  */
 func (g *tsGen) loadTpl() {
-	g.vueResourceTpl = g.getTpl("/generator/template/ts/vue.gots")
-	g.axiosTpl = g.getTpl("/generator/template/ts/vue_ts.govue")
+	g.vueResourceTpl = g.getTpl("/generator/template/ts/ts_service.govue")
+	g.axiosTpl = g.getTpl("/generator/template/ts/ts_service.gots")
 	g.dataTpl = g.getTpl("/generator/template/ts/interface.gots")
 	g.helperTpl = g.getTpl("/generator/template/ts/helper.gots")
 }

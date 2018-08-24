@@ -1,8 +1,9 @@
 package output
 
 import (
-	"protoapi/generator/data"
 	"strings"
+
+	"version.uuzu.com/Merlion/protoapi/generator/data"
 )
 
 type echoMethod struct {
