@@ -56,6 +56,6 @@ func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
 }
 
 // NewError Creates error response
-func NewError(code int, err error) *Error {
+func NewError(code ErrorCode, err error) *Error {
 	return &Error{Code: code, Message: err.Error()};
 }

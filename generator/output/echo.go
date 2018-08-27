@@ -22,6 +22,7 @@ type echoGen struct {
 	PackageName     string
 	structTpl       *template.Template
 	serviceTpl      *template.Template
+	enumTpl         *template.Template
 }
 
 func newEchoGen(applicationName, packageName string) *echoGen {
@@ -47,6 +48,7 @@ func (g *echoGen) getTpl(path string) *template.Template {
 func (g *echoGen) init() {
 	g.structTpl = g.getTpl("/generator/template/echo_struct.gogo")
 	g.serviceTpl = g.getTpl("/generator/template/echo_service.gogo")
+	g.enumTpl = g.getTpl("/generator/template/echo_enum.gogo")
 }
 
 func (g *echoGen) getStructFilename(packageName string, msg *data.MessageData) string {
@@ -58,6 +60,21 @@ func (g *echoGen) genStruct(msg *data.MessageData) string {
 
 	obj := newEchoStruct(msg, g.PackageName)
 	err := g.structTpl.Execute(buf, obj)
+	if err != nil {
+		panic(err)
+	}
+	return buf.String()
+}
+
+func (g *echoGen) getEnumFilename(packageName string, enum *data.EnumData) string {
+	return strings.Replace(packageName, ".", "/", -1) + "/" + enum.Name + ".go"
+}
+
+func (g *echoGen) genEnum(enum *data.EnumData) string {
+	buf := bytes.NewBufferString("")
+
+	obj := newEchoEnum(enum, g.PackageName)
+	err := g.enumTpl.Execute(buf, obj)
 	if err != nil {
 		panic(err)
 	}
@@ -91,6 +108,13 @@ func genEchoCode(applicationName string, packageName string, service *data.Servi
 	for _, msg := range messages {
 		filename := gen.getStructFilename(packageName, msg)
 		content := gen.genStruct(msg)
+
+		result[filename] = content
+	}
+
+	for _, enum := range enums {
+		filename := gen.getEnumFilename(packageName, enum)
+		content := gen.genEnum(enum)
 
 		result[filename] = content
 	}

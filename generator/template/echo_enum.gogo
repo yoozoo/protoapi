@@ -1,0 +1,9 @@
+package {{.Package}}
+
+type {{.Name}} int
+
+const (
+    {{- range .Fields }}
+    {{.Name}} {{$.Name}} = {{.Value}}
+    {{- end}}
+)
