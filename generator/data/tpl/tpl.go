@@ -284,7 +284,7 @@ AAD//8c9h/ePCQAA
 	"/generator/template/ts/interface.gots": {
 		local:   "generator/template/ts/interface.gots",
 		size:    473,
-		modtime: 1535017846,
+		modtime: 1535355302,
 		compressed: `
 H4sIAAAAAAAC/5yOQWsaQRiG7wv7H168CAvVe28Wt1CQIsVbKWXc/dSB7ex2ZiyVYaBQSyvUIERz8JCc
 AoKgngKJ+Tnurj8jrEYk13y3j/d5H96q57mOh1aPK3R4ROAKXRIkmaYQ7QHKiYx1zBJefskFsdCMCwUW

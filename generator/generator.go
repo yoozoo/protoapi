@@ -30,7 +30,7 @@ func createEnums(pkg string, enums []*descriptor.EnumDescriptorProto) []*data.En
 	var result []*data.EnumData
 	for _, enum := range enums {
 		var enumData = new(data.EnumData)
-		enumData.Name = enum.GetName()
+		enumData.Name = pkg + "." + enum.GetName()
 		for _, field := range enum.GetValue() {
 			var enumField data.EnumField
 			enumField.Name = field.GetName()
@@ -49,7 +49,7 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 
 	for _, message := range messages {
 		var msgData = new(data.MessageData)
-		msgData.Name = message.GetName()
+		msgData.Name = pkg + "." + message.GetName()
 		msgData.File = file
 
 		// the message itself
@@ -66,9 +66,9 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 			case "TYPE_BYTES":
 				msgField.DataType = data.StringFieldType
 			case "TYPE_ENUM":
-				msgField.DataType = parseMessageDataType(field.GetTypeName())
+				msgField.DataType = field.GetTypeName()
 			case "TYPE_MESSAGE":
-				msgField.DataType = parseMessageDataType(field.GetTypeName())
+				msgField.DataType = field.GetTypeName()
 			case "TYPE_FLOAT":
 				msgField.DataType = data.DoubleFieldType
 			case "TYPE_DOUBLE":
@@ -329,8 +329,9 @@ func fixMessageName(messages []*data.MessageData, enums []*data.EnumData) {
 	var existName = make(map[string]bool) // existing shortended name
 	var translateTable = make(map[string]string)
 
-	// message names
-	for _, msg := range messages {
+	// message names in reversed order
+	for i := len(messages) - 1; i >= 0; i-- {
+		msg := messages[i]
 		name := msg.Name[strings.LastIndexByte(msg.Name, '.')+1:]
 		originalName := name
 		for {
@@ -345,7 +346,8 @@ func fixMessageName(messages []*data.MessageData, enums []*data.EnumData) {
 		translateTable[msg.Name] = name
 	}
 	//enum names
-	for _, enum := range enums {
+	for i := len(enums) - 1; i >= 0; i-- {
+		enum := enums[i]
 		name := enum.Name[strings.LastIndexByte(enum.Name, '.')+1:]
 		originalName := name
 		for {
@@ -530,6 +532,8 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 	if messages == nil {
 		return nil, nil
 	}
+	// Fix same message name issue
+	fixMessageName(messages, enums)
 
 	services := getServices(request.ProtoFile)
 	if services == nil {
