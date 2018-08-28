@@ -7,3 +7,13 @@ const (
     {{.Name}} {{$.Name}} = {{.Value}}
     {{- end}}
 )
+
+func (code {{.Name}}) String() string {
+	names := map[{{.Name}}]string{
+        {{- range .Fields }}
+        {{.Name}}: "{{.Name}}",
+        {{- end}}
+	}
+
+	return names[code]
+}

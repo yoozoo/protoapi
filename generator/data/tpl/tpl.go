@@ -192,11 +192,13 @@ var _escData = map[string]*_escFile{
 
 	"/generator/template/echo_enum.gogo": {
 		local:   "generator/template/echo_enum.gogo",
-		size:    129,
-		modtime: 1535101490,
+		size:    307,
+		modtime: 1535429434,
 		compressed: `
-H4sIAAAAAAAC/ypITM5OTE9VqK7WC4Awa2u5uEoqC8BCfom5qbW1Cpl5JVxcyfl5xSUKGlwKCgoK1dW6
-CkWJeempCnpumak5KcUKtbVQCZie6moVGNMWJByWmFOaClelq5Cal1Jby6XJBQgAAP//bSIpQYEAAAA=
+H4sIAAAAAAAC/3yOMWuEQBCFa+dXPI4UCrn7AQfXpgyBQBqxWNaJSHSU3bUIw/z34BolNuk+Zt/b983O
+f7mOoXp729CMKH3P+fTqRjZDL4nITxITSgIA1SuCk45xe+l5aCPMfh/2jurTjo/1/OGGhY/UFSytGVVE
+n4t4lH5q/yxWeE+hl66sEDNAqRA3csT9gdHN9RFttoDmj/91O/ndcTn48nwqb2aFERWB0xIEebleFRsy
++gkAAP//weE+rTMBAAA=
 `,
 	},
 
