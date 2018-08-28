@@ -1,13 +1,24 @@
 syntax = "proto3";
 
+import "test/common.proto";
+package com.yoozoo.spring;
+
 message HelloRequest {
     Greeting greeting = 1;
 }
 
 message HelloResponse {
     string reply = 1;
+    string greet = 2;
 }
 
 message Greeting {
     string greetingMsg = 1;
+    string payload = 2;
+}
+
+service HelloService{
+    rpc sayHello (HelloRequest) returns (HelloResponse){
+        option (service_method) = "POST";
+    }
 }
