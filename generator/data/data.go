@@ -10,6 +10,8 @@ import (
 const (
 	//IntFieldType datatype string for interge, it is assumed to be of signed and at least 64 bit
 	IntFieldType = "int"
+	//LongFieldType datatype string for interge 64 bit
+	LongFieldType = "int64"
 	// BooleanFieldType datatype string for boolean
 	BooleanFieldType = "bool"
 	// StringFieldType datatype string for string
