@@ -191,6 +191,7 @@ message KVHistoryItem {
     string updated_value = 1;
     string updated_date = 2;
     string updated_by = 3;
+    int64 revision = 4;
 }
 
 /**

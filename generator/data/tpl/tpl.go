@@ -192,20 +192,20 @@ var _escData = map[string]*_escFile{
 
 	"/generator/template/echo_enum.gogo": {
 		local:   "generator/template/echo_enum.gogo",
-		size:    307,
-		modtime: 1535429434,
+		size:    326,
+		modtime: 1535537130,
 		compressed: `
-H4sIAAAAAAAC/3yOMWuEQBCFa+dXPI4UCrn7AQfXpgyBQBqxWNaJSHSU3bUIw/z34BolNuk+Zt/b983O
-f7mOoXp729CMKH3P+fTqRjZDL4nITxITSgIA1SuCk45xe+l5aCPMfh/2jurTjo/1/OGGhY/UFSytGVVE
-n4t4lH5q/yxWeE+hl66sEDNAqRA3csT9gdHN9RFttoDmj/91O/ndcTn48nwqb2aFERWB0xIEebleFRsy
-+gkAAP//weE+rTMBAAA=
+H4sIAAAAAAAC/3yQsWrEMBBEawv0D8ORwobcfcDBtSlDIJDmcCHkjTGx10aSi7Do34Ok2Imb60ajmd3H
+LsZ+mZ4gcnkrMkattArfSzZfzUQxYuCQXDuzD6i1AgCRM5zhnnB5GWjsPFK1/Gw9kadN3pL9YcaV/mJn
+EHfp2aTpnytb1Hbu/m1u8B7cwH3dwGcB0apiM5HH9YbJLPc925aElOmPEQ+YV5x2fXo+1n8Bq3yVylFY
+HSPvvyfSVquo1U8AAAD//5wcsfVGAQAA
 `,
 	},
 
 	"/generator/template/echo_service.gogo": {
 		local:   "generator/template/echo_service.gogo",
 		size:    1367,
-		modtime: 1535102017,
+		modtime: 1535429018,
 		compressed: `
 H4sIAAAAAAAC/5xUTU/bQBA925L/w9SqKhsZh16DuIBS+iEIClGvsKwnyRaz6+6Oocja/17t2DGhJapU
 Tubtm5m3s++lEfJerBG6rrzqP71P4iRWD42xBFkSR6lGmmyImjQcROla0aa9K6V5mNTizpGQ9xOUG5Mm
@@ -224,7 +224,7 @@ scZpKCr7lrk/Zjm/AwAA//9AECDDVwUAAA==
 	"/generator/template/echo_struct.gogo": {
 		local:   "generator/template/echo_struct.gogo",
 		size:    198,
-		modtime: 1535100699,
+		modtime: 1535097442,
 		compressed: `
 H4sIAAAAAAAC/1zNvQ7CMAwE4D1S3uHUnXRnRWJEDDxAo9ZUhTYNSTpEVt4duRn42U6fdWdv+6cdCczm
 WmMpWmnVtkKn2cZ4scuOKXv6Q8QUtj6BtQIA5gOCdSPBnCeahwjp1Yu5TWmWisTsJXWPuLpjw2zqWoP7
@@ -235,7 +235,7 @@ GpYfeG0U8rd0n0/khn2/aPUOAAD//5Sw0ZbGAAAA
 	"/generator/template/spring_service.gojava": {
 		local:   "generator/template/spring_service.gojava",
 		size:    841,
-		modtime: 1533278070,
+		modtime: 1535097442,
 		compressed: `
 H4sIAAAAAAAC/6ySzWrrMBCF9wa/w+CVs7h6AW9C4BK6SBPa0P3YnjgiyUiVRoQg9O7F+bMXLaUhXhmd
 OTPn08his8OOIEa1uvymVOVZnumDNU7AuE556zR3G4cHOhq3U0eqVa25VchsBEUbVnOSBVqruav+7F0Z
@@ -249,7 +249,7 @@ SQMAAA==
 	"/generator/template/spring_struct.gojava": {
 		local:   "generator/template/spring_struct.gojava",
 		size:    565,
-		modtime: 1533278070,
+		modtime: 1535097442,
 		compressed: `
 H4sIAAAAAAAC/5SPQWrzMBCF9wbfYZb5F9EFwg+FQBehlCxygakySZXIkhiNTYPQ3cvYjXGgEKrVjIb3
 3vcS2iueCUox+2msddM2beO6FFnAxs6cMAvxV+fNBe01x2AwhCgoLgazyzFsmVAib/6m2nNMxHJbxl1w
@@ -259,10 +259,25 @@ vQ9OvJqvZkJ9TNJz+CW83qNmhNo23wEAAP//c5VntTUCAAA=
 `,
 	},
 
+	"/generator/template/ts/data.gots": {
+		local:   "generator/template/ts/data.gots",
+		size:    604,
+		modtime: 1535538479,
+		compressed: `
+H4sIAAAAAAAC/5yOQWsaQRiG7wv7Hz68CEvVe6EHi1soSJEivZRSxt1PHVhntzOzpTIMFGpJhBiEaA4e
+klNAENRTIDE/x931Z4R12RgPuTinGd73feapWJZpWNDsUgFt6iFQAR1kyIlEF1p9KAbclz4JaPG45/hM
+EsoEEM8D2UVwiSQgJA8dGXKEFlLWgVCgC5TtCwesFCCQ/6YOihRaOuWkw93qLr4+227uk8ltfD7ePl7m
+smmaRdHF/2i8qDY+R8NRsljt1v+SyTwe/o2epslknswG8XQdj5bJ5iq+GUTL2fZhaBpWxTSUKgEnrINQ
+tlnYE6C1aeCfwOcSkIU9UKr8hfRQa1CmAQCgVD74RNFzswVkSV79kN6/ES9Erd+9zJC5+7LOvs2frxRq
+RJJmP8AjDcok8jZx8CSX92lJipR64GutFG0D/oJynbTQg0K9+tGu//xqN+xq064VtP7+Qylkbg58W/85
+AAD//zpvH6BcAgAA
+`,
+	},
+
 	"/generator/template/ts/helper.gots": {
 		local:   "generator/template/ts/helper.gots",
 		size:    2447,
-		modtime: 1533278070,
+		modtime: 1535097442,
 		compressed: `
 H4sIAAAAAAAC/5RWbW/bNhD+bsD/4SZslVS7UrZ1QKFMTV/WbR2GuouTT4Y/MNLJZk2TGkUp0dr894Gk
 JEuxhaYBAoh3zz33yqPDp0+nEzD/8ConkuyhIgwIFEpSvrFyiaqUvADCAXkiUkwbNagtUZAQDjcIJM+R
@@ -283,24 +298,10 @@ AAD//8c9h/ePCQAA
 `,
 	},
 
-	"/generator/template/ts/interface.gots": {
-		local:   "generator/template/ts/interface.gots",
-		size:    473,
-		modtime: 1535355302,
-		compressed: `
-H4sIAAAAAAAC/5yOQWsaQRiG7wv7H168CAvVe28Wt1CQIsVbKWXc/dSB7ex2ZiyVYaBQSyvUIERz8JCc
-AoKgngKJ+Tnurj8jrEYk13y3j/d5H96q57mOh1aPK3R4ROAKXRIkmaYQ7QHKiYx1zBJefskFsdCMCwUW
-RdA9Qsg0g9KyH+i+JLSJiy76ikJwcQDOWq2gSP7gAalC+uY1VxT369vs6u9ue5dPb7J/k93DxWlskR6j
-9P+fdLKsNT+ko3G+XO83v/PpIhv9Sh9n+XSRz4fZbJONV/n2Mrsepqv57n7kOl7VdVzHGEgmuoRKnWnW
-GiSkYK3r0M8klhpcaJIdFhCMqXxk38haGNcBgHPzPacoPNZwTJ7RtwWkVWE9+601hndA31FpsDZFKDVq
-7/zG109+06+1/HrJ2s9fjCERnoTGgER48NvD4tP3FAAA//8cISQl2QEAAA==
-`,
-	},
-
 	"/generator/template/ts/ts_service.gots": {
 		local:   "generator/template/ts/ts_service.gots",
 		size:    1592,
-		modtime: 1535097977,
+		modtime: 1535537075,
 		compressed: `
 H4sIAAAAAAAC/4xUX28bxRd9t+TvcGX9pPyRs5v8JKrgKEgRApQXiETgfbJ7bU9Zzywzs02j1UoNwS2V
 nCZSowpIoEFQFNEkBglK7Db0y+yunad+BTQ7u45d/oh52plz7r3n3Htte3a2XJqF9SaVUKceApXQQIaC
@@ -324,7 +325,7 @@ nek4BgAA
 	"/generator/template/ts/ts_service.govue": {
 		local:   "generator/template/ts/ts_service.govue",
 		size:    2245,
-		modtime: 1535017846,
+		modtime: 1535097442,
 		compressed: `
 H4sIAAAAAAAC/4xVXW8bRRR9t+T/cGVVsh0567wgVS5FlFJQJEQimuZ9snvtnXY9s8zMJo3MSg0hLZWS
 JlKjCkigQVAU0XyABCVJG/pndtfOU/8CGo/XXrtpyzzZd869c865M3erY2P53BjMuFRCnXoIVEIDGQqi

@@ -43,6 +43,7 @@ type tsGen struct {
 type tsStruct struct {
 	ClassName string
 	DataTypes []*data.MessageData
+	Enums     []*data.EnumData
 	Functions []data.Method
 }
 
@@ -63,7 +64,7 @@ func genFileName(packageName string, fileName string) string {
 func (g *tsGen) loadTpl() {
 	g.vueResourceTpl = g.getTpl("/generator/template/ts/ts_service.govue")
 	g.axiosTpl = g.getTpl("/generator/template/ts/ts_service.gots")
-	g.dataTpl = g.getTpl("/generator/template/ts/interface.gots")
+	g.dataTpl = g.getTpl("/generator/template/ts/data.gots")
 	g.helperTpl = g.getTpl("/generator/template/ts/helper.gots")
 }
 
@@ -126,6 +127,7 @@ func generateVueTsCode(applicationName string, packageName string, service *data
 	dataMap := tsStruct{
 		ClassName: service.Name,
 		DataTypes: messages,
+		Enums:     enums,
 		Functions: service.Methods,
 	}
 
