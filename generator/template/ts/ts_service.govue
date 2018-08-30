@@ -32,9 +32,9 @@ export default class {{.ClassName}} extends Vue {
     {{$className := .ClassName }}
     {{range .Functions}}
     {{.Name}}(params: {{.InputType}}): PromiseLike<{{.OutputType}} | Error> {
-            
+
             let url: string = generateUrl(this.baseUrl,"{{$className}}", "{{.Name}}");
-          
+
             // TODO: determine use get/post according to request
             return this.$http.{{- if ne .Option.Value "GET" }}post{{else}}get{{end}}(url,  {{- if ne .Option.Value "GET" }}params{{else}}{params}{{end}}).then(
                 res => {

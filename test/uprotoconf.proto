@@ -200,65 +200,29 @@ message KVHistoryItem {
 */
 service AppService {
     // get env
-    rpc getEnv (EnvListRequest) returns (EnvListResponse){
-        option (service_method) = "POST";
-    }
-
+    rpc getEnv (EnvListRequest) returns (EnvListResponse);
     // register a service
-    rpc registerService (RegisterServiceRequest) returns (RegisterServiceResponse){
-        option (service_method) = "POST";
-    }
-    
+    rpc registerService (RegisterServiceRequest) returns (RegisterServiceResponse);
     // update a service
-    rpc updateService (UpdateServiceRequest) returns (UpdateServiceResponse){
-        option (service_method) = "POST";
-    }
+    rpc updateService (UpdateServiceRequest) returns (UpdateServiceResponse);
     // upload proto file
-    rpc uploadProtoFile (UploadProtoFileRequest) returns (UploadProtoFileResponse){
-        option (service_method) = "POST";
-    }
+    rpc uploadProtoFile (UploadProtoFileRequest) returns (UploadProtoFileResponse);
     // get a list of tags that contains apps
-    rpc getTags (TagListRequest) returns (TagListResponse) {
-        option (service_method) = "POST";
-    }
-
+    rpc getTags (TagListRequest) returns (TagListResponse);
     // get a list of apps under specified tag
-    rpc getProducts (ProductListRequest) returns (ProductListResponse) {
-        option (service_method) = "POST";
-    }
-
+    rpc getProducts (ProductListRequest) returns (ProductListResponse);
     // get a list of services under specified tag
-    rpc getServices (ServiceListRequest) returns (ServiceListResponse) {
-        option (service_method) = "POST";
-    }
-
+    rpc getServices (ServiceListRequest) returns (ServiceListResponse);
     // search services
-    rpc searchServices (ServiceSearchRequest) returns (ServiceListResponse){
-        option (service_method) = "POST";
-    }
-
+    rpc searchServices (ServiceSearchRequest) returns (ServiceListResponse);
     // get a list of keys of the specified service
-    rpc getKeyList (KeyListRequest) returns (KeyListResponse){
-        option (service_method) = "POST";
-    }
-
+    rpc getKeyList (KeyListRequest) returns (KeyListResponse);
     // get key-value pairs given the list of keys
-    rpc getKeyValueList (KeyValueListRequest) returns (KeyValueListResponse){
-        option (service_method) = "POST";
-    }
-
+    rpc getKeyValueList (KeyValueListRequest) returns (KeyValueListResponse);
     // search key value list by key or value
-    rpc searchKeyValueList (SearchKeyValueListRequest) returns (KeyValueListResponse){
-        option (service_method) = "POST";
-    }
-
+    rpc searchKeyValueList (SearchKeyValueListRequest) returns (KeyValueListResponse);
     // update value by key
-    rpc updateKeyValue (KeyValueRequest) returns (KeyValueResponse){
-        option (service_method) = "POST";
-    }
-
+    rpc updateKeyValue (KeyValueRequest) returns (KeyValueResponse);
     // fetch key's value change history
-    rpc fetchKeyHistory (KVHistoryRequest) returns (KVHistoryResponse){
-        option (service_method) = "POST";
-    }
+    rpc fetchKeyHistory (KVHistoryRequest) returns (KVHistoryResponse);
 }

@@ -45,7 +45,7 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 // Register{{.Name}} is used to bind routers
 func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
     {{- range .Methods }}
-    {{- if ne .Option.Value "POST" }}
+    {{- if ne .Option.Value "" }}
     e.GET("{{.Path}}", _{{.Name}}_Handler(srv))
     {{- end }}
 
