@@ -87,18 +87,20 @@
 ### 添加新的template
 
 1. 在generator/template文件夹里添加新的template：
-    * 具体语法可参考[这里](https://golang.org/pkg/text/template/)
-    * 现有例子可参考generator/template里已有的template
-    * 新添加template文件根据生成文件命名后缀， 如生成ts文件则命名为：xxx.gots, 生成java文件则叫xxx.gojava等
+
+* 具体语法可参考[这里](https://golang.org/pkg/text/template/)
+* 现有例子可参考generator/template里已有的template
+* 新添加template文件根据生成文件命名后缀， 如生成ts文件则命名为：xxx.gots, 生成java文件则叫xxx.gojava等
 
 2. 在generator/output文件夹里添加新的xxx.go文件或改动现有文件的逻辑
-    * 后端代码可参考generator/output/spring.go
-    * 前端代码可参考generator/output/vue_ts.go
-    * 例如，如果想要多生成一个ts文件：
-        * 添加新的模板： generator/template/ts/example.gots 
-        * 在generator/output/ts.go里面
-        
-        ```go
+
+* 后端代码可参考generator/output/spring.go
+* 前端代码可参考generator/output/vue_ts.go
+* 例如，如果想要多生成一个ts文件：
+  * 添加新的模板： generator/template/ts/example.gots
+  * 在generator/output/ts.go里面
+
+```golang
         type tsGen struct {
             // 1. 添加数据
             ...
@@ -144,7 +146,7 @@
             ...
         }
 
-        ```
+```
 
 3. 参考【建立执行文件/插件】 和 【如何使用插件】测试新加的模板
     * 可测试现有的proto样本文件：`protoapi/test/hello.proto`
