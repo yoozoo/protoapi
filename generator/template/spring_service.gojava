@@ -15,7 +15,7 @@ public abstract class {{.Name}}Base {
     }
     {{- end }}
 
-    {{- if ne .Option.Value "POST" }}
+    {{- if ne .Option.Value "" }}
     @GetMapping("{{.Path}}")
     @ResponseBody
     public {{.OutputType}} {{.Name}}Get({{.InputType}} in) {
