@@ -124,7 +124,9 @@ func getMessages(files []*descriptor.FileDescriptorProto) ([]*data.MessageData, 
 }
 
 // map MethodDescriptorProto to Method
-func getMethods(pkg string, methods []*descriptor.MethodDescriptorProto) []data.Method {
+func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.Method {
+	methods := service.GetMethod()
+	serviceName := service.GetName()
 	var resultMtd []data.Method
 	log.Printf("pkg: %s\n", pkg)
 	for _, mtd := range methods {
@@ -133,6 +135,7 @@ func getMethods(pkg string, methods []*descriptor.MethodDescriptorProto) []data.
 			InputType:  parseMessageDataType(mtd.GetInputType()),
 			OutputType: parseMessageDataType(mtd.GetOutputType()),
 			HttpMtd:    mapHttpMtd(mtd.GetName()),
+			URI:        serviceName + "." + mtd.GetName(),
 			Option:     getMethodOption(mtd),
 		}
 		resultMtd = append(resultMtd, mtdData)
@@ -160,8 +163,8 @@ func createServices(file string, pkg string, services []*descriptor.ServiceDescr
 		// the service itself
 
 		// Get all mtds for the service
-		mtds := getMethods(pkg, service.GetMethod())
 		serData.Name = service.GetName()
+		mtds := getMethods(pkg, service)
 		serData.Methods = mtds
 
 		resultSers = append(resultSers, serData)

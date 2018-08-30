@@ -10,3 +10,4 @@ bin
 .classpath
 .project
 .settings
+*.php
