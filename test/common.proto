@@ -4,17 +4,5 @@ import "google/protobuf/descriptor.proto";
 
 extend google.protobuf.MethodOptions {
     string service_method = 50006;
-}
-
-message Error {
-    ErrorCode code = 1;
-    string message = 2;
-}
-
-enum ErrorCode {
-    DefaultError  = 0;
-    GeneralError  = 1000;
-	DatabaseError = 1001;
-    EtcdError     = 1002;
-    SystemError   = 1003;
+    string custom_error = 50007;
 }

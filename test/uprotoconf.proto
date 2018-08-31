@@ -194,35 +194,74 @@ message KVHistoryItem {
     int64 revision = 4;
 }
 
+message Error {
+    ErrorCode code = 1;
+    string message = 2;
+}
+
+enum ErrorCode {
+    DefaultError  = 0;
+    GeneralError  = 1000;
+	DatabaseError = 1001;
+    EtcdError     = 1002;
+    SystemError   = 1003;
+}
+
 /**
 * This service contains all the rpc related with services
 * option (service_method) can be "POST" or "GET", if not specified, both post and get methods will be supported
 */
 service AppService {
     // get env
-    rpc getEnv (EnvListRequest) returns (EnvListResponse);
+    rpc getEnv (EnvListRequest) returns (EnvListResponse) {
+        option (custom_error) = "Error";
+    }
     // register a service
-    rpc registerService (RegisterServiceRequest) returns (RegisterServiceResponse);
+    rpc registerService (RegisterServiceRequest) returns (RegisterServiceResponse) {
+        option (custom_error) = "Error";
+    }
     // update a service
-    rpc updateService (UpdateServiceRequest) returns (UpdateServiceResponse);
+    rpc updateService (UpdateServiceRequest) returns (UpdateServiceResponse) {
+        option (custom_error) = "Error";
+    }
     // upload proto file
-    rpc uploadProtoFile (UploadProtoFileRequest) returns (UploadProtoFileResponse);
+    rpc uploadProtoFile (UploadProtoFileRequest) returns (UploadProtoFileResponse){
+        option (custom_error) = "Error";
+    }
     // get a list of tags that contains apps
-    rpc getTags (TagListRequest) returns (TagListResponse);
+    rpc getTags (TagListRequest) returns (TagListResponse) {
+        option (custom_error) = "Error";
+    }
     // get a list of apps under specified tag
-    rpc getProducts (ProductListRequest) returns (ProductListResponse);
+    rpc getProducts (ProductListRequest) returns (ProductListResponse) {
+        option (custom_error) = "Error";
+    }
     // get a list of services under specified tag
-    rpc getServices (ServiceListRequest) returns (ServiceListResponse);
+    rpc getServices (ServiceListRequest) returns (ServiceListResponse){
+        option (custom_error) = "Error";
+    }
     // search services
-    rpc searchServices (ServiceSearchRequest) returns (ServiceListResponse);
+    rpc searchServices (ServiceSearchRequest) returns (ServiceListResponse) {
+        option (custom_error) = "Error";
+    }
     // get a list of keys of the specified service
-    rpc getKeyList (KeyListRequest) returns (KeyListResponse);
+    rpc getKeyList (KeyListRequest) returns (KeyListResponse) {
+        option (custom_error) = "Error";
+    }
     // get key-value pairs given the list of keys
-    rpc getKeyValueList (KeyValueListRequest) returns (KeyValueListResponse);
+    rpc getKeyValueList (KeyValueListRequest) returns (KeyValueListResponse) {
+        option (custom_error) = "Error";
+    }
     // search key value list by key or value
-    rpc searchKeyValueList (SearchKeyValueListRequest) returns (KeyValueListResponse);
+    rpc searchKeyValueList (SearchKeyValueListRequest) returns (KeyValueListResponse) {
+        option (custom_error) = "Error";
+    }
     // update value by key
-    rpc updateKeyValue (KeyValueRequest) returns (KeyValueResponse);
+    rpc updateKeyValue (KeyValueRequest) returns (KeyValueResponse) {
+        option (custom_error) = "Error";
+    }
     // fetch key's value change history
-    rpc fetchKeyHistory (KVHistoryRequest) returns (KVHistoryResponse);
+    rpc fetchKeyHistory (KVHistoryRequest) returns (KVHistoryResponse) {
+        option (custom_error) = "Error";
+    }
 }
