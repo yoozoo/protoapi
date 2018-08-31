@@ -9,6 +9,8 @@ import (
 type echoMethod struct {
 	*data.Method
 	ServiceName string
+	ServiceType string
+	ErrorType   string
 }
 
 func (m *echoMethod) Title() string {
@@ -41,6 +43,14 @@ func (s *echoService) init() {
 	s.Methods = make([]*echoMethod, len(s.ServiceData.Methods))
 	for i, f := range s.ServiceData.Methods {
 		mtd := f
-		s.Methods[i] = &echoMethod{&mtd, s.Name}
+		s.Methods[i] = &echoMethod{&mtd, s.Name, "POST", ""}
+		for _, option := range f.Options {
+			if option.Name == MethodOptions["ServiceType"] {
+				s.Methods[i].ServiceType = option.Value
+			}
+			if option.Name == MethodOptions["ErrorType"] {
+				s.Methods[i].ErrorType = option.Value
+			}
+		}
 	}
 }
