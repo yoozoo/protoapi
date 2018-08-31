@@ -27,7 +27,6 @@ type ResponseInternal struct {
 }
 
 {{- range .Methods }}
-
 func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		in := new({{.InputType}})
@@ -66,7 +65,3 @@ func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
     {{- end }}
 }
 
-// NewError Creates error response
-func NewError(code int32, err error) *ErrorInternal {
-	return &ErrorInternal{Code: code, Message: err.Error()};
-}
