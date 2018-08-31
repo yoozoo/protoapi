@@ -8,9 +8,15 @@ import (
 	"version.uuzu.com/Merlion/protoapi/generator/data"
 )
 
+// MethodOptions is the map of method data type and option name in method options
+var MethodOptions = map[string]string{
+	"ServiceType": "service_method",
+	"ErrorType":   "custom_error",
+}
+
 func toGoType(dataType string, label string) string {
 	// check if the field is repeated
-	if label == fieldRepeatedLabel {
+	if label == data.FieldRepeatedLabel {
 		return "[]*" + dataType
 	}
 	// if not primary type return data type and ignore the . in the data type

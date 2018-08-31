@@ -21,7 +21,17 @@ const (
 
 	// PathSeparator the path seperator used to form the full key (ie, key/sub_key )
 	PathSeparator = "/"
+	// FieldRepeatedLabel is the label for repeated data type
+	FieldRepeatedLabel = "LABEL_REPEATED"
+	// JavaPackageOption is Java package option constant
+	JavaPackageOption = "javaPackageOption"
 )
+
+// MethodOptions is the map of field number and field name in method options
+var MethodOptions = map[int32]string{
+	50006: "service_method",
+	50007: "custom_error",
+}
 
 var debugTpl = os.Getenv("debugTpl") == "true"
 
@@ -66,7 +76,7 @@ type Method struct {
 	OutputType string
 	HttpMtd    string
 	URI        string
-	Option     Option // service method option (default is GET and POST)
+	Options    []Option // service method option (default is GET and POST)
 }
 
 type ServiceData struct {

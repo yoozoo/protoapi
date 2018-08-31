@@ -8,8 +8,6 @@ import (
 	"reflect"
 	"strings"
 
-	"version.uuzu.com/Merlion/protoapi/generator/output"
-
 	"github.com/golang/protobuf/proto"
 
 	"version.uuzu.com/Merlion/protoapi/generator/data"
@@ -136,7 +134,7 @@ func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.M
 			OutputType: parseMessageDataType(mtd.GetOutputType()),
 			HttpMtd:    mapHttpMtd(mtd.GetName()),
 			URI:        serviceName + "." + mtd.GetName(),
-			Option:     getMethodOption(mtd),
+			Options:    getMethodOptions(mtd),
 		}
 		resultMtd = append(resultMtd, mtdData)
 	}
@@ -460,22 +458,25 @@ func generateKeyList(messages []*data.MessageData) []string {
 }
 
 // Get method options from proto file
-func getMethodOption(method *descriptor.MethodDescriptorProto) data.Option {
+func getMethodOptions(method *descriptor.MethodDescriptorProto) []data.Option {
+	options := []data.Option{}
 	// create extension description
-	var extDesc = &proto.ExtensionDesc{
-		ExtendedType:  (*descriptor.MethodOptions)(nil),
-		ExtensionType: (*string)(nil),
-		Field:         output.ServiceMethodField,
-		Name:          output.ServiceMethodName,
-		Tag:           "bytes," + string(output.ServiceMethodField) + ",opt,name=" + output.ServiceMethodName,
-	}
+	for field, name := range data.MethodOptions {
+		var extDesc = &proto.ExtensionDesc{
+			ExtendedType:  (*descriptor.MethodOptions)(nil),
+			ExtensionType: (*string)(nil),
+			Field:         field,
+			Name:          name,
+			Tag:           "bytes," + string(field) + ",opt,name=" + name,
+		}
 
-	ext, err := proto.GetExtension(method.GetOptions(), extDesc)
-	if err == nil {
-		// add the service method option to the method data
-		return data.Option{Name: output.ServiceMethodName, Value: *ext.(*string)}
+		ext, err := proto.GetExtension(method.GetOptions(), extDesc)
+		if err == nil {
+			// add the service method option to the method data
+			options = append(options, data.Option{Name: name, Value: *ext.(*string)})
+		}
 	}
-	return data.Option{}
+	return options
 }
 
 // Get s from proto file
@@ -488,7 +489,7 @@ func getOptions(request *plugin.CodeGeneratorRequest) []*data.Option {
 				// get java package from options
 				if javaPackageName := fileOptions.GetJavaPackage(); javaPackageName != "" {
 					option := data.Option{
-						Name:  output.JavaPackageOption,
+						Name:  data.JavaPackageOption,
 						Value: javaPackageName,
 					}
 					options = append(options, &option)

@@ -11,13 +11,19 @@ import (
 // {{.Name}} is the interface contains all the controllers
 type {{.Name}} interface {
 	{{- range .Methods }}
-    {{.Title}}(*{{.InputType}}) (*{{.OutputType}}, *Error)
+    {{.Title}}(*{{.InputType}}) (*{{.OutputType}}{{if ne .ErrorType ""}}, *{{.ErrorType}}{{end}})
     {{- end }}
 }
 
-type Response struct {
-	Response interface{} `json:"response"`
-	Error	 *Error      `json:"error"`
+type ErrorInternal struct {
+	Code    int32       `json:"code"`
+	Message string      `json:"message"`
+	Details interface{} `json:"details"`
+}
+
+type ResponseInternal struct {
+	Response interface{}    `json:"response"`
+	Error    *ErrorInternal `json:"error"`
 }
 
 {{- range .Methods }}
@@ -27,16 +33,19 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 		in := new({{.InputType}})
 
 		if err = c.Bind(in); err != nil {
-			resp := Response {
-				Error: NewError(1000, err),
+			resp := ResponseInternal {
+				Error: &ErrorInternal{Code: 1000, Message: err.Error()},
 			}
 			return c.JSON(http.StatusBadRequest, resp)
 		}
 
-		out, errorResp := srv.{{.Title}}(in)
-		resp := Response {
+		out{{if ne .ErrorType ""}}, error{{end}} := srv.{{.Title}}(in)
+
+		resp := ResponseInternal{
 			Response: out,
-			Error: 	  errorResp,
+			{{- if ne .ErrorType "" }}
+			Error:    &ErrorInternal{Details: error},
+			{{- end}}
 		}
 
 		return c.JSON(http.StatusOK, resp)
@@ -47,17 +56,17 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 // Register{{.Name}} is used to bind routers
 func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
     {{- range .Methods }}
-    {{- if ne .Option.Value "" }}
+    {{- if ne .ServiceType "POST" }}
     e.GET("{{.Path}}", _{{.Name}}_Handler(srv))
     {{- end }}
 
-    {{- if ne .Option.Value "GET" }}
+    {{- if ne .ServiceType "GET" }}
     e.POST("{{.Path}}", _{{.Name}}_Handler(srv))
     {{- end }}
     {{- end }}
 }
 
 // NewError Creates error response
-func NewError(code ErrorCode, err error) *Error {
-	return &Error{Code: code, Message: err.Error()};
+func NewError(code int32, err error) *ErrorInternal {
+	return &ErrorInternal{Code: code, Message: err.Error()};
 }

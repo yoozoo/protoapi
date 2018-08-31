@@ -45,19 +45,9 @@ var wrapperTypes = map[string]string{
 	"bytes":    "Byte",
 }
 
-const (
-	// JavaPackageOption is Java package option constant
-	JavaPackageOption  = "javaPackageOption"
-	fieldRepeatedLabel = "LABEL_REPEATED"
-	// ServiceMethodName is the service method option name
-	ServiceMethodName = "service_method"
-	// ServiceMethodField is the service method option field
-	ServiceMethodField = 50006
-)
-
 func toJavaType(dataType string, label string) string {
 	// check if the field is repeated
-	if label == fieldRepeatedLabel {
+	if label == data.FieldRepeatedLabel {
 		// check if wrapper type
 		if wrapperType, ok := wrapperTypes[dataType]; ok {
 			return "List<" + wrapperType + ">"
@@ -134,7 +124,7 @@ func (g *springGen) genServie(service *data.ServiceData) string {
 func genSpringPackageName(packageName string, options []*data.Option) string {
 	if options != nil {
 		for _, option := range options {
-			if option.Name == JavaPackageOption {
+			if option.Name == data.JavaPackageOption {
 				return option.Value
 			}
 		}
