@@ -12,8 +12,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 import VueResource from 'vue-resource';
 import {
-    {{range .Functions}}
-    {{.InputType}} , {{.OutputType}} ,
+    {{range $type, $bool := (getImportDataTypes .Functions)}}
+    {{- $type }}, 
     {{end}}
 } from './data';
 import { generateUrl } from './helper'
@@ -29,19 +29,27 @@ export default class {{.ClassName}} extends Vue {
 
     // Base Url
     private baseUrl: string = "http://localhost:8080"
-    {{$className := .ClassName }}
-    {{range .Functions}}
+    {{- $className := .ClassName -}}
+    {{- range .Functions}}
+    {{- $method := "post" -}}
+    {{- if eq (getServiceMtd .Options) "GET" -}}
+    {{- $method := "get" -}}
+    {{end}}
+    {{- $error :=  (getErrorType .Options) }}
     {{.Name}}(params: {{.InputType}}): PromiseLike<{{.OutputType}} | Error> {
 
             let url: string = generateUrl(this.baseUrl,"{{$className}}", "{{.Name}}");
 
             // TODO: determine use get/post according to request
-            return this.$http.{{- if ne .Option.Value "GET" }}post{{else}}get{{end}}(url,  {{- if ne .Option.Value "GET" }}params{{else}}{params}{{end}}).then(
+            return this.$http.{{$method}}(url,  {{- if ne $method "get" }}params{{else}}{params}{{end}}).then(
                 res => {
                     console.log(res);
                     // error handling
-                    if(res.data.error){
-                        return new Error(res.data.error)
+                    if (res.data.error) {
+                        if (res.data.error.details) {
+                            return Promise.reject(res.data.error.details)
+                        }
+                        return Promise.reject(res.data.error as {{$error}})
                     }
                     return res.data.response as {{.OutputType}};
                 },
