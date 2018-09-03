@@ -50,7 +50,7 @@ export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | nev
 // use fetch
 {{- range .Functions}}
 {{- $error :=  (getErrorType .Options) }}
-export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | {{$error}} | never> {
+export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | never> {
     let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
     // default POST
     return fetch({ url, method: 'post', data: params }).then(res => {
