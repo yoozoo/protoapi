@@ -54,6 +54,40 @@ func toTypeScriptType(dataType string) string {
 	return dataType
 }
 
+func getErrorType(options []data.Option) string {
+	for _, option := range options {
+		if option.Name == "custom_error" {
+			return option.Value
+		}
+	}
+	return ""
+}
+
+func getServiceMtd(options []data.Option) string {
+	for _, option := range options {
+		if option.Name == "service_method" {
+			return option.Value
+		}
+	}
+	return ""
+}
+
+func getImportDataTypes(mtds []data.Method) map[string]bool {
+	res := make(map[string]bool)
+	res["Error"] = true
+	for _, mtd := range mtds {
+		_, exist := res[mtd.InputType]
+		if !exist {
+			res[mtd.InputType] = true
+		}
+		_, exist = res[mtd.OutputType]
+		if !exist {
+			res[mtd.OutputType] = true
+		}
+	}
+	return res
+}
+
 func genFileName(packageName string, fileName string) string {
 	return strings.Replace(packageName, ".", "/", -1) + "/" + fileName + ".ts"
 }
@@ -73,7 +107,11 @@ func (g *tsGen) loadTpl() {
  */
 func (g *tsGen) getTpl(path string) *template.Template {
 	var funcs = template.FuncMap{
-		"tsType": toTypeScriptType,
+		"tsType":             toTypeScriptType,
+		"toLower":            strings.ToLower,
+		"getErrorType":       getErrorType,
+		"getServiceMtd":      getServiceMtd,
+		"getImportDataTypes": getImportDataTypes,
 	}
 	var err error
 	tpl := template.New("tpl").Funcs(funcs)

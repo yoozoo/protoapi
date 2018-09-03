@@ -214,7 +214,7 @@ enum ErrorCode {
 service AppService {
     // get env
     rpc getEnv (EnvListRequest) returns (EnvListResponse) {
-        option (service_method) = "GET";
+        option (custom_error) = "Error";
     }
     // register a service
     rpc registerService (RegisterServiceRequest) returns (RegisterServiceResponse) {
