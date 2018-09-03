@@ -18,11 +18,11 @@ message AuthError {
 }
 
 message ValidateError {
-    message Error {
+    message FieldError {
         string field_name = 1;
         ErrorType error_type = 2;
     }
-    repeated Error errors = 1;
+    repeated FieldError errors = 1;
 }
 
 enum ErrorType {
