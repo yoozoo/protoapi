@@ -11,28 +11,58 @@
 */
 import axios, { AxiosPromise } from 'axios';
 import {
-    {{range .Functions}}
-    {{- .InputType -}},
+    {{range $type, $bool := (getImportDataTypes .Functions)}}
+    {{- $type }}, 
     {{end}}
 } from './data';
 import { generateUrl } from './helper';
 
 /*baseUrl 可更改*/
 const baseUrl = "http://192.168.115.60:8080";
-{{$className := .ClassName }}
+// use axios
+
+{{- $className := .ClassName -}}
+{{/*
 {{- range .Functions}}
-export function {{.Name}}(params: {{.InputType}}): AxiosPromise {
-    let url: string = generateUrl(baseUrl,"{{$className}}", "{{.Name}}");
+{{- $method := "post" -}}
+{{- if eq (getServiceMtd .Options) "GET" -}}
+{{- $method := "get" -}}
+{{end}}
+{{- $error :=  (getErrorType .Options) }}
+export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | never> {
+    let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
     // test
-    return axios.{{- if ne .Option.Value "GET" }}post{{else}}get{{end}}(url, {{if ne .Option.Value "GET" }}params{{else}}{ params }{{end}})
+    return axios.{{$method}}(url, {{if ne $method "get" }}params{{else}}{ params }{{end}})
         .then(res => {
             // handle error
             if (res.data.error) {
-                    return Promise.reject(res.data.error)
+                if (res.data.error.details) {
+                    return Promise.reject(res.data.error.details)
+                }
+                return Promise.reject(res.data.error as {{$error}})
             }
             // handle success data
-            return Promise.resolve(res)
+            return Promise.resolve(res.data.response as {{.OutputType}})
         });
 }
 {{end}}
-
+*/}}
+// use fetch
+{{- range .Functions}}
+{{- $error :=  (getErrorType .Options) }}
+export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | {{$error}} | never> {
+    let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
+    // default POST
+    return fetch({ url, method: 'post', data: params }).then(res => {
+        // handle error
+        if (res.data.error) {
+            if (res.data.error.details) {
+                return Promise.reject(res.data.error.details)
+            }
+            return Promise.reject(res.data.error as {{$error}})
+        }
+        // handle success data
+        return Promise.resolve(res.data.response as {{.OutputType}})
+    });
+}
+{{end}}
