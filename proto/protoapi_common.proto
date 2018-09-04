@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MethodOptions {
+    string service_method = 51006;
+    string error = 51007;
+}
+
+extend google.protobuf.FieldOptions {
+    string format = 51002;
+    string required = 51003;
+    int32 min = 51004;
+    int32 max = 51005;
+}
+
+message CommonError {
+    GenericError generic_error = 1;
+    AuthError auth_error = 2;
+    ValidateError validate_error = 3;
+    BindError bind_error = 4;
+}
+
+message GenericError {
+    string message = 1;
+}
+
+message AuthError {
+    string message = 1;
+}
+
+message BindError {
+    string message = 1;
+}
+
+message ValidateError {
+    repeated FieldError errors = 1;
+}
+
+message FieldError {
+    string field_name = 1;
+    ValidateErrorType error_type = 2;
+}
+
+enum ValidateErrorType {
+    INVALID_EMAIL = 0;
+    FIELD_REQUIRED = 1;
+}

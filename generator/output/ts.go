@@ -54,22 +54,20 @@ func toTypeScriptType(dataType string) string {
 	return dataType
 }
 
-func getErrorType(options []data.Option) string {
-	for _, option := range options {
-		if option.Name == "custom_error" {
-			return option.Value
-		}
+func getErrorType(options data.OptionMap) string {
+	if errType, ok := options["error"]; ok {
+		return errType
 	}
+
 	return ""
 }
 
-func getServiceMtd(options []data.Option) string {
-	for _, option := range options {
-		if option.Name == "service_method" {
-			return option.Value
-		}
+func getServiceMtd(options data.OptionMap) string {
+	if servMtd, ok := options["service_method"]; ok {
+		return servMtd
 	}
-	return ""
+
+	return "POST"
 }
 
 func getImportDataTypes(mtds []data.Method) map[string]bool {
@@ -148,7 +146,7 @@ func initFiles(packageName string, service *data.ServiceData) *tsGen {
 	return gen
 }
 
-func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (map[string]string, error) {
+func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
 	/**
 	* name files
 	 */

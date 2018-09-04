@@ -9,8 +9,6 @@ import (
 type echoMethod struct {
 	*data.Method
 	ServiceName string
-	ServiceType string
-	ErrorType   string
 }
 
 func (m *echoMethod) Title() string {
@@ -19,6 +17,22 @@ func (m *echoMethod) Title() string {
 
 func (m *echoMethod) Path() string {
 	return "/" + m.ServiceName + "." + m.Name
+}
+
+func (m *echoMethod) ServiceType() string {
+	if servType, ok := m.Options[data.MethodOptions[data.ServiceTypeMethodOption]]; ok {
+		return servType
+	}
+
+	return "POST"
+}
+
+func (m *echoMethod) ErrorType() string {
+	if errType, ok := m.Options[data.MethodOptions[data.ErrorTypeMethodOption]]; ok {
+		return errType
+	}
+
+	return ""
 }
 
 type echoService struct {
@@ -43,14 +57,6 @@ func (s *echoService) init() {
 	s.Methods = make([]*echoMethod, len(s.ServiceData.Methods))
 	for i, f := range s.ServiceData.Methods {
 		mtd := f
-		s.Methods[i] = &echoMethod{&mtd, s.Name, "POST", ""}
-		for _, option := range f.Options {
-			if option.Name == MethodOptions["ServiceType"] {
-				s.Methods[i].ServiceType = option.Value
-			}
-			if option.Name == MethodOptions["ErrorType"] {
-				s.Methods[i].ErrorType = option.Value
-			}
-		}
+		s.Methods[i] = &echoMethod{&mtd, s.Name}
 	}
 }

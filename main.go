@@ -1,6 +1,7 @@
 package main
 
 //go:generate esc -o generator/data/tpl/tpl.go -modtime 0 -pkg=tpl generator/template
+//go:generate esc -o util/protoapi_include.go -modtime 0 -pkg=util proto
 
 import (
 	"flag"
@@ -8,11 +9,13 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 
 	"github.com/golang/protobuf/proto"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 
 	"version.uuzu.com/Merlion/protoapi/generator"
+	"version.uuzu.com/Merlion/protoapi/util"
 )
 
 func main() {
@@ -30,11 +33,15 @@ func main() {
 		executable, _ := os.Executable()
 
 		langFlag := flag.String("lang", "echo:.", "output language and output directory")
+		protoIncFlag := flag.String("I", "", "protobuf include dir")
 		flag.Parse()
 
 		flags := []string{}
 		flags = append(flags, "--plugin=protoc-gen-custom="+executable)
 		flags = append(flags, "--custom_out=lang="+*langFlag)
+
+		protoIncPath := util.GetIncludePath(filepath.FromSlash(*protoIncFlag), filepath.Dir(protoFile))
+		flags = append(flags, "-I="+protoIncPath)
 		flags = append(flags, protoFile)
 
 		// Run protoc command

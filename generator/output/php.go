@@ -20,7 +20,7 @@ type phpStruct struct {
 	Time      string
 }
 
-func genPhpCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (result map[string]string, err error) {
+func genPhpCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	//获取可能的package name
 	if len(packageName) == 0 {
 		packageName = "Yoozoo\\Agent"

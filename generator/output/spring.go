@@ -43,6 +43,7 @@ var wrapperTypes = map[string]string{
 	"bool":     "Boolean",
 	"string":   "String",
 	"bytes":    "Byte",
+	"int":      "Integer",
 }
 
 func toJavaType(dataType string, label string) string {
@@ -121,13 +122,9 @@ func (g *springGen) genServie(service *data.ServiceData) string {
 	return buf.String()
 }
 
-func genSpringPackageName(packageName string, options []*data.Option) string {
-	if options != nil {
-		for _, option := range options {
-			if option.Name == data.JavaPackageOption {
-				return option.Value
-			}
-		}
+func genSpringPackageName(packageName string, options data.OptionMap) string {
+	if javaPckName, ok := options[data.JavaPackageOption]; ok {
+		return javaPckName
 	}
 
 	return packageName
@@ -137,7 +134,7 @@ func genServiceFileName(packageName string, service *data.ServiceData) string {
 	return strings.Replace(packageName, ".", "/", -1) + "/" + service.Name + "Base.java"
 }
 
-func genSpringCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (result map[string]string, err error) {
+func genSpringCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	// get java package name from options
 	packageName = genSpringPackageName(packageName, options)
 	gen := newSpringGen(applicationName, packageName)

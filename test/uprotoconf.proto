@@ -4,7 +4,7 @@
 */
 syntax = "proto3";
 
-import "test/common.proto";
+import "protoapi_common.proto";
 
 // package
 package yoozoo.protoconf.ts;
@@ -46,7 +46,7 @@ message ServiceListRequest{
 // service list
 message ServiceSearchRequest{
     repeated int32 tag_ids = 1; // optional, for filter
-    string prefix = 2;
+    string prefix = 2 [(required) = "required", (format) = "email"];
     int32 env_id = 3;
     int32 offset = 4;
     int32 limit = 5;
@@ -214,54 +214,54 @@ enum ErrorCode {
 service AppService {
     // get env
     rpc getEnv (EnvListRequest) returns (EnvListResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // register a service
     rpc registerService (RegisterServiceRequest) returns (RegisterServiceResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // update a service
     rpc updateService (UpdateServiceRequest) returns (UpdateServiceResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // upload proto file
     rpc uploadProtoFile (UploadProtoFileRequest) returns (UploadProtoFileResponse){
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // get a list of tags that contains apps
     rpc getTags (TagListRequest) returns (TagListResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // get a list of apps under specified tag
     rpc getProducts (ProductListRequest) returns (ProductListResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // get a list of services under specified tag
     rpc getServices (ServiceListRequest) returns (ServiceListResponse){
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // search services
     rpc searchServices (ServiceSearchRequest) returns (ServiceListResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // get a list of keys of the specified service
     rpc getKeyList (KeyListRequest) returns (KeyListResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // get key-value pairs given the list of keys
     rpc getKeyValueList (KeyValueListRequest) returns (KeyValueListResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // search key value list by key or value
     rpc searchKeyValueList (SearchKeyValueListRequest) returns (KeyValueListResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // update value by key
     rpc updateKeyValue (KeyValueRequest) returns (KeyValueResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
     // fetch key's value change history
     rpc fetchKeyHistory (KVHistoryRequest) returns (KVHistoryResponse) {
-        option (custom_error) = "Error";
+        option (error) = "Error";
     }
 }

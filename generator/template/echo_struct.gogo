@@ -5,6 +5,28 @@ package {{.Package}}
 // {{.ClassName}}
 type {{.ClassName}} struct {
     {{- range .Fields }}
-    {{.Title}} {{.Type}} `json:"{{.Name}}" form:"{{.Name}}" query:"{{.Name}}"`
+    {{.Title}} {{.Type}} `json:"{{.Name}}"`
     {{- end }}
+}
+
+func (r {{.ClassName}}) Validate() *ValidateError {
+    errs := []*FieldError{}
+    {{- range .Fields }}
+    {{- if eq .ValidateRequired "required" }}
+	if r.{{.Title}} == "" {
+        e := FIELD_REQUIRED
+		errs = append(errs, &FieldError{Field_name: r.{{.Title}}, Error_type: &e})
+	}
+    {{- end }}
+    {{- if eq .ValidateFormat "email" }}
+	if !rxEmail.MatchString(r.{{.Title}}) {
+        e := INVALID_EMAIL
+		errs = append(errs, &FieldError{Field_name: r.{{.Title}}, Error_type: &e})
+	}
+    {{- end }}
+    {{- end }}
+    if len(errs) > 0 {
+		return &ValidateError{Errors: errs}
+	}
+	return nil
 }
