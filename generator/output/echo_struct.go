@@ -18,11 +18,11 @@ func (s *echoField) Type() string {
 	return toGoType(s.MessageField.DataType, s.MessageField.Label)
 }
 
-func (s *echoField) ValidateRequired() bool {
-	if _, ok := s.Options[data.FieldOptions[data.RequiredFieldOption]]; ok {
-		return true
+func (s *echoField) ValidateRequired() string {
+	if req, ok := s.Options[data.FieldOptions[data.RequiredFieldOption]]; ok {
+		return req
 	}
-	return false
+	return ""
 }
 
 func (s *echoField) ValidateFormat() string {

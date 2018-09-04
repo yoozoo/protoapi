@@ -9,7 +9,7 @@ extend google.protobuf.MethodOptions {
 
 extend google.protobuf.FieldOptions {
     string format = 51002;
-    bool required = 51003;
+    string required = 51003;
     int32 min = 51004;
     int32 max = 51005;
 }
