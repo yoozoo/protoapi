@@ -5,6 +5,10 @@ package {{.Package}}
 // {{.ClassName}}
 type {{.ClassName}} struct {
     {{- range .Fields }}
-    {{.Title}} {{.Type}} `json:"{{.Name}}" form:"{{.Name}}" query:"{{.Name}}"`
+    {{.Title}} {{.Type}} `json:"{{.Name}}"`
     {{- end }}
+}
+
+func (r {{.ClassName}}) Validate() *ValidateError {
+    return nil
 }

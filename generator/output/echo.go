@@ -11,15 +11,20 @@ import (
 // MethodOptions is the map of method data type and option name in method options
 var MethodOptions = map[string]string{
 	"ServiceType": "service_method",
-	"ErrorType":   "custom_error",
+	"ErrorType":   "error",
 }
 
 func toGoType(dataType string, label string) string {
+	// if not primary type return data type and ignore the . in the data type
+	if _, ok := wrapperTypes[dataType]; !ok {
+		dataType = "*" + dataType
+	}
+
 	// check if the field is repeated
 	if label == data.FieldRepeatedLabel {
-		return "[]*" + dataType
+		dataType = "[]" + dataType
 	}
-	// if not primary type return data type and ignore the . in the data type
+
 	return dataType
 }
 

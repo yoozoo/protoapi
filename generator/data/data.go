@@ -10,8 +10,10 @@ import (
 const (
 	//IntFieldType datatype string for interge, it is assumed to be of signed and at least 64 bit
 	IntFieldType = "int"
-	//LongFieldType datatype string for interge 64 bit
-	LongFieldType = "int64"
+	//Int32FieldType datatype string for interge 32 bit
+	Int32FieldType = "int32"
+	//Int64FieldType datatype string for interge 64 bit
+	Int64FieldType = "int64"
 	// BooleanFieldType datatype string for boolean
 	BooleanFieldType = "bool"
 	// StringFieldType datatype string for string
@@ -30,7 +32,7 @@ const (
 // MethodOptions is the map of field number and field name in method options
 var MethodOptions = map[int32]string{
 	50006: "service_method",
-	50007: "custom_error",
+	50007: "error",
 }
 
 var debugTpl = os.Getenv("debugTpl") == "true"

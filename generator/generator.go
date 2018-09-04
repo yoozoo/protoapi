@@ -74,7 +74,9 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 			case "TYPE_BOOL":
 				msgField.DataType = data.BooleanFieldType
 			case "TYPE_INT64":
-				msgField.DataType = data.LongFieldType
+				msgField.DataType = data.Int64FieldType
+			case "TYPE_INT32":
+				msgField.DataType = data.Int32FieldType
 			default:
 				msgField.DataType = data.IntFieldType
 			}

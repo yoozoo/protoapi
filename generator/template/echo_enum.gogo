@@ -19,3 +19,7 @@ func (code {{.Name}}) String() string {
 
 	return names[code]
 }
+
+func (code {{.Name}}) Code() int {
+	return (int)(code)
+}

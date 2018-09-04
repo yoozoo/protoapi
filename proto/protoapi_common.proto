@@ -7,13 +7,23 @@ extend google.protobuf.MethodOptions {
     string error = 50007;
 }
 
+extend google.protobuf.FieldOptions {
+    bool type_email = 50002;
+    bool required = 50003;
+}
+
 message CommonError {
     string generic_error = 1;
     AuthError auth_error = 2;
     ValidateError validate_error = 3;
+    BindError bind_error = 4;
 }
 
 message AuthError {
+    string message = 1;
+}
+
+message BindError {
     string message = 1;
 }
 
