@@ -15,14 +15,14 @@ import {
     {{- $type }}, 
     {{end}}
 } from './data';
-import { generateUrl } from './helper';
+import { generateUrl, httpCode, mapCommonErrorType } from './helper';
 
 /*baseUrl 可更改*/
 const baseUrl = "http://192.168.115.60:8080";
 // use axios
 
 {{- $className := .ClassName -}}
-{{/*
+
 {{- range .Functions}}
 {{- $method := "post" -}}
 {{- if eq (getServiceMtd .Options) "GET" -}}
@@ -34,19 +34,28 @@ export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | nev
     // test
     return axios.{{$method}}(url, {{if ne $method "get" }}params{{else}}{ params }{{end}})
         .then(res => {
-            // handle error
-            if (res.data.error) {
-                if (res.data.error.details) {
-                    return Promise.reject(res.data.error.details)
-                }
+            // handle success data
+            if(res.status != httpCode.NORMAL){
                 return Promise.reject(res.data.error as {{$error}})
             }
-            // handle success data
             return Promise.resolve(res.data.response as {{.OutputType}})
+        }).catch(err => {
+            switch(err.response.status){
+                case httpCode.BUSINESS_ERROR:
+                    return Promise.reject(err.response.data.error  as {{$error}})
+                case httpCode.COMMON_ERROR:
+                    let returnErr = mapCommonErrorType(err.response.data.error);
+                    return Promise.reject(returnErr)
+                case httpCode.INTERNAL_ERROR:
+                    return Promise.reject(err.response.data.error)
+                default:
+                    return Promise.reject(new Error("Unknown Error"))
+            }
         });
 }
 {{end}}
-*/}}
+
+{{/*
 // use fetch
 {{- range .Functions}}
 {{- $error :=  (getErrorType .Options) }}
@@ -54,15 +63,23 @@ export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | nev
     let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
     // default POST
     return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
+        // handle success data
+        if(res.status != httpCode.NORMAL){
             return Promise.reject(res.data.error as {{$error}})
         }
-        // handle success data
         return Promise.resolve(res.data.response as {{.OutputType}})
+    }).catch(err => {
+        switch(err.response.status){
+            case httpCode.BUSINESS_ERROR:
+                return Promise.reject(err.response.data.error  as {{$error}})
+            case httpCode.COMMON_ERROR:
+                return Promise.reject(err.response.data.error)
+            case httpCode.INTERNAL_ERROR:
+                return Promise.reject(err.response.data.error)
+            default:
+                return Promise.reject(new Error("Unknown Error"))
+        }
     });
 }
 {{end}}
+*/}}
