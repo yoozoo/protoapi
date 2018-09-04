@@ -8,8 +8,10 @@ extend google.protobuf.MethodOptions {
 }
 
 extend google.protobuf.FieldOptions {
-    bool type_email = 51002;
+    string format = 51002;
     bool required = 51003;
+    int32 min = 51004;
+    int32 max = 51005;
 }
 
 message CommonError {
@@ -32,11 +34,12 @@ message BindError {
 }
 
 message ValidateError {
-    message FieldError {
-        string field_name = 1;
-        ValidateErrorType error_type = 2;
-    }
     repeated FieldError errors = 1;
+}
+
+message FieldError {
+    string field_name = 1;
+    ValidateErrorType error_type = 2;
 }
 
 enum ValidateErrorType {

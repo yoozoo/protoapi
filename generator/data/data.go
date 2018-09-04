@@ -32,7 +32,7 @@ const (
 	// ErrorTypeMethodOption is error return type option
 	ErrorTypeMethodOption = 51007
 	// EmailTypeFieldOption is the email type validation field option
-	EmailTypeFieldOption = 51002
+	FormatFieldOption = 51002
 	// RequiredFieldOption is the required type validation field option
 	RequiredFieldOption = 51003
 )
@@ -45,8 +45,8 @@ var MethodOptions = map[int32]string{
 
 // FieldOptions is the map of field number and field name in field options
 var FieldOptions = map[int32]string{
-	EmailTypeFieldOption: "type_email",
-	RequiredFieldOption:  "required",
+	FormatFieldOption:   "format",
+	RequiredFieldOption: "required",
 }
 
 var debugTpl = os.Getenv("debugTpl") == "true"

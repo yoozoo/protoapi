@@ -10,5 +10,17 @@ type {{.ClassName}} struct {
 }
 
 func (r {{.ClassName}}) Validate() *ValidateError {
-    return nil
+    errs := []*FieldError{}
+    {{- range .Fields }}
+    {{- if eq .ValidateFormat "email" }}
+	if !rxEmail.MatchString(r.{{.Title}}) {
+        t := INVALID_EMAIL
+		errs = append(errs, &FieldError{Field_name: r.{{.Title}}, Error_type: &t})
+	}
+    {{- end }}
+    {{- end }}
+    if len(errs) > 0 {
+		return &ValidateError{Errors: errs}
+	}
+	return nil
 }

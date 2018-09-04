@@ -18,6 +18,20 @@ func (s *echoField) Type() string {
 	return toGoType(s.MessageField.DataType, s.MessageField.Label)
 }
 
+func (s *echoField) ValidateRequired() bool {
+	if _, ok := s.Options[data.FieldOptions[data.RequiredFieldOption]]; ok {
+		return true
+	}
+	return false
+}
+
+func (s *echoField) ValidateFormat() string {
+	if format, ok := s.Options[data.FieldOptions[data.FormatFieldOption]]; ok {
+		return format
+	}
+	return ""
+}
+
 func newEchoStruct(msg *data.MessageData, packageName string) *echoStruct {
 	ss := strings.Split(packageName, ".")
 	s := ss[len(ss)-1]

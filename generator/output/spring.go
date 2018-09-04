@@ -43,6 +43,7 @@ var wrapperTypes = map[string]string{
 	"bool":     "Boolean",
 	"string":   "String",
 	"bytes":    "Byte",
+	"int":      "Integer",
 }
 
 func toJavaType(dataType string, label string) string {

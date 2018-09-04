@@ -192,15 +192,16 @@ var _escData = map[string]*_escFile{
 
 	"/proto/protoapi_common.proto": {
 		local:   "proto/protoapi_common.proto",
-		size:    808,
+		size:    837,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/4ySyW7CMBiE73mKXzwAS+lyiDjQEqpI0Kqo5WoZ/BMsxUttB4Eq3r3CztpF4hLJns8z
-k9+2J+noESbQ00Y5Ne7FUcSFVsZBL1Mqy3HghU2xGzC0W8O1U6bv9y4sHh1KBgHtV2h/iW6v2Kt2XEkL
-XxEAgHWGywwsmgPfIhEegQncjYbD+7iNoDHKlMpDHJ3/jZlzzH+kbJTKwZ00EhSU56XLTdyIBj8LbrCK
-HvsAgdbSDOFJCaFk4gsEw2eUaPg2bGVhQaqGo+A7Ldw+ALRw+1otU9c054w6DMShXNXUOFCPXLJAbLhk
-tXrbqdcp0xlrRfhOrRNNtavwpsVVePfXwpFK85fTFlp+u4tGJBXYDPHXqN5PGsNbIJcLbQZ69l+DGqlD
-1g7ytK1roizEH56hTvqyni7SGUmW03QBExgG83maLGZklbx9pKtkVll9BwAA//9TUtgfKAMAAA==
+H4sIAAAAAAAC/4ySz27CMAzG730KiwfgP9sBcWCjTJVg09DGtQrUlEhN0iUuAk1796lxC1RjErfG3y+f
+Pzt1J03iCBNo5daQGbTGQSBVbixBKzUmzbDjhU2x6yTotlbmZGzb10oWj4Q6AUbbNdpeIu1N8paTNNrB
+dwAA4MhKnYJDe5BbjJVHYAKjXrf7ML5G0FpjK+VxHPz822YuMbvdZWesElR59Nl9Y0wGFr8KabFuPGBJ
+ahr0QUldlYeNsl9QWR75MAqdEynCs1HK6NCH5eYvqNHKLZdSPsT1ND32nBa0Z0AUtD+rVca1yGQiCJk4
+VKczVcV9kjphYiN1claHjXiNMI3l1ITPdHXjEu0u/JLiLrw5Gl+xmKMgTMC/JCt+Gvfn+hXRfOmyHmuh
+8LLjRquPU45sGlP56Xdd/lO6UDdINo9e19NFNIvD5TRawAS6bDyPwsUsXoXvn9EqnNUZfwMAAP//EbN6
+jkUDAAA=
 `,
 	},
 
