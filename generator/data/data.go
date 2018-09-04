@@ -27,12 +27,26 @@ const (
 	FieldRepeatedLabel = "LABEL_REPEATED"
 	// JavaPackageOption is Java package option constant
 	JavaPackageOption = "javaPackageOption"
+	// ServiceTypeMethodOption is service method option
+	ServiceTypeMethodOption = 51006
+	// ErrorTypeMethodOption is error return type option
+	ErrorTypeMethodOption = 51007
+	// EmailTypeFieldOption is the email type validation field option
+	EmailTypeFieldOption = 51002
+	// RequiredFieldOption is the required type validation field option
+	RequiredFieldOption = 51003
 )
 
 // MethodOptions is the map of field number and field name in method options
 var MethodOptions = map[int32]string{
-	50006: "service_method",
-	50007: "error",
+	ServiceTypeMethodOption: "service_method",
+	ErrorTypeMethodOption:   "error",
+}
+
+// FieldOptions is the map of field number and field name in field options
+var FieldOptions = map[int32]string{
+	EmailTypeFieldOption: "type_email",
+	RequiredFieldOption:  "required",
 }
 
 var debugTpl = os.Getenv("debugTpl") == "true"
@@ -63,6 +77,7 @@ type MessageField struct {
 	DataType string // message variable type
 	Key      string // coresponding key name for the variable, default is the same as variable name
 	Label    string
+	Options  OptionMap
 }
 
 // MessageData a structure to represent a message datatype
@@ -78,7 +93,7 @@ type Method struct {
 	OutputType string
 	HttpMtd    string
 	URI        string
-	Options    []Option // service method option (default is GET and POST)
+	Options    OptionMap // service method option (default is GET and POST)
 }
 
 type ServiceData struct {
@@ -87,13 +102,10 @@ type ServiceData struct {
 }
 
 // Option is a structure represents the option declared in a proto file
-type Option struct {
-	Name  string
-	Value string
-}
+type OptionMap map[string]string
 
 // OutputFunc the code output plugin prototype
-type OutputFunc func(applicationName string, packageName string, services *ServiceData, messages []*MessageData, enums []*EnumData, options []*Option) (map[string]string, error)
+type OutputFunc func(applicationName string, packageName string, services *ServiceData, messages []*MessageData, enums []*EnumData, options OptionMap) (map[string]string, error)
 
 // OutputMap the registra for output code type and its associated output plugin
 var OutputMap = make(map[string]OutputFunc)

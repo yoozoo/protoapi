@@ -57,6 +57,7 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 			msgField.Name = field.GetName()
 			msgField.Key = field.GetName()
 			msgField.Label = field.GetLabel().String()
+			msgField.Options = getFieldOptions(field)
 
 			switch field.GetType().String() {
 			case "TYPE_STRING":
@@ -460,8 +461,30 @@ func generateKeyList(messages []*data.MessageData) []string {
 }
 
 // Get method options from proto file
-func getMethodOptions(method *descriptor.MethodDescriptorProto) []data.Option {
-	options := []data.Option{}
+func getFieldOptions(fieldPb *descriptor.FieldDescriptorProto) data.OptionMap {
+	options := make(map[string]string)
+	// create extension description
+	for field, name := range data.FieldOptions {
+		var extDesc = &proto.ExtensionDesc{
+			ExtendedType:  (*descriptor.FieldOptions)(nil),
+			ExtensionType: (*string)(nil),
+			Field:         field,
+			Name:          name,
+			Tag:           "bytes," + string(field) + ",opt,name=" + name,
+		}
+
+		ext, err := proto.GetExtension(fieldPb.GetOptions(), extDesc)
+		if err == nil {
+			// add the service method option to the method data
+			options[name] = *ext.(*string)
+		}
+	}
+	return options
+}
+
+// Get method options from proto file
+func getMethodOptions(method *descriptor.MethodDescriptorProto) data.OptionMap {
+	options := make(map[string]string)
 	// create extension description
 	for field, name := range data.MethodOptions {
 		var extDesc = &proto.ExtensionDesc{
@@ -475,26 +498,22 @@ func getMethodOptions(method *descriptor.MethodDescriptorProto) []data.Option {
 		ext, err := proto.GetExtension(method.GetOptions(), extDesc)
 		if err == nil {
 			// add the service method option to the method data
-			options = append(options, data.Option{Name: name, Value: *ext.(*string)})
+			options[name] = *ext.(*string)
 		}
 	}
 	return options
 }
 
 // Get s from proto file
-func getOptions(request *plugin.CodeGeneratorRequest) []*data.Option {
+func getFileOptions(request *plugin.CodeGeneratorRequest) data.OptionMap {
 	for _, file := range request.ProtoFile {
 		if strings.Compare(file.GetName(), request.FileToGenerate[0]) == 0 {
 			// check options from .proto file
 			if fileOptions := file.GetOptions(); fileOptions != nil {
-				var options []*data.Option
+				options := make(map[string]string)
 				// get java package from options
 				if javaPackageName := fileOptions.GetJavaPackage(); javaPackageName != "" {
-					option := data.Option{
-						Name:  data.JavaPackageOption,
-						Value: javaPackageName,
-					}
-					options = append(options, &option)
+					options[data.JavaPackageOption] = javaPackageName
 				}
 				return options
 			}
@@ -534,7 +553,7 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 
 	packageName := getPackageName(request)
 
-	options := getOptions(request)
+	options := getFileOptions(request)
 
 	messages, enums := getMessages(request.ProtoFile)
 	if messages == nil {

@@ -8,12 +8,6 @@ import (
 	"version.uuzu.com/Merlion/protoapi/generator/data"
 )
 
-// MethodOptions is the map of method data type and option name in method options
-var MethodOptions = map[string]string{
-	"ServiceType": "service_method",
-	"ErrorType":   "error",
-}
-
 func toGoType(dataType string, label string) string {
 	// if not primary type return data type and ignore the . in the data type
 	if _, ok := wrapperTypes[dataType]; !ok {
@@ -111,7 +105,7 @@ func genEchoPackageName(packageName string) string {
 	return strings.Replace(packageName, ".", "_", -1)
 }
 
-func genEchoCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (result map[string]string, err error) {
+func genEchoCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	packageName = genEchoPackageName(packageName)
 	gen := newEchoGen(applicationName, packageName)
 	result = make(map[string]string)
