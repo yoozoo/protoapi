@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public abstract class {{.Name}}Base {
     {{- range .Methods }}
-    {{- if ne .Option.Value "GET" }}
+    {{- if ne .ServiceType "GET" }}
     @PostMapping("{{.Path}}")
     @ResponseBody
     public {{.OutputType}} {{.Name}}Post(@RequestBody {{.InputType}} in) {
@@ -17,7 +17,7 @@ public abstract class {{.Name}}Base {
     }
     {{- end }}
 
-    {{- if ne .Option.Value "" }}
+    {{- if ne .ServiceType "POST" }}
     @GetMapping("{{.Path}}")
     @ResponseBody
     public {{.OutputType}} {{.Name}}Get({{.InputType}} in) {
