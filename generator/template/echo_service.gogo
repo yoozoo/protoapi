@@ -34,12 +34,12 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 		in := new({{.InputType}})
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{Bind_error: &BindError{Message: err.Error()}}}
+			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{Validate_error: valErr}}
+			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
 			return c.JSON(420, resp)
 		}
 
