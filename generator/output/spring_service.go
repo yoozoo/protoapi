@@ -13,6 +13,14 @@ func (m *springMethod) Path() string {
 	return "/" + m.ServiceName + "." + m.Name
 }
 
+func (m *springMethod) ServiceType() string {
+	if servType, ok := m.Options[data.MethodOptions[data.ServiceTypeMethodOption]]; ok {
+		return servType
+	}
+
+	return "POST"
+}
+
 type springService struct {
 	*data.ServiceData
 	Package string
