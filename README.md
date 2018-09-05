@@ -17,6 +17,8 @@
     * 需要确保$GOPATH设置正确
 2. 安装`protoc`:
     * [安装步骤请戳这里](http://google.github.io/proto-lens/installing-protoc.html)
+3. 設置好`$GOPATH`
+    * [$GOPATH](https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/01.2.md)
 
 ## 项目安装
 
@@ -29,7 +31,7 @@
 
 * 如果是有改代码/template， 需要重新生成执行文件， 在项目路径里跑：
     * `go generate` => 引入新的template到tpl.go
-    * `go build` => 重新生成执行文件 - `protoapi.exe`
+    * `go build` => 重新生成执行文件 - `protoapi.exe`在`$GOPATH/bin`裏
 * 如果没有改代码，可跳过此步
 
 ## 如何使用插件

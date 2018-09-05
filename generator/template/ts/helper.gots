@@ -1,3 +1,42 @@
+import { CommonError, AuthError, ValidateError, BindError } from './data'
+/**
+ * Defined Http Code for response handling
+ */
+export enum httpCode {
+    DEFAULT = 0,
+    NORMAL = 200,
+    BUSINESS_ERROR = 400,
+    COMMON_ERROR = 420,
+    INTERNAL_ERROR = 500,
+}
+/**
+ * 
+ * @param {CommonError} commonErr the error object
+ */
+export function mapCommonErrorType(commonErr: CommonError): (string | AuthError | ValidateError | BindError) {
+    for (let key in commonErr) {
+        console.log(key)
+        if (commonErr.hasOwnProperty(key) && commonErr[key]) {
+            switch (key) {
+                case 'generic_error':
+                    return commonErr[key] as string
+                case 'auth_error':
+                    return commonErr[key] as AuthError
+
+                case 'validate_error':
+                    return commonErr[key] as ValidateError
+
+                case 'bind_error':
+                    return commonErr[key] as BindError
+                default:
+                    return "Unknow Error"
+            }
+
+        }
+    }
+    return "Unknow Error"
+}
+
 /**
  *
  * @param val a string
@@ -82,5 +121,5 @@ export function generateQueryUrl<T>(url: string, params: T): string {
  * returns => http://localhost:8080/HelloService.SayHello
  */
 export function generateUrl<T>(url: string, serviceName: string, functionName: string): string {
-    return url + "/" + serviceName + "."+ functionName;
+    return url + "/" + serviceName + "." + functionName;
 }
