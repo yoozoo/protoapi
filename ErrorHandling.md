@@ -1,6 +1,6 @@
 # 错误处理
 
-为了规范API代码的错误处理， 我们定义了protoapi的错误处理规范：
+为了规范API代码的错误处理， 我们定义了protoapi的错误处理规范
 
 ## 返回结果
 
@@ -19,7 +19,8 @@
 
 ## proto定义
 
-* 正常结果 与 异常结果 定义于使用者所写的proto文件中， 比如`test/example.proto`中：
+* 正常结果 与 异常结果 定义于使用者所写的proto文件中， 比如`test/example.proto`中:
+
     ```
     // 正常结果
     message HelloResponse {
@@ -31,8 +32,10 @@
         string message = 2;
     }
     ```
+
 * 常见错误 则定义在`proto/protoapi_common.proto`中， 可被引用生成相关的错误处理代码
-    * 例如`CommonError`我们定义了以下四种：
+    * 例如`CommonError`我们定义了以下四种:
+
     ```
     message CommonError {
         GenericError genericError = 1; 
@@ -45,7 +48,6 @@
 ## 前端处理
 
 * 如上所述，我们定义了不同结果用不同的 `HTTP status code`来区分， 在生成的`helper.ts`里：
-
     ```
     /**
     * Defined Http Code for response handling
@@ -58,7 +60,7 @@
         INTERNAL_ERROR = 500,
     }
     ```
-* 生成的ts代码中， 错误处理会使用一个switch， 根据error的status来决定返回不同的错误内容：
+* 生成的ts代码中， 错误处理会使用一个switch， 根据error的status来决定返回不同的错误内容:
 
     ```
     switch(err.response.status){
@@ -74,6 +76,7 @@
     }
     ```
 * `mapCommonErrorType` 会根据返回的常见错误类型再做区分：
+
     ```
     for (let key in commonErr) {
         switch (key) {
