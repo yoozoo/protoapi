@@ -59,20 +59,21 @@
         INTERNAL_ERROR = 500,
     }
     ```
-* 生成的ts代码中， 错误处理会使用一个switch， 根据error的status来决定返回不同的错误内容:
-
+* 在生成的`helper.ts`里, 我们还定义了一个帮助错误处理的函数，使用一个switch， 根据error response的status来决定返回不同的错误内容:
 
     ```
-    switch(err.response.status){
-        case httpCode.BIZ_ERROR:
-            return Promise.reject(err.response.data  as Error)
-        case httpCode.COMMON_ERROR:
-            let returnErr = mapCommonErrorType(err.response.data);
-            return Promise.reject(returnErr)
-        case httpCode.INTERNAL_ERROR:
-            return Promise.reject(err.response.data)
-        default:
-            return Promise.reject(new Error("Unknown Error"))
+    export function errorHandling(response): Promise<never> {
+        switch (response.status) {
+            case httpCode.BIZ_ERROR:
+                return Promise.reject(response.data as Error)
+            case httpCode.COMMON_ERROR:
+                let returnErr = mapCommonErrorType(response.data);
+                return Promise.reject(returnErr)
+            case httpCode.INTERNAL_ERROR:
+                return Promise.reject(response.data)
+            default:
+                return Promise.reject(new Error("Unknown Error"))
+        }
     }
     ```
 * `mapCommonErrorType` 会根据返回的常见错误类型再做区分：
@@ -94,4 +95,11 @@
                 return "Unknow Error"
         }
     }
+    ```
+* 这样在生成的ts文件里， 只需要调用errorHandling的函数就好
+    ```
+    .catch(err => {
+        // handle error response
+        return errorHandling(err.response)
+    });
     ```

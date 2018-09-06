@@ -15,7 +15,7 @@ import {
     {{- $type }}, 
     {{end}}
 } from './data';
-import { generateUrl, httpCode, mapCommonErrorType } from './helper';
+import { generateUrl, errorHandling } from './helper';
 
 /*baseUrl 可更改*/
 const baseUrl = "http://192.168.115.60:8080";
@@ -31,26 +31,14 @@ const baseUrl = "http://192.168.115.60:8080";
 {{- $error :=  (getErrorType .Options) }}
 export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | never> {
     let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
-    // test
+
     return axios.{{$method}}(url, {{if ne $method "get" }}params{{else}}{ params }{{end}})
         .then(res => {
             // handle success data
-            if(res.status != httpCode.NORMAL){
-                return Promise.reject(res.data as {{$error}})
-            }
             return Promise.resolve(res.data as {{.OutputType}})
         }).catch(err => {
-            switch(err.response.status){
-                case httpCode.BIZ_ERROR:
-                    return Promise.reject(err.response.data  as {{$error}})
-                case httpCode.COMMON_ERROR:
-                    let returnErr = mapCommonErrorType(err.response.data);
-                    return Promise.reject(returnErr)
-                case httpCode.INTERNAL_ERROR:
-                    return Promise.reject(err.response.data)
-                default:
-                    return Promise.reject(new Error("Unknown Error"))
-            }
+            // handle error response
+            return errorHandling(err.response)
         });
 }
 {{end}}
@@ -64,21 +52,10 @@ export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | nev
     // default POST
     return fetch({ url, method: 'post', data: params }).then(res => {
         // handle success data
-        if(res.status != httpCode.NORMAL){
-            return Promise.reject(res.data as {{$error}})
-        }
         return Promise.resolve(res.data as {{.OutputType}})
     }).catch(err => {
-        switch(err.response.status){
-            case httpCode.BIZ_ERROR:
-                return Promise.reject(err.response.data  as {{$error}})
-            case httpCode.COMMON_ERROR:
-                return Promise.reject(err.response.data)
-            case httpCode.INTERNAL_ERROR:
-                return Promise.reject(err.response.data)
-            default:
-                return Promise.reject(new Error("Unknown Error"))
-        }
+        // handle error response
+        return errorHandling(err.response)
     });
 }
 {{end}}
