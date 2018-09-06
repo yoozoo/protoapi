@@ -16,7 +16,11 @@ protoapi therefore defines validation error as a common error and handles it pro
 Validation error is defined in `protoapi_common.proto` which is common used proto file.
 
 ```protobuf
-namespace ?
+
+extend google.protobuf.FieldOptions {
+    string format = 51002;
+    bool required = 51003;
+}
 
 message CommonError {
     GenericError genericError = 1;
@@ -64,16 +68,16 @@ const (
 )
 
 func (code ValidateErrorType) String() string {
-	names := map[ValidateErrorType]string{
+    names := map[ValidateErrorType]string{
         INVALID_EMAIL: "INVALID_EMAIL",
         FIELD_REQUIRED: "FIELD_REQUIRED",
-	}
+    }
 
-	return names[code]
+    return names[code]
 }
 
 func (code ValidateErrorType) Code() int {
-	return (int)(code)
+    return (int)(code)
 }
 ```
 
@@ -84,12 +88,11 @@ And for the request data which requires validation, we need to define the option
 To define field validation option, we put ``[(validation_option) = "selected_option"]`` after the field. For example:
 
 ```protobuf
-// service list
 import "protoapi_common.proto"
 
 message ServiceSearchRequest{
     repeated int32 tag_ids = 1; // optional, for filter
-    string prefix = 2 [(required) = 0, (format) = "email"];
+    string prefix = 2 [(val_required) = 1, (val_format) = "email"];
     int32 env_id = 3;
     int32 offset = 4;
     int32 limit = 5;
@@ -111,18 +114,18 @@ type ServiceSearchRequest struct {
 
 func (r ServiceSearchRequest) Validate() *ValidateError {
     errs := []*FieldError{}
-	if r.Prefix == "" {
+    if r.Prefix == "" {
         e := FIELD_REQUIRED
-		errs = append(errs, &FieldError{Field_name: r.Prefix, Error_type: &e})
-	}
-	if !rxEmail.MatchString(r.Prefix) {
+        errs = append(errs, &FieldError{Field_name: r.Prefix, Error_type: &e})
+    }
+    if !rxEmail.MatchString(r.Prefix) {
         e := INVALID_EMAIL
-		errs = append(errs, &FieldError{Field_name: r.Prefix, Error_type: &e})
-	}
+        errs = append(errs, &FieldError{Field_name: r.Prefix, Error_type: &e})
+    }
     if len(errs) > 0 {
-		return &ValidateError{Errors: errs}
-	}
-	return nil
+        return &ValidateError{Errors: errs}
+    }
+    return nil
 }
 ```
 
@@ -134,7 +137,7 @@ In our generated API handler code, we will check the validation before sending r
 
 ```go
     if valErr := in.Validate(); valErr != nil {
-        resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+        resp := CommonError{ValidateError: valErr}
         return c.JSON(420, resp)
     }
 ```
