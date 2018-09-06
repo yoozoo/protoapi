@@ -179,7 +179,7 @@ service HelloService {
 
 ### 错误处理
 
-* [错误处理规范](https://version.uuzu.com/Merlion/protoapi/ErrorHandling.md)
+* [错误处理规范](https://version.uuzu.com/Merlion/protoapi/src/master/ErrorHandling.md)
 
 ### 相关资料
 1. [go的基本语法和使用](https://golang.org/doc/)
