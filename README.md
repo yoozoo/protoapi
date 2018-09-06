@@ -6,14 +6,14 @@
 
 * 本项目基于`go`的实现
 * 目的：自动生成前后端API的基础代码，节省开发时间
-    * 前端生成TypeScript的代码
+    * 前端生成TypeScript的代码, 客戶端
     * 后端目前支持生成java (spring) 和go (echo)的代码
 * 当前版本： 0.1.0
 
 ## 配置环境
 
 1. 安装`go`:
-    * [安装步骤请戳这里](https://golang.org/doc/install)
+    * [go安装](https://golang.org/doc/install)
     * 需要确保$GOPATH设置正确
 2. 安装`protoc`:
     * [安装步骤请戳这里](http://google.github.io/proto-lens/installing-protoc.html)
@@ -171,6 +171,15 @@ service HelloService {
 }
 
 ```
+
+### HTTP Method
+
+* 所有API生成默认使用HTTP POST
+* 特效场景下可以使用GET，但不鼓励， 因为query string无法很好的对复杂请求对象做序列化
+
+### 错误处理
+
+* [错误处理规范](https://version.uuzu.com/Merlion/protoapi/ErrorHandling.md)
 
 ### 相关资料
 1. [go的基本语法和使用](https://golang.org/doc/)

@@ -1,0 +1,38 @@
+/**
+* 这个文件用于生成相关的前后端API代码
+* 用protoapi指定此文件生成相关代码
+*/
+syntax = "proto3";
+
+import "protoapi_common.proto";
+
+// package
+package example.ts;
+option java_package = "example.spring";
+
+message HelloRequest {
+    string hello = 1;
+}
+
+message HelloResponse {
+    string hi = 1;
+}
+
+enum ErrorCode {
+    DefaultError  = 0;
+    GeneralError  = 1000;
+	DatabaseError = 1001;
+    EtcdError     = 1002;
+    SystemError   = 1003;
+}
+
+message Error {
+    ErrorCode code = 1;
+    string message = 2;
+}
+
+service HelloService {
+    rpc sayHello (HelloRequest) returns (HelloResponse) {
+        option (error) = "Error";
+    }
+}

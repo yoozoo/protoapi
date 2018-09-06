@@ -41,7 +41,7 @@ export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | nev
             return Promise.resolve(res.data.response as {{.OutputType}})
         }).catch(err => {
             switch(err.response.status){
-                case httpCode.BUSINESS_ERROR:
+                case httpCode.BIZ_ERROR:
                     return Promise.reject(err.response.data.error  as {{$error}})
                 case httpCode.COMMON_ERROR:
                     let returnErr = mapCommonErrorType(err.response.data.error);
