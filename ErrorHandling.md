@@ -19,7 +19,8 @@
 
 ## proto定义
 
-* 正常结果 与 异常结果 定义于使用者所写的proto文件中， 比如`test/example.proto`中：
+* 正常结果 与 异常结果 定义于使用者所写的proto文件中， 比如`test/example.proto`中
+
     ```
     // 正常结果
     message HelloResponse {
@@ -31,8 +32,10 @@
         string message = 2;
     }
     ```
+
 * 常见错误 则定义在`proto/protoapi_common.proto`中， 可被引用生成相关的错误处理代码
-    * 例如`CommonError`我们定义了以下四种：
+    * 例如`CommonError`我们定义了以下四种
+
     ```
     message CommonError {
         GenericError genericError = 1; 
@@ -60,6 +63,7 @@
     ```
 * 生成的ts代码中， 错误处理会使用一个switch， 根据error的status来决定返回不同的错误内容：
 
+
     ```
     switch(err.response.status){
         case httpCode.BIZ_ERROR:
@@ -74,6 +78,7 @@
     }
     ```
 * `mapCommonErrorType` 会根据返回的常见错误类型再做区分：
+
     ```
     for (let key in commonErr) {
         switch (key) {
