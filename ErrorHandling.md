@@ -34,6 +34,7 @@
     ```
 
 * 常见错误 则定义在`proto/protoapi_common.proto`中， 可被引用生成相关的错误处理代码
+    
     * 例如`CommonError`我们定义了以下四种:
 
     ```
@@ -47,11 +48,9 @@
 
 ## 前端处理
 
-* 如上所述，我们定义了不同结果用不同的 `HTTP status code`来区分， 在生成的`helper.ts`里：
+* 如上所述，在生成的`helper.ts`里，我们定义了不同结果用不同的 `HTTP status code`来区分:
+
     ```
-    /**
-    * Defined Http Code for response handling
-    */
     export enum httpCode {
         DEFAULT = 0,
         NORMAL = 200,
