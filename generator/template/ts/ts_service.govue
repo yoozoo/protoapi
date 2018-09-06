@@ -16,7 +16,7 @@ import {
     {{- $type }}, 
     {{end}}
 } from './data';
-import { generateUrl, httpCode, mapCommonErrorType } from './helper';
+import { generateUrl, errorHandling } from './helper';
 
 Vue.use(VueResource);
 
@@ -40,27 +40,14 @@ export default class {{.ClassName}} extends Vue {
 
         let url: string = generateUrl(this.baseUrl,"{{$className}}", "{{.Name}}");
 
-        // TODO: determine use get/post according to request
         return this.$http.{{$method}}(url,  {{- if ne $method "get" }}params{{else}}{params}{{end}}).then(
             res => {
                 // handle success data - 200
-                if(res.status != httpCode.NORMAL){
-                    return Promise.reject(res.data as {{$error}})
-                }
                 return Promise.resolve(res.data as {{.OutputType}})
             },
-            err => { // other errors such as 500, no network
-                switch(err.response.status){
-                    case httpCode.BIZ_ERROR:
-                        return Promise.reject(err.response.data  as {{$error}})
-                    case httpCode.COMMON_ERROR:
-                        let returnErr = mapCommonErrorType(err.response.data);
-                        return Promise.reject(returnErr)
-                    case httpCode.INTERNAL_ERROR:
-                        return Promise.reject(err.response.data)
-                    default:
-                        return Promise.reject(new Error("Unknown Error"))
-                }
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
             }
         );
     }
