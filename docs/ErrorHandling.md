@@ -65,12 +65,12 @@
     ```
     switch(err.response.status){
         case httpCode.BIZ_ERROR:
-            return Promise.reject(err.response.data.error  as Error)
+            return Promise.reject(err.response.data  as Error)
         case httpCode.COMMON_ERROR:
-            let returnErr = mapCommonErrorType(err.response.data.error);
+            let returnErr = mapCommonErrorType(err.response.data);
             return Promise.reject(returnErr)
         case httpCode.INTERNAL_ERROR:
-            return Promise.reject(err.response.data.error)
+            return Promise.reject(err.response.data)
         default:
             return Promise.reject(new Error("Unknown Error"))
     }
