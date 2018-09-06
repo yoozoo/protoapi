@@ -16,7 +16,7 @@ import {
     {{- $type }}, 
     {{end}}
 } from './data';
-import { generateUrl } from './helper'
+import { generateUrl, httpCode, mapCommonErrorType } from './helper';
 
 Vue.use(VueResource);
 
@@ -38,26 +38,31 @@ export default class {{.ClassName}} extends Vue {
     {{- $error :=  (getErrorType .Options) }}
     {{.Name}}(params: {{.InputType}}): PromiseLike<{{.OutputType}} | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"{{$className}}", "{{.Name}}");
+        let url: string = generateUrl(this.baseUrl,"{{$className}}", "{{.Name}}");
 
-            // TODO: determine use get/post according to request
-            return this.$http.{{$method}}(url,  {{- if ne $method "get" }}params{{else}}{params}{{end}}).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as {{$error}})
-                    }
-                    return res.data.response as {{.OutputType}};
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
+        // TODO: determine use get/post according to request
+        return this.$http.{{$method}}(url,  {{- if ne $method "get" }}params{{else}}{params}{{end}}).then(
+            res => {
+                // handle success data - 200
+                if(res.status != httpCode.NORMAL){
+                    return Promise.reject(res.data as {{$error}})
                 }
-            );
-        }
+                return Promise.resolve(res.data as {{.OutputType}})
+            },
+            err => { // other errors such as 500, no network
+                switch(err.response.status){
+                    case httpCode.BIZ_ERROR:
+                        return Promise.reject(err.response.data  as {{$error}})
+                    case httpCode.COMMON_ERROR:
+                        let returnErr = mapCommonErrorType(err.response.data);
+                        return Promise.reject(returnErr)
+                    case httpCode.INTERNAL_ERROR:
+                        return Promise.reject(err.response.data)
+                    default:
+                        return Promise.reject(new Error("Unknown Error"))
+                }
+            }
+        );
+    }
     {{end}}
 }
