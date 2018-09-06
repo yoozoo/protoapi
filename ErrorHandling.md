@@ -47,7 +47,8 @@
 
 ## 前端处理
 
-* 如上所述，我们定义了不同结果用不同的 `HTTP status code`来区分， 在生成的`helper.ts`里：
+* 如上所述，我们定义了不同结果用不同的 `HTTP status code`来区分， 在生成的`helper.ts`里:
+
     ```
     /**
     * Defined Http Code for response handling
@@ -76,7 +77,7 @@
             return Promise.reject(new Error("Unknown Error"))
     }
     ```
-* `mapCommonErrorType` 会根据返回的常见错误类型再做区分：
+* `mapCommonErrorType` 会根据返回的常见错误类型再做区分:
 
     ```
     for (let key in commonErr) {

@@ -21,7 +21,7 @@ message HelloResponse {
 enum ErrorCode {
     DefaultError  = 0;
     GeneralError  = 1000;
-	DatabaseError = 1001;
+    DatabaseError = 1001;
     EtcdError     = 1002;
     SystemError   = 1003;
 }
