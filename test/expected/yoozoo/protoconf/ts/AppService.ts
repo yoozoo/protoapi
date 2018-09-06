@@ -39,7 +39,7 @@ import {
     UploadProtoFileResponse, 
     
 } from './data';
-import { generateUrl } from './helper'
+import { generateUrl, errorHandling } from './helper';
 
 Vue.use(VueResource);
 
@@ -54,314 +54,210 @@ export default class AppService extends Vue {
     private baseUrl: string = "http://localhost:8080"
     getEnv(params: EnvListRequest): PromiseLike<EnvListResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "getEnv");
+        let url: string = generateUrl(this.baseUrl,"AppService", "getEnv");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as EnvListResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as EnvListResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     registerService(params: RegisterServiceRequest): PromiseLike<RegisterServiceResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "registerService");
+        let url: string = generateUrl(this.baseUrl,"AppService", "registerService");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as RegisterServiceResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as RegisterServiceResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     updateService(params: UpdateServiceRequest): PromiseLike<UpdateServiceResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "updateService");
+        let url: string = generateUrl(this.baseUrl,"AppService", "updateService");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as UpdateServiceResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as UpdateServiceResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     uploadProtoFile(params: UploadProtoFileRequest): PromiseLike<UploadProtoFileResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "uploadProtoFile");
+        let url: string = generateUrl(this.baseUrl,"AppService", "uploadProtoFile");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as UploadProtoFileResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as UploadProtoFileResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     getTags(params: TagListRequest): PromiseLike<TagListResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "getTags");
+        let url: string = generateUrl(this.baseUrl,"AppService", "getTags");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as TagListResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as TagListResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     getProducts(params: ProductListRequest): PromiseLike<ProductListResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "getProducts");
+        let url: string = generateUrl(this.baseUrl,"AppService", "getProducts");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as ProductListResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as ProductListResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     getServices(params: ServiceListRequest): PromiseLike<ServiceListResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "getServices");
+        let url: string = generateUrl(this.baseUrl,"AppService", "getServices");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as ServiceListResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as ServiceListResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     searchServices(params: ServiceSearchRequest): PromiseLike<ServiceListResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "searchServices");
+        let url: string = generateUrl(this.baseUrl,"AppService", "searchServices");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as ServiceListResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as ServiceListResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     getKeyList(params: KeyListRequest): PromiseLike<KeyListResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "getKeyList");
+        let url: string = generateUrl(this.baseUrl,"AppService", "getKeyList");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as KeyListResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as KeyListResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     getKeyValueList(params: KeyValueListRequest): PromiseLike<KeyValueListResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "getKeyValueList");
+        let url: string = generateUrl(this.baseUrl,"AppService", "getKeyValueList");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as KeyValueListResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as KeyValueListResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     searchKeyValueList(params: SearchKeyValueListRequest): PromiseLike<KeyValueListResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "searchKeyValueList");
+        let url: string = generateUrl(this.baseUrl,"AppService", "searchKeyValueList");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as KeyValueListResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as KeyValueListResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     updateKeyValue(params: KeyValueRequest): PromiseLike<KeyValueResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "updateKeyValue");
+        let url: string = generateUrl(this.baseUrl,"AppService", "updateKeyValue");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as KeyValueResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as KeyValueResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
     fetchKeyHistory(params: KVHistoryRequest): PromiseLike<KVHistoryResponse | Error> {
 
-            let url: string = generateUrl(this.baseUrl,"AppService", "fetchKeyHistory");
+        let url: string = generateUrl(this.baseUrl,"AppService", "fetchKeyHistory");
 
-            // TODO: determine use get/post according to request
-            return this.$http.post(url,params).then(
-                res => {
-                    console.log(res);
-                    // error handling
-                    if (res.data.error) {
-                        if (res.data.error.details) {
-                            return Promise.reject(res.data.error.details)
-                        }
-                        return Promise.reject(res.data.error as Error)
-                    }
-                    return res.data.response as KVHistoryResponse;
-                },
-                error => { // other errors such as 500, no network
-                    console.log(error);
-                    return new Error("Something wrong");
-                }
-            );
-        }
+        return this.$http.post(url,params).then(
+            res => {
+                // handle success data - 200
+                return Promise.resolve(res.data as KVHistoryResponse)
+            },
+            err => { 
+                // handle error response
+                return errorHandling(err.response)
+            }
+        );
+    }
     
 }

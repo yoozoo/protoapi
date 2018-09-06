@@ -32,34 +32,26 @@ type AppService interface {
     UpdateKeyValue(*KeyValueRequest) (*KeyValueResponse, *Error)
     FetchKeyHistory(*KVHistoryRequest) (*KVHistoryResponse, *Error)
 }
-
-type ResponseInternal struct {
-	Response interface{} `json:"response"`
-	Error    interface{} `json:"error"`
-}
 func _getEnv_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		in := new(EnvListRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.GetEnv(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _registerService_Handler(srv AppService) echo.HandlerFunc {
@@ -67,24 +59,21 @@ func _registerService_Handler(srv AppService) echo.HandlerFunc {
 		in := new(RegisterServiceRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.RegisterService(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _updateService_Handler(srv AppService) echo.HandlerFunc {
@@ -92,24 +81,21 @@ func _updateService_Handler(srv AppService) echo.HandlerFunc {
 		in := new(UpdateServiceRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.UpdateService(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _uploadProtoFile_Handler(srv AppService) echo.HandlerFunc {
@@ -117,24 +103,21 @@ func _uploadProtoFile_Handler(srv AppService) echo.HandlerFunc {
 		in := new(UploadProtoFileRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.UploadProtoFile(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _getTags_Handler(srv AppService) echo.HandlerFunc {
@@ -142,24 +125,21 @@ func _getTags_Handler(srv AppService) echo.HandlerFunc {
 		in := new(TagListRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.GetTags(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _getProducts_Handler(srv AppService) echo.HandlerFunc {
@@ -167,24 +147,21 @@ func _getProducts_Handler(srv AppService) echo.HandlerFunc {
 		in := new(ProductListRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.GetProducts(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _getServices_Handler(srv AppService) echo.HandlerFunc {
@@ -192,24 +169,21 @@ func _getServices_Handler(srv AppService) echo.HandlerFunc {
 		in := new(ServiceListRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.GetServices(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _searchServices_Handler(srv AppService) echo.HandlerFunc {
@@ -217,24 +191,21 @@ func _searchServices_Handler(srv AppService) echo.HandlerFunc {
 		in := new(ServiceSearchRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.SearchServices(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _getKeyList_Handler(srv AppService) echo.HandlerFunc {
@@ -242,24 +213,21 @@ func _getKeyList_Handler(srv AppService) echo.HandlerFunc {
 		in := new(KeyListRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.GetKeyList(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _getKeyValueList_Handler(srv AppService) echo.HandlerFunc {
@@ -267,24 +235,21 @@ func _getKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 		in := new(KeyValueListRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.GetKeyValueList(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _searchKeyValueList_Handler(srv AppService) echo.HandlerFunc {
@@ -292,24 +257,21 @@ func _searchKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 		in := new(SearchKeyValueListRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.SearchKeyValueList(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _updateKeyValue_Handler(srv AppService) echo.HandlerFunc {
@@ -317,24 +279,21 @@ func _updateKeyValue_Handler(srv AppService) echo.HandlerFunc {
 		in := new(KeyValueRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.UpdateKeyValue(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
@@ -342,24 +301,21 @@ func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
 		in := new(KVHistoryRequest)
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out, error := srv.FetchKeyHistory(in)
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 

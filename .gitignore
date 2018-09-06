@@ -6,7 +6,7 @@ protoapi
 .idea
 build
 out
-bin
+/bin
 .classpath
 .project
 .settings

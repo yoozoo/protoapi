@@ -23,37 +23,29 @@ type {{.Name}} interface {
     {{- end }}
 }
 
-type ResponseInternal struct {
-	Response interface{} `json:"response"`
-	Error    interface{} `json:"error"`
-}
-
 {{- range .Methods }}
 func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		in := new({{.InputType}})
 
 		if err = c.Bind(in); err != nil {
-			resp := ResponseInternal{Error: CommonError{BindError: &BindError{Message: err.Error()}}}
+			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
 		if valErr := in.Validate(); valErr != nil {
-			resp := ResponseInternal{Error: CommonError{ValidateError: valErr}}
+			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
 		out{{if ne .ErrorType "" }}, error{{end}} := srv.{{.Title}}(in)
 		{{- if ne .ErrorType "" }}
 		if error != nil {
-			resp := ResponseInternal{Error: error}
-			return c.JSON(400, resp)
+			return c.JSON(400, error)
 		}
 		{{- end}}
 
-		resp := ResponseInternal{Response: out}
-
-		return c.JSON(200, resp)
+		return c.JSON(200, out)
 	}
 }
 {{- end }}
