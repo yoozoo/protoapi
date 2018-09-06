@@ -62,6 +62,7 @@
     ```
 * 生成的ts代码中， 错误处理会使用一个switch， 根据error的status来决定返回不同的错误内容:
 
+
     ```
     switch(err.response.status){
         case httpCode.BIZ_ERROR:
