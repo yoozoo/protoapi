@@ -1,4 +1,4 @@
-import { CommonError, GenericError, AuthError, ValidateError, BindError } from './data'
+import { Error, CommonError, GenericError, AuthError, ValidateError, BindError } from './data'
 /**
  * Defined Http Code for response handling
  */
@@ -11,11 +11,27 @@ export enum httpCode {
 }
 /**
  * 
+ * @param {response} response the error response 
+ */
+export function errorHandling(response): Promise<never> {
+    switch (response.status) {
+        case httpCode.BIZ_ERROR:
+            return Promise.reject(response.data as Error)
+        case httpCode.COMMON_ERROR:
+            let returnErr = mapCommonErrorType(response.data);
+            return Promise.reject(returnErr)
+        case httpCode.INTERNAL_ERROR:
+            return Promise.reject(response.data)
+        default:
+            return Promise.reject(new Error("Unknown Error"))
+    }
+}
+/**
+ * 
  * @param {CommonError} commonErr the error object
  */
-export function mapCommonErrorType(commonErr: CommonError): (string | GenericError | AuthError | ValidateError | BindError) {
+function mapCommonErrorType(commonErr: CommonError): (string | GenericError | AuthError | ValidateError | BindError) {
     for (let key in commonErr) {
-        console.log(key)
         if (commonErr.hasOwnProperty(key) && commonErr[key]) {
             switch (key) {
                 case 'genericError':
