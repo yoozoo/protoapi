@@ -1,0 +1,48 @@
+/**
+* 这个文件用于生成相关的前后端API代码
+* 用protoapi指定此文件生成相关代码
+*/
+syntax = "proto3";
+
+import "protoapi_common.proto";
+
+// package
+package yoozoo.protoconf.ts;
+option java_package = "com.yoozoo.spring";
+
+// env list - 环境
+message EnvListRequest {
+}
+
+message EnvListResponse {
+    repeated Env envs = 1;
+}
+
+message Env {
+    string env_name = 1;
+    int32 env_id = 2;
+}
+
+message Error {
+    ErrorCode code = 1;
+    string message = 2;
+}
+
+enum ErrorCode {
+    DefaultError  = 0;
+    GeneralError  = 1000;
+	DatabaseError = 1001;
+    EtcdError     = 1002;
+    SystemError   = 1003;
+}
+
+/**
+* This service contains all the rpc related with services
+* option (service_method) can be "POST" or "GET", if not specified, both post and get methods will be supported
+*/
+service AppService {
+    // get env
+    rpc getEnv (EnvListRequest) returns (EnvListResponse) {
+        option (error) = "Error";
+    }
+}

@@ -2,6 +2,7 @@ package output
 
 import (
 	"bytes"
+	"errors"
 	"strings"
 	"text/template"
 	"time"
@@ -18,6 +19,7 @@ type phpStruct struct {
 	Methods   []data.Method
 	Enums     []*data.EnumData
 	Time      string
+	ComErr    *data.MessageData
 }
 
 func genPhpCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
@@ -37,6 +39,42 @@ func genPhpCode(applicationName string, packageName string, service *data.Servic
 	phpTemplate := tpl.FSMustString(false, "/generator/template/php.gophp")
 
 	// create template function map
+	bizErrorMsgs := make(map[string]bool)
+	for _, serv := range service.Methods {
+		errorMsgName, found := serv.Options["error"]
+		if found {
+			bizErrorMsgs[errorMsgName] = true
+		}
+	}
+	isBizErr := func(name string) bool {
+		for k := range bizErrorMsgs {
+			if k == name {
+				return true
+			}
+		}
+		return false
+	}
+
+	var comError *data.MessageData
+	for i, msg := range messages {
+		if msg.Name == data.ComErrMsgName {
+			comError = msg
+			messages = append(messages[:i], messages[i+1:]...)
+			break
+		}
+	}
+	if comError == nil {
+		return nil, errors.New("Cannot find common error message")
+	}
+	isComErr := func(name string) bool {
+		for _, field := range comError.Fields {
+			if field.DataType == name {
+				return true
+			}
+		}
+		return false
+	}
+
 	isObject := func(fieldType string) bool {
 		switch fieldType {
 		case data.StringFieldType,
@@ -45,14 +83,23 @@ func genPhpCode(applicationName string, packageName string, service *data.Servic
 			data.BooleanFieldType:
 			return false
 		default:
-			return true //ignore enum currently
+			// check if is enum
+			for _, enum := range enums {
+				if enum.Name == fieldType {
+					return false
+				}
+			}
+			return true
 		}
 	}
 
 	funcMap := template.FuncMap{
 		"isObject": isObject,
+		"isBizErr": isBizErr,
+		"isComErr": isComErr,
 		"title":    strings.Title,
 	}
+
 	// fill in data
 	templateData := phpStruct{
 		NameSpace: nameSpace,
@@ -61,6 +108,7 @@ func genPhpCode(applicationName string, packageName string, service *data.Servic
 		Methods:   service.Methods,
 		Enums:     enums,
 		Time:      time.Now().Format(time.RFC822),
+		ComErr:    comError,
 	}
 
 	//create a template
