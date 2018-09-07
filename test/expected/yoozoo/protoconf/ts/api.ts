@@ -38,216 +38,178 @@ import {
     UploadProtoFileResponse, 
     
 } from './data';
-import { generateUrl } from './helper';
+import { generateUrl, errorHandling } from './helper';
 
 /*baseUrl 可更改*/
 const baseUrl = "http://192.168.115.60:8080";
 // use axios
-// use fetch
 export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getEnv");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as EnvListResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as EnvListResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function registerService(params: RegisterServiceRequest): Promise<RegisterServiceResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "registerService");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as RegisterServiceResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as RegisterServiceResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function updateService(params: UpdateServiceRequest): Promise<UpdateServiceResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "updateService");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as UpdateServiceResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as UpdateServiceResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadProtoFileResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "uploadProtoFile");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as UploadProtoFileResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as UploadProtoFileResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function getTags(params: TagListRequest): Promise<TagListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getTags");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as TagListResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as TagListResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function getProducts(params: ProductListRequest): Promise<ProductListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getProducts");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as ProductListResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as ProductListResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function getServices(params: ServiceListRequest): Promise<ServiceListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getServices");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as ServiceListResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as ServiceListResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function searchServices(params: ServiceSearchRequest): Promise<ServiceListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "searchServices");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as ServiceListResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as ServiceListResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getKeyList");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as KeyListResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as KeyListResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getKeyValueList");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as KeyValueListResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as KeyValueListResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<KeyValueListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "searchKeyValueList");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as KeyValueListResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as KeyValueListResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "updateKeyValue");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as KeyValueResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as KeyValueResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
 
 export function fetchKeyHistory(params: KVHistoryRequest): Promise<KVHistoryResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "fetchKeyHistory");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle error
-        if (res.data.error) {
-            if (res.data.error.details) {
-                return Promise.reject(res.data.error.details)
-            }
-            return Promise.reject(res.data.error as Error)
-        }
-        // handle success data
-        return Promise.resolve(res.data.response as KVHistoryResponse)
-    });
+
+    return axios.post(url, params)
+        .then(res => {
+            // handle success data
+            return Promise.resolve(res.data as KVHistoryResponse)
+        }).catch(err => {
+            // handle error response
+            return errorHandling(err.response)
+        });
 }
+
+
