@@ -35,6 +35,9 @@ const (
 	FormatFieldOption = 51002
 	// RequiredFieldOption is the required type validation field option
 	RequiredFieldOption = 51003
+
+	// ComErrMsgName  is common error message name
+	ComErrMsgName = "CommonError"
 )
 
 // MethodOptions is the map of field number and field name in method options
