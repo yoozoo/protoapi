@@ -18,20 +18,21 @@ var (
 
 // AppService is the interface contains all the controllers
 type AppService interface {
-    GetEnv(*EnvListRequest) (*EnvListResponse, *Error)
-    RegisterService(*RegisterServiceRequest) (*RegisterServiceResponse, *Error)
-    UpdateService(*UpdateServiceRequest) (*UpdateServiceResponse, *Error)
-    UploadProtoFile(*UploadProtoFileRequest) (*UploadProtoFileResponse, *Error)
-    GetTags(*TagListRequest) (*TagListResponse, *Error)
-    GetProducts(*ProductListRequest) (*ProductListResponse, *Error)
-    GetServices(*ServiceListRequest) (*ServiceListResponse, *Error)
-    SearchServices(*ServiceSearchRequest) (*ServiceListResponse, *Error)
-    GetKeyList(*KeyListRequest) (*KeyListResponse, *Error)
-    GetKeyValueList(*KeyValueListRequest) (*KeyValueListResponse, *Error)
-    SearchKeyValueList(*SearchKeyValueListRequest) (*KeyValueListResponse, *Error)
-    UpdateKeyValue(*KeyValueRequest) (*KeyValueResponse, *Error)
-    FetchKeyHistory(*KVHistoryRequest) (*KVHistoryResponse, *Error)
+	GetEnv(*EnvListRequest) (*EnvListResponse, *Error)
+	RegisterService(*RegisterServiceRequest) (*RegisterServiceResponse, *Error)
+	UpdateService(*UpdateServiceRequest) (*UpdateServiceResponse, *Error)
+	UploadProtoFile(*UploadProtoFileRequest) (*UploadProtoFileResponse, *Error)
+	GetTags(*TagListRequest) (*TagListResponse, *Error)
+	GetProducts(*ProductListRequest) (*ProductListResponse, *Error)
+	GetServices(*ServiceListRequest) (*ServiceListResponse, *Error)
+	SearchServices(*ServiceSearchRequest) (*ServiceListResponse, *Error)
+	GetKeyList(*KeyListRequest) (*KeyListResponse, *Error)
+	GetKeyValueList(*KeyValueListRequest) (*KeyValueListResponse, *Error)
+	SearchKeyValueList(*SearchKeyValueListRequest) (*KeyValueListResponse, *Error)
+	UpdateKeyValue(*KeyValueRequest) (*KeyValueResponse, *Error)
+	FetchKeyHistory(*KVHistoryRequest) (*KVHistoryResponse, *Error)
 }
+
 func _getEnv_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		in := new(EnvListRequest)
@@ -321,18 +322,17 @@ func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
 
 // RegisterAppService is used to bind routers
 func RegisterAppService(e *echo.Echo, srv AppService) {
-    e.POST("/AppService.getEnv", _getEnv_Handler(srv))
-    e.POST("/AppService.registerService", _registerService_Handler(srv))
-    e.POST("/AppService.updateService", _updateService_Handler(srv))
-    e.POST("/AppService.uploadProtoFile", _uploadProtoFile_Handler(srv))
-    e.POST("/AppService.getTags", _getTags_Handler(srv))
-    e.POST("/AppService.getProducts", _getProducts_Handler(srv))
-    e.POST("/AppService.getServices", _getServices_Handler(srv))
-    e.POST("/AppService.searchServices", _searchServices_Handler(srv))
-    e.POST("/AppService.getKeyList", _getKeyList_Handler(srv))
-    e.POST("/AppService.getKeyValueList", _getKeyValueList_Handler(srv))
-    e.POST("/AppService.searchKeyValueList", _searchKeyValueList_Handler(srv))
-    e.POST("/AppService.updateKeyValue", _updateKeyValue_Handler(srv))
-    e.POST("/AppService.fetchKeyHistory", _fetchKeyHistory_Handler(srv))
+	e.POST("/AppService.getEnv", _getEnv_Handler(srv))
+	e.POST("/AppService.registerService", _registerService_Handler(srv))
+	e.POST("/AppService.updateService", _updateService_Handler(srv))
+	e.POST("/AppService.uploadProtoFile", _uploadProtoFile_Handler(srv))
+	e.POST("/AppService.getTags", _getTags_Handler(srv))
+	e.POST("/AppService.getProducts", _getProducts_Handler(srv))
+	e.POST("/AppService.getServices", _getServices_Handler(srv))
+	e.POST("/AppService.searchServices", _searchServices_Handler(srv))
+	e.POST("/AppService.getKeyList", _getKeyList_Handler(srv))
+	e.POST("/AppService.getKeyValueList", _getKeyValueList_Handler(srv))
+	e.POST("/AppService.searchKeyValueList", _searchKeyValueList_Handler(srv))
+	e.POST("/AppService.updateKeyValue", _updateKeyValue_Handler(srv))
+	e.POST("/AppService.fetchKeyHistory", _fetchKeyHistory_Handler(srv))
 }
-

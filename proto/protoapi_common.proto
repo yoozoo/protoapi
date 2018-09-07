@@ -8,8 +8,8 @@ extend google.protobuf.MethodOptions {
 }
 
 extend google.protobuf.FieldOptions {
-    string format = 51002;
-    string required = 51003;
+    string val_format = 51002;
+    bool val_required = 51003;
     int32 min = 51004;
     int32 max = 51005;
 }

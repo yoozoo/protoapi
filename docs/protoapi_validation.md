@@ -92,7 +92,7 @@ import "protoapi_common.proto"
 
 message ServiceSearchRequest{
     repeated int32 tag_ids = 1; // optional, for filter
-    string prefix = 2 [(val_required) = 1, (val_format) = "email"];
+    string prefix = 2 [(val_required) = true, (val_format) = "email"];
     int32 env_id = 3;
     int32 offset = 4;
     int32 limit = 5;

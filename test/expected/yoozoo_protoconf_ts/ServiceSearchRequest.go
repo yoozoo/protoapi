@@ -4,24 +4,20 @@ package yoozoo_protoconf_ts
 
 // ServiceSearchRequest
 type ServiceSearchRequest struct {
-    Tag_ids []int `json:"tag_ids"`
-    Prefix string `json:"prefix"`
-    Env_id int `json:"env_id"`
-    Offset int `json:"offset"`
-    Limit int `json:"limit"`
+	Tag_ids []int  `json:"tag_ids"`
+	Prefix  string `json:"prefix"`
+	Env_id  int    `json:"env_id"`
+	Offset  int    `json:"offset"`
+	Limit   int    `json:"limit"`
 }
 
 func (r ServiceSearchRequest) Validate() *ValidateError {
-    errs := []*FieldError{}
-	if r.Prefix == "" {
-        e := FIELD_REQUIRED
-		errs = append(errs, &FieldError{Field_name: r.Prefix, Error_type: &e})
-	}
+	errs := []*FieldError{}
 	if !rxEmail.MatchString(r.Prefix) {
-        e := INVALID_EMAIL
-		errs = append(errs, &FieldError{Field_name: r.Prefix, Error_type: &e})
+		e := INVALID_EMAIL
+		errs = append(errs, &FieldError{FieldName: r.Prefix, ErrorType: &e})
 	}
-    if len(errs) > 0 {
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil
