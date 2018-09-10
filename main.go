@@ -4,77 +4,46 @@ package main
 //go:generate esc -o util/protoapi_include.go -modtime 0 -pkg=util proto
 
 import (
-	"flag"
+	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
-	"os/exec"
-	"path/filepath"
 
 	"github.com/golang/protobuf/proto"
-	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 
+	"version.uuzu.com/Merlion/protoapi/cmd"
 	"version.uuzu.com/Merlion/protoapi/generator"
 	"version.uuzu.com/Merlion/protoapi/util"
 )
 
 func main() {
+	defer func() {
+		util.CleanIncludePath()
+		if r := recover(); r != nil {
+			os.Exit(1)
+		}
+	}()
+
+	stat, err := os.Stdin.Stat()
 	args := os.Args
-	var input []byte
-	// if command has parameter then call protoc, if no parameter meaning calling from protoc
-	if len(args) > 2 {
-		var err error
-		protoFile := args[2]
-		input, err = ioutil.ReadFile(protoFile)
+	// when no any parameter and not reading from char device, treat it as being called by protoc
+	if len(args) == 1 && err == nil && (stat.Mode()&os.ModeCharDevice) == 0 {
+
+		input, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
-			log.Fatalf("reading file %s error: %s\n", protoFile, err.Error())
-		}
-		// protoapi binary
-		executable, _ := os.Executable()
-
-		langFlag := flag.String("lang", "echo:.", "output language and output directory")
-		protoIncFlag := flag.String("I", "", "protobuf include dir")
-		flag.Parse()
-
-		flags := []string{}
-		flags = append(flags, "--plugin=protoc-gen-custom="+executable)
-		flags = append(flags, "--custom_out=lang="+*langFlag)
-
-		protoIncPath := util.GetIncludePath(filepath.FromSlash(*protoIncFlag), filepath.Dir(protoFile))
-		flags = append(flags, "-I="+protoIncPath)
-		flags = append(flags, protoFile)
-
-		// Run protoc command
-		cmd := exec.Command("protoc", flags...)
-		cmd.Stderr = os.Stderr
-
-		if err := cmd.Run(); err != nil {
-			log.Fatal(err)
+			util.HandleError(fmt.Errorf("reading stdin error: %s", err.Error()))
 		}
 
-	} else {
-		var err error
-		input, err = ioutil.ReadAll(os.Stdin)
-		if err != nil {
-			log.Fatalf("reading stdin error: %s\n", err.Error())
-		}
-
-		request := new(plugin.CodeGeneratorRequest)
-
-		proto.Unmarshal(input, request)
-		if len(request.FileToGenerate) != 1 {
-			log.Fatalf("input files are： %v\nwe only support one proto file\n", request.FileToGenerate)
-		}
-
-		response, err := generator.Generate(request)
-		if err != nil {
-			log.Fatalf("generate response failed: %s\n", err.Error())
-		}
+		response := generator.Generate(input)
 
 		output, err := proto.Marshal(response)
 		if err != nil {
-			log.Fatalf("create response failed: %s\n", err.Error())
+			util.HandleError(fmt.Errorf("create response failed: %s", err.Error()))
 		}
-		os.Stdout.Write(output)
+		_, err = os.Stdout.Write(output)
+		if err != nil {
+			util.HandleError(err)
+		}
+	} else {
+		cmd.Execute()
 	}
 }
