@@ -11,6 +11,8 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"version.uuzu.com/Merlion/protoapi/generator/data"
+	"version.uuzu.com/Merlion/protoconf/util"
+
 	// this is to let the output plugins initialize themselves and add to the output plugin registra
 	_ "version.uuzu.com/Merlion/protoapi/generator/output"
 
@@ -522,7 +524,13 @@ func getFileOptions(request *plugin.CodeGeneratorRequest) data.OptionMap {
 }
 
 // Generate the entry point for the code generation module
-func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorResponse, error) {
+func Generate(input []byte) *plugin.CodeGeneratorResponse {
+	request := new(plugin.CodeGeneratorRequest)
+
+	proto.Unmarshal(input, request)
+	if len(request.FileToGenerate) != 1 {
+		util.HandleError(fmt.Errorf("input files are： %v\nwe only support one proto file", request.FileToGenerate))
+	}
 
 	var outputLang = "ts"
 	var params = make(map[string]string)
@@ -554,20 +562,17 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 	options := getFileOptions(request)
 
 	messages, enums := getMessages(request.ProtoFile)
-	if messages == nil {
-		return nil, nil
-	}
 	// Fix same message name issue
 	fixMessageName(messages, enums)
 
 	services := getServices(request.ProtoFile)
-	if services == nil {
-		return nil, nil
-	}
 
 	if outputFunc, ok := data.OutputMap[outputLang]; ok {
 		response := new(plugin.CodeGeneratorResponse)
 		results, err := outputFunc(applicationName, packageName, services[0], messages, enums, options)
+		if err != nil {
+			util.HandleError(err)
+		}
 		for file, content := range results {
 			var resultFile = new(plugin.CodeGeneratorResponse_File)
 			// generate the file to the specified package
@@ -577,8 +582,11 @@ func Generate(request *plugin.CodeGeneratorRequest) (*plugin.CodeGeneratorRespon
 			resultFile.Content = &fileContent
 			response.File = append(response.File, resultFile)
 		}
-		return response, err
+		return response
 	}
 	err := fmt.Errorf("Output plugin not found for %s\nsupported languages %v", outputLang, reflect.ValueOf(data.OutputMap).MapKeys())
-	return nil, err
+	if err != nil {
+		util.HandleError(err)
+	}
+	return nil
 }
