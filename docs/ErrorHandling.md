@@ -24,7 +24,7 @@
     ```
     // 正常结果
     message HelloResponse {
-        string hi = 1;  
+        string hi = 1;
     }
     // 异常结果， 可以自行定义
     message Error {
@@ -34,12 +34,12 @@
     ```
 
 * 常见错误 则定义在`proto/protoapi_common.proto`中， 可被引用生成相关的错误处理代码
-    
+
     * 例如`CommonError`我们定义了以下四种:
 
     ```
     message CommonError {
-        GenericError genericError = 1; 
+        GenericError genericError = 1;
         AuthError authError = 2; //认证错误
         ValidateError validateError = 3; //验证错误
         BindError bindError = 4; // 参数错误
@@ -48,6 +48,7 @@
 
 ## 前端处理
 
+#### 1. TypeScript
 * 如上所述，在生成的`helper.ts`里，我们定义了不同结果用不同的 `HTTP status code`来区分:
 
     ```
@@ -103,3 +104,80 @@
         return errorHandling(err.response)
     });
     ```
+#### 2. PHP
+
+* 生成的PHP代码中所有的Message都实现了定义在[ProtoApi PHP SDK]中的`Message` Interface.
+    ```php
+    interface Message
+    {
+        public function validate();
+        public function init(array $arr);
+        public function to_array();
+    }
+    ```
+* `protobuf`文件中的每个service在生成的代码中对应一个Class. service中的每个rpc请求都是这个类中的一个公共方法，可以直接调用。
+    > 例子
+    >
+    >假设我们的`protobuf`文件中有LogonError如下
+* PHP中所有的Error都继承了Exception类。其中`Common Error`和`Business Error`的父类定义在[ProtoApi PHP SDK]中。除此之外还定义了一些常见的Exception:
+    ```php
+    // Message 格式错误
+    class InvalidMessageException extends Exception {}
+
+    // 所有Common Error的父类
+    class CommonErrorException extends Exception {}
+
+    class InternalServerErrorException extends Exception {}
+
+    // 所有Business Error的父类
+    class BizErrorException extends Exception {}
+
+    class GeneralException extends Exception {}
+    ```
+* 生成的代码中会生成根据`protobuf`文件中定义的错误，生成对应的Error并继承它们在`SDK`中的父类
+
+    >例子
+    >
+    >假设我们的`protobuf`文件中有DemoService如下
+    >```protobuf
+    >...
+    >message LogonInfoRequest {
+    >   string token = 1;
+    >}
+    >
+    >message LogonInfoResponse {
+    >   string user = 1;
+    >   string password = 2;
+    >}
+    >
+    >service DemoService {
+    >    rpc getLogonInfo (LogonInfoRequest) returns (LogonInfoResponse){
+    >        option (error)="LogonError";
+    >    }
+    >}
+    >...
+    >```
+    >那么生成的代码中会有如下的内容
+    >```php
+    >class LogonInfoRequest implements ProtoApi\Message
+    >{
+    >   protected $token;
+    >   ...
+    >}
+    >class LogonInfoResponse implements ProtoApi\Message
+    >{
+    >   protected $user;
+    >   protected $password;
+    >   ...
+    >}
+    >
+    >class DemoService
+    >{
+    >   ...
+    >   public function getLogonInfo(LogonInfoRequest $req)
+    >   {
+    >       ...
+    >   }
+    >   ...
+    >}
+    >```
