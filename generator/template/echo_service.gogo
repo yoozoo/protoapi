@@ -19,7 +19,7 @@ var (
 // {{.Name}} is the interface contains all the controllers
 type {{.Name}} interface {
 	{{- range .Methods }}
-    {{.Title}}(*{{.InputType}}) (*{{.OutputType}}{{if ne .ErrorType ""}}, *{{.ErrorType}}{{end}})
+    {{.Title}}(*{{.InputType}}, echo.Context) (*{{.OutputType}}{{if ne .ErrorType ""}}, *{{.ErrorType}}{{end}})
     {{- end }}
 }
 
@@ -38,7 +38,7 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out{{if ne .ErrorType "" }}, error{{end}} := srv.{{.Title}}(in)
+		out{{if ne .ErrorType "" }}, error{{end}} := srv.{{.Title}}(in, c)
 		{{- if ne .ErrorType "" }}
 		if error != nil {
 			return c.JSON(400, error)
