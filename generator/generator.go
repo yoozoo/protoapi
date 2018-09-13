@@ -11,7 +11,7 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"version.uuzu.com/Merlion/protoapi/generator/data"
-	"version.uuzu.com/Merlion/protoconf/util"
+	"version.uuzu.com/Merlion/protoapi/util"
 
 	// this is to let the output plugins initialize themselves and add to the output plugin registra
 	_ "version.uuzu.com/Merlion/protoapi/generator/output"
