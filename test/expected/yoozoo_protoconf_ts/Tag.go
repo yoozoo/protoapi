@@ -4,7 +4,7 @@ package yoozoo_protoconf_ts
 
 // Tag
 type Tag struct {
-	Tag_id int `json:"tag_id"`
+	Tag_id   int    `json:"tag_id"`
 	Tag_name string `json:"tag_name"`
 }
 

@@ -4,7 +4,7 @@ package yoozoo_protoconf_ts
 
 // Env
 type Env struct {
-	Env_id int `json:"env_id"`
+	Env_id   int    `json:"env_id"`
 	Env_name string `json:"env_name"`
 }
 

@@ -5,7 +5,7 @@ package yoozoo_protoconf_ts
 // KVHistoryRequest
 type KVHistoryRequest struct {
 	Service_id int `json:"service_id"`
-	Key_id int `json:"key_id"`
+	Key_id     int `json:"key_id"`
 }
 
 func (r KVHistoryRequest) Validate() *ValidateError {

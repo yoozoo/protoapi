@@ -4,11 +4,11 @@ package yoozoo_protoconf_ts
 
 // Key
 type Key struct {
-	Key_id int `json:"key_id"`
-	Key string `json:"key"`
-	DataType string `json:"dataType"`
+	Key_id       int    `json:"key_id"`
+	Key          string `json:"key"`
+	DataType     string `json:"dataType"`
 	DefaultValue string `json:"defaultValue"`
-	IsWatched bool `json:"isWatched"`
+	IsWatched    bool   `json:"isWatched"`
 }
 
 func (r Key) Validate() *ValidateError {

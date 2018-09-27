@@ -5,9 +5,9 @@ package yoozoo_protoconf_ts
 // ServiceListResponse
 type ServiceListResponse struct {
 	Services []*Service `json:"services"`
-	Offset int `json:"offset"`
-	Limit int `json:"limit"`
-	Total int `json:"total"`
+	Offset   int        `json:"offset"`
+	Limit    int        `json:"limit"`
+	Total    int        `json:"total"`
 }
 
 func (r ServiceListResponse) Validate() *ValidateError {

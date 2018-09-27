@@ -4,7 +4,7 @@ package yoozoo_protoconf_ts
 
 // KeyValueRequest
 type KeyValueRequest struct {
-	Service_id int `json:"service_id"`
+	Service_id int         `json:"service_id"`
 	Key_values []*KeyValue `json:"key_values"`
 }
 

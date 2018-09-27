@@ -4,9 +4,9 @@ package yoozoo_protoconf_ts
 
 // UpdateServiceResponse
 type UpdateServiceResponse struct {
-	Service_id int `json:"service_id"`
-	Tags []*Tag `json:"tags"`
-	Desc string `json:"desc"`
+	Service_id int    `json:"service_id"`
+	Tags       []*Tag `json:"tags"`
+	Desc       string `json:"desc"`
 }
 
 func (r UpdateServiceResponse) Validate() *ValidateError {

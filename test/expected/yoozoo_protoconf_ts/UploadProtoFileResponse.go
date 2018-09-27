@@ -5,8 +5,8 @@ package yoozoo_protoconf_ts
 // UploadProtoFileResponse
 type UploadProtoFileResponse struct {
 	Service_id int `json:"service_id"`
-	Env_id int `json:"env_id"`
-	Key_count int `json:"key_count"`
+	Env_id     int `json:"env_id"`
+	Key_count  int `json:"key_count"`
 }
 
 func (r UploadProtoFileResponse) Validate() *ValidateError {

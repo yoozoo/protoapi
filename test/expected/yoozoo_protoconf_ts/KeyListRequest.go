@@ -5,7 +5,7 @@ package yoozoo_protoconf_ts
 // KeyListRequest
 type KeyListRequest struct {
 	Service_id int `json:"service_id"`
-	Env_id int `json:"env_id"`
+	Env_id     int `json:"env_id"`
 }
 
 func (r KeyListRequest) Validate() *ValidateError {

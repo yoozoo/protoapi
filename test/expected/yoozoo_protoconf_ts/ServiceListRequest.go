@@ -5,9 +5,9 @@ package yoozoo_protoconf_ts
 // ServiceListRequest
 type ServiceListRequest struct {
 	Tag_ids []int `json:"tag_ids"`
-	Env_id int `json:"env_id"`
-	Offset int `json:"offset"`
-	Limit int `json:"limit"`
+	Env_id  int   `json:"env_id"`
+	Offset  int   `json:"offset"`
+	Limit   int   `json:"limit"`
 }
 
 func (r ServiceListRequest) Validate() *ValidateError {

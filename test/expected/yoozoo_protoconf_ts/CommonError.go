@@ -4,10 +4,10 @@ package yoozoo_protoconf_ts
 
 // CommonError
 type CommonError struct {
-	GenericError *GenericError `json:"genericError"`
-	AuthError *AuthError `json:"authError"`
+	GenericError  *GenericError  `json:"genericError"`
+	AuthError     *AuthError     `json:"authError"`
 	ValidateError *ValidateError `json:"validateError"`
-	BindError *BindError `json:"bindError"`
+	BindError     *BindError     `json:"bindError"`
 }
 
 func (r CommonError) Validate() *ValidateError {

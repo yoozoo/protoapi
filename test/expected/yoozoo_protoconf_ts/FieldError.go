@@ -4,7 +4,7 @@ package yoozoo_protoconf_ts
 
 // FieldError
 type FieldError struct {
-	FieldName string `json:"fieldName"`
+	FieldName string             `json:"fieldName"`
 	ErrorType *ValidateErrorType `json:"errorType"`
 }
 

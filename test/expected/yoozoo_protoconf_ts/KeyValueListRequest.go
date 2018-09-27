@@ -4,8 +4,8 @@ package yoozoo_protoconf_ts
 
 // KeyValueListRequest
 type KeyValueListRequest struct {
-	Service_id int `json:"service_id"`
-	Keys []*Key `json:"keys"`
+	Service_id int    `json:"service_id"`
+	Keys       []*Key `json:"keys"`
 }
 
 func (r KeyValueListRequest) Validate() *ValidateError {

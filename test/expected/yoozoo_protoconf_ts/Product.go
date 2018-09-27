@@ -4,7 +4,7 @@ package yoozoo_protoconf_ts
 
 // Product
 type Product struct {
-	Product_id string `json:"product_id"`
+	Product_id   string `json:"product_id"`
 	Product_name string `json:"product_name"`
 }
 

@@ -32,6 +32,7 @@ type AppService interface {
 	UpdateKeyValue(echo.Context, *KeyValueRequest) (*KeyValueResponse, *Error)
 	FetchKeyHistory(echo.Context, *KVHistoryRequest) (*KVHistoryResponse, *Error)
 }
+
 func _getEnv_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		in := new(EnvListRequest)
@@ -335,4 +336,3 @@ func RegisterAppService(e *echo.Echo, srv AppService) {
 	e.POST("/AppService.updateKeyValue", _updateKeyValue_Handler(srv))
 	e.POST("/AppService.fetchKeyHistory", _fetchKeyHistory_Handler(srv))
 }
-
