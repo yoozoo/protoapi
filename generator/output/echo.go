@@ -55,7 +55,7 @@ func (g *echoGen) getTpl(path string) *template.Template {
 	tplStr := data.LoadTpl(path)
 	result, err := tpl.Parse(tplStr)
 	if err != nil {
-		panic(err)
+		die(err)
 	}
 	return result
 }
@@ -98,6 +98,11 @@ func formatBuffer(buf *bytes.Buffer) (string, error) {
 	return "", fmt.Errorf("failed to format template\n\n%s\n", errBuf.Bytes())
 }
 
+func die(err error) {
+	print(err.Error())
+	panic(err)
+}
+
 func (g *echoGen) getStructFilename(packageName string, msg *data.MessageData) string {
 	return strings.Replace(packageName, ".", "/", -1) + "/" + msg.Name + ".go"
 }
@@ -108,12 +113,12 @@ func (g *echoGen) genStruct(msg *data.MessageData) string {
 	obj := newEchoStruct(msg, g.PackageName)
 	err := g.structTpl.Execute(buf, obj)
 	if err != nil {
-		panic(err)
+		die(err)
 	}
 
 	code, err := formatBuffer(buf)
 	if err != nil {
-		panic(err)
+		die(err)
 	}
 	return code
 }
@@ -128,12 +133,12 @@ func (g *echoGen) genEnum(enum *data.EnumData) string {
 	obj := newEchoEnum(enum, g.PackageName)
 	err := g.enumTpl.Execute(buf, obj)
 	if err != nil {
-		panic(err)
+		die(err)
 	}
 
 	code, err := formatBuffer(buf)
 	if err != nil {
-		panic(err)
+		die(err)
 	}
 	return code
 }
@@ -144,12 +149,12 @@ func (g *echoGen) genServie(service *data.ServiceData) string {
 	obj := newEchoService(service, g.PackageName)
 	err := g.serviceTpl.Execute(buf, obj)
 	if err != nil {
-		panic(err)
+		die(err)
 	}
 
 	code, err := formatBuffer(buf)
 	if err != nil {
-		panic(err)
+		die(err)
 	}
 	return code
 }
