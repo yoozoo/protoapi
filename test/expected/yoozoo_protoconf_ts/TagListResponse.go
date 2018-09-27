@@ -4,12 +4,12 @@ package yoozoo_protoconf_ts
 
 // TagListResponse
 type TagListResponse struct {
-    Tags []*Tag `json:"tags"`
+	Tags []*Tag `json:"tags"`
 }
 
 func (r TagListResponse) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

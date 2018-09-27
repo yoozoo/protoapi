@@ -4,12 +4,12 @@ package yoozoo_protoconf_ts
 
 // BindError
 type BindError struct {
-    Message string `json:"message"`
+	Message string `json:"message"`
 }
 
 func (r BindError) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

@@ -4,12 +4,12 @@ package yoozoo_protoconf_ts
 
 // ProductListResponse
 type ProductListResponse struct {
-    Products []*Product `json:"products"`
+	Products []*Product `json:"products"`
 }
 
 func (r ProductListResponse) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

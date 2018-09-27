@@ -4,13 +4,13 @@ package yoozoo_protoconf_ts
 
 // KeyValueRequest
 type KeyValueRequest struct {
-    Service_id int `json:"service_id"`
-    Key_values []*KeyValue `json:"key_values"`
+	Service_id int `json:"service_id"`
+	Key_values []*KeyValue `json:"key_values"`
 }
 
 func (r KeyValueRequest) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

@@ -7,8 +7,8 @@ type EnvListRequest struct {
 }
 
 func (r EnvListRequest) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

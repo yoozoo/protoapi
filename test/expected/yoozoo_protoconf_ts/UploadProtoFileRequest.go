@@ -4,14 +4,14 @@ package yoozoo_protoconf_ts
 
 // UploadProtoFileRequest
 type UploadProtoFileRequest struct {
-    Service_id int `json:"service_id"`
-    Env_id int `json:"env_id"`
-    File string `json:"file"`
+	Service_id int `json:"service_id"`
+	Env_id int `json:"env_id"`
+	File string `json:"file"`
 }
 
 func (r UploadProtoFileRequest) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

@@ -4,12 +4,12 @@ package yoozoo_protoconf_ts
 
 // KVHistoryResponse
 type KVHistoryResponse struct {
-    KVhistorys []*KVHistoryItem `json:"KVhistorys"`
+	KVhistorys []*KVHistoryItem `json:"KVhistorys"`
 }
 
 func (r KVHistoryResponse) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

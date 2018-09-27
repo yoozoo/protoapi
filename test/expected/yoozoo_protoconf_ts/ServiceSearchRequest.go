@@ -4,11 +4,11 @@ package yoozoo_protoconf_ts
 
 // ServiceSearchRequest
 type ServiceSearchRequest struct {
-	Tag_ids []int  `json:"tag_ids"`
-	Prefix  string `json:"prefix"`
-	Env_id  int    `json:"env_id"`
-	Offset  int    `json:"offset"`
-	Limit   int    `json:"limit"`
+	Tag_ids []int `json:"tag_ids"`
+	Prefix string `json:"prefix"`
+	Env_id int `json:"env_id"`
+	Offset int `json:"offset"`
+	Limit int `json:"limit"`
 }
 
 func (r ServiceSearchRequest) Validate() *ValidateError {

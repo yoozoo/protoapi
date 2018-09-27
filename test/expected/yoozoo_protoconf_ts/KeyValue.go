@@ -4,17 +4,17 @@ package yoozoo_protoconf_ts
 
 // KeyValue
 type KeyValue struct {
-    Key_id int `json:"key_id"`
-    Key string `json:"key"`
-    DataType string `json:"dataType"`
-    DefaultValue string `json:"defaultValue"`
-    IsWatched bool `json:"isWatched"`
-    Value string `json:"value"`
+	Key_id int `json:"key_id"`
+	Key string `json:"key"`
+	DataType string `json:"dataType"`
+	DefaultValue string `json:"defaultValue"`
+	IsWatched bool `json:"isWatched"`
+	Value string `json:"value"`
 }
 
 func (r KeyValue) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

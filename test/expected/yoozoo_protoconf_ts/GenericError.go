@@ -4,12 +4,12 @@ package yoozoo_protoconf_ts
 
 // GenericError
 type GenericError struct {
-    Message string `json:"message"`
+	Message string `json:"message"`
 }
 
 func (r GenericError) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

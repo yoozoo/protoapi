@@ -4,15 +4,15 @@ package yoozoo_protoconf_ts
 
 // KVHistoryItem
 type KVHistoryItem struct {
-    Updated_value string `json:"updated_value"`
-    Updated_date string `json:"updated_date"`
-    Updated_by string `json:"updated_by"`
-    Revision int64 `json:"revision"`
+	Updated_value string `json:"updated_value"`
+	Updated_date string `json:"updated_date"`
+	Updated_by string `json:"updated_by"`
+	Revision int64 `json:"revision"`
 }
 
 func (r KVHistoryItem) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil
