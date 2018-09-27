@@ -25,9 +25,9 @@ func main() {
 
 	stat, err := os.Stdin.Stat()
 	args := os.Args
+
 	// when no any parameter and not reading from char device, treat it as being called by protoc
 	if len(args) == 1 && err == nil && (stat.Mode()&os.ModeCharDevice) == 0 {
-
 		input, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
 			util.HandleError(fmt.Errorf("reading stdin error: %s", err.Error()))
