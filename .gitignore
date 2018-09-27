@@ -1,5 +1,4 @@
-/com
-/yoozoo
+test/result/
 *.exe
 protoapi
 .gradle
