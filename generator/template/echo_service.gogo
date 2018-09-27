@@ -19,8 +19,8 @@ var (
 // {{.Name}} is the interface contains all the controllers
 type {{.Name}} interface {
 	{{- range .Methods }}
-    {{.Title}}(echo.Context, *{{.InputType}}) (*{{.OutputType}}{{if ne .ErrorType ""}}, *{{.ErrorType}}{{end}})
-    {{- end }}
+	{{.Title}}(echo.Context, *{{.InputType}}) (*{{.OutputType}}{{if ne .ErrorType ""}}, *{{.ErrorType}}{{end}})
+	{{- end }}
 }
 
 {{- range .Methods }}
@@ -52,14 +52,14 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 
 // Register{{.Name}} is used to bind routers
 func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
-    {{- range .Methods }}
-    {{- if ne .ServiceType "POST" }}
-    e.GET("{{.Path}}", _{{.Name}}_Handler(srv))
-    {{- end }}
+	{{- range .Methods }}
+	{{- if ne .ServiceType "POST" }}
+	e.GET("{{.Path}}", _{{.Name}}_Handler(srv))
+	{{- end }}
 
-    {{- if ne .ServiceType "GET" }}
-    e.POST("{{.Path}}", _{{.Name}}_Handler(srv))
-    {{- end }}
-    {{- end }}
+	{{- if ne .ServiceType "GET" }}
+	e.POST("{{.Path}}", _{{.Name}}_Handler(srv))
+	{{- end }}
+	{{- end }}
 }
 

@@ -4,28 +4,28 @@ package {{.Package}}
 
 // {{.ClassName}}
 type {{.ClassName}} struct {
-    {{- range .Fields }}
-    {{.Title}} {{.Type}} `json:"{{.Name}}"`
-    {{- end }}
+	{{- range .Fields }}
+	{{.Title}} {{.Type}} `json:"{{.Name}}"`
+	{{- end }}
 }
 
 func (r {{.ClassName}}) Validate() *ValidateError {
-    errs := []*FieldError{}
-    {{- range .Fields }}
-    {{- if .ValidateRequired }}
+	errs := []*FieldError{}
+	{{- range .Fields }}
+	{{- if .ValidateRequired }}
 	if r.{{.Title}} == "" {
-        e := FIELD_REQUIRED
+		e := FIELD_REQUIRED
 		errs = append(errs, &FieldError{FieldName: r.{{.Title}}, ErrorType: &e})
 	}
-    {{- end }}
-    {{- if eq .ValidateFormat "email" }}
+	{{- end }}
+	{{- if eq .ValidateFormat "email" }}
 	if !rxEmail.MatchString(r.{{.Title}}) {
-        e := INVALID_EMAIL
+		e := INVALID_EMAIL
 		errs = append(errs, &FieldError{FieldName: r.{{.Title}}, ErrorType: &e})
 	}
-    {{- end }}
-    {{- end }}
-    if len(errs) > 0 {
+	{{- end }}
+	{{- end }}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil
