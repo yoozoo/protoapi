@@ -4,13 +4,13 @@ package yoozoo_protoconf_ts
 
 // FieldError
 type FieldError struct {
-    FieldName string `json:"fieldName"`
-    ErrorType *ValidateErrorType `json:"errorType"`
+	FieldName string             `json:"fieldName"`
+	ErrorType *ValidateErrorType `json:"errorType"`
 }
 
 func (r FieldError) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

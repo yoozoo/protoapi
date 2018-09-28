@@ -14,3 +14,8 @@
   ../protoapi gen --lang=spring result/ proto/test.proto
   diff -I -r result/com/yoozoo/spring/ expected/com/yoozoo/spring/
 }
+
+@test "test.proto php outout" {
+  ../protoapi gen --lang=php result/ proto/test.proto
+  diff -I -r result/yoozoo.protoconf.ts/ expected/yoozoo.protoconf.ts/
+}

@@ -4,13 +4,13 @@ package yoozoo_protoconf_ts
 
 // Tag
 type Tag struct {
-    Tag_id int `json:"tag_id"`
-    Tag_name string `json:"tag_name"`
+	Tag_id   int    `json:"tag_id"`
+	Tag_name string `json:"tag_name"`
 }
 
 func (r Tag) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

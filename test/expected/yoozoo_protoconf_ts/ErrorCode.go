@@ -5,20 +5,20 @@ package yoozoo_protoconf_ts
 type ErrorCode int
 
 const (
-    DefaultError ErrorCode = 0
-    GeneralError ErrorCode = 1000
-    DatabaseError ErrorCode = 1001
-    EtcdError ErrorCode = 1002
-    SystemError ErrorCode = 1003
+	DefaultError  ErrorCode = 0
+	GeneralError  ErrorCode = 1000
+	DatabaseError ErrorCode = 1001
+	EtcdError     ErrorCode = 1002
+	SystemError   ErrorCode = 1003
 )
 
 func (code ErrorCode) String() string {
 	names := map[ErrorCode]string{
-        DefaultError: "DefaultError",
-        GeneralError: "GeneralError",
-        DatabaseError: "DatabaseError",
-        EtcdError: "EtcdError",
-        SystemError: "SystemError",
+		DefaultError:  "DefaultError",
+		GeneralError:  "GeneralError",
+		DatabaseError: "DatabaseError",
+		EtcdError:     "EtcdError",
+		SystemError:   "SystemError",
 	}
 
 	return names[code]

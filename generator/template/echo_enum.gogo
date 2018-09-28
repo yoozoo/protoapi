@@ -5,16 +5,16 @@ package {{.Package}}
 type {{.Name}} int
 
 const (
-    {{- range .Fields }}
-    {{.Name}} {{$.Name}} = {{.Value}}
-    {{- end}}
+	{{- range .Fields }}
+	{{.Name}} {{$.Name}} = {{.Value}}
+	{{- end}}
 )
 
 func (code {{.Name}}) String() string {
 	names := map[{{.Name}}]string{
-        {{- range .Fields }}
-        {{.Name}}: "{{.Name}}",
-        {{- end}}
+		{{- range .Fields }}
+		{{.Name}}: "{{.Name}}",
+		{{- end}}
 	}
 
 	return names[code]

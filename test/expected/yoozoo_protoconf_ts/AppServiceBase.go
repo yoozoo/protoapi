@@ -18,19 +18,19 @@ var (
 
 // AppService is the interface contains all the controllers
 type AppService interface {
-	GetEnv(*EnvListRequest) (*EnvListResponse, *Error)
-	RegisterService(*RegisterServiceRequest) (*RegisterServiceResponse, *Error)
-	UpdateService(*UpdateServiceRequest) (*UpdateServiceResponse, *Error)
-	UploadProtoFile(*UploadProtoFileRequest) (*UploadProtoFileResponse, *Error)
-	GetTags(*TagListRequest) (*TagListResponse, *Error)
-	GetProducts(*ProductListRequest) (*ProductListResponse, *Error)
-	GetServices(*ServiceListRequest) (*ServiceListResponse, *Error)
-	SearchServices(*ServiceSearchRequest) (*ServiceListResponse, *Error)
-	GetKeyList(*KeyListRequest) (*KeyListResponse, *Error)
-	GetKeyValueList(*KeyValueListRequest) (*KeyValueListResponse, *Error)
-	SearchKeyValueList(*SearchKeyValueListRequest) (*KeyValueListResponse, *Error)
-	UpdateKeyValue(*KeyValueRequest) (*KeyValueResponse, *Error)
-	FetchKeyHistory(*KVHistoryRequest) (*KVHistoryResponse, *Error)
+	GetEnv(echo.Context, *EnvListRequest) (*EnvListResponse, *Error)
+	RegisterService(echo.Context, *RegisterServiceRequest) (*RegisterServiceResponse, *Error)
+	UpdateService(echo.Context, *UpdateServiceRequest) (*UpdateServiceResponse, *Error)
+	UploadProtoFile(echo.Context, *UploadProtoFileRequest) (*UploadProtoFileResponse, *Error)
+	GetTags(echo.Context, *TagListRequest) (*TagListResponse, *Error)
+	GetProducts(echo.Context, *ProductListRequest) (*ProductListResponse, *Error)
+	GetServices(echo.Context, *ServiceListRequest) (*ServiceListResponse, *Error)
+	SearchServices(echo.Context, *ServiceSearchRequest) (*ServiceListResponse, *Error)
+	GetKeyList(echo.Context, *KeyListRequest) (*KeyListResponse, *Error)
+	GetKeyValueList(echo.Context, *KeyValueListRequest) (*KeyValueListResponse, *Error)
+	SearchKeyValueList(echo.Context, *SearchKeyValueListRequest) (*KeyValueListResponse, *Error)
+	UpdateKeyValue(echo.Context, *KeyValueRequest) (*KeyValueResponse, *Error)
+	FetchKeyHistory(echo.Context, *KVHistoryRequest) (*KVHistoryResponse, *Error)
 }
 
 func _getEnv_Handler(srv AppService) echo.HandlerFunc {
@@ -47,7 +47,7 @@ func _getEnv_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.GetEnv(in)
+		out, error := srv.GetEnv(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -69,7 +69,7 @@ func _registerService_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.RegisterService(in)
+		out, error := srv.RegisterService(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -91,7 +91,7 @@ func _updateService_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.UpdateService(in)
+		out, error := srv.UpdateService(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -113,7 +113,7 @@ func _uploadProtoFile_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.UploadProtoFile(in)
+		out, error := srv.UploadProtoFile(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -135,7 +135,7 @@ func _getTags_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.GetTags(in)
+		out, error := srv.GetTags(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -157,7 +157,7 @@ func _getProducts_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.GetProducts(in)
+		out, error := srv.GetProducts(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -179,7 +179,7 @@ func _getServices_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.GetServices(in)
+		out, error := srv.GetServices(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -201,7 +201,7 @@ func _searchServices_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.SearchServices(in)
+		out, error := srv.SearchServices(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -223,7 +223,7 @@ func _getKeyList_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.GetKeyList(in)
+		out, error := srv.GetKeyList(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -245,7 +245,7 @@ func _getKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.GetKeyValueList(in)
+		out, error := srv.GetKeyValueList(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -267,7 +267,7 @@ func _searchKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.SearchKeyValueList(in)
+		out, error := srv.SearchKeyValueList(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -289,7 +289,7 @@ func _updateKeyValue_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.UpdateKeyValue(in)
+		out, error := srv.UpdateKeyValue(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}
@@ -311,7 +311,7 @@ func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
 			return c.JSON(420, resp)
 		}
 
-		out, error := srv.FetchKeyHistory(in)
+		out, error := srv.FetchKeyHistory(c, in)
 		if error != nil {
 			return c.JSON(400, error)
 		}

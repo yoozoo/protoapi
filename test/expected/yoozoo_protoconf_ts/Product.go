@@ -4,13 +4,13 @@ package yoozoo_protoconf_ts
 
 // Product
 type Product struct {
-    Product_id string `json:"product_id"`
-    Product_name string `json:"product_name"`
+	Product_id   string `json:"product_id"`
+	Product_name string `json:"product_name"`
 }
 
 func (r Product) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

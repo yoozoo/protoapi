@@ -4,12 +4,12 @@ package yoozoo_protoconf_ts
 
 // KeyListResponse
 type KeyListResponse struct {
-    Keys []*Key `json:"keys"`
+	Keys []*Key `json:"keys"`
 }
 
 func (r KeyListResponse) Validate() *ValidateError {
-    errs := []*FieldError{}
-    if len(errs) > 0 {
+	errs := []*FieldError{}
+	if len(errs) > 0 {
 		return &ValidateError{Errors: errs}
 	}
 	return nil

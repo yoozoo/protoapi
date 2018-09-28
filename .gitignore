@@ -1,5 +1,4 @@
-/com
-/yoozoo
+test/result/
 *.exe
 protoapi
 .gradle
@@ -10,4 +9,3 @@ out
 .classpath
 .project
 .settings
-*.php
