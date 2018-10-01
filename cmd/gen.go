@@ -5,7 +5,9 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"reflect"
 
+	"version.uuzu.com/Merlion/protoapi/generator/data"
 	"version.uuzu.com/Merlion/protoapi/util"
 
 	"github.com/spf13/cobra"
@@ -46,7 +48,6 @@ var genCmd = &cobra.Command{
 }
 
 func generateCode(cmd *cobra.Command, args []string) {
-
 	defer func() {
 		genFlagValue.reset()
 	}()
@@ -55,6 +56,12 @@ func generateCode(cmd *cobra.Command, args []string) {
 
 	var params = make(map[string]string)
 	params[langFlag] = genFlagValue.langValue
+
+	if _, ok := data.OutputMap[genFlagValue.langValue]; !ok {
+		err := fmt.Errorf("Output plugin not found for %s\nsupported options: %v",
+			genFlagValue.langValue, reflect.ValueOf(data.OutputMap).MapKeys())
+		util.Die(err)
+	}
 
 	protoc := genFlagValue.protocPath
 

@@ -582,7 +582,7 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 		return response
 	}
 
-	err := fmt.Errorf("Output plugin not found for %s\nsupported languages %v", outputLang, reflect.ValueOf(data.OutputMap).MapKeys())
+	err := fmt.Errorf("Output plugin not found for %s\nsupported options: %v", outputLang, reflect.ValueOf(data.OutputMap).MapKeys())
 	util.Die(err)
 
 	return nil
