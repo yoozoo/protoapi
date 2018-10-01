@@ -5,321 +5,224 @@
 * 该文件生成于protoapi
 * 文件包含API前端调用所引用的数据结构定义
 */
+
+// enums
 export enum ValidateErrorType {
-    
-     INVALID_EMAIL = 0,
-    
-     FIELD_REQUIRED = 1,
-    
+    INVALID_EMAIL = 0,
+    FIELD_REQUIRED = 1,
 }
+
 export enum ErrorCode {
-    
-     DefaultError = 0,
-    
-     GeneralError = 1000,
-    
-     DatabaseError = 1001,
-    
-     EtcdError = 1002,
-    
-     SystemError = 1003,
-    
+    DefaultError = 0,
+    GeneralError = 1000,
+    DatabaseError = 1001,
+    EtcdError = 1002,
+    SystemError = 1003,
 }
+
+// data types
 export interface CommonError {
-    
-     genericError: GenericError
-    
-     authError: AuthError
-    
-     validateError: ValidateError
-    
-     bindError: BindError
-    
+    genericError: GenericError
+    authError: AuthError
+    validateError: ValidateError
+    bindError: BindError
 }
+
 export interface GenericError {
-    
-     message: string
-    
+    message: string
 }
+
 export interface AuthError {
-    
-     message: string
-    
+    message: string
 }
+
 export interface BindError {
-    
-     message: string
-    
+    message: string
 }
+
 export interface ValidateError {
-    
-     errors: FieldError[]
-    
+    errors: FieldError[]
 }
+
 export interface FieldError {
-    
-     fieldName: string
-    
-     errorType: ValidateErrorType
-    
+    fieldName: string
+    errorType: ValidateErrorType
 }
+
 export interface EnvListRequest {
-    
 }
+
 export interface EnvListResponse {
-    
-     envs: Env[]
-    
+    envs: Env[]
 }
+
 export interface TagListRequest {
-    
 }
+
 export interface TagListResponse {
-    
-     tags: Tag[]
-    
+    tags: Tag[]
 }
+
 export interface ProductListRequest {
-    
-     env_id: number
-    
+    env_id: number
 }
+
 export interface ProductListResponse {
-    
-     products: Product[]
-    
+    products: Product[]
 }
+
 export interface ServiceListRequest {
-    
-     tag_ids: number[]
-    
-     env_id: number
-    
-     offset: number
-    
-     limit: number
-    
+    tag_ids: number[]
+    env_id: number
+    offset: number
+    limit: number
 }
+
 export interface ServiceSearchRequest {
-    
-     tag_ids: number[]
-    
-     prefix: string
-    
-     env_id: number
-    
-     offset: number
-    
-     limit: number
-    
+    tag_ids: number[]
+    prefix: string
+    env_id: number
+    offset: number
+    limit: number
 }
+
 export interface ServiceListResponse {
-    
-     services: Service[]
-    
-     offset: number
-    
-     limit: number
-    
-     total: number
-    
+    services: Service[]
+    offset: number
+    limit: number
+    total: number
 }
+
 export interface KeyListRequest {
-    
-     service_id: number
-    
-     env_id: number
-    
+    service_id: number
+    env_id: number
 }
+
 export interface KeyListResponse {
-    
-     keys: Key[]
-    
+    keys: Key[]
 }
+
 export interface KeyValueListRequest {
-    
-     service_id: number
-    
-     keys: Key[]
-    
+    service_id: number
+    keys: Key[]
 }
+
 export interface SearchKeyValueListRequest {
-    
-     key: string
-    
-     service_id: number
-    
-     env_id: number
-    
+    key: string
+    service_id: number
+    env_id: number
 }
+
 export interface KeyValueListResponse {
-    
-     key_values: KeyValue[]
-    
+    key_values: KeyValue[]
 }
+
 export interface KeyValueRequest {
-    
-     service_id: number
-    
-     key_values: KeyValue[]
-    
+    service_id: number
+    key_values: KeyValue[]
 }
+
 export interface KeyValueResponse {
-    
-     key_values: KeyValue[]
-    
+    key_values: KeyValue[]
 }
+
 export interface KVHistoryRequest {
-    
-     service_id: number
-    
-     key_id: number
-    
+    service_id: number
+    key_id: number
 }
+
 export interface KVHistoryResponse {
-    
-     KVhistorys: KVHistoryItem[]
-    
+    KVhistorys: KVHistoryItem[]
 }
+
 export interface RegisterServiceRequest {
-    
-     env_id: number
-    
-     product_id: string
-    
-     service_name: string
-    
-     tags: Tag[]
-    
-     desc: string
-    
+    env_id: number
+    product_id: string
+    service_name: string
+    tags: Tag[]
+    desc: string
 }
+
 export interface RegisterServiceResponse {
-    
-     env_id: number
-    
-     product_id: string
-    
-     service_id: number
-    
-     service_name: string
-    
+    env_id: number
+    product_id: string
+    service_id: number
+    service_name: string
 }
+
 export interface UpdateServiceRequest {
-    
-     service_id: number
-    
-     tags: Tag[]
-    
-     desc: string
-    
+    service_id: number
+    tags: Tag[]
+    desc: string
 }
+
 export interface UpdateServiceResponse {
-    
-     service_id: number
-    
-     tags: Tag[]
-    
-     desc: string
-    
+    service_id: number
+    tags: Tag[]
+    desc: string
 }
+
 export interface UploadProtoFileRequest {
-    
-     service_id: number
-    
-     env_id: number
-    
-     file: string
-    
+    service_id: number
+    env_id: number
+    file: string
 }
+
 export interface UploadProtoFileResponse {
-    
-     service_id: number
-    
-     env_id: number
-    
-     key_count: number
-    
+    service_id: number
+    env_id: number
+    key_count: number
 }
+
 export interface Env {
-    
-     env_id: number
-    
-     env_name: string
-    
+    env_id: number
+    env_name: string
 }
+
 export interface Tag {
-    
-     tag_id: number
-    
-     tag_name: string
-    
+    tag_id: number
+    tag_name: string
 }
+
 export interface Product {
-    
-     product_id: string
-    
-     product_name: string
-    
+    product_id: string
+    product_name: string
 }
+
 export interface Service {
-    
-     service_id: number
-    
-     service_name: string
-    
-     product_id: string
-    
-     product_name: string
-    
-     desc: string
-    
-     tags: Tag[]
-    
+    service_id: number
+    service_name: string
+    product_id: string
+    product_name: string
+    desc: string
+    tags: Tag[]
 }
+
 export interface Key {
-    
-     key_id: number
-    
-     key: string
-    
-     dataType: string
-    
-     defaultValue: string
-    
-     isWatched: boolean
-    
+    key_id: number
+    key: string
+    dataType: string
+    defaultValue: string
+    isWatched: boolean
 }
+
 export interface KeyValue {
-    
-     key_id: number
-    
-     key: string
-    
-     dataType: string
-    
-     defaultValue: string
-    
-     isWatched: boolean
-    
-     value: string
-    
+    key_id: number
+    key: string
+    dataType: string
+    defaultValue: string
+    isWatched: boolean
+    value: string
 }
+
 export interface KVHistoryItem {
-    
-     updated_value: string
-    
-     updated_date: string
-    
-     updated_by: string
-    
-     revision: number
-    
+    updated_value: string
+    updated_date: string
+    updated_by: string
+    revision: number
 }
+
 export interface Error {
-    
-     code: ErrorCode
-    
-     message: string
-    
+    code: ErrorCode
+    message: string
 }

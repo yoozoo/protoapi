@@ -5,18 +5,20 @@
 * 该文件生成于protoapi
 * 文件包含API前端调用所引用的数据结构定义
 */
+
+// enums
 {{- range .Enums }}
 export enum {{.Name}} {
-    {{ range .Fields }}
-     {{.Name}} = {{.Value}},
-    {{ end }}
+    {{- range .Fields }}
+    {{.Name}} = {{.Value}},
+    {{- end }}
 }
-{{- end }}
-
+{{end }}
+// data types
 {{- range .DataTypes }}
 export interface {{.Name}} {
-    {{ range .Fields }}
-     {{.Name}}: {{ tsType .DataType}}{{if eq .Label "LABEL_REPEATED"}}[]{{end}}
-    {{ end }}
+    {{- range .Fields }}
+    {{.Name}}: {{ tsType .DataType}}{{if eq .Label "LABEL_REPEATED"}}[]{{end}}
+    {{- end }}
 }
-{{- end }}
+{{end -}}
