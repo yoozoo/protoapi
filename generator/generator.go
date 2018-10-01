@@ -526,7 +526,7 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 
 	proto.Unmarshal(input, request)
 	if len(request.FileToGenerate) != 1 {
-		util.HandleError(fmt.Errorf("input files are： %v\nwe only support one proto file", request.FileToGenerate))
+		util.Die(fmt.Errorf("input files are： %v\nwe only support one proto file", request.FileToGenerate))
 	}
 
 	var outputLang = "ts"
@@ -568,7 +568,7 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 		response := new(plugin.CodeGeneratorResponse)
 		results, err := outputFunc(applicationName, packageName, services[0], messages, enums, options)
 		if err != nil {
-			util.HandleError(err)
+			util.Die(err)
 		}
 		for file, content := range results {
 			var resultFile = new(plugin.CodeGeneratorResponse_File)
@@ -584,7 +584,7 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 
 	err := fmt.Errorf("Output plugin not found for %s\nsupported languages %v", outputLang, reflect.ValueOf(data.OutputMap).MapKeys())
 	if err != nil {
-		util.HandleError(err)
+		util.Die(err)
 	}
 
 	return nil

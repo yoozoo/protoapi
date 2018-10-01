@@ -30,18 +30,18 @@ func main() {
 	if len(args) == 1 && err == nil && (stat.Mode()&os.ModeCharDevice) == 0 {
 		input, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
-			util.HandleError(fmt.Errorf("reading stdin error: %s", err.Error()))
+			util.Die(fmt.Errorf("reading stdin error: %s", err.Error()))
 		}
 
 		response := generator.Generate(input)
 
 		output, err := proto.Marshal(response)
 		if err != nil {
-			util.HandleError(fmt.Errorf("create response failed: %s", err.Error()))
+			util.Die(fmt.Errorf("create response failed: %s", err.Error()))
 		}
 		_, err = os.Stdout.Write(output)
 		if err != nil {
-			util.HandleError(err)
+			util.Die(err)
 		}
 	} else {
 		cmd.Execute()

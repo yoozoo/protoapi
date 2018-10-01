@@ -80,15 +80,15 @@ func generateCode(cmd *cobra.Command, args []string) {
 	protoFile := filepath.FromSlash(args[1])
 	stat, err := os.Stat(protoFile)
 	if err != nil {
-		util.HandleError(fmt.Errorf("Input %s is not accessible : %s", protoFile, err.Error()))
+		util.Die(fmt.Errorf("Input %s is not accessible : %s", protoFile, err.Error()))
 	}
 	if stat.IsDir() {
-		util.HandleError(fmt.Errorf("Input %s is not a file", protoFile))
+		util.Die(fmt.Errorf("Input %s is not a file", protoFile))
 	}
 	outputDir := filepath.FromSlash(args[0])
 	stat, err = os.Stat(outputDir)
 	if err != nil || !stat.IsDir() {
-		util.HandleError(fmt.Errorf("Output directory %s is not accessible", outputDir))
+		util.Die(fmt.Errorf("Output directory %s is not accessible", outputDir))
 	}
 
 	var arglist []string
@@ -104,7 +104,7 @@ func generateCode(cmd *cobra.Command, args []string) {
 	err = protoCmd.Run()
 
 	if err != nil {
-		util.HandleError(fmt.Errorf("Error to execute protoc: %s", err))
+		util.Die(fmt.Errorf("Error to execute protoc: %s", err))
 	}
 }
 

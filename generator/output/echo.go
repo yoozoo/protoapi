@@ -56,7 +56,7 @@ func (g *echoGen) getTpl(path string) *template.Template {
 	tplStr := data.LoadTpl(path)
 	result, err := tpl.Parse(tplStr)
 	if err != nil {
-		util.HandleError(err)
+		util.Die(err)
 	}
 	return result
 }
@@ -109,12 +109,12 @@ func (g *echoGen) genStruct(msg *data.MessageData) string {
 	obj := newEchoStruct(msg, g.PackageName)
 	err := g.structTpl.Execute(buf, obj)
 	if err != nil {
-		util.HandleError(err)
+		util.Die(err)
 	}
 
 	code, err := formatBuffer(buf)
 	if err != nil {
-		util.HandleError(err)
+		util.Die(err)
 	}
 	return code
 }
@@ -129,12 +129,12 @@ func (g *echoGen) genEnum(enum *data.EnumData) string {
 	obj := newEchoEnum(enum, g.PackageName)
 	err := g.enumTpl.Execute(buf, obj)
 	if err != nil {
-		util.HandleError(err)
+		util.Die(err)
 	}
 
 	code, err := formatBuffer(buf)
 	if err != nil {
-		util.HandleError(err)
+		util.Die(err)
 	}
 	return code
 }
@@ -145,12 +145,12 @@ func (g *echoGen) genServie(service *data.ServiceData) string {
 	obj := newEchoService(service, g.PackageName)
 	err := g.serviceTpl.Execute(buf, obj)
 	if err != nil {
-		util.HandleError(err)
+		util.Die(err)
 	}
 
 	code, err := formatBuffer(buf)
 	if err != nil {
-		util.HandleError(err)
+		util.Die(err)
 	}
 	return code
 }

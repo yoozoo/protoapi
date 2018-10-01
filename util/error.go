@@ -5,8 +5,8 @@ import (
 	"os"
 )
 
-// HandleError handles error condition
-func HandleError(err error) {
+// Die prints error and panic
+func Die(err error) {
 	fmt.Fprintf(os.Stderr, "Error: %s\n", err)
 	panic(err)
 }

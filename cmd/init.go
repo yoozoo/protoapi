@@ -41,7 +41,7 @@ func initCommandFunc(cmd *cobra.Command, args []string) {
 	protocURL, ok := protocURLMap[runtime.GOOS]
 
 	if !ok {
-		util.HandleError(fmt.Errorf("unsupported system %s", runtime.GOOS))
+		util.Die(fmt.Errorf("unsupported system %s", runtime.GOOS))
 	}
 
 	workingDir := util.GetProtoapiHome()
@@ -62,20 +62,20 @@ func initCommandFunc(cmd *cobra.Command, args []string) {
 			// path not exist
 			err = os.Mkdir(workingDir, os.ModePerm)
 			if err != nil {
-				util.HandleError(fmt.Errorf("Failed to create working dir %s: %s", workingDir, err.Error()))
+				util.Die(fmt.Errorf("Failed to create working dir %s: %s", workingDir, err.Error()))
 			}
 		}
 
 		// download protoc
 		err := downloadFile(workingDir+"/protoc.zip", protocURL)
 		if err != nil {
-			util.HandleError(fmt.Errorf("Failed to download protoc from %s : %s", protocURL, err.Error()))
+			util.Die(fmt.Errorf("Failed to download protoc from %s : %s", protocURL, err.Error()))
 		}
 
 		// unzip protoc.zip, it will create bin, include etc
 		files, err := unzip(workingDir+"/protoc.zip", workingDir)
 		if err != nil {
-			util.HandleError(fmt.Errorf("Failed to unzip %s: %s", workingDir+"/protoc.zip", err.Error()))
+			util.Die(fmt.Errorf("Failed to unzip %s: %s", workingDir+"/protoc.zip", err.Error()))
 		}
 		fmt.Println("Downloaded and unzipped:\n" + strings.Join(files, "\n"))
 		err = os.Remove(workingDir + "/protoc.zip")
@@ -88,11 +88,11 @@ func initCommandFunc(cmd *cobra.Command, args []string) {
 	if _, err := os.Stat(protoapiIncPath); os.IsNotExist(err) {
 		err = os.MkdirAll(protoapiIncPath, os.ModePerm)
 		if err != nil {
-			util.HandleError(fmt.Errorf("Failed create directory %s: %s", protoapiIncPath, err))
+			util.Die(fmt.Errorf("Failed create directory %s: %s", protoapiIncPath, err))
 		}
 		err = util.ExtractIncludes(protoapiIncPath)
 		if err != nil {
-			util.HandleError(fmt.Errorf("Failed to download protoapi include file into %s: %s", protoapiIncPath, err))
+			util.Die(fmt.Errorf("Failed to download protoapi include file into %s: %s", protoapiIncPath, err))
 		}
 		fmt.Println(filepath.FromSlash(protoapiIncPath + "protoapi_common.proto"))
 	}
