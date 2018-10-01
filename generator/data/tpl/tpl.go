@@ -241,8 +241,8 @@ eNaH0H9zRrfCi78BAAD//ww5MNzeAgAA
 `,
 	},
 
-	"/generator/template/php.gophp": {
-		local:   "generator/template/php.gophp",
+	"/generator/template/php_client.gophp": {
+		local:   "generator/template/php_client.gophp",
 		size:    3889,
 		modtime: 0,
 		compressed: `

@@ -22,7 +22,7 @@ type phpStruct struct {
 	ComErr    *data.MessageData
 }
 
-func genPhpCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+func genPhpClientCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	//获取可能的package name
 	if len(packageName) == 0 {
 		packageName = "Yoozoo\\Agent"
@@ -36,7 +36,7 @@ func genPhpCode(applicationName string, packageName string, service *data.Servic
 	fileName += service.Name + ".php"
 
 	//读取template文件
-	phpTemplate := tpl.FSMustString(false, "/generator/template/php.gophp")
+	phpTemplate := tpl.FSMustString(false, "/generator/template/php_client.gophp")
 
 	// create template function map
 	bizErrorMsgs := make(map[string]bool)
@@ -112,7 +112,7 @@ func genPhpCode(applicationName string, packageName string, service *data.Servic
 	}
 
 	//create a template
-	tmpl, err := template.New("php template").Funcs(funcMap).Parse(string(phpTemplate))
+	tmpl, err := template.New("php client template").Funcs(funcMap).Parse(string(phpTemplate))
 	if err != nil {
 		return nil, err
 	}
@@ -131,5 +131,5 @@ func genPhpCode(applicationName string, packageName string, service *data.Servic
 }
 
 func init() {
-	data.OutputMap["php"] = genPhpCode
+	data.OutputMap["phpclient"] = genPhpClientCode
 }
