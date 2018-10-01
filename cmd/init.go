@@ -24,7 +24,7 @@ var protocURLMap = map[string]string{
 // newInitCommand downloads protoc binary and required files into ./protoconf/ folder
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Downloads protoc binary and required files into ./protoapi/ folder",
+	Short: "Downloads protoc binary and required files into $HOME/./protoapi/ folder",
 	Run:   initCommandFunc,
 }
 

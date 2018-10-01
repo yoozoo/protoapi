@@ -41,10 +41,9 @@ var genFlagValue genFlagData
 var genCmd = &cobra.Command{
 	Use:   "gen <output dir> <proto file>",
 	Short: "generate code from proto file",
-	Long: `This command will read the input proto file and generate
-	code of the requested language to the output directory.`,
-	Args: cobra.ExactArgs(2),
-	Run:  generateCode,
+	Long:  `This command will read the input proto file and generate code of the requested language to the output directory.`,
+	Args:  cobra.ExactArgs(2),
+	Run:   generateCode,
 }
 
 func generateCode(cmd *cobra.Command, args []string) {
