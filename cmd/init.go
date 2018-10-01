@@ -102,7 +102,6 @@ func initCommandFunc(cmd *cobra.Command, args []string) {
 // downloadFile will download a url to a local file. It's efficient because it will
 // write as it downloads and not load the whole file into memory.
 func downloadFile(filepath string, url string) error {
-
 	// Create the file
 	out, err := os.Create(filepath)
 	if err != nil {
@@ -129,7 +128,6 @@ func downloadFile(filepath string, url string) error {
 // unzip will decompress a zip archive, moving all files and folders
 // within the zip file (parameter 1) to an output directory (parameter 2).
 func unzip(src string, dest string) ([]string, error) {
-
 	var filenames []string
 
 	r, err := zip.OpenReader(src)
@@ -139,7 +137,6 @@ func unzip(src string, dest string) ([]string, error) {
 	defer r.Close()
 
 	for _, f := range r.File {
-
 		rc, err := f.Open()
 		if err != nil {
 			return filenames, err
@@ -151,12 +148,9 @@ func unzip(src string, dest string) ([]string, error) {
 		filenames = append(filenames, fpath)
 
 		if f.FileInfo().IsDir() {
-
 			// Make Folder
 			os.MkdirAll(fpath, os.ModePerm)
-
 		} else {
-
 			// Make File
 			if err = os.MkdirAll(filepath.Dir(fpath), os.ModePerm); err != nil {
 				return filenames, err
@@ -175,7 +169,6 @@ func unzip(src string, dest string) ([]string, error) {
 			if err != nil {
 				return filenames, err
 			}
-
 		}
 	}
 	return filenames, nil

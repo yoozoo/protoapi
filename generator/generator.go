@@ -94,7 +94,6 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 	return resultMsg, resultEnum
 }
 
-//
 func parseMessageDataType(dataType string) string {
 	return dataType[strings.LastIndexByte(dataType, '.')+1:]
 }
@@ -267,7 +266,6 @@ func findRootObject(file string, messages []*data.MessageData, msgMap map[string
 // buildDepGraph build the dependency graph in the format below
 // node -> list of nodes it depends on
 func buildDepGraph(rootMsg *data.MessageData, msgMap map[string]*data.MessageData) map[string](map[string]bool) {
-
 	var result = make(map[string](map[string]bool))
 	var pendingMsgs = []*data.MessageData{rootMsg}
 
@@ -386,7 +384,6 @@ func fixMessageName(messages []*data.MessageData, enums []*data.EnumData) {
 // 2. reorder according to dependency order
 // 3. check and modify item names
 func filterMessages(file string, messages []*data.MessageData, enums []*data.EnumData) ([]*data.MessageData, []*data.EnumData) {
-
 	msgMap := make(map[string]*data.MessageData)
 	enumMap := make(map[string]*data.EnumData)
 
@@ -584,9 +581,11 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 		}
 		return response
 	}
+
 	err := fmt.Errorf("Output plugin not found for %s\nsupported languages %v", outputLang, reflect.ValueOf(data.OutputMap).MapKeys())
 	if err != nil {
 		util.HandleError(err)
 	}
+
 	return nil
 }

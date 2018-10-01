@@ -56,7 +56,6 @@ func GetProtoapiHome() string {
 
 // GetDefaultProtoc retrieve protoc executable path and protoc Include path
 func GetDefaultProtoc(incPath string) (protoc string, newProtocIncPath string) {
-
 	homedir := GetProtoapiHome()
 
 	protoc = homedir + ProtocBin
@@ -76,5 +75,6 @@ func GetDefaultProtoc(incPath string) (protoc string, newProtocIncPath string) {
 		}
 		return protoc, newProtocIncPath
 	}
+
 	return "", ""
 }

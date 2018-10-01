@@ -1,8 +1,6 @@
-// Yoozoo sg
-// Author: Wu Hongbo
-// copied from https://github.com/rkt/rkt/blob/master/rkt/help.go
-
 package cmd
+
+// copied from https://github.com/rkt/rkt/blob/master/rkt/help.go
 
 import (
 	"bytes"
