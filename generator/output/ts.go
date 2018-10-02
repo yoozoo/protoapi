@@ -146,38 +146,42 @@ func initFiles(packageName string, service *data.ServiceData) *tsGen {
 	return gen
 }
 
-func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
-	/**
-	* name files
-	 */
-	gen := initFiles(packageName, service)
+type tsLibs int
 
-	/**
-	* prep template
-	 */
-	gen.loadTpl()
+const (
+	tsLibVueResource tsLibs = iota
+	tsLibFetch
+	tsLibAxios
+)
 
-	/**
-	* Map Data: messages and service
-	 */
-	dataMap := tsStruct{
-		ClassName: service.Name,
-		DataTypes: messages,
-		Enums:     enums,
-		Functions: service.Methods,
+func getTSgen(lib tsLibs) data.OutputFunc {
+	return func(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
+		gen := initFiles(packageName, service)
+		gen.loadTpl()
+
+		/**
+		* Map Data: messages and service
+		 */
+		dataMap := tsStruct{
+			ClassName: service.Name,
+			DataTypes: messages,
+			Enums:     enums,
+			Functions: service.Methods,
+		}
+
+		var result = make(map[string]string)
+		result[gen.vueResourceFile] = gen.genContent(gen.vueResourceTpl, dataMap)
+		result[gen.axiosFile] = gen.genContent(gen.axiosTpl, dataMap)
+		result[gen.dataFile] = gen.genContent(gen.dataTpl, dataMap)
+		result[gen.helperFile] = data.LoadTpl("/generator/template/ts/helper.gots")
+		return result, nil
 	}
-
-	/**
-	* combine data with template
-	 */
-	var result = make(map[string]string)
-	result[gen.vueResourceFile] = gen.genContent(gen.vueResourceTpl, dataMap)
-	result[gen.axiosFile] = gen.genContent(gen.axiosTpl, dataMap)
-	result[gen.dataFile] = gen.genContent(gen.dataTpl, dataMap)
-	result[gen.helperFile] = data.LoadTpl("/generator/template/ts/helper.gots")
-	return result, nil
 }
 
 func init() {
-	data.OutputMap["ts"] = generateVueTsCode
+	fetch := getTSgen(tsLibFetch)
+	data.OutputMap["ts"] = fetch
+	data.OutputMap["ts-fetch"] = fetch
+	data.OutputMap["ts-axios"] = getTSgen(tsLibAxios)
+	data.OutputMap["ts-vueresouce"] = getTSgen(tsLibVueResource)
 }
