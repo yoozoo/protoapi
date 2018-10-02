@@ -7,7 +7,7 @@
 
 @test "test.proto ts output" {
   ../protoapi gen --lang=ts result/ proto/test.proto
-  diff -I -r result/yoozoo/protoconf/ts/ expected/yoozoo/protoconf/ts/
+  diff -I -r result/ts/ expected/ts/
 }
 
 @test "test.proto spring outout" {

@@ -87,7 +87,7 @@ func getImportDataTypes(mtds []data.Method) map[string]bool {
 }
 
 func genFileName(packageName string, fileName string) string {
-	return strings.Replace(packageName, ".", "/", -1) + "/" + fileName + ".ts"
+	return fileName + ".ts"
 }
 
 /**
