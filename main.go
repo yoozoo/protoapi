@@ -6,7 +6,9 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
+	"runtime/debug"
 
 	"github.com/golang/protobuf/proto"
 
@@ -19,6 +21,7 @@ func main() {
 	defer func() {
 		util.CleanIncludePath()
 		if r := recover(); r != nil {
+			log.Printf("%s: %s", r, debug.Stack())
 			os.Exit(1)
 		}
 	}()

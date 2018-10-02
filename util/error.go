@@ -5,8 +5,8 @@ import (
 	"os"
 )
 
-// Die prints error and panic
+// Die prints error and exit
 func Die(err error) {
 	fmt.Fprintf(os.Stderr, "Error: %s\n", err)
-	panic(err)
+	os.Exit(1)
 }
