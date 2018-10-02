@@ -30,14 +30,19 @@ var tsTypes = map[string]string{
 }
 
 type tsGen struct {
-	vueResourceFile string
+	dataFile   string
+	helperFile string
+
 	axiosFile       string
-	dataFile        string
-	helperFile      string
-	vueResourceTpl  *template.Template
-	axiosTpl        *template.Template
-	dataTpl         *template.Template
-	helperTpl       *template.Template
+	fetchFile       string
+	vueResourceFile string
+
+	dataTpl   *template.Template
+	helperTpl *template.Template
+
+	axiosTpl       *template.Template
+	fetchTpl       *template.Template
+	vueResourceTpl *template.Template
 }
 
 type tsStruct struct {
@@ -94,8 +99,9 @@ func genFileName(packageName string, fileName string) string {
 * Get TEMPLATE
  */
 func (g *tsGen) loadTpl() {
-	g.vueResourceTpl = g.getTpl("/generator/template/ts/ts_service.govue")
-	g.axiosTpl = g.getTpl("/generator/template/ts/ts_service.gots")
+	g.vueResourceTpl = g.getTpl("/generator/template/ts/service_vueresource.gots")
+	g.axiosTpl = g.getTpl("/generator/template/ts/service_axios.gots")
+	g.fetchTpl = g.getTpl("/generator/template/ts/service_fetch.gots")
 	g.dataTpl = g.getTpl("/generator/template/ts/data.gots")
 	g.helperTpl = g.getTpl("/generator/template/ts/helper.gots")
 }
@@ -139,7 +145,8 @@ func (g *tsGen) genContent(tpl *template.Template, data tsStruct) string {
 func initFiles(packageName string, service *data.ServiceData) *tsGen {
 	gen := &tsGen{
 		vueResourceFile: genFileName(packageName, service.Name),
-		axiosFile:       genFileName(packageName, "api"),
+		axiosFile:       genFileName(packageName, service.Name),
+		fetchFile:       genFileName(packageName, service.Name),
 		dataFile:        genFileName(packageName, "data"),
 		helperFile:      genFileName(packageName, "helper"),
 	}
@@ -170,10 +177,18 @@ func getTSgen(lib tsLibs) data.OutputFunc {
 		}
 
 		var result = make(map[string]string)
-		result[gen.vueResourceFile] = gen.genContent(gen.vueResourceTpl, dataMap)
-		result[gen.axiosFile] = gen.genContent(gen.axiosTpl, dataMap)
+		switch lib {
+		case tsLibAxios:
+			result[gen.axiosFile] = gen.genContent(gen.axiosTpl, dataMap)
+		case tsLibVueResource:
+			result[gen.vueResourceFile] = gen.genContent(gen.vueResourceTpl, dataMap)
+		default:
+			result[gen.fetchFile] = gen.genContent(gen.fetchTpl, dataMap)
+		}
+
 		result[gen.dataFile] = gen.genContent(gen.dataTpl, dataMap)
 		result[gen.helperFile] = data.LoadTpl("/generator/template/ts/helper.gots")
+
 		return result, nil
 	}
 }
