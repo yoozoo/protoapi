@@ -14,7 +14,7 @@ import {
     {{range $type, $bool := (getImportDataTypes .Functions)}}
     {{- $type }},
     {{end}}
-} from './data';
+} from './{{.ClassName}}Objs';
 import { generateUrl, errorHandling } from './helper';
 
 /*baseUrl 可更改*/

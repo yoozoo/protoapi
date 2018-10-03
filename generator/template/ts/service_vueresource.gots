@@ -13,9 +13,9 @@ import { Component, Vue } from 'vue-property-decorator';
 import VueResource from 'vue-resource';
 import {
     {{range $type, $bool := (getImportDataTypes .Functions)}}
-    {{- $type }}, 
+    {{- $type }},
     {{end}}
-} from './data';
+} from './{{.ClassName}}Objs';
 import { generateUrl, errorHandling } from './helper';
 
 Vue.use(VueResource);
@@ -45,7 +45,7 @@ export default class {{.ClassName}} extends Vue {
                 // handle success data - 200
                 return Promise.resolve(res.data as {{.OutputType}})
             },
-            err => { 
+            err => {
                 // handle error response
                 return errorHandling(err.response)
             }
