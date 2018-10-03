@@ -41,158 +41,63 @@ import { generateUrl, errorHandling } from './helper';
 
 /*baseUrl 可更改*/
 const baseUrl = "http://192.168.115.60:8080";// use fetch
-export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getEnv");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
+function call<InType, OutType>(service: string, method: string, params: InType): Promise<OutType | never> {
+    let url: string = generateUrl(baseUrl, service, method);
+
+    return fetch(url, { method: 'POST', body: JSON.stringify(params) }).then(res => {
         return Promise.resolve(res.json())
     }).catch(err => {
-        // handle error response
         return errorHandling(err.response)
     });
+}
+export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never> {
+    return call<EnvListRequest, EnvListResponse>("AppService", "getEnv", params);
 }
 
 export function registerService(params: RegisterServiceRequest): Promise<RegisterServiceResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "registerService");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<RegisterServiceRequest, RegisterServiceResponse>("AppService", "registerService", params);
 }
 
 export function updateService(params: UpdateServiceRequest): Promise<UpdateServiceResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "updateService");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<UpdateServiceRequest, UpdateServiceResponse>("AppService", "updateService", params);
 }
 
 export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadProtoFileResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "uploadProtoFile");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<UploadProtoFileRequest, UploadProtoFileResponse>("AppService", "uploadProtoFile", params);
 }
 
 export function getTags(params: TagListRequest): Promise<TagListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getTags");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<TagListRequest, TagListResponse>("AppService", "getTags", params);
 }
 
 export function getProducts(params: ProductListRequest): Promise<ProductListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getProducts");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<ProductListRequest, ProductListResponse>("AppService", "getProducts", params);
 }
 
 export function getServices(params: ServiceListRequest): Promise<ServiceListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getServices");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<ServiceListRequest, ServiceListResponse>("AppService", "getServices", params);
 }
 
 export function searchServices(params: ServiceSearchRequest): Promise<ServiceListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "searchServices");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<ServiceSearchRequest, ServiceListResponse>("AppService", "searchServices", params);
 }
 
 export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getKeyList");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<KeyListRequest, KeyListResponse>("AppService", "getKeyList", params);
 }
 
 export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getKeyValueList");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<KeyValueListRequest, KeyValueListResponse>("AppService", "getKeyValueList", params);
 }
 
 export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<KeyValueListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "searchKeyValueList");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<SearchKeyValueListRequest, KeyValueListResponse>("AppService", "searchKeyValueList", params);
 }
 
 export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "updateKeyValue");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<KeyValueRequest, KeyValueResponse>("AppService", "updateKeyValue", params);
 }
 
 export function fetchKeyHistory(params: KVHistoryRequest): Promise<KVHistoryResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "fetchKeyHistory");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<KVHistoryRequest, KVHistoryResponse>("AppService", "fetchKeyHistory", params);
 }

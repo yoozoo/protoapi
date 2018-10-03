@@ -7,7 +7,7 @@
 * 文件包含一些函数协助生成的前端调用API
 * 文件内代码使用TypeScript
 */
-import { Error, CommonError, GenericError, AuthError, ValidateError, BindError } from './data'
+import { Error, CommonError, GenericError, AuthError, ValidateError, BindError } from './AppServiceObjs'
 /**
  * Defined Http Code for response handling
  */
@@ -19,8 +19,8 @@ export enum httpCode {
     INTERNAL_ERROR = 500,
 }
 /**
- * 
- * @param {response} response the error response 
+ *
+ * @param {response} response the error response
  */
 export function errorHandling(response): Promise<never> {
     switch (response.status) {
@@ -36,7 +36,7 @@ export function errorHandling(response): Promise<never> {
     }
 }
 /**
- * 
+ *
  * @param {CommonError} commonErr the error object
  */
 function mapCommonErrorType(commonErr: CommonError): (string | GenericError | AuthError | ValidateError | BindError) {
