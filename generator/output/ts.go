@@ -187,7 +187,7 @@ func getTSgen(lib tsLibs) data.OutputFunc {
 		}
 
 		result[gen.objsFile] = gen.genContent(gen.objsTpl, dataMap)
-		result[gen.helperFile] = data.LoadTpl("/generator/template/ts/helper.gots")
+		result[gen.helperFile] = gen.genContent(gen.helperTpl, dataMap)
 
 		return result, nil
 	}
