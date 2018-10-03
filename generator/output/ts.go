@@ -33,16 +33,14 @@ type tsGen struct {
 	objsFile   string
 	helperFile string
 
-	axiosFile       string
-	fetchFile       string
-	vueResourceFile string
+	axiosFile string
+	fetchFile string
 
 	objsTpl   *template.Template
 	helperTpl *template.Template
 
-	axiosTpl       *template.Template
-	fetchTpl       *template.Template
-	vueResourceTpl *template.Template
+	axiosTpl *template.Template
+	fetchTpl *template.Template
 }
 
 type tsStruct struct {
@@ -99,7 +97,6 @@ func genFileName(packageName string, fileName string) string {
 * Get TEMPLATE
  */
 func (g *tsGen) loadTpl() {
-	g.vueResourceTpl = g.getTpl("/generator/template/ts/service_vueresource.gots")
 	g.axiosTpl = g.getTpl("/generator/template/ts/service_axios.gots")
 	g.fetchTpl = g.getTpl("/generator/template/ts/service_fetch.gots")
 	g.objsTpl = g.getTpl("/generator/template/ts/objs.gots")
@@ -144,11 +141,10 @@ func (g *tsGen) genContent(tpl *template.Template, data tsStruct) string {
  */
 func initFiles(packageName string, service *data.ServiceData) *tsGen {
 	gen := &tsGen{
-		vueResourceFile: genFileName(packageName, service.Name),
-		axiosFile:       genFileName(packageName, service.Name),
-		fetchFile:       genFileName(packageName, service.Name),
-		objsFile:        genFileName(packageName, service.Name+"Objs"),
-		helperFile:      genFileName(packageName, "helper"),
+		axiosFile:  genFileName(packageName, service.Name),
+		fetchFile:  genFileName(packageName, service.Name),
+		objsFile:   genFileName(packageName, service.Name+"Objs"),
+		helperFile: genFileName(packageName, "helper"),
 	}
 	return gen
 }
@@ -156,8 +152,7 @@ func initFiles(packageName string, service *data.ServiceData) *tsGen {
 type tsLibs int
 
 const (
-	tsLibVueResource tsLibs = iota
-	tsLibFetch
+	tsLibFetch tsLibs = iota
 	tsLibAxios
 )
 
@@ -180,8 +175,6 @@ func getTSgen(lib tsLibs) data.OutputFunc {
 		switch lib {
 		case tsLibAxios:
 			result[gen.axiosFile] = gen.genContent(gen.axiosTpl, dataMap)
-		case tsLibVueResource:
-			result[gen.vueResourceFile] = gen.genContent(gen.vueResourceTpl, dataMap)
 		default:
 			result[gen.fetchFile] = gen.genContent(gen.fetchTpl, dataMap)
 		}
@@ -198,5 +191,4 @@ func init() {
 	data.OutputMap["ts"] = fetch
 	data.OutputMap["ts-fetch"] = fetch
 	data.OutputMap["ts-axios"] = getTSgen(tsLibAxios)
-	data.OutputMap["ts-vueresource"] = getTSgen(tsLibVueResource)
 }
