@@ -22,17 +22,19 @@ const baseUrl = "http://192.168.115.60:8080";
 {{- $className := .ClassName -}}
 
 // use fetch
+function call<InType, OutType>(service: string, method: string, params: InType): Promise<OutType | never> {
+    let url: string = generateUrl(baseUrl, service, method);
+
+    return fetch(url, { method: 'POST', body: JSON.stringify(params) }).then(res => {
+        return Promise.resolve(res.json())
+    }).catch(err => {
+        return errorHandling(err.response)
+    });
+}
+
 {{- range .Functions}}
 {{- $error :=  (getErrorType .Options) }}
 export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | never> {
-    let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
-    // default POST
-    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
-        // handle success data
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
+    return call<{{.InputType}}, {{.OutputType}}>("{{$className}}", "{{.Name}}", params);
 }
 {{end -}}
