@@ -44,9 +44,9 @@ const baseUrl = "http://192.168.115.60:8080";// use fetch
 export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getEnv");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as EnvListResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -56,9 +56,9 @@ export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never>
 export function registerService(params: RegisterServiceRequest): Promise<RegisterServiceResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "registerService");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as RegisterServiceResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -68,9 +68,9 @@ export function registerService(params: RegisterServiceRequest): Promise<Registe
 export function updateService(params: UpdateServiceRequest): Promise<UpdateServiceResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "updateService");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as UpdateServiceResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -80,9 +80,9 @@ export function updateService(params: UpdateServiceRequest): Promise<UpdateServi
 export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadProtoFileResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "uploadProtoFile");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as UploadProtoFileResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -92,9 +92,9 @@ export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadP
 export function getTags(params: TagListRequest): Promise<TagListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getTags");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as TagListResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -104,9 +104,9 @@ export function getTags(params: TagListRequest): Promise<TagListResponse | never
 export function getProducts(params: ProductListRequest): Promise<ProductListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getProducts");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as ProductListResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -116,9 +116,9 @@ export function getProducts(params: ProductListRequest): Promise<ProductListResp
 export function getServices(params: ServiceListRequest): Promise<ServiceListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getServices");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as ServiceListResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -128,9 +128,9 @@ export function getServices(params: ServiceListRequest): Promise<ServiceListResp
 export function searchServices(params: ServiceSearchRequest): Promise<ServiceListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "searchServices");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as ServiceListResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -140,9 +140,9 @@ export function searchServices(params: ServiceSearchRequest): Promise<ServiceLis
 export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getKeyList");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as KeyListResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -152,9 +152,9 @@ export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | ne
 export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getKeyValueList");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as KeyValueListResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -164,9 +164,9 @@ export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueLi
 export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<KeyValueListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "searchKeyValueList");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as KeyValueListResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -176,9 +176,9 @@ export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<K
 export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "updateKeyValue");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as KeyValueResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
@@ -188,9 +188,9 @@ export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueRespons
 export function fetchKeyHistory(params: KVHistoryRequest): Promise<KVHistoryResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "fetchKeyHistory");
     // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
+    return fetch(url, {method: 'POST', body: JSON.stringify(params)}).then(res => {
         // handle success data
-        return Promise.resolve(res.data as KVHistoryResponse)
+        return Promise.resolve(res.json())
     }).catch(err => {
         // handle error response
         return errorHandling(err.response)
