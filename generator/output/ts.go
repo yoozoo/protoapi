@@ -198,5 +198,5 @@ func init() {
 	data.OutputMap["ts"] = fetch
 	data.OutputMap["ts-fetch"] = fetch
 	data.OutputMap["ts-axios"] = getTSgen(tsLibAxios)
-	data.OutputMap["ts-vueresouce"] = getTSgen(tsLibVueResource)
+	data.OutputMap["ts-vueresource"] = getTSgen(tsLibVueResource)
 }
