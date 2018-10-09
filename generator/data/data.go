@@ -4,6 +4,7 @@ package data
 import (
 	"os"
 
+	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	"version.uuzu.com/Merlion/protoapi/generator/data/tpl"
 )
 
@@ -102,6 +103,7 @@ type Method struct {
 type ServiceData struct {
 	Name    string
 	Methods []Method
+	Service *descriptor.ServiceDescriptorProto
 }
 
 // Option is a structure represents the option declared in a proto file

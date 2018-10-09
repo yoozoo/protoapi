@@ -166,6 +166,7 @@ func createServices(file string, pkg string, services []*descriptor.ServiceDescr
 		serData.Name = service.GetName()
 		mtds := getMethods(pkg, service)
 		serData.Methods = mtds
+		serData.Service = service
 
 		resultSers = append(resultSers, serData)
 	}
