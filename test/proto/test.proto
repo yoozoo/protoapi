@@ -4,7 +4,7 @@
  */
 syntax = "proto3";
 
-import "protoapi_common.proto";
+import "common.proto";
 
 // package
 package yoozoo.protoconf.ts;
@@ -197,6 +197,8 @@ enum ErrorCode {
  * and get methods will be supported
  */
 service AppService {
+  option (common_error) = "CommonError";
+
   // get env
   rpc getEnv(EnvListRequest) returns (EnvListResponse) {
     option (error) = "Error";

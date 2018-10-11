@@ -154,7 +154,7 @@ func mapHttpMtd(method string) string {
 	}
 }
 
-// createMessages create message and enum definitions from the passed in descriptor
+// createServices create message and enum definitions from the passed in descriptor
 func createServices(file string, pkg string, services []*descriptor.ServiceDescriptorProto) []*data.ServiceData {
 	var resultSers []*data.ServiceData
 
@@ -167,6 +167,7 @@ func createServices(file string, pkg string, services []*descriptor.ServiceDescr
 		mtds := getMethods(pkg, service)
 		serData.Methods = mtds
 		serData.Service = service
+		serData.Options = getServiceOptions(service)
 
 		resultSers = append(resultSers, serData)
 	}
@@ -502,6 +503,28 @@ func getMethodOptions(method *descriptor.MethodDescriptorProto) data.OptionMap {
 	return options
 }
 
+// Get service options from proto file
+func getServiceOptions(service *descriptor.ServiceDescriptorProto) data.OptionMap {
+	options := make(map[string]string)
+	// create extension description
+	for field, name := range data.ServiceOptions {
+		var extDesc = &proto.ExtensionDesc{
+			ExtendedType:  (*descriptor.ServiceOptions)(nil),
+			ExtensionType: (*string)(nil),
+			Field:         field,
+			Name:          name,
+			Tag:           "bytes," + string(field) + ",opt,name=" + name,
+		}
+
+		ext, err := proto.GetExtension(service.GetOptions(), extDesc)
+		if err == nil {
+			// add the service method option to the method data
+			options[name] = *ext.(*string)
+		}
+	}
+	return options
+}
+
 // Get s from proto file
 func getFileOptions(request *plugin.CodeGeneratorRequest) data.OptionMap {
 	for _, file := range request.ProtoFile {
@@ -525,7 +548,11 @@ func getFileOptions(request *plugin.CodeGeneratorRequest) data.OptionMap {
 func Generate(input []byte) *plugin.CodeGeneratorResponse {
 	request := new(plugin.CodeGeneratorRequest)
 
-	proto.Unmarshal(input, request)
+	err := proto.Unmarshal(input, request)
+	if err != nil {
+		util.Die(fmt.Errorf("invalid CodeGeneratorRequest: %v", err))
+	}
+
 	if len(request.FileToGenerate) != 1 {
 		util.Die(fmt.Errorf("Multiple input files given: %v\nprotoapi only support one proto file", request.FileToGenerate))
 	}
@@ -583,7 +610,7 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 		return response
 	}
 
-	err := fmt.Errorf("Output plugin not found for %s\nsupported options: %v", outputLang, reflect.ValueOf(data.OutputMap).MapKeys())
+	err = fmt.Errorf("Output plugin not found for %s\nsupported options: %v", outputLang, reflect.ValueOf(data.OutputMap).MapKeys())
 	util.Die(err)
 
 	return nil

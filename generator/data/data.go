@@ -28,6 +28,8 @@ const (
 	FieldRepeatedLabel = "LABEL_REPEATED"
 	// JavaPackageOption is Java package option constant
 	JavaPackageOption = "javaPackageOption"
+	// ServiceCommonErrorOption is service common_error option
+	ServiceCommonErrorOption = 51008
 	// ServiceTypeMethodOption is service method option
 	ServiceTypeMethodOption = 51006
 	// ErrorTypeMethodOption is error return type option
@@ -40,6 +42,11 @@ const (
 	// ComErrMsgName  is common error message name
 	ComErrMsgName = "CommonError"
 )
+
+// ServiceOptions is the map of field number and field name in service options
+var ServiceOptions = map[int32]string{
+	ServiceCommonErrorOption: "common_error",
+}
 
 // MethodOptions is the map of field number and field name in method options
 var MethodOptions = map[int32]string{
@@ -103,6 +110,7 @@ type Method struct {
 type ServiceData struct {
 	Name    string
 	Methods []Method
+	Options OptionMap
 	Service *descriptor.ServiceDescriptorProto
 }
 
