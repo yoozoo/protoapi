@@ -22,3 +22,26 @@ export interface {{.Name}} {
     {{- end }}
 }
 {{end -}}
+
+{{if .Gen.HasCommonError}}
+/**
+ *
+ * @param {CommonError} commonErr the error object
+ */
+export function mapCommonErrorType(commonErr: {{.Gen.CommonError}}): (string{{.Gen.CommonErrorSubTypes}}) {
+    for (let key in commonErr) {
+        if (commonErr.hasOwnProperty(key) && commonErr[key]) {
+            switch (key) {
+{{- range .Gen.GetCommoneErrorFields }}
+                case '{{ .Name }}':
+                    return commonErr[key] as {{ .DataType }}
+{{- end}}
+                default:
+                    return "Unknow Error"
+            }
+
+        }
+    }
+    return "Unknow Error"
+}
+{{end -}}

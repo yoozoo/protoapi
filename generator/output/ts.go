@@ -41,6 +41,9 @@ type tsGen struct {
 
 	axiosTpl *template.Template
 	fetchTpl *template.Template
+
+	service   *data.ServiceData
+	DataTypes []*data.MessageData
 }
 
 type tsStruct struct {
@@ -48,6 +51,7 @@ type tsStruct struct {
 	DataTypes []*data.MessageData
 	Enums     []*data.EnumData
 	Functions []data.Method
+	Gen       *tsGen
 }
 
 func toTypeScriptType(dataType string) string {
@@ -136,6 +140,35 @@ func (g *tsGen) genContent(tpl *template.Template, data tsStruct) string {
 	return buf.String()
 }
 
+func (g *tsGen) CommonError() string {
+	return g.service.Options["common_error"]
+}
+
+func (g *tsGen) CommonErrorSubTypes() string {
+	var fieldTypes []string
+	for _, f := range g.GetCommoneErrorFields() {
+		subType := toTypeScriptType(f.DataType)
+		fieldTypes = append(fieldTypes, " | "+subType)
+	}
+
+	return strings.Join(fieldTypes, "")
+}
+
+func (g *tsGen) GetCommoneErrorFields() []data.MessageField {
+	common_error_type := g.service.Options["common_error"]
+	for _, t := range g.DataTypes {
+		if t.Name == common_error_type {
+			return t.Fields
+		}
+	}
+	return nil
+}
+
+func (g *tsGen) HasCommonError() bool {
+	_, ok := g.service.Options["common_error"]
+	return ok
+}
+
 /**
 * init filename with path
  */
@@ -145,6 +178,7 @@ func initFiles(packageName string, service *data.ServiceData) *tsGen {
 		fetchFile:  genFileName(packageName, service.Name),
 		objsFile:   genFileName(packageName, service.Name+"Objs"),
 		helperFile: genFileName(packageName, "helper"),
+		service:    service,
 	}
 	return gen
 }
@@ -157,18 +191,20 @@ const (
 )
 
 func getTSgen(lib tsLibs) data.OutputFunc {
-	return func(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
-		gen := initFiles(packageName, service)
+	return func(applicationName string, packageName string, svr *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
+		gen := initFiles(packageName, svr)
 		gen.loadTpl()
+		gen.DataTypes = messages
 
 		/**
 		* Map Data: messages and service
 		 */
 		dataMap := tsStruct{
-			ClassName: service.Name,
+			ClassName: svr.Name,
 			DataTypes: messages,
 			Enums:     enums,
-			Functions: service.Methods,
+			Functions: svr.Methods,
+			Gen:       gen,
 		}
 
 		var result = make(map[string]string)
