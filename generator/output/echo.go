@@ -96,7 +96,7 @@ func formatBuffer(buf *bytes.Buffer) (string, error) {
 		errBuf.WriteByte('\n')
 	}
 
-	return "", fmt.Errorf("failed to format template\n\n%s\n", errBuf.Bytes())
+	return "", fmt.Errorf("failed to format template\n\n%s", errBuf.Bytes())
 }
 
 func (g *echoGen) getStructFilename(packageName string, msg *data.MessageData) string {
