@@ -58,15 +58,15 @@ func (g *echoGen) getTpl(path string) *template.Template {
 	return result
 }
 
-func formatBuffer(buf *bytes.Buffer) (string, error) {
+func formatBuffer(buf *bytes.Buffer) string {
 	output, err := format.Source(buf.Bytes())
 	if err == nil {
-		return string(output), nil
+		return string(output)
 	}
 
 	matches := rgxSyntaxError.FindStringSubmatch(err.Error())
 	if matches == nil {
-		return "", errors.New("failed to format template")
+		util.Die(errors.New("failed to format template"))
 	}
 
 	lineNum, _ := strconv.Atoi(matches[1])
@@ -87,7 +87,9 @@ func formatBuffer(buf *bytes.Buffer) (string, error) {
 		errBuf.WriteByte('\n')
 	}
 
-	return "", fmt.Errorf("failed to format template\n\n%s", errBuf.Bytes())
+	util.Die(fmt.Errorf("failed to format template\n\n%s", errBuf.Bytes()))
+
+	return ""
 }
 
 func (g *echoGen) getStructFilename(packageName string, msg *data.MessageData) string {
@@ -103,11 +105,7 @@ func (g *echoGen) genStruct(msg *data.MessageData) string {
 		util.Die(err)
 	}
 
-	code, err := formatBuffer(buf)
-	if err != nil {
-		util.Die(err)
-	}
-	return code
+	return formatBuffer(buf)
 }
 
 func (g *echoGen) getEnumFilename(packageName string, enum *data.EnumData) string {
@@ -123,11 +121,7 @@ func (g *echoGen) genEnum(enum *data.EnumData) string {
 		util.Die(err)
 	}
 
-	code, err := formatBuffer(buf)
-	if err != nil {
-		util.Die(err)
-	}
-	return code
+	return formatBuffer(buf)
 }
 
 func (g *echoGen) genServie(service *data.ServiceData) string {
@@ -139,11 +133,7 @@ func (g *echoGen) genServie(service *data.ServiceData) string {
 		util.Die(err)
 	}
 
-	code, err := formatBuffer(buf)
-	if err != nil {
-		util.Die(err)
-	}
-	return code
+	return formatBuffer(buf)
 }
 
 func genEchoFileName(packageName string, service *data.ServiceData) string {
