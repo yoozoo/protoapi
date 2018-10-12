@@ -16,6 +16,10 @@ import (
 	"version.uuzu.com/Merlion/protoapi/util"
 )
 
+const (
+	googleDescriptorProtoName = "google/protobuf/descriptor.proto"
+)
+
 var (
 	rgxSyntaxError = regexp.MustCompile(`(\d+):\d+: `)
 )
@@ -42,9 +46,8 @@ type echoGen struct {
 	enumTpl         *template.Template
 }
 
-func (g *echoGen) init(applicationName, packageName string) {
+func (g *echoGen) init(applicationName string) {
 	g.ApplicationName = applicationName
-	g.PackageName = packageName
 	g.structTpl = g.getTpl("/generator/template/echo_struct.gogo")
 	g.serviceTpl = g.getTpl("/generator/template/echo_service.gogo")
 	g.enumTpl = g.getTpl("/generator/template/echo_enum.gogo")
@@ -158,29 +161,49 @@ func genEchoPackageName(packageName string) string {
 }
 
 func (g *echoGen) Init(request *plugin.CodeGeneratorRequest) {
+	for _, file := range request.ProtoFile {
+		if file.GetName() == googleDescriptorProtoName {
+			continue
+		}
+
+		opts := file.GetOptions()
+		if opts == nil || opts.GetGoPackage() == "" {
+			continue
+		}
+
+		if g.PackageName == "" {
+			g.PackageName = opts.GetGoPackage()
+		} else if g.PackageName != opts.GetGoPackage() {
+			// Implement code gen for different go packages later
+			util.Die(fmt.Errorf("different go package detected: %s, %s", g.PackageName, opts.GetGoPackage()))
+		}
+	}
 }
 
 func (g *echoGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
-	packageName = genEchoPackageName(packageName)
-	g.init(applicationName, packageName)
+	if g.PackageName == "" {
+		g.PackageName = genEchoPackageName(packageName)
+	}
+
+	g.init(applicationName)
 	result = make(map[string]string)
 
 	for _, msg := range messages {
-		filename := g.getStructFilename(packageName, msg)
+		filename := g.getStructFilename(g.PackageName, msg)
 		content := g.genStruct(msg)
 
 		result[filename] = content
 	}
 
 	for _, enum := range enums {
-		filename := g.getEnumFilename(packageName, enum)
+		filename := g.getEnumFilename(g.PackageName, enum)
 		content := g.genEnum(enum)
 
 		result[filename] = content
 	}
 
 	// make file name same as go file name
-	filename := genEchoFileName(packageName, service)
+	filename := genEchoFileName(g.PackageName, service)
 	content := g.genServie(service)
 	result[filename] = content
 
@@ -190,4 +213,5 @@ func (g *echoGen) Gen(applicationName string, packageName string, service *data.
 func init() {
 	gen := &echoGen{}
 	data.OutputMap["echo"] = gen
+	data.OutputMap["go"] = gen
 }

@@ -9,6 +9,7 @@ import "common.proto";
 // package
 package yoozoo.protoconf.ts;
 option java_package = "com.yoozoo.spring";
+option go_package = "apisvr";
 
 // env list - 环境
 message EnvListRequest {}
