@@ -159,9 +159,9 @@ func (g *tsGen) CommonErrorSubTypes() string {
 }
 
 func (g *tsGen) GetCommoneErrorFields() []data.MessageField {
-	common_error_type := g.service.Options["common_error"]
+	commonErrorType := g.service.Options["common_error"]
 	for _, t := range g.DataTypes {
-		if t.Name == common_error_type {
+		if t.Name == commonErrorType {
 			return t.Fields
 		}
 	}
