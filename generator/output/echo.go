@@ -47,13 +47,6 @@ type echoGen struct {
 	enumTpl         *template.Template
 }
 
-func (g *echoGen) init(applicationName string) {
-	g.ApplicationName = applicationName
-	g.structTpl = g.getTpl("/generator/template/echo_struct.gogo")
-	g.serviceTpl = g.getTpl("/generator/template/echo_service.gogo")
-	g.enumTpl = g.getTpl("/generator/template/echo_enum.gogo")
-}
-
 func (g *echoGen) getTpl(path string) *template.Template {
 	var err error
 	tpl := template.New("tpl")
@@ -179,6 +172,10 @@ func (g *echoGen) Init(request *plugin.CodeGeneratorRequest) {
 			util.Die(fmt.Errorf("different go package detected: %s, %s", g.PackageName, opts.GetGoPackage()))
 		}
 	}
+
+	g.structTpl = g.getTpl("/generator/template/echo_struct.gogo")
+	g.serviceTpl = g.getTpl("/generator/template/echo_service.gogo")
+	g.enumTpl = g.getTpl("/generator/template/echo_enum.gogo")
 }
 
 func (g *echoGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
@@ -192,7 +189,7 @@ func (g *echoGen) Gen(applicationName string, packageName string, service *data.
 		log.Printf("Use proto package name for go: %v", g.PackageName)
 	}
 
-	g.init(applicationName)
+	g.ApplicationName = applicationName
 	result = make(map[string]string)
 
 	for _, msg := range messages {
@@ -218,7 +215,5 @@ func (g *echoGen) Gen(applicationName string, packageName string, service *data.
 }
 
 func init() {
-	gen := &echoGen{}
-	data.OutputMap["echo"] = gen
-	data.OutputMap["go"] = gen
+	data.OutputMap["echo"] = &echoGen{}
 }

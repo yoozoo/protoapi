@@ -241,6 +241,52 @@ eNaH0H9zRrfCi78BAAD//ww5MNzeAgAA
 `,
 	},
 
+	"/generator/template/go/enum.gogo": {
+		local:   "generator/template/go/enum.gogo",
+		size:    383,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/3SQMWvDMBCFZ9+veIQOFjTOnpKpaaFLUmjoEjKo9tWYxmchy0MQ99+L7MSZsj2O70kf
+b7XCa1cxahb2NnCFnwuc70JnXfOC7R67/QFv249DQeRs+WdrRozF5xRVicLFjaedbVkVjQSispM+IKcs
+xiW8lZpRvDd8rnqopuuNjvHpFjfpkW97HnhClmCpVMkQ/Q5SIi+T6Fw1+Aq+kTo36MeASJnYlnusN2it
+O87oaQIiZQ987kJrLOa8eL4WJo9MiTLPYfCC8Z9jEjqRPvJLw+YmDZLUrs28kWBG1JDSfwAAAP//H21g
+KH8BAAA=
+`,
+	},
+
+	"/generator/template/go/service.gogo": {
+		local:   "generator/template/go/service.gogo",
+		size:    1296,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/5xUwW7bMAw9W1/BGcMgF5lSFDul6GVt1nVAm2INdi0UmXGEOpIhyVkLQf8+0E6MpEu3
+YTfjiXx8JB89HsOlLREqNOhkwBIWL9A4G6xs9KSy53A1g7vZHKZXN3PBWCPVk6wQYhT3/WdKjOl1Y10A
+zrLcYYXPTc5Yllc6rNqFUHY9ruXCB6mexqhWNmcFY+MxcdzJNaYE2kNYIWgT0C2lQlDWBKmNB1nX3RMB
+ztY1Os/CS4P7yUNWZFmMH8FJUyGIWwwrW3pIiWAx16HGlDgpEJfWBHwOIziJUdyYpg3zlwZTKoATMmvD
+AMWol2AQxNQ56wiDPE+pTx0wikNTplT0GtCUVDgxdlzRsjUKHocmHr9KU9bouHcbiPH9Fi6gU7t9/EI5
+kWUOQ+sMEAVXsN9PARydAyRVBYVm2sDkAgz+5K8aZfS4pFC4ACU+a1NybYrzDnl3AUbXHUHm0DfEcWnX
+a2u6hiNFd18T+DB8x1v0XlY4IYp+Mryg4Wc7xUp8e5jd8U9npyMg2oJlWdoK2ch66hwV0kb8kLUuZUBe
+nO8e/iZpl7KV1Wf9U3HbhqM7BlpyN8rtaqmkdxuxZyY1Am2IibZ8nGOYs33dxIGs09NtsV5XtnNR6jQe
+Bp9RsG1DwTKy2J7f6Ky+Y6V9QHdwXq3HEoKFhTYlONsGOqTOhL+Fc4STzlRTtbIj6B05GPJPNzaM4AHd
+Rivsh3A/e5j3g0BxPZ3zvPt3hFVK+eiNEygOr+ht7uvpQE1l/oP71bX+CgAA///VBwMyEAUAAA==
+`,
+	},
+
+	"/generator/template/go/struct.gogo": {
+		local:   "generator/template/go/struct.gogo",
+		size:    737,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/7SRQW+bQBCFz95fMeVgmShZ90xFpShgCclxWtfNpaqSLQx0W7yQYZFqrfa/V7Muim2p
+x1zQ4+3sex/Dcgl3XYXQoEFSFiv4cYCeOtupXidN9wGyB9g87CDPip0Uolflb9UgOCc/HaX3QiyXbNy1
+ahg2as+WPfR44cFgaSwtODFz7gZImQZBrjS21QDesyt32rY8yvLQs3r+NXQmiZyTx5To+XgdTcWXvBD1
+aEpY0EVbDI+q1ZWyuIjhatI5UUdMgEQDJCl8+34VCMKB8/9HuwFdg5xytvgyasKAMNM1kDyBT1OIIi6Z
+IVesinydPW3zz1+LbZ6xy90pqL5HUy347RrmJxRB8lckZ7nXEI55LwnM0cdi5s92MVHiyyvoqqO9shDh
+Xuk2mnDf0Z+cDXmvbPnziyVtmsVpV/yKX2web9dF9pTf3xbrt6aftK6hRRPSY/gI7wMOoR3JwPzsZ7rw
+HBLgWR9C/80Z3Qov/gYAAP//lnsw6+ECAAA=
+`,
+	},
+
 	"/generator/template/php_client.gophp": {
 		local:   "generator/template/php_client.gophp",
 		size:    3889,
@@ -409,6 +455,11 @@ iwaqi65H0uEoxH8S3HA5RaVUIWcSZwRrjrYu2Wwucqe1Nc9QpMaZnL6bvplLuvXQ5hO0dvBjk7G5fXHs
 	"/generator/template": {
 		isDir: true,
 		local: "generator/template",
+	},
+
+	"/generator/template/go": {
+		isDir: true,
+		local: "generator/template/go",
 	},
 
 	"/generator/template/ts": {
