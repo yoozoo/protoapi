@@ -7,6 +7,7 @@ import (
 	"text/template"
 	"time"
 
+	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"version.uuzu.com/Merlion/protoapi/generator/data"
 	"version.uuzu.com/Merlion/protoapi/generator/data/tpl"
 )
@@ -22,7 +23,12 @@ type phpStruct struct {
 	ComErr    *data.MessageData
 }
 
-func genPhpClientCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+type phpClientGen struct{}
+
+func (g *phpClientGen) Init(request *plugin.CodeGeneratorRequest) {
+}
+
+func (g *phpClientGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	//获取可能的package name
 	if len(packageName) == 0 {
 		packageName = "Yoozoo\\Agent"
@@ -131,5 +137,5 @@ func genPhpClientCode(applicationName string, packageName string, service *data.
 }
 
 func init() {
-	data.OutputMap["phpclient"] = genPhpClientCode
+	data.OutputMap["phpclient"] = &phpClientGen{}
 }

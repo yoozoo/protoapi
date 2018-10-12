@@ -593,9 +593,10 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 
 	services := getServices(request.ProtoFile)
 
-	if outputFunc, ok := data.OutputMap[outputLang]; ok {
+	if gen, ok := data.OutputMap[outputLang]; ok {
 		response := new(plugin.CodeGeneratorResponse)
-		results, err := outputFunc(applicationName, packageName, services[0], messages, enums, options)
+		gen.Init(request)
+		results, err := gen.Gen(applicationName, packageName, services[0], messages, enums, options)
 		if err != nil {
 			util.Die(err)
 		}

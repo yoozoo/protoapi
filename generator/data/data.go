@@ -6,6 +6,8 @@ import (
 
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	"version.uuzu.com/Merlion/protoapi/generator/data/tpl"
+
+	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 )
 
 const (
@@ -117,8 +119,10 @@ type ServiceData struct {
 // Option is a structure represents the option declared in a proto file
 type OptionMap map[string]string
 
-// OutputFunc the code output plugin prototype
-type OutputFunc func(applicationName string, packageName string, services *ServiceData, messages []*MessageData, enums []*EnumData, options OptionMap) (map[string]string, error)
+type CodeGenerator interface {
+	Init(request *plugin.CodeGeneratorRequest)
+	Gen(applicationName string, packageName string, services *ServiceData, messages []*MessageData, enums []*EnumData, options OptionMap) (map[string]string, error)
+}
 
 // OutputMap the registra for output code type and its associated output plugin
-var OutputMap = make(map[string]OutputFunc)
+var OutputMap = make(map[string]CodeGenerator)

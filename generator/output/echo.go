@@ -11,6 +11,7 @@ import (
 	"strings"
 	"text/template"
 
+	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"version.uuzu.com/Merlion/protoapi/generator/data"
 	"version.uuzu.com/Merlion/protoapi/util"
 )
@@ -41,13 +42,12 @@ type echoGen struct {
 	enumTpl         *template.Template
 }
 
-func newEchoGen(applicationName, packageName string) *echoGen {
-	gen := &echoGen{
-		ApplicationName: applicationName,
-		PackageName:     packageName,
-	}
-	gen.init()
-	return gen
+func (g *echoGen) init(applicationName, packageName string) {
+	g.ApplicationName = applicationName
+	g.PackageName = packageName
+	g.structTpl = g.getTpl("/generator/template/echo_struct.gogo")
+	g.serviceTpl = g.getTpl("/generator/template/echo_service.gogo")
+	g.enumTpl = g.getTpl("/generator/template/echo_enum.gogo")
 }
 
 func (g *echoGen) getTpl(path string) *template.Template {
@@ -59,12 +59,6 @@ func (g *echoGen) getTpl(path string) *template.Template {
 		util.Die(err)
 	}
 	return result
-}
-
-func (g *echoGen) init() {
-	g.structTpl = g.getTpl("/generator/template/echo_struct.gogo")
-	g.serviceTpl = g.getTpl("/generator/template/echo_service.gogo")
-	g.enumTpl = g.getTpl("/generator/template/echo_enum.gogo")
 }
 
 func formatBuffer(buf *bytes.Buffer) (string, error) {
@@ -163,33 +157,37 @@ func genEchoPackageName(packageName string) string {
 	return strings.Replace(packageName, ".", "_", -1)
 }
 
-func genEchoCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+func (g *echoGen) Init(request *plugin.CodeGeneratorRequest) {
+}
+
+func (g *echoGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	packageName = genEchoPackageName(packageName)
-	gen := newEchoGen(applicationName, packageName)
+	g.init(applicationName, packageName)
 	result = make(map[string]string)
 
 	for _, msg := range messages {
-		filename := gen.getStructFilename(packageName, msg)
-		content := gen.genStruct(msg)
+		filename := g.getStructFilename(packageName, msg)
+		content := g.genStruct(msg)
 
 		result[filename] = content
 	}
 
 	for _, enum := range enums {
-		filename := gen.getEnumFilename(packageName, enum)
-		content := gen.genEnum(enum)
+		filename := g.getEnumFilename(packageName, enum)
+		content := g.genEnum(enum)
 
 		result[filename] = content
 	}
 
 	// make file name same as go file name
 	filename := genEchoFileName(packageName, service)
-	content := gen.genServie(service)
+	content := g.genServie(service)
 	result[filename] = content
 
 	return
 }
 
 func init() {
-	data.OutputMap["echo"] = genEchoCode
+	gen := &echoGen{}
+	data.OutputMap["echo"] = gen
 }

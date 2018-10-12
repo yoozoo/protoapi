@@ -6,6 +6,8 @@ import (
 	"text/template"
 
 	"version.uuzu.com/Merlion/protoapi/generator/data"
+
+	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 )
 
 /**
@@ -30,6 +32,9 @@ var tsTypes = map[string]string{
 }
 
 type tsGen struct {
+	DataTypes []*data.MessageData
+	Lib       tsLibs
+
 	objsFile   string
 	helperFile string
 
@@ -42,8 +47,7 @@ type tsGen struct {
 	axiosTpl *template.Template
 	fetchTpl *template.Template
 
-	service   *data.ServiceData
-	DataTypes []*data.MessageData
+	service *data.ServiceData
 }
 
 type tsStruct struct {
@@ -172,15 +176,12 @@ func (g *tsGen) HasCommonError() bool {
 /**
 * init filename with path
  */
-func initFiles(packageName string, service *data.ServiceData) *tsGen {
-	gen := &tsGen{
-		axiosFile:  genFileName(packageName, service.Name),
-		fetchFile:  genFileName(packageName, service.Name),
-		objsFile:   genFileName(packageName, service.Name+"Objs"),
-		helperFile: genFileName(packageName, "helper"),
-		service:    service,
-	}
-	return gen
+func (g *tsGen) initFiles(packageName string, service *data.ServiceData) {
+	g.axiosFile = genFileName(packageName, service.Name)
+	g.fetchFile = genFileName(packageName, service.Name)
+	g.objsFile = genFileName(packageName, service.Name+"Objs")
+	g.helperFile = genFileName(packageName, "helper")
+	g.service = service
 }
 
 type tsLibs int
@@ -190,36 +191,43 @@ const (
 	tsLibAxios
 )
 
-func getTSgen(lib tsLibs) data.OutputFunc {
-	return func(applicationName string, packageName string, svr *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
-		gen := initFiles(packageName, svr)
-		gen.loadTpl()
-		gen.DataTypes = messages
+func (g *tsGen) Init(request *plugin.CodeGeneratorRequest) {
+	g.loadTpl()
+}
 
-		/**
-		* Map Data: messages and service
-		 */
-		dataMap := tsStruct{
-			ClassName: svr.Name,
-			DataTypes: messages,
-			Enums:     enums,
-			Functions: svr.Methods,
-			Gen:       gen,
-		}
+func (g *tsGen) Gen(applicationName string, packageName string, svr *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
+	g.initFiles(packageName, svr)
+	g.DataTypes = messages
 
-		var result = make(map[string]string)
-		switch lib {
-		case tsLibAxios:
-			result[gen.axiosFile] = gen.genContent(gen.axiosTpl, dataMap)
-		default:
-			result[gen.fetchFile] = gen.genContent(gen.fetchTpl, dataMap)
-		}
-
-		result[gen.objsFile] = gen.genContent(gen.objsTpl, dataMap)
-		result[gen.helperFile] = gen.genContent(gen.helperTpl, dataMap)
-
-		return result, nil
+	/**
+	* Map Data: messages and service
+	 */
+	dataMap := tsStruct{
+		ClassName: svr.Name,
+		DataTypes: messages,
+		Enums:     enums,
+		Functions: svr.Methods,
+		Gen:       g,
 	}
+
+	var result = make(map[string]string)
+	switch g.Lib {
+	case tsLibAxios:
+		result[g.axiosFile] = g.genContent(g.axiosTpl, dataMap)
+	default:
+		result[g.fetchFile] = g.genContent(g.fetchTpl, dataMap)
+	}
+
+	result[g.objsFile] = g.genContent(g.objsTpl, dataMap)
+	result[g.helperFile] = g.genContent(g.helperTpl, dataMap)
+
+	return result, nil
+}
+
+func getTSgen(lib tsLibs) *tsGen {
+	g := new(tsGen)
+	g.Lib = lib
+	return g
 }
 
 func init() {
