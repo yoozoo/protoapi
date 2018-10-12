@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"go/format"
+	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -183,6 +184,12 @@ func (g *echoGen) Init(request *plugin.CodeGeneratorRequest) {
 func (g *echoGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	if g.PackageName == "" {
 		g.PackageName = genEchoPackageName(packageName)
+
+		if g.PackageName == "" {
+			util.Die(fmt.Errorf("No package name given"))
+		}
+
+		log.Printf("Use proto package name for go: %v", g.PackageName)
 	}
 
 	g.init(applicationName)

@@ -129,7 +129,7 @@ func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.M
 	methods := service.GetMethod()
 	serviceName := service.GetName()
 	var resultMtd []data.Method
-	log.Printf("pkg: %s\n", pkg)
+	log.Printf("proto pkg: %s\n", pkg)
 	for _, mtd := range methods {
 		var mtdData = data.Method{
 			Name:       mtd.GetName(),
@@ -141,7 +141,6 @@ func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.M
 		}
 		resultMtd = append(resultMtd, mtdData)
 	}
-	log.Printf("mtds: %s\n", resultMtd)
 	return resultMtd
 }
 
