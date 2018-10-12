@@ -21,7 +21,6 @@ import (
 )
 
 const (
-	defaultPackageName        = "com.yoozoo.configuration"
 	googleDescriptorProtoName = "google/protobuf/descriptor.proto"
 )
 
@@ -206,7 +205,7 @@ func getPackageName(request *plugin.CodeGeneratorRequest) string {
 
 		}
 	}
-	return defaultPackageName
+	return ""
 }
 
 // isPrimitiveType returns if the field type is considered primitive (ie can be translated to language/built-in of the target code)
