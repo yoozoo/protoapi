@@ -10,26 +10,50 @@ import (
 
 // Re-use everything in echoGen, only use different template
 type goGen struct {
+	DataTypes []*data.MessageData
 	echoGen
 }
 
 type goService struct {
 	*echoService
+	Gen *goGen
 }
 
-func (s *goService) Foo(method *echoMethod) string {
-	return method.ErrorType()
+func (g *goService) CommonError() string {
+	return g.ServiceData.Options["common_error"]
 }
 
-func (s *goService) Foo1(method *echoMethod) string {
-	return method.ErrorType()
+func (g *goService) hasCommonError(field string) bool {
+	errType, ok := g.ServiceData.Options["common_error"]
+	if !ok {
+		return false
+	}
+
+	for _, t := range g.Gen.DataTypes {
+		if t.Name == errType {
+			for _, f := range t.Fields {
+				if f.Name == field {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
+func (g *goService) HasCommonBindError() bool {
+	return g.hasCommonError("bindError")
+}
+
+func (g *goService) HasCommonValidateError() bool {
+	return g.hasCommonError("validateError")
 }
 
 func (g *goGen) genGoServie(service *data.ServiceData) string {
 	buf := bytes.NewBufferString("")
 
 	obj := newEchoService(service, g.PackageName)
-	err := g.serviceTpl.Execute(buf, &goService{obj})
+	err := g.serviceTpl.Execute(buf, &goService{obj, g})
 	if err != nil {
 		util.Die(err)
 	}

@@ -21,13 +21,21 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 		req := new({{.InputType}})
 
 		if err = c.Bind(req); err != nil {
-			resp := CommonError{BindError: &BindError{Message: err.Error()}}
+			{{if $s.HasCommonBindError}}
+			resp := {{$s.CommonError}}{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
+			{{else}}
+			return c.JSON(500, err)
+			{{end}}
 		}
 
 		if valErr := req.Validate(); valErr != nil {
-			resp := CommonError{ValidateError: valErr}
+			{{if $s.HasCommonValidateError}}
+			resp := {{$s.CommonError}}{ValidateError: valErr}
 			return c.JSON(420, resp)
+			{{else}}
+			return c.JSON(500, err)
+			{{end}}
 		}
 
 		resp{{if ne .ErrorType "" }}, bizError{{end}}, err := srv.{{.Title}}(c, req)
