@@ -58,7 +58,7 @@ func (s *echoStruct) init() {
 }
 
 func (s *echoStruct) ClassName() string {
-	return s.Name
+	return strings.Title(s.Name)
 }
 
 func (s *echoStruct) ValidateRequired() bool {

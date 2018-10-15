@@ -57,6 +57,8 @@ func (s *echoService) init() {
 	s.Methods = make([]*echoMethod, len(s.ServiceData.Methods))
 	for i, f := range s.ServiceData.Methods {
 		mtd := f
+		mtd.InputType = strings.Title(mtd.InputType)
+		mtd.OutputType = strings.Title(mtd.OutputType)
 		s.Methods[i] = &echoMethod{&mtd, s.Name}
 	}
 }

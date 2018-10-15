@@ -6,10 +6,10 @@ syntax = "proto3";
 
 option go_package = "echosvr";
 
-message Msg {
+message msg {
     string msg = 1;
 }
 
 service EchoService {
-  rpc echo(Msg) returns (Msg) {}
+  rpc echo(msg) returns (msg) {}
 }
