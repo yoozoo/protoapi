@@ -9,6 +9,7 @@ type {{.ClassName}} struct {
 	{{- end }}
 }
 
+{{if .ValidateRequired}}
 func (r {{.ClassName}}) Validate() *ValidateError {
 	errs := []*FieldError{}
 	{{- range .Fields }}
@@ -30,3 +31,4 @@ func (r {{.ClassName}}) Validate() *ValidateError {
 	}
 	return nil
 }
+{{end}}

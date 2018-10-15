@@ -60,3 +60,13 @@ func (s *echoStruct) init() {
 func (s *echoStruct) ClassName() string {
 	return s.Name
 }
+
+func (s *echoStruct) ValidateRequired() bool {
+	for _, f := range s.Fields {
+		if f.ValidateRequired() {
+			return true
+		}
+	}
+
+	return false
+}

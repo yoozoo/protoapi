@@ -29,18 +29,16 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 			{{end}}
 		}
 
+		{{if $s.HasCommonValidateError}}
 		if valErr := req.Validate(); valErr != nil {
-			{{if $s.HasCommonValidateError}}
 			resp := {{$s.CommonError}}{ValidateError: valErr}
 			return c.JSON(420, resp)
-			{{else}}
-			return c.JSON(500, err)
-			{{end}}
 		}
+		{{end}}
 
 		resp{{if ne .ErrorType "" }}, bizError{{end}}, err := srv.{{.Title}}(c, req)
 		if err != nil {
-			return c.JSON(500, err)
+			return c.String(500, err.Error())
 		}
 
 		{{- if ne .ErrorType "" }}
