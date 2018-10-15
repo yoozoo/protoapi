@@ -16,8 +16,11 @@ import {
 } from './{{.ClassName}}Objs';
 import { generateUrl, errorHandling } from './helper';
 
-/*baseUrl 可更改*/
-const baseUrl = "http://192.168.115.60:8080";
+var baseUrl = "http://192.168.115.60:8080";
+
+export function SetBaseUrl(url: string) {
+    baseUrl = url;
+}
 
 {{- $className := .ClassName -}}
 
