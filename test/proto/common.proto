@@ -5,9 +5,13 @@ import "google/protobuf/descriptor.proto";
 extend google.protobuf.MethodOptions {
   string service_method = 51006;
   string error = 51007;
+  bool auth = 51009;
 }
 
-extend google.protobuf.ServiceOptions { string common_error = 51008; }
+extend google.protobuf.ServiceOptions {
+  string common_error = 51008;
+  bool auth_required = 51010;
+}
 
 extend google.protobuf.FieldOptions {
   string val_format = 51002;
@@ -41,4 +45,4 @@ enum ValidateErrorType {
   FIELD_REQUIRED = 1;
 }
 
-message Empty {  }
+message Empty {}
