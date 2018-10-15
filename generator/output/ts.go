@@ -83,7 +83,7 @@ func getServiceMtd(options data.OptionMap) string {
 
 func getImportDataTypes(mtds []data.Method) map[string]bool {
 	res := make(map[string]bool)
-	res["Error"] = true
+
 	for _, mtd := range mtds {
 		_, exist := res[mtd.InputType]
 		if !exist {
