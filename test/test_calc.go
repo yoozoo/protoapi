@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/labstack/echo"
-	"version.uuzu.com/Merlion/protoapi/test/result/go/calcsvr"
+	"github.com/yoozoo/protoapi/test/result/go/calcsvr"
 )
 
 type calcService struct{}

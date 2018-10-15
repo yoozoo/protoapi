@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
-	"version.uuzu.com/Merlion/protoapi/generator/data/tpl"
+	"github.com/yoozoo/protoapi/generator/data/tpl"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 )

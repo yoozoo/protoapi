@@ -13,7 +13,7 @@ This file is not updated, please refer to README.md for latest version
 ### Getting Started ###
 
 * go to the place you want to clone the repo:
-    * `git clone https://version.uuzu.com/Merlion/protoapi.git`
+    * `git clone https://github.com/yoozoo/protoapi.git`
 
 * Install protoc-gen-go if you have not done so:
     * go to `/usr/local` directory (same dir with .bash_profile for Mac)

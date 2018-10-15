@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"version.uuzu.com/Merlion/protoapi/util"
+	"github.com/yoozoo/protoapi/util"
 )
 
 var protocURLMap = map[string]string{

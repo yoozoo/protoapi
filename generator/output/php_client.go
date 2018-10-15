@@ -8,8 +8,8 @@ import (
 	"time"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
-	"version.uuzu.com/Merlion/protoapi/generator/data"
-	"version.uuzu.com/Merlion/protoapi/generator/data/tpl"
+	"github.com/yoozoo/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/generator/data/tpl"
 )
 
 // create template data struct

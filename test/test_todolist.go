@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/labstack/echo"
-	"version.uuzu.com/Merlion/protoapi/test/result/go/todolistsvr"
+	"github.com/yoozoo/protoapi/test/result/go/todolistsvr"
 )
 
 type todolistService struct {

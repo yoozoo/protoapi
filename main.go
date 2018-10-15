@@ -12,9 +12,9 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	"version.uuzu.com/Merlion/protoapi/cmd"
-	"version.uuzu.com/Merlion/protoapi/generator"
-	"version.uuzu.com/Merlion/protoapi/util"
+	"github.com/yoozoo/protoapi/cmd"
+	"github.com/yoozoo/protoapi/generator"
+	"github.com/yoozoo/protoapi/util"
 )
 
 func main() {

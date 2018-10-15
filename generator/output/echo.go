@@ -13,8 +13,8 @@ import (
 	"text/template"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
-	"version.uuzu.com/Merlion/protoapi/generator/data"
-	"version.uuzu.com/Merlion/protoapi/util"
+	"github.com/yoozoo/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/util"
 )
 
 const (

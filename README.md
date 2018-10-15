@@ -20,7 +20,7 @@
 ## 项目安装
 
 1. 下载项目代码:
-  * `go get version.uuzu.com/Merlion/protoapi`
+  * `go get github.com/yoozoo/protoapi`
 
 2. 使用`protoapi`自动初始化[protoc](https://github.com/protocolbuffers/protobuf):
   * `protoapi init`

@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"reflect"
 
-	"version.uuzu.com/Merlion/protoapi/generator/data"
-	"version.uuzu.com/Merlion/protoapi/util"
+	"github.com/yoozoo/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/util"
 
 	"github.com/spf13/cobra"
 )

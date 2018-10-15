@@ -3,7 +3,7 @@ package output
 import (
 	"strings"
 
-	"version.uuzu.com/Merlion/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/generator/data"
 )
 
 type echoEnumField struct {

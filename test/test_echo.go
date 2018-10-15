@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/labstack/echo"
-	"version.uuzu.com/Merlion/protoapi/protoapigo"
-	"version.uuzu.com/Merlion/protoapi/test/result/go/echosvr"
+	"github.com/yoozoo/protoapi/protoapigo"
+	"github.com/yoozoo/protoapi/test/result/go/echosvr"
 )
 
 type echoService struct{}

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"text/template"
 
-	"version.uuzu.com/Merlion/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/generator/data"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 )
