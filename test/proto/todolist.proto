@@ -1,0 +1,33 @@
+/**
+ * 这个文件用于生成相关的前后端API代码
+ * 用protoapi指定此文件生成相关代码
+ */
+syntax = "proto3";
+
+import "common.proto";
+
+option go_package = "todolistsvr";
+
+message Todo { string title = 1; }
+
+message AddReq { Todo item = 1; }
+
+message AddResp { int32 count = 1; }
+
+message listResp { repeated Todo items = 1; }
+
+message AddError {
+  AddReq req = 1;
+  string error = 2;
+}
+
+service TodolistService {
+  option (common_error) = "CommonError";
+
+  rpc add(AddReq) returns (AddResp) {
+    option (error) = "AddError";
+    option (auth) = true;
+  }
+
+  rpc list(Empty) returns (listResp) {}
+}
