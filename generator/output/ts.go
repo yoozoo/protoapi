@@ -232,7 +232,8 @@ func getTSgen(lib tsLibs) *tsGen {
 
 func init() {
 	fetch := getTSgen(tsLibFetch)
-	data.OutputMap["ts"] = fetch
+	axios := getTSgen(tsLibAxios)
+	data.OutputMap["ts"] = axios
 	data.OutputMap["ts-fetch"] = fetch
-	data.OutputMap["ts-axios"] = getTSgen(tsLibAxios)
+	data.OutputMap["ts-axios"] = axios
 }
