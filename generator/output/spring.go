@@ -5,7 +5,8 @@ import (
 	"strings"
 	"text/template"
 
-	"version.uuzu.com/Merlion/protoapi/generator/data"
+	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
+	"github.com/yoozoo/protoapi/generator/data"
 )
 
 var javaTypes = map[string]string{
@@ -71,15 +72,6 @@ type springGen struct {
 	serviceTpl      *template.Template
 }
 
-func newSpringGen(applicationName, packageName string) *springGen {
-	gen := &springGen{
-		ApplicationName: applicationName,
-		PackageName:     packageName,
-	}
-	gen.init()
-	return gen
-}
-
 func (g *springGen) getTpl(path string) *template.Template {
 	var err error
 	tpl := template.New("tpl")
@@ -91,7 +83,9 @@ func (g *springGen) getTpl(path string) *template.Template {
 	return result
 }
 
-func (g *springGen) init() {
+func (g *springGen) init(applicationName, packageName string) {
+	g.ApplicationName = applicationName
+	g.PackageName = packageName
 	g.structTpl = g.getTpl("/generator/template/spring_struct.gojava")
 	g.serviceTpl = g.getTpl("/generator/template/spring_service.gojava")
 }
@@ -130,31 +124,34 @@ func genSpringPackageName(packageName string, options data.OptionMap) string {
 	return packageName
 }
 
-func genServiceFileName(packageName string, service *data.ServiceData) string {
+func (g *springGen) genServiceFileName(packageName string, service *data.ServiceData) string {
 	return strings.Replace(packageName, ".", "/", -1) + "/" + service.Name + "Base.java"
 }
 
-func genSpringCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+func (g *springGen) Init(request *plugin.CodeGeneratorRequest) {
+}
+
+func (g *springGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	// get java package name from options
 	packageName = genSpringPackageName(packageName, options)
-	gen := newSpringGen(applicationName, packageName)
+	g.init(applicationName, packageName)
 	result = make(map[string]string)
 
 	for _, msg := range messages {
-		filename := gen.getStructFilename(packageName, msg)
-		content := gen.genStruct(msg)
+		filename := g.getStructFilename(packageName, msg)
+		content := g.genStruct(msg)
 
 		result[filename] = content
 	}
 
 	// make file name same as java class name
-	filename := genServiceFileName(packageName, service)
-	content := gen.genServie(service)
+	filename := g.genServiceFileName(packageName, service)
+	content := g.genServie(service)
 	result[filename] = content
 
 	return
 }
 
 func init() {
-	data.OutputMap["spring"] = genSpringCode
+	data.OutputMap["spring"] = &springGen{}
 }

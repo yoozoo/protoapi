@@ -6,19 +6,22 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
+	"runtime/debug"
 
 	"github.com/golang/protobuf/proto"
 
-	"version.uuzu.com/Merlion/protoapi/cmd"
-	"version.uuzu.com/Merlion/protoapi/generator"
-	"version.uuzu.com/Merlion/protoapi/util"
+	"github.com/yoozoo/protoapi/cmd"
+	"github.com/yoozoo/protoapi/generator"
+	"github.com/yoozoo/protoapi/util"
 )
 
 func main() {
 	defer func() {
 		util.CleanIncludePath()
 		if r := recover(); r != nil {
+			log.Printf("%s: %s", r, debug.Stack())
 			os.Exit(1)
 		}
 	}()
@@ -30,18 +33,18 @@ func main() {
 	if len(args) == 1 && err == nil && (stat.Mode()&os.ModeCharDevice) == 0 {
 		input, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
-			util.HandleError(fmt.Errorf("reading stdin error: %s", err.Error()))
+			util.Die(fmt.Errorf("reading stdin error: %s", err.Error()))
 		}
 
 		response := generator.Generate(input)
 
 		output, err := proto.Marshal(response)
 		if err != nil {
-			util.HandleError(fmt.Errorf("create response failed: %s", err.Error()))
+			util.Die(fmt.Errorf("create response failed: %s", err.Error()))
 		}
 		_, err = os.Stdout.Write(output)
 		if err != nil {
-			util.HandleError(err)
+			util.Die(err)
 		}
 	} else {
 		cmd.Execute()

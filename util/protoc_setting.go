@@ -49,14 +49,13 @@ func GetProtoapiHome() string {
 		}
 	}
 	if len(homedir) == 0 {
-		HandleError(fmt.Errorf("Failed to find protoapi home dir. Please make sure current user has home directory"))
+		Die(fmt.Errorf("Failed to find protoapi home dir. Please make sure current user has home directory"))
 	}
 	return homedir + "/"
 }
 
 // GetDefaultProtoc retrieve protoc executable path and protoc Include path
 func GetDefaultProtoc(incPath string) (protoc string, newProtocIncPath string) {
-
 	homedir := GetProtoapiHome()
 
 	protoc = homedir + ProtocBin
@@ -65,16 +64,17 @@ func GetDefaultProtoc(incPath string) (protoc string, newProtocIncPath string) {
 	}
 	// check existen
 	if _, err := os.Stat(protoc); err != nil {
-		HandleError(fmt.Errorf("Failed to find protoc. Please run `protoapi init` command to initialize: %s", err.Error()))
+		Die(fmt.Errorf("Failed to find protoc. Please run `protoapi init` command to initialize. \n\nDetail: %s", err.Error()))
 	} else {
 		newProtocIncPath = homedir + protocInclude
 		if _, err := os.Stat(newProtocIncPath); err != nil {
-			HandleError(fmt.Errorf("Failed to find protoc include folder. Please run `protoapi init` command to initialize: %s", err.Error()))
+			Die(fmt.Errorf("Failed to find protoc include folder. Please run `protoapi init` command to initialize.\n\nDetail: %s", err.Error()))
 		}
 		if len(incPath) > 0 {
 			newProtocIncPath += string(os.PathListSeparator) + incPath
 		}
 		return protoc, newProtocIncPath
 	}
+
 	return "", ""
 }

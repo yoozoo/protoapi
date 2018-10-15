@@ -3,7 +3,7 @@ package output
 import (
 	"strings"
 
-	"version.uuzu.com/Merlion/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/generator/data"
 )
 
 type echoField struct {
@@ -58,5 +58,15 @@ func (s *echoStruct) init() {
 }
 
 func (s *echoStruct) ClassName() string {
-	return s.Name
+	return strings.Title(s.Name)
+}
+
+func (s *echoStruct) ValidateRequired() bool {
+	for _, f := range s.Fields {
+		if f.ValidateRequired() {
+			return true
+		}
+	}
+
+	return false
 }

@@ -5,7 +5,9 @@ import (
 	"strings"
 	"text/template"
 
-	"version.uuzu.com/Merlion/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/generator/data"
+
+	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 )
 
 /**
@@ -30,14 +32,22 @@ var tsTypes = map[string]string{
 }
 
 type tsGen struct {
-	vueResourceFile string
-	axiosFile       string
-	dataFile        string
-	helperFile      string
-	vueResourceTpl  *template.Template
-	axiosTpl        *template.Template
-	dataTpl         *template.Template
-	helperTpl       *template.Template
+	DataTypes []*data.MessageData
+	Lib       tsLibs
+
+	objsFile   string
+	helperFile string
+
+	axiosFile string
+	fetchFile string
+
+	objsTpl   *template.Template
+	helperTpl *template.Template
+
+	axiosTpl *template.Template
+	fetchTpl *template.Template
+
+	service *data.ServiceData
 }
 
 type tsStruct struct {
@@ -45,6 +55,7 @@ type tsStruct struct {
 	DataTypes []*data.MessageData
 	Enums     []*data.EnumData
 	Functions []data.Method
+	Gen       *tsGen
 }
 
 func toTypeScriptType(dataType string) string {
@@ -72,7 +83,7 @@ func getServiceMtd(options data.OptionMap) string {
 
 func getImportDataTypes(mtds []data.Method) map[string]bool {
 	res := make(map[string]bool)
-	res["Error"] = true
+
 	for _, mtd := range mtds {
 		_, exist := res[mtd.InputType]
 		if !exist {
@@ -87,16 +98,16 @@ func getImportDataTypes(mtds []data.Method) map[string]bool {
 }
 
 func genFileName(packageName string, fileName string) string {
-	return strings.Replace(packageName, ".", "/", -1) + "/" + fileName + ".ts"
+	return fileName + ".ts"
 }
 
 /**
 * Get TEMPLATE
  */
 func (g *tsGen) loadTpl() {
-	g.vueResourceTpl = g.getTpl("/generator/template/ts/ts_service.govue")
-	g.axiosTpl = g.getTpl("/generator/template/ts/ts_service.gots")
-	g.dataTpl = g.getTpl("/generator/template/ts/data.gots")
+	g.axiosTpl = g.getTpl("/generator/template/ts/service_axios.gots")
+	g.fetchTpl = g.getTpl("/generator/template/ts/service_fetch.gots")
+	g.objsTpl = g.getTpl("/generator/template/ts/objs.gots")
 	g.helperTpl = g.getTpl("/generator/template/ts/helper.gots")
 }
 
@@ -133,51 +144,96 @@ func (g *tsGen) genContent(tpl *template.Template, data tsStruct) string {
 	return buf.String()
 }
 
+func (g *tsGen) CommonError() string {
+	return g.service.Options["common_error"]
+}
+
+func (g *tsGen) CommonErrorSubTypes() string {
+	var fieldTypes []string
+	for _, f := range g.GetCommoneErrorFields() {
+		subType := toTypeScriptType(f.DataType)
+		fieldTypes = append(fieldTypes, " | "+subType)
+	}
+
+	return strings.Join(fieldTypes, "")
+}
+
+func (g *tsGen) GetCommoneErrorFields() []data.MessageField {
+	commonErrorType := g.service.Options["common_error"]
+	for _, t := range g.DataTypes {
+		if t.Name == commonErrorType {
+			return t.Fields
+		}
+	}
+	return nil
+}
+
+func (g *tsGen) HasCommonError() bool {
+	_, ok := g.service.Options["common_error"]
+	return ok
+}
+
 /**
 * init filename with path
  */
-func initFiles(packageName string, service *data.ServiceData) *tsGen {
-	gen := &tsGen{
-		vueResourceFile: genFileName(packageName, service.Name),
-		axiosFile:       genFileName(packageName, "api"),
-		dataFile:        genFileName(packageName, "data"),
-		helperFile:      genFileName(packageName, "helper"),
-	}
-	return gen
+func (g *tsGen) initFiles(packageName string, service *data.ServiceData) {
+	g.axiosFile = genFileName(packageName, service.Name)
+	g.fetchFile = genFileName(packageName, service.Name)
+	g.objsFile = genFileName(packageName, service.Name+"Objs")
+	g.helperFile = genFileName(packageName, "helper")
+	g.service = service
 }
 
-func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
-	/**
-	* name files
-	 */
-	gen := initFiles(packageName, service)
+type tsLibs int
 
-	/**
-	* prep template
-	 */
-	gen.loadTpl()
+const (
+	tsLibFetch tsLibs = iota
+	tsLibAxios
+)
+
+func (g *tsGen) Init(request *plugin.CodeGeneratorRequest) {
+	g.loadTpl()
+}
+
+func (g *tsGen) Gen(applicationName string, packageName string, svr *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
+	g.initFiles(packageName, svr)
+	g.DataTypes = messages
 
 	/**
 	* Map Data: messages and service
 	 */
 	dataMap := tsStruct{
-		ClassName: service.Name,
+		ClassName: svr.Name,
 		DataTypes: messages,
 		Enums:     enums,
-		Functions: service.Methods,
+		Functions: svr.Methods,
+		Gen:       g,
 	}
 
-	/**
-	* combine data with template
-	 */
 	var result = make(map[string]string)
-	result[gen.vueResourceFile] = gen.genContent(gen.vueResourceTpl, dataMap)
-	result[gen.axiosFile] = gen.genContent(gen.axiosTpl, dataMap)
-	result[gen.dataFile] = gen.genContent(gen.dataTpl, dataMap)
-	result[gen.helperFile] = data.LoadTpl("/generator/template/ts/helper.gots")
+	switch g.Lib {
+	case tsLibAxios:
+		result[g.axiosFile] = g.genContent(g.axiosTpl, dataMap)
+	default:
+		result[g.fetchFile] = g.genContent(g.fetchTpl, dataMap)
+	}
+
+	result[g.objsFile] = g.genContent(g.objsTpl, dataMap)
+	result[g.helperFile] = g.genContent(g.helperTpl, dataMap)
+
 	return result, nil
 }
 
+func getTSgen(lib tsLibs) *tsGen {
+	g := new(tsGen)
+	g.Lib = lib
+	return g
+}
+
 func init() {
-	data.OutputMap["ts"] = generateVueTsCode
+	fetch := getTSgen(tsLibFetch)
+	axios := getTSgen(tsLibAxios)
+	data.OutputMap["ts"] = axios
+	data.OutputMap["ts-fetch"] = fetch
+	data.OutputMap["ts-axios"] = axios
 }

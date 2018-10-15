@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"version.uuzu.com/Merlion/protoapi/util"
+	"github.com/yoozoo/protoapi/util"
 )
 
 var protocURLMap = map[string]string{
@@ -24,7 +24,7 @@ var protocURLMap = map[string]string{
 // newInitCommand downloads protoc binary and required files into ./protoconf/ folder
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Downloads protoc binary and required files into ./protoapi/ folder",
+	Short: "Downloads protoc binary and required files into $HOME/./protoapi/ folder",
 	Run:   initCommandFunc,
 }
 
@@ -41,7 +41,7 @@ func initCommandFunc(cmd *cobra.Command, args []string) {
 	protocURL, ok := protocURLMap[runtime.GOOS]
 
 	if !ok {
-		util.HandleError(fmt.Errorf("unsupported system %s", runtime.GOOS))
+		util.Die(fmt.Errorf("unsupported system %s", runtime.GOOS))
 	}
 
 	workingDir := util.GetProtoapiHome()
@@ -62,20 +62,20 @@ func initCommandFunc(cmd *cobra.Command, args []string) {
 			// path not exist
 			err = os.Mkdir(workingDir, os.ModePerm)
 			if err != nil {
-				util.HandleError(fmt.Errorf("Failed to create working dir %s: %s", workingDir, err.Error()))
+				util.Die(fmt.Errorf("Failed to create working dir %s: %s", workingDir, err.Error()))
 			}
 		}
 
 		// download protoc
 		err := downloadFile(workingDir+"/protoc.zip", protocURL)
 		if err != nil {
-			util.HandleError(fmt.Errorf("Failed to download protoc from %s : %s", protocURL, err.Error()))
+			util.Die(fmt.Errorf("Failed to download protoc from %s : %s", protocURL, err.Error()))
 		}
 
 		// unzip protoc.zip, it will create bin, include etc
 		files, err := unzip(workingDir+"/protoc.zip", workingDir)
 		if err != nil {
-			util.HandleError(fmt.Errorf("Failed to unzip %s: %s", workingDir+"/protoc.zip", err.Error()))
+			util.Die(fmt.Errorf("Failed to unzip %s: %s", workingDir+"/protoc.zip", err.Error()))
 		}
 		fmt.Println("Downloaded and unzipped:\n" + strings.Join(files, "\n"))
 		err = os.Remove(workingDir + "/protoc.zip")
@@ -88,11 +88,11 @@ func initCommandFunc(cmd *cobra.Command, args []string) {
 	if _, err := os.Stat(protoapiIncPath); os.IsNotExist(err) {
 		err = os.MkdirAll(protoapiIncPath, os.ModePerm)
 		if err != nil {
-			util.HandleError(fmt.Errorf("Failed create directory %s: %s", protoapiIncPath, err))
+			util.Die(fmt.Errorf("Failed create directory %s: %s", protoapiIncPath, err))
 		}
 		err = util.ExtractIncludes(protoapiIncPath)
 		if err != nil {
-			util.HandleError(fmt.Errorf("Failed to download protoapi include file into %s: %s", protoapiIncPath, err))
+			util.Die(fmt.Errorf("Failed to download protoapi include file into %s: %s", protoapiIncPath, err))
 		}
 		fmt.Println(filepath.FromSlash(protoapiIncPath + "protoapi_common.proto"))
 	}
@@ -102,7 +102,6 @@ func initCommandFunc(cmd *cobra.Command, args []string) {
 // downloadFile will download a url to a local file. It's efficient because it will
 // write as it downloads and not load the whole file into memory.
 func downloadFile(filepath string, url string) error {
-
 	// Create the file
 	out, err := os.Create(filepath)
 	if err != nil {
@@ -129,7 +128,6 @@ func downloadFile(filepath string, url string) error {
 // unzip will decompress a zip archive, moving all files and folders
 // within the zip file (parameter 1) to an output directory (parameter 2).
 func unzip(src string, dest string) ([]string, error) {
-
 	var filenames []string
 
 	r, err := zip.OpenReader(src)
@@ -139,7 +137,6 @@ func unzip(src string, dest string) ([]string, error) {
 	defer r.Close()
 
 	for _, f := range r.File {
-
 		rc, err := f.Open()
 		if err != nil {
 			return filenames, err
@@ -151,12 +148,9 @@ func unzip(src string, dest string) ([]string, error) {
 		filenames = append(filenames, fpath)
 
 		if f.FileInfo().IsDir() {
-
 			// Make Folder
 			os.MkdirAll(fpath, os.ModePerm)
-
 		} else {
-
 			// Make File
 			if err = os.MkdirAll(filepath.Dir(fpath), os.ModePerm); err != nil {
 				return filenames, err
@@ -175,7 +169,6 @@ func unzip(src string, dest string) ([]string, error) {
 			if err != nil {
 				return filenames, err
 			}
-
 		}
 	}
 	return filenames, nil

@@ -1,7 +1,7 @@
 node {
 	ws("${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}") {
 		env.GOPATH=pwd()
-		dir('src/version.uuzu.com/Merlion/protoapi') {
+		dir('src/github.com/yoozoo/protoapi') {
 			stage('Checkout'){
 				checkout scm
 			}

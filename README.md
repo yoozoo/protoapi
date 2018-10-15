@@ -8,33 +8,24 @@
 * 目的：自动生成前后端API的基础代码，节省开发时间
     * 前端生成TypeScript的代码, 客戶端
     * 后端目前支持生成java (spring) 和go (echo)的代码
-* 当前版本： 0.1.0
+* 当前版本： 0.1.1
 
 ## 配置环境
 
-1. 安装`go`:
-    * [go安装](https://golang.org/doc/install)
-    * 需要确保$GOPATH设置正确
-2. 安装`protoc`:
-    * [安装步骤请戳这里](http://google.github.io/proto-lens/installing-protoc.html)
-3. 設置好`$GOPATH`
-    * [$GOPATH](https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/01.2.md)
+安装`go 1.10`以上版本:
+
+* [go安装](https://golang.org/doc/install)
+* 需要确保$GOPATH设置正确
 
 ## 项目安装
 
 1. 下载项目代码:
-    * `go get version.uuzu.com/Merlion/protoapi`
+  * `go get github.com/yoozoo/protoapi`
 
-2. 进入下载下来的项目内: `cd $GOPATH/src/version.uuzu.com/Merlion/protoapi`
+2. 使用`protoapi`自动初始化[protoc](https://github.com/protocolbuffers/protobuf):
+  * `protoapi init`
 
-## 建立执行文件/插件
-
-* 如果是有改代码/template， 需要重新生成执行文件， 在项目路径里跑：
-    * `go generate` => 引入新的template到tpl.go
-    * `go build` => 重新生成执行文件 - `protoapi.exe`在`$GOPATH/bin`裏
-* 如果没有改代码，可跳过此步
-
-## 如何使用插件
+## 如何使用protoapi
 
 #### Mac用户
 
@@ -179,17 +170,10 @@ service HelloService {
 
 ### 错误处理
 
-* [错误处理规范](https://version.uuzu.com/Merlion/protoapi/src/master/docs/ErrorHandling.md)
+* [错误处理规范](docs/ErrorHandling.md)
 
 ### 相关资料
 1. [go的基本语法和使用](https://golang.org/doc/)
 2. [protobuf(proto3)基本语法](https://developers.google.com/protocol-buffers/docs/proto3)
 3. [template的基本语法](https://golang.org/pkg/text/template/)
 4. [spring](https://spring.io/guides)
-
-
-## 项目负责人/联系人
-
-- [Qinglei](ZHUQL@YOOZOO.COM)
-- [WenTian](WengW@yoozoo.com)
-- [HongBo](WuHongbo@yoozoo.com)

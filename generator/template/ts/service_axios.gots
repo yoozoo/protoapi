@@ -12,13 +12,16 @@
 import axios, { AxiosPromise } from 'axios';
 import {
     {{range $type, $bool := (getImportDataTypes .Functions)}}
-    {{- $type }}, 
+    {{- $type }},
     {{end}}
-} from './data';
+} from './{{.ClassName}}Objs';
 import { generateUrl, errorHandling } from './helper';
 
-/*baseUrl 可更改*/
-const baseUrl = "http://192.168.115.60:8080";
+var baseUrl = "http://192.168.115.60:8080";
+
+export function SetBaseUrl(url: string) {
+    baseUrl = url;
+}
 // use axios
 
 {{- $className := .ClassName -}}
@@ -38,25 +41,7 @@ export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | nev
             return Promise.resolve(res.data as {{.OutputType}})
         }).catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
         });
 }
-{{end}}
-
-{{/*
-// use fetch
-{{- range .Functions}}
-{{- $error :=  (getErrorType .Options) }}
-export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | never> {
-    let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
-    // default POST
-    return fetch({ url, method: 'post', data: params }).then(res => {
-        // handle success data
-        return Promise.resolve(res.data as {{.OutputType}})
-    }).catch(err => {
-        // handle error response
-        return errorHandling(err.response)
-    });
-}
-{{end}}
-*/}}
+{{end -}}

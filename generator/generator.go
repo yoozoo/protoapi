@@ -10,18 +10,17 @@ import (
 
 	"github.com/golang/protobuf/proto"
 
-	"version.uuzu.com/Merlion/protoapi/generator/data"
-	"version.uuzu.com/Merlion/protoapi/util"
+	"github.com/yoozoo/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/util"
 
 	// this is to let the output plugins initialize themselves and add to the output plugin registra
-	_ "version.uuzu.com/Merlion/protoapi/generator/output"
+	_ "github.com/yoozoo/protoapi/generator/output"
 
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 )
 
 const (
-	defaultPackageName        = "com.yoozoo.configuration"
 	googleDescriptorProtoName = "google/protobuf/descriptor.proto"
 )
 
@@ -94,7 +93,6 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 	return resultMsg, resultEnum
 }
 
-//
 func parseMessageDataType(dataType string) string {
 	return dataType[strings.LastIndexByte(dataType, '.')+1:]
 }
@@ -105,20 +103,22 @@ func getMessages(files []*descriptor.FileDescriptorProto) ([]*data.MessageData, 
 	var resultEnum []*data.EnumData
 	for _, file := range files {
 		// exclude google protobuf descriptor proto file
-		if file.GetName() != googleDescriptorProtoName {
-			packageName := file.GetPackage()
-			// packageName for this file
-			if len(packageName) > 0 {
-				packageName = "." + packageName
-			}
-
-			//enums at file level
-			resultEnum = append(resultEnum, createEnums(packageName, file.GetEnumType())...)
-			//messages at file level
-			msgs, enums := createMessages(file.GetName(), packageName, file.GetMessageType())
-			resultEnum = append(resultEnum, enums...)
-			resultMsg = append(resultMsg, msgs...)
+		if file.GetName() == googleDescriptorProtoName {
+			continue
 		}
+
+		packageName := file.GetPackage()
+		// packageName for this file
+		if len(packageName) > 0 {
+			packageName = "." + packageName
+		}
+
+		//enums at file level
+		resultEnum = append(resultEnum, createEnums(packageName, file.GetEnumType())...)
+		//messages at file level
+		msgs, enums := createMessages(file.GetName(), packageName, file.GetMessageType())
+		resultEnum = append(resultEnum, enums...)
+		resultMsg = append(resultMsg, msgs...)
 	}
 
 	return resultMsg, resultEnum
@@ -129,7 +129,7 @@ func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.M
 	methods := service.GetMethod()
 	serviceName := service.GetName()
 	var resultMtd []data.Method
-	log.Printf("pkg: %s\n", pkg)
+	log.Printf("proto pkg: %s\n", pkg)
 	for _, mtd := range methods {
 		var mtdData = data.Method{
 			Name:       mtd.GetName(),
@@ -141,7 +141,6 @@ func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.M
 		}
 		resultMtd = append(resultMtd, mtdData)
 	}
-	log.Printf("mtds: %s\n", resultMtd)
 	return resultMtd
 }
 
@@ -155,7 +154,7 @@ func mapHttpMtd(method string) string {
 	}
 }
 
-// createMessages create message and enum definitions from the passed in descriptor
+// createServices create message and enum definitions from the passed in descriptor
 func createServices(file string, pkg string, services []*descriptor.ServiceDescriptorProto) []*data.ServiceData {
 	var resultSers []*data.ServiceData
 
@@ -167,6 +166,8 @@ func createServices(file string, pkg string, services []*descriptor.ServiceDescr
 		serData.Name = service.GetName()
 		mtds := getMethods(pkg, service)
 		serData.Methods = mtds
+		serData.Service = service
+		serData.Options = getServiceOptions(service)
 
 		resultSers = append(resultSers, serData)
 	}
@@ -203,7 +204,7 @@ func getPackageName(request *plugin.CodeGeneratorRequest) string {
 
 		}
 	}
-	return defaultPackageName
+	return ""
 }
 
 // isPrimitiveType returns if the field type is considered primitive (ie can be translated to language/built-in of the target code)
@@ -267,7 +268,6 @@ func findRootObject(file string, messages []*data.MessageData, msgMap map[string
 // buildDepGraph build the dependency graph in the format below
 // node -> list of nodes it depends on
 func buildDepGraph(rootMsg *data.MessageData, msgMap map[string]*data.MessageData) map[string](map[string]bool) {
-
 	var result = make(map[string](map[string]bool))
 	var pendingMsgs = []*data.MessageData{rootMsg}
 
@@ -386,7 +386,6 @@ func fixMessageName(messages []*data.MessageData, enums []*data.EnumData) {
 // 2. reorder according to dependency order
 // 3. check and modify item names
 func filterMessages(file string, messages []*data.MessageData, enums []*data.EnumData) ([]*data.MessageData, []*data.EnumData) {
-
 	msgMap := make(map[string]*data.MessageData)
 	enumMap := make(map[string]*data.EnumData)
 
@@ -504,6 +503,28 @@ func getMethodOptions(method *descriptor.MethodDescriptorProto) data.OptionMap {
 	return options
 }
 
+// Get service options from proto file
+func getServiceOptions(service *descriptor.ServiceDescriptorProto) data.OptionMap {
+	options := make(map[string]string)
+	// create extension description
+	for field, name := range data.ServiceOptions {
+		var extDesc = &proto.ExtensionDesc{
+			ExtendedType:  (*descriptor.ServiceOptions)(nil),
+			ExtensionType: (*string)(nil),
+			Field:         field,
+			Name:          name,
+			Tag:           "bytes," + string(field) + ",opt,name=" + name,
+		}
+
+		ext, err := proto.GetExtension(service.GetOptions(), extDesc)
+		if err == nil {
+			// add the service method option to the method data
+			options[name] = *ext.(*string)
+		}
+	}
+	return options
+}
+
 // Get s from proto file
 func getFileOptions(request *plugin.CodeGeneratorRequest) data.OptionMap {
 	for _, file := range request.ProtoFile {
@@ -527,9 +548,13 @@ func getFileOptions(request *plugin.CodeGeneratorRequest) data.OptionMap {
 func Generate(input []byte) *plugin.CodeGeneratorResponse {
 	request := new(plugin.CodeGeneratorRequest)
 
-	proto.Unmarshal(input, request)
+	err := proto.Unmarshal(input, request)
+	if err != nil {
+		util.Die(fmt.Errorf("invalid CodeGeneratorRequest: %v", err))
+	}
+
 	if len(request.FileToGenerate) != 1 {
-		util.HandleError(fmt.Errorf("input files are： %v\nwe only support one proto file", request.FileToGenerate))
+		util.Die(fmt.Errorf("Multiple input files given: %v\nprotoapi only support one proto file", request.FileToGenerate))
 	}
 
 	var outputLang = "ts"
@@ -552,8 +577,8 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 	}
 
 	applicationFile := filepath.Base(request.FileToGenerate[0])
-	log.Printf("application File: %s\n", applicationFile)
-	log.Printf("outputLang: %s\n", outputLang)
+	log.Printf("proto file: %s\n", applicationFile)
+	log.Printf("code generated: %s\n", outputLang)
 
 	applicationName := applicationFile[0 : len(applicationFile)-len(filepath.Ext(applicationFile))]
 
@@ -567,11 +592,12 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 
 	services := getServices(request.ProtoFile)
 
-	if outputFunc, ok := data.OutputMap[outputLang]; ok {
+	if gen, ok := data.OutputMap[outputLang]; ok {
 		response := new(plugin.CodeGeneratorResponse)
-		results, err := outputFunc(applicationName, packageName, services[0], messages, enums, options)
+		gen.Init(request)
+		results, err := gen.Gen(applicationName, packageName, services[0], messages, enums, options)
 		if err != nil {
-			util.HandleError(err)
+			util.Die(err)
 		}
 		for file, content := range results {
 			var resultFile = new(plugin.CodeGeneratorResponse_File)
@@ -584,9 +610,9 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 		}
 		return response
 	}
-	err := fmt.Errorf("Output plugin not found for %s\nsupported languages %v", outputLang, reflect.ValueOf(data.OutputMap).MapKeys())
-	if err != nil {
-		util.HandleError(err)
-	}
+
+	err = fmt.Errorf("Output plugin not found for %s\nsupported options: %v", outputLang, reflect.ValueOf(data.OutputMap).MapKeys())
+	util.Die(err)
+
 	return nil
 }

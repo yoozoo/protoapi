@@ -4,7 +4,10 @@ package data
 import (
 	"os"
 
-	"version.uuzu.com/Merlion/protoapi/generator/data/tpl"
+	"github.com/golang/protobuf/protoc-gen-go/descriptor"
+	"github.com/yoozoo/protoapi/generator/data/tpl"
+
+	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 )
 
 const (
@@ -27,6 +30,8 @@ const (
 	FieldRepeatedLabel = "LABEL_REPEATED"
 	// JavaPackageOption is Java package option constant
 	JavaPackageOption = "javaPackageOption"
+	// ServiceCommonErrorOption is service common_error option
+	ServiceCommonErrorOption = 51008
 	// ServiceTypeMethodOption is service method option
 	ServiceTypeMethodOption = 51006
 	// ErrorTypeMethodOption is error return type option
@@ -39,6 +44,11 @@ const (
 	// ComErrMsgName  is common error message name
 	ComErrMsgName = "CommonError"
 )
+
+// ServiceOptions is the map of field number and field name in service options
+var ServiceOptions = map[int32]string{
+	ServiceCommonErrorOption: "common_error",
+}
 
 // MethodOptions is the map of field number and field name in method options
 var MethodOptions = map[int32]string{
@@ -102,13 +112,17 @@ type Method struct {
 type ServiceData struct {
 	Name    string
 	Methods []Method
+	Options OptionMap
+	Service *descriptor.ServiceDescriptorProto
 }
 
 // Option is a structure represents the option declared in a proto file
 type OptionMap map[string]string
 
-// OutputFunc the code output plugin prototype
-type OutputFunc func(applicationName string, packageName string, services *ServiceData, messages []*MessageData, enums []*EnumData, options OptionMap) (map[string]string, error)
+type CodeGenerator interface {
+	Init(request *plugin.CodeGeneratorRequest)
+	Gen(applicationName string, packageName string, services *ServiceData, messages []*MessageData, enums []*EnumData, options OptionMap) (map[string]string, error)
+}
 
 // OutputMap the registra for output code type and its associated output plugin
-var OutputMap = make(map[string]OutputFunc)
+var OutputMap = make(map[string]CodeGenerator)
