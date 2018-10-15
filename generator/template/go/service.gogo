@@ -10,34 +10,38 @@ import (
 type {{.Name}} interface {
 	{{- range .Methods }}
 
-	// {{.Title}}(c echo.Context, req *{{.InputType}}) (resp *{{.OutputType}}{{if ne .ErrorType ""}}, bizerror *{{.ErrorType}}{{end}}, err error)
-	{{.Title}}(echo.Context, *{{.InputType}}) (*{{.OutputType}}{{if ne .ErrorType ""}}, *{{.ErrorType}}{{end}})
+	{{.Title}}(c echo.Context, req *{{.InputType}}) (resp *{{.OutputType}}{{if ne .ErrorType ""}}, bizError *{{.ErrorType}}{{end}}, err error)
+	// {{.Title}}(echo.Context, *{{.InputType}}) (*{{.OutputType}}{{if ne .ErrorType ""}}, *{{.ErrorType}}{{end}})
 	{{- end }}
 }
 
 {{- range .Methods }}
 func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
-		in := new({{.InputType}})
+		req := new({{.InputType}})
 
-		if err = c.Bind(in); err != nil {
+		if err = c.Bind(req); err != nil {
 			resp := CommonError{BindError: &BindError{Message: err.Error()}}
 			return c.JSON(420, resp)
 		}
 
-		if valErr := in.Validate(); valErr != nil {
+		if valErr := req.Validate(); valErr != nil {
 			resp := CommonError{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 
-		out{{if ne .ErrorType "" }}, error{{end}} := srv.{{.Title}}(c, in)
+		resp{{if ne .ErrorType "" }}, bizError{{end}}, err := srv.{{.Title}}(c, req)
+		if err != nil {
+			return c.JSON(500, err)
+		}
+
 		{{- if ne .ErrorType "" }}
-		if error != nil {
-			return c.JSON(400, error)
+		if bizError != nil {
+			return c.JSON(400, bizError)
 		}
 		{{- end}}
 
-		return c.JSON(200, out)
+		return c.JSON(200, resp)
 	}
 }
 {{- end }}
