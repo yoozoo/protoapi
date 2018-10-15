@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "es2015",
+            "dom"
+        ], // No need for "es5" if you have "es6"
+        "target": "es2015", // NodeJs v8.9.3 supports most of the es6 features
+        "pretty": true,
+        "module": "commonjs",
+        "outDir": "./build",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true
+    }
+}
