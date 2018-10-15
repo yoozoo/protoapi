@@ -1,0 +1,15 @@
+/**
+ * 这个文件用于生成相关的前后端API代码
+ * 用protoapi指定此文件生成相关代码
+ */
+syntax = "proto3";
+
+option go_package = "echosvr";
+
+message Msg {
+    string msg = 1;
+}
+
+service EchoService {
+  rpc echo(Msg) returns (Msg) {}
+}
