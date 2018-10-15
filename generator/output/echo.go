@@ -196,10 +196,11 @@ func (g *echoGen) Gen(applicationName string, packageName string, service *data.
 		result[filename] = content
 	}
 
-	// make file name same as go file name
-	filename := genEchoFileName(g.PackageName, service)
-	content := g.genServie(service)
-	result[filename] = content
+	if g.serviceTpl != nil {
+		filename := genEchoFileName(g.PackageName, service)
+		content := g.genServie(service)
+		result[filename] = content
+	}
 
 	return
 }

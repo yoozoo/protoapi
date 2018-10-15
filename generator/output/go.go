@@ -45,6 +45,8 @@ func (g *goGen) Init(request *plugin.CodeGeneratorRequest) {
 }
 
 func (g *goGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+	g.serviceTpl = nil
+	g.DataTypes = messages
 	result, err = g.echoGen.Gen(applicationName, packageName, service, messages, enums, options)
 
 	// Temporary hack from go server gen here
