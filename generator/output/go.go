@@ -23,6 +23,11 @@ func (g *goService) CommonError() string {
 	return g.ServiceData.Options["common_error"]
 }
 
+func (g *goService) HasCommonError() bool {
+	_, ok := g.ServiceData.Options["common_error"]
+	return ok
+}
+
 func (g *goService) hasCommonError(field string) bool {
 	errType, ok := g.ServiceData.Options["common_error"]
 	if !ok {

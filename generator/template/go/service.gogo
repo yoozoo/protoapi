@@ -38,6 +38,11 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 */
 		resp{{if ne .ErrorType "" }}, bizError{{end}}, err := srv.{{.Title}}(c, req)
 		if err != nil {
+			{{if $s.HasCommonError}}
+			if e := err.(*{{$s.CommonError}}); e != nil {
+				return c.JSON(420, e)
+			}
+			{{end}}
 			return c.String(500, err.Error())
 		}
 
