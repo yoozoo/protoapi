@@ -41,7 +41,7 @@ export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | nev
             return Promise.resolve(res.data as {{.OutputType}})
         }).catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
         });
 }
 {{end -}}

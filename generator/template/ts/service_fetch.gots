@@ -31,7 +31,7 @@ function call<InType, OutType>(service: string, method: string, params: InType):
     return fetch(url, { method: 'POST', body: JSON.stringify(params) }).then(res => {
         return Promise.resolve(res.json())
     }).catch(err => {
-        return errorHandling(err.response)
+        return errorHandling(err)
     });
 }
 
