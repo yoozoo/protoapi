@@ -6,6 +6,7 @@ import (
 	"regexp"
 
 	"github.com/labstack/echo"
+	"github.com/yoozoo/protoapi/protoapigo"
 )
 
 const (
@@ -52,6 +53,11 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 
 // Register{{.Name}} is used to bind routers
 func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
+	// switch to strict JSONAPIBinder, if using echo's DefaultBinder
+	if _, ok := e.Binder.(*echo.DefaultBinder); ok {
+		e.Binder = new(protoapigo.JSONAPIBinder)
+	}
+
 	{{- range .Methods }}
 	{{- if ne .ServiceType "POST" }}
 	e.GET("{{.Path}}", _{{.Name}}_Handler(srv))
