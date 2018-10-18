@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/labstack/echo"
-	"github.com/yoozoo/protoapi/protoapigo"
 	"github.com/yoozoo/protoapi/test/result/go/echosvr"
 )
 
@@ -17,8 +16,6 @@ func (s *echoService) Echo(c echo.Context, req *echosvr.Msg) (resp *echosvr.Msg,
 
 func main() {
 	e := echo.New()
-	e.Binder = new(protoapigo.JSONAPIBinder)
-
 	srv := &echoService{}
 	echosvr.RegisterEchoService(e, srv)
 
