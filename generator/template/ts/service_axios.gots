@@ -34,14 +34,27 @@ export function SetBaseUrl(url: string) {
 {{- $error :=  (getErrorType .Options) }}
 export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | never> {
     let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.{{$method}}(url, {{if ne $method "get" }}params{{else}}{ params }{{end}})
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as {{.OutputType}})
-        }).catch(err => {
+    return axios.{{$method}}(url, {{if ne $method "get" }}params{{else}}{ params }{{end}}, config)
+        .catch(err => {
             // handle error response
             return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as {{.OutputType}})
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 {{end -}}
