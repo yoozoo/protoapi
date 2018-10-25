@@ -305,16 +305,17 @@ EfvoPv8bAAD//xZazB67BwAA
 	"/generator/template/go/struct.gogo": {
 		name:    "struct.gogo",
 		local:   "generator/template/go/struct.gogo",
-		size:    770,
+		size:    960,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/7SSQW+bQBCFz95fMeVgmShZ90xFpShgCclxWtfNpaqSLQx0W7yQYZFqrfa/V7Muim21
-x17Q483svG8Hlku46yqEBg2SsljBtwP01NlO9TppuneQPcDmYQd5VuykEL0qf6oGwTn54Si9F2K5ZOOu
-VcOwUXu27KHHCw8GS2NpwYmZczdAyjQIcqWxrQbwnl2507blVpaHntXzj6EzSeScPE6Jno/H0VR8yAvh
-nK5BPqpWV8riFl9GTVh5L+rRlLCgC4wYptZFDFeTzok6YjQkGiBJ4cvXq4AWCs7/m/kG/hYfiroGkie3
-SlOIIg6ZIUesinydPW3zj5+LbZ6xy9kpqL5HUy347RrmJxRB8i2Ss7nXEMq8sATm6GMx82dLmijx5RV0
-1dFeWYhwr3QbTbhv6FfOhrxXtvz+yZI2zeI0K37FLzaPt+sie8rvb4v1/6aftK6hRROmx/Ae3gYcQjuS
-gfnZx3ThOSTAvT4M/dNndCu8cA4N/yW/AwAA//8ZKFV/AgMAAA==
+H4sIAAAAAAAC/7RSQW/TTBA9Z3/FfNanKI5ah7NRkKraQZbSFELIBaF2iSdmwVm74w0irPa/o9nYtYPK
+kRyi8Xuz896+ndkMbqscoUCNJA3m8OUENVWmkrWKi+o1JPewut9AmmSbSIha7r7LAsHa6N25dE6I2YyB
+21I2zUoeGDKnGv/AoDF03BmwYmTtNZDUBUK0UFjmDTjHaLRRpuRWLk81V4/fmkrHgbXReUrweD6OOudD
+Trw4S+yPegcTgqm1/w9NhPAWTS80CQdSVgAAqD0QzOegVdki/PshCX4hVVtZ9ieeWUJzJN01ePhMtgRF
+vWRrufUvrFV7iLayVLk0uManoyLMnXu+wWWIIXStkxCmXZ0SVcTBIlED8Rw+fZ76MDxh3d8Tv4aX5D3J
+QQx8cyZBwCIjZIlFli6Th3X6/mO2ThNGWXsOsq5R5xP+uoLxwIUv+Rbxxdwr8DQnGsMYXShG7uKJO5f4
+1BtdVHSQBgI8SFUGnd3/6GfKQHQnze7rB0NKF5OhVtjbz1bbm2WWPKR3N9nyX7vvarWHErWfHsIbeOXt
+tDsyvnhM6/+bGLjX+aFtn1alXyHUvCW/AwAA//8H+owZwAMAAA==
 `,
 	},
 
@@ -507,18 +508,18 @@ var _escDirs = map[string][]os.FileInfo{
 	"generator/template": {
 		_escData["/generator/template/echo_service.gogo"],
 		_escData["/generator/template/go"],
-		_escData["/generator/template/php_client.gophp"],
 		_escData["/generator/template/spring_service.gojava"],
 		_escData["/generator/template/spring_struct.gojava"],
 		_escData["/generator/template/ts"],
-		_escData["/generator/template/echo_struct.gogo"],
 		_escData["/generator/template/echo_enum.gogo"],
+		_escData["/generator/template/echo_struct.gogo"],
+		_escData["/generator/template/php_client.gophp"],
 	},
 
 	"generator/template/go": {
 		_escData["/generator/template/go/service.gogo"],
-		_escData["/generator/template/go/struct.gogo"],
 		_escData["/generator/template/go/enum.gogo"],
+		_escData["/generator/template/go/struct.gogo"],
 	},
 
 	"generator/template/ts": {
