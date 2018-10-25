@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/yoozoo/protoapi.svg?branch=master)](https://travis-ci.com/yoozoo/protoapi)
 # README #
 
 这份文档包含使用protoapi所需条件， 以及如何使用protoapi
