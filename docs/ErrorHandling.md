@@ -11,7 +11,7 @@
     3. **常见异常**: 调用API时出现框架，中间件内置的错误, 如: API不存在, 输入参数不合要求等, 与具体业务无关
     4. **错误**: 程序运行时遇到的错误， 如: `TimeOutError`, `OutOfMemoryError`, `SegmentFaultError` 等, 与业务无关
 
-* 在protoapi种, 我们把这4种结果分别用不同的 `HTTP status code`来区分:
+* 在protoapi中, 我们把这4种结果分别用不同的 `HTTP status code`来区分:
     1. 正常结果 `Response`: 200
     2. 异常结果 `BizError`: 400
     3. 常见异常 `CommonError`: 420
