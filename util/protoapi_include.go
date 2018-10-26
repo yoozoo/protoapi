@@ -6,6 +6,8 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/base64"
+	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -100,7 +102,24 @@ func (f *_escFile) Close() error {
 }
 
 func (f *_escFile) Readdir(count int) ([]os.FileInfo, error) {
-	return nil, nil
+	if !f.isDir {
+		return nil, fmt.Errorf(" escFile.Readdir: '%s' is not directory", f.name)
+	}
+
+	fis, ok := _escDirs[f.local]
+	if !ok {
+		return nil, fmt.Errorf(" escFile.Readdir: '%s' is directory, but we have no info about content of this dir, local=%s", f.name, f.local)
+	}
+	limit := count
+	if count <= 0 || limit > len(fis) {
+		limit = len(fis)
+	}
+
+	if len(fis) == 0 && count > 0 {
+		return nil, io.EOF
+	}
+
+	return []os.FileInfo(fis[0:limit]), nil
 }
 
 func (f *_escFile) Stat() (os.FileInfo, error) {
@@ -191,6 +210,7 @@ func FSMustString(useLocal bool, name string) string {
 var _escData = map[string]*_escFile{
 
 	"/proto/protoapi_common.proto": {
+		name:    "protoapi_common.proto",
 		local:   "proto/protoapi_common.proto",
 		size:    795,
 		modtime: 0,
@@ -205,13 +225,16 @@ xBsDAAA=
 `,
 	},
 
-	"/": {
-		isDir: true,
-		local: "",
-	},
-
 	"/proto": {
+		name:  "proto",
+		local: `proto`,
 		isDir: true,
-		local: "proto",
+	},
+}
+
+var _escDirs = map[string][]os.FileInfo{
+
+	"proto": {
+		_escData["/proto/protoapi_common.proto"],
 	},
 }

@@ -23,3 +23,9 @@ func (code {{.Name}}) String() string {
 func (code {{.Name}}) Code() int {
 	return (int)(code)
 }
+{{- range .Fields }}
+
+func (code {{$.Name}}) Is{{.Name}}() bool {
+    return code == {{.Name}}
+}
+{{- end }}

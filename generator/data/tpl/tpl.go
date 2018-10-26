@@ -6,6 +6,8 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/base64"
+	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -100,7 +102,24 @@ func (f *_escFile) Close() error {
 }
 
 func (f *_escFile) Readdir(count int) ([]os.FileInfo, error) {
-	return nil, nil
+	if !f.isDir {
+		return nil, fmt.Errorf(" escFile.Readdir: '%s' is not directory", f.name)
+	}
+
+	fis, ok := _escDirs[f.local]
+	if !ok {
+		return nil, fmt.Errorf(" escFile.Readdir: '%s' is directory, but we have no info about content of this dir, local=%s", f.name, f.local)
+	}
+	limit := count
+	if count <= 0 || limit > len(fis) {
+		limit = len(fis)
+	}
+
+	if len(fis) == 0 && count > 0 {
+		return nil, io.EOF
+	}
+
+	return []os.FileInfo(fis[0:limit]), nil
 }
 
 func (f *_escFile) Stat() (os.FileInfo, error) {
@@ -191,19 +210,21 @@ func FSMustString(useLocal bool, name string) string {
 var _escData = map[string]*_escFile{
 
 	"/generator/template/echo_enum.gogo": {
+		name:    "echo_enum.gogo",
 		local:   "generator/template/echo_enum.gogo",
-		size:    383,
+		size:    491,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/3SQMWvDMBCFZ9+veIQOFjTOnpKpaaFLUmjoEjKo9tWYxmchy0MQ99+L7MSZsj2O70kf
-b7XCa1cxahb2NnCFnwuc70JnXfOC7R67/QFv249DQeRs+WdrRozF5xRVicLFjaedbVkVjQSispM+IKcs
-xiW8lZpRvDd8rnqopuuNjvHpFjfpkW97HnhClmCpVMkQ/Q5SIi+T6Fw1+Aq+kTo36MeASJnYlnusN2it
-O87oaQIiZQ987kJrLOa8eL4WJo9MiTLPYfCC8Z9jEjqRPvJLw+YmDZLUrs28kWBG1JDSfwAAAP//H21g
-KH8BAAA=
+H4sIAAAAAAAC/3SQMWvDMBSEZ79fcYQMEjTOnuKpaSFLUmjoEjIo9qsxtSUjy0MQ+u9FtuNQSLZD3H36
+eOs13kzBKFmzVY4LXK5orXFGtdUrtgfsD0e8b3fHlKhV+a8qGd6nn2MMgchd2+FprxoOAZV2RLnRnYOg
+xPsVrNIlI/2ouC46hBBfb23vl7eYRci3qnseKyuwLkIgSfTT6xwij6LzVOLL2UqXQqIbAjwlWjXcYZOh
+Ue1prp7Hgqfkic9daIPFnBcv02D0SAJRYtn1VmP45xSFzhSe+cXDChkPEtWmpai0k0NVUqCHOv9xy5m3
+62a4kLgYU8MTAEzoYZBld4XpA9ZFxP4FAAD//9bZDJPrAQAA
 `,
 	},
 
 	"/generator/template/echo_service.gogo": {
+		name:    "echo_service.gogo",
 		local:   "generator/template/echo_service.gogo",
 		size:    2781,
 		modtime: 0,
@@ -229,6 +250,7 @@ RXqtwqDq5j9eVMFW6lKSPxkD61O6QnMvY6zO6fLialCdFQbvewNWK9+CduJcrfGVW8q3L/rXsd/31tCU
 	},
 
 	"/generator/template/echo_struct.gogo": {
+		name:    "echo_struct.gogo",
 		local:   "generator/template/echo_struct.gogo",
 		size:    734,
 		modtime: 0,
@@ -244,19 +266,21 @@ eNaH0H9zRrfCi78BAAD//ww5MNzeAgAA
 	},
 
 	"/generator/template/go/enum.gogo": {
+		name:    "enum.gogo",
 		local:   "generator/template/go/enum.gogo",
-		size:    383,
+		size:    490,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/3SQMWvDMBCFZ9+veIQOFjTOnpKpaaFLUmjoEjKo9tWYxmchy0MQ99+L7MSZsj2O70kf
-b7XCa1cxahb2NnCFnwuc70JnXfOC7R67/QFv249DQeRs+WdrRozF5xRVicLFjaedbVkVjQSispM+IKcs
-xiW8lZpRvDd8rnqopuuNjvHpFjfpkW97HnhClmCpVMkQ/Q5SIi+T6Fw1+Aq+kTo36MeASJnYlnusN2it
-O87oaQIiZQ987kJrLOa8eL4WJo9MiTLPYfCC8Z9jEjqRPvJLw+YmDZLUrs28kWBG1JDSfwAAAP//H21g
-KH8BAAA=
+H4sIAAAAAAAC/3SQQWv6QBTEz3mfYhAPu/BX7/7JqbbgRQuVXsTDmryGUN0Nm81BlvfdyyYxUqi34TEz
+78esVnhxJaNiy94ELnG+ofEuONPU/7HZY7c/4HWzPSyJGlN8m4oR4/J9kCJE4db0p525sghqG4gKZ9sA
+RVmMC3hjK8byreZL2UIkXe/uGOd3maeST3PpeLAswLYUIU301dkCqkigU1TjI/jaVkqj7QUiZdZcucU6
+x9U0x8l6GgyRsic8D6A1ZpOe/RsDA0cmRJnn0HmL/s8xAZ1InvGlYZVOgyS0MalqG3Rv1ST0J87vuvnU
+t22ncqVxdu6CSAAwVveBPH8gjA/YlhD5CQAA//+hO0wK6gEAAA==
 `,
 	},
 
 	"/generator/template/go/service.gogo": {
+		name:    "service.gogo",
 		local:   "generator/template/go/service.gogo",
 		size:    1979,
 		modtime: 0,
@@ -279,6 +303,7 @@ EfvoPv8bAAD//xZazB67BwAA
 	},
 
 	"/generator/template/go/struct.gogo": {
+		name:    "struct.gogo",
 		local:   "generator/template/go/struct.gogo",
 		size:    770,
 		modtime: 0,
@@ -294,6 +319,7 @@ gfnZx3ThOSTAvT4M/dNndCu8cA4N/yW/AwAA//8ZKFV/AgMAAA==
 	},
 
 	"/generator/template/php_client.gophp": {
+		name:    "php_client.gophp",
 		local:   "generator/template/php_client.gophp",
 		size:    3889,
 		modtime: 0,
@@ -321,6 +347,7 @@ pVQv//3w5aP5v+wBtisVzCnvvwAAAP//u9r3ZDEPAAA=
 	},
 
 	"/generator/template/spring_service.gojava": {
+		name:    "spring_service.gojava",
 		local:   "generator/template/spring_service.gojava",
 		size:    856,
 		modtime: 0,
@@ -335,6 +362,7 @@ b4V4LvXbJ794L71HPZJC9BkAAP//3o5aN1gDAAA=
 	},
 
 	"/generator/template/spring_struct.gojava": {
+		name:    "spring_struct.gojava",
 		local:   "generator/template/spring_struct.gojava",
 		size:    585,
 		modtime: 0,
@@ -349,6 +377,7 @@ AAA=
 	},
 
 	"/generator/template/ts/helper.gots": {
+		name:    "helper.gots",
 		local:   "generator/template/ts/helper.gots",
 		size:    3540,
 		modtime: 0,
@@ -382,6 +411,7 @@ p/86GP1ESB9KG2xgbEoXodt6Ec7LXD9Is9MYtpDjWFhM7E8+OczIoVQv2Xnm9c5AySNZEYou7D8CAAD/
 	},
 
 	"/generator/template/ts/objs.gots": {
+		name:    "objs.gots",
 		local:   "generator/template/ts/objs.gots",
 		size:    1210,
 		modtime: 0,
@@ -401,6 +431,7 @@ LkxTtboEAAA=
 	},
 
 	"/generator/template/ts/service_axios.gots": {
+		name:    "service_axios.gots",
 		local:   "generator/template/ts/service_axios.gots",
 		size:    2142,
 		modtime: 0,
@@ -428,6 +459,7 @@ r2xYeYZDQ2YilLD8L7pmKpi/qGldM5TOwTfnf7HpsvnVyGaffZh/BwAA///3089mXggAAA==
 	},
 
 	"/generator/template/ts/service_fetch.gots": {
+		name:    "service_fetch.gots",
 		local:   "generator/template/ts/service_fetch.gots",
 		size:    1570,
 		modtime: 0,
@@ -451,28 +483,48 @@ AAD//6nV5A0iBgAA
 `,
 	},
 
-	"/": {
-		isDir: true,
-		local: "",
-	},
-
-	"/generator": {
-		isDir: true,
-		local: "generator",
-	},
-
 	"/generator/template": {
+		name:  "template",
+		local: `generator/template`,
 		isDir: true,
-		local: "generator/template",
 	},
 
 	"/generator/template/go": {
+		name:  "go",
+		local: `generator/template/go`,
 		isDir: true,
-		local: "generator/template/go",
 	},
 
 	"/generator/template/ts": {
+		name:  "ts",
+		local: `generator/template/ts`,
 		isDir: true,
-		local: "generator/template/ts",
+	},
+}
+
+var _escDirs = map[string][]os.FileInfo{
+
+	"generator/template": {
+		_escData["/generator/template/echo_service.gogo"],
+		_escData["/generator/template/go"],
+		_escData["/generator/template/php_client.gophp"],
+		_escData["/generator/template/spring_service.gojava"],
+		_escData["/generator/template/spring_struct.gojava"],
+		_escData["/generator/template/ts"],
+		_escData["/generator/template/echo_struct.gogo"],
+		_escData["/generator/template/echo_enum.gogo"],
+	},
+
+	"generator/template/go": {
+		_escData["/generator/template/go/service.gogo"],
+		_escData["/generator/template/go/struct.gogo"],
+		_escData["/generator/template/go/enum.gogo"],
+	},
+
+	"generator/template/ts": {
+		_escData["/generator/template/ts/helper.gots"],
+		_escData["/generator/template/ts/objs.gots"],
+		_escData["/generator/template/ts/service_axios.gots"],
+		_escData["/generator/template/ts/service_fetch.gots"],
 	},
 }
