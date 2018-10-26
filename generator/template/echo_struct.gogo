@@ -8,6 +8,16 @@ type {{.ClassName}} struct {
 	{{.Title}} {{.Type}} `json:"{{.Name}}"`
 	{{- end }}
 }
+{{- range .Fields }}
+
+func (r *{{$.ClassName}}) Get{{.Title}}() {{.Type}} {
+    if r == nil {
+        var zeroVal {{.Type}}
+        return zeroVal
+    }
+    return r.{{.Title}}
+}
+{{- end }}
 
 func (r {{.ClassName}}) Validate() *ValidateError {
 	errs := []*FieldError{}
