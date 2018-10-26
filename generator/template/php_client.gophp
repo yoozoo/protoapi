@@ -52,7 +52,7 @@ class {{title .Name}}
     {
         {{- range .Fields }}
         if (!isset($this->{{.Name}})) {
-            throw new Protoapi\GeneralException("'{{.Name}}' is not exist");
+            throw new ProtoApi\GeneralException("'{{.Name}}' is not exist");
         }
         {{- end}}
     }
