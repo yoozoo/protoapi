@@ -27,29 +27,18 @@
 
 ## 如何使用protoapi
 
-#### Mac用户
+* `protoapi gen --lang=[language] [output directory] [proto file]`
 
-* 生成前端TypeScript代码: `protoapi --lang=ts:[output_folder] [proto file path]`
-* 生成前端PHP代码：`protoapi --lang=php:[output_folder] [proto file path]`
-* 生成后端Spring代码：`protoapi --lang=spring:[output_folder] [proto file path]`
-* 生成后端echo代码：`protoapi --lang=echo:[output_folder] [proto file path]`
-
-例如：
-* 生成前端TypeScript代码： `protoapi --lang=ts:. ./test/hello.proto`
-* 生成后端Spring代码： `protoapi --lang=spring:. ./test/hello.proto`
-* 生成新的文件夹yoozoo/protoconf/ts,包含新生成的TS文件； 文件夹yoozoo/protoconf/spring里包含了新生成的spring文件
-
-#### Windows用户
-
-* 生成前端TypeScript代码：`protoapi --lang=ts:[output_folder] [proto file path]`
-* 生成前端PHP代码：`protoapi --lang=php:[output_folder] [proto file path]`
-* 生成后端Spring代码： `protoapi --lang=spring:[output_folder] [proto file path]`
-* 生成后端echo代码：`protoapi --lang=echo:[output_folder] [proto file path]`
+* 生成前端TypeScript代码: `protoapi gen --lang=ts [output_folder] [proto file path]`
+* 生成前端PHP代码：`protoapi gen --lang=php [output_folder] [proto file path]`
+* 生成后端Spring代码：`protoapi gen --lang=spring [output_folder] [proto file path]`
+* 生成后端echo代码：`protoapi gen --lang=echo [output_folder] [proto file path]`
 
 例如：
-* `protoapi --lang=ts:. .\test\hello.proto`
-* `protoapi --lang=spring:. .\test\hello.proto`
-* 生成新的文件夹yoozoo/protoconf/ts,包含新生成的TS文件； 文件夹yoozoo/protoconf/spring里包含了新生成的spring文件
+* 生成前端TypeScript代码： `protoapi gen --lang=ts . ./test/proto/todolist.proto`
+* 生成后端Spring代码： `protoapi gen --lang=spring . ./test/proto/todolist.proto`
+
+* 其他相关command请参考[这里](docs/protoapi_cli.md)
 
 ## 项目结构
 * generator
