@@ -1,3 +1,13 @@
 language: go
 go:
   - "1.10"
+install:
+  - go get -v
+before_script:
+  - go build -v
+  - ./protoapi init
+  - mkdir -p -m 700 test/result/go/
+  - mkdir -p -m 700 test/result/ts/
+script:
+  - cd test
+  - ./protoapi.bats

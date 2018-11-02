@@ -1,8 +1,8 @@
 #!/usr/bin/env bats
 
-@test "test.proto echo output" {
-  ../protoapi gen --lang=echo result/ proto/test.proto
-  diff -I -r result/yoozoo_protoconf_ts/ expected/yoozoo_protoconf_ts/
+@test "test.proto go output" {
+  ../protoapi gen --lang=go result/ proto/test.proto
+  diff -I -r result/apisvr/ expected/apisvr/
 }
 
 @test "test.proto ts output" {
