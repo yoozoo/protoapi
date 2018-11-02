@@ -57,6 +57,13 @@ func (s *echoStruct) init() {
 	}
 }
 
+func (s *echoStruct) IsCommonError() bool {
+	if s.Name == data.ComErrMsgName {
+		return true
+	}
+	return false
+}
+
 func (s *echoStruct) ClassName() string {
 	return strings.Title(s.Name)
 }

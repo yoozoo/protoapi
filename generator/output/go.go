@@ -54,7 +54,7 @@ func (g *goService) HasCommonValidateError() bool {
 	return g.hasCommonError("validateError")
 }
 
-func (g *goGen) genGoServie(service *data.ServiceData) string {
+func (g *goGen) genGoService(service *data.ServiceData) string {
 	buf := bytes.NewBufferString("")
 
 	obj := newEchoService(service, g.PackageName)
@@ -83,7 +83,7 @@ func (g *goGen) Gen(applicationName string, packageName string, service *data.Se
 	g.serviceTpl = g.getTpl("/generator/template/go/service.gogo")
 
 	filename := genEchoFileName(g.PackageName, service)
-	content := g.genGoServie(service)
+	content := g.genGoService(service)
 	result[filename] = content
 	return
 }
