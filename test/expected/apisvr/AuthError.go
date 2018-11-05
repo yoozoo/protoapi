@@ -6,3 +6,11 @@ package apisvr
 type AuthError struct {
 	Message string `json:"message"`
 }
+
+func (r *AuthError) GetMessage() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Message
+}

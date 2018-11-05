@@ -9,3 +9,35 @@ type ServiceListRequest struct {
 	Offset  int   `json:"offset"`
 	Limit   int   `json:"limit"`
 }
+
+func (r *ServiceListRequest) GetTag_ids() []int {
+	if r == nil {
+		var zeroVal []int
+		return zeroVal
+	}
+	return r.Tag_ids
+}
+
+func (r *ServiceListRequest) GetEnv_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Env_id
+}
+
+func (r *ServiceListRequest) GetOffset() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Offset
+}
+
+func (r *ServiceListRequest) GetLimit() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Limit
+}

@@ -6,3 +6,11 @@ package apisvr
 type ProductListRequest struct {
 	Env_id int `json:"env_id"`
 }
+
+func (r *ProductListRequest) GetEnv_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Env_id
+}

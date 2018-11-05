@@ -49,6 +49,9 @@ export interface FieldError {
     errorType: ValidateErrorType
 }
 
+export interface Empty {
+}
+
 export interface EnvListRequest {
 }
 
@@ -225,4 +228,29 @@ export interface KVHistoryItem {
 export interface Error {
     code: ErrorCode
     message: string
+}
+
+/**
+ *
+ * @param {CommonError} commonErr the error object
+ */
+export function mapCommonErrorType(commonErr: CommonError): (string | GenericError | AuthError | ValidateError | BindError) {
+    for (let key in commonErr) {
+        if (commonErr.hasOwnProperty(key) && commonErr[key]) {
+            switch (key) {
+                case 'genericError':
+                    return commonErr[key] as GenericError
+                case 'authError':
+                    return commonErr[key] as AuthError
+                case 'validateError':
+                    return commonErr[key] as ValidateError
+                case 'bindError':
+                    return commonErr[key] as BindError
+                default:
+                    return "Unknow Error"
+            }
+
+        }
+    }
+    return "Unknow Error"
 }

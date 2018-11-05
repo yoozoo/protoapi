@@ -7,3 +7,19 @@ type KeyValueRequest struct {
 	Service_id int         `json:"service_id"`
 	Key_values []*KeyValue `json:"key_values"`
 }
+
+func (r *KeyValueRequest) GetService_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Service_id
+}
+
+func (r *KeyValueRequest) GetKey_values() []*KeyValue {
+	if r == nil {
+		var zeroVal []*KeyValue
+		return zeroVal
+	}
+	return r.Key_values
+}

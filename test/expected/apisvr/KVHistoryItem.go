@@ -9,3 +9,35 @@ type KVHistoryItem struct {
 	Updated_by    string `json:"updated_by"`
 	Revision      int64  `json:"revision"`
 }
+
+func (r *KVHistoryItem) GetUpdated_value() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Updated_value
+}
+
+func (r *KVHistoryItem) GetUpdated_date() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Updated_date
+}
+
+func (r *KVHistoryItem) GetUpdated_by() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Updated_by
+}
+
+func (r *KVHistoryItem) GetRevision() int64 {
+	if r == nil {
+		var zeroVal int64
+		return zeroVal
+	}
+	return r.Revision
+}

@@ -6,3 +6,11 @@ package apisvr
 type KVHistoryResponse struct {
 	KVhistorys []*KVHistoryItem `json:"KVhistorys"`
 }
+
+func (r *KVHistoryResponse) GetKVhistorys() []*KVHistoryItem {
+	if r == nil {
+		var zeroVal []*KVHistoryItem
+		return zeroVal
+	}
+	return r.KVhistorys
+}

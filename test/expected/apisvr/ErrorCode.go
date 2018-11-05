@@ -27,3 +27,23 @@ func (code ErrorCode) String() string {
 func (code ErrorCode) Code() int {
 	return (int)(code)
 }
+
+func (code ErrorCode) IsDefaultError() bool {
+	return code == DefaultError
+}
+
+func (code ErrorCode) IsGeneralError() bool {
+	return code == GeneralError
+}
+
+func (code ErrorCode) IsDatabaseError() bool {
+	return code == DatabaseError
+}
+
+func (code ErrorCode) IsEtcdError() bool {
+	return code == EtcdError
+}
+
+func (code ErrorCode) IsSystemError() bool {
+	return code == SystemError
+}

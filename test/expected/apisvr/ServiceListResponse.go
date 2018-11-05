@@ -9,3 +9,35 @@ type ServiceListResponse struct {
 	Limit    int        `json:"limit"`
 	Total    int        `json:"total"`
 }
+
+func (r *ServiceListResponse) GetServices() []*Service {
+	if r == nil {
+		var zeroVal []*Service
+		return zeroVal
+	}
+	return r.Services
+}
+
+func (r *ServiceListResponse) GetOffset() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Offset
+}
+
+func (r *ServiceListResponse) GetLimit() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Limit
+}
+
+func (r *ServiceListResponse) GetTotal() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Total
+}

@@ -8,3 +8,27 @@ type UploadProtoFileResponse struct {
 	Env_id     int `json:"env_id"`
 	Key_count  int `json:"key_count"`
 }
+
+func (r *UploadProtoFileResponse) GetService_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Service_id
+}
+
+func (r *UploadProtoFileResponse) GetEnv_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Env_id
+}
+
+func (r *UploadProtoFileResponse) GetKey_count() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Key_count
+}

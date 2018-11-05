@@ -6,3 +6,11 @@ package apisvr
 type TagListResponse struct {
 	Tags []*Tag `json:"tags"`
 }
+
+func (r *TagListResponse) GetTags() []*Tag {
+	if r == nil {
+		var zeroVal []*Tag
+		return zeroVal
+	}
+	return r.Tags
+}

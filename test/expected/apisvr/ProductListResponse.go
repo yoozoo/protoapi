@@ -6,3 +6,11 @@ package apisvr
 type ProductListResponse struct {
 	Products []*Product `json:"products"`
 }
+
+func (r *ProductListResponse) GetProducts() []*Product {
+	if r == nil {
+		var zeroVal []*Product
+		return zeroVal
+	}
+	return r.Products
+}

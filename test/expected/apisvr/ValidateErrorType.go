@@ -21,3 +21,11 @@ func (code ValidateErrorType) String() string {
 func (code ValidateErrorType) Code() int {
 	return (int)(code)
 }
+
+func (code ValidateErrorType) IsINVALID_EMAIL() bool {
+	return code == INVALID_EMAIL
+}
+
+func (code ValidateErrorType) IsFIELD_REQUIRED() bool {
+	return code == FIELD_REQUIRED
+}

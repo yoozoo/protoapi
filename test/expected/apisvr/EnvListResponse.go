@@ -6,3 +6,11 @@ package apisvr
 type EnvListResponse struct {
 	Envs []*Env `json:"envs"`
 }
+
+func (r *EnvListResponse) GetEnvs() []*Env {
+	if r == nil {
+		var zeroVal []*Env
+		return zeroVal
+	}
+	return r.Envs
+}

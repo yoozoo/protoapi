@@ -11,3 +11,51 @@ type KeyValue struct {
 	IsWatched    bool   `json:"isWatched"`
 	Value        string `json:"value"`
 }
+
+func (r *KeyValue) GetKey_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Key_id
+}
+
+func (r *KeyValue) GetKey() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Key
+}
+
+func (r *KeyValue) GetDataType() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.DataType
+}
+
+func (r *KeyValue) GetDefaultValue() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.DefaultValue
+}
+
+func (r *KeyValue) GetIsWatched() bool {
+	if r == nil {
+		var zeroVal bool
+		return zeroVal
+	}
+	return r.IsWatched
+}
+
+func (r *KeyValue) GetValue() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Value
+}

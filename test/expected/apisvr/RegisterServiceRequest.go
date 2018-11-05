@@ -10,3 +10,43 @@ type RegisterServiceRequest struct {
 	Tags         []*Tag `json:"tags"`
 	Desc         string `json:"desc"`
 }
+
+func (r *RegisterServiceRequest) GetEnv_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Env_id
+}
+
+func (r *RegisterServiceRequest) GetProduct_id() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Product_id
+}
+
+func (r *RegisterServiceRequest) GetService_name() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Service_name
+}
+
+func (r *RegisterServiceRequest) GetTags() []*Tag {
+	if r == nil {
+		var zeroVal []*Tag
+		return zeroVal
+	}
+	return r.Tags
+}
+
+func (r *RegisterServiceRequest) GetDesc() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Desc
+}

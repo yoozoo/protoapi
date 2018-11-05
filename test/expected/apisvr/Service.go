@@ -11,3 +11,51 @@ type Service struct {
 	Desc         string `json:"desc"`
 	Tags         []*Tag `json:"tags"`
 }
+
+func (r *Service) GetService_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Service_id
+}
+
+func (r *Service) GetService_name() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Service_name
+}
+
+func (r *Service) GetProduct_id() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Product_id
+}
+
+func (r *Service) GetProduct_name() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Product_name
+}
+
+func (r *Service) GetDesc() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Desc
+}
+
+func (r *Service) GetTags() []*Tag {
+	if r == nil {
+		var zeroVal []*Tag
+		return zeroVal
+	}
+	return r.Tags
+}

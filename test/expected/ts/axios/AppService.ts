@@ -13,7 +13,6 @@ import axios, { AxiosPromise } from 'axios';
 import {
     EnvListRequest,
     EnvListResponse,
-    Error,
     KVHistoryRequest,
     KVHistoryResponse,
     KeyListRequest,
@@ -40,174 +39,346 @@ import {
 } from './AppServiceObjs';
 import { generateUrl, errorHandling } from './helper';
 
-/*baseUrl 可更改*/
-const baseUrl = "http://192.168.115.60:8080";
+var baseUrl = "http://192.168.115.60:8080";
+
+export function SetBaseUrl(url: string) {
+    baseUrl = url;
+}
 // use axios
 export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getEnv");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as EnvListResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as EnvListResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function registerService(params: RegisterServiceRequest): Promise<RegisterServiceResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "registerService");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as RegisterServiceResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as RegisterServiceResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function updateService(params: UpdateServiceRequest): Promise<UpdateServiceResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "updateService");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as UpdateServiceResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as UpdateServiceResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadProtoFileResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "uploadProtoFile");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as UploadProtoFileResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as UploadProtoFileResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function getTags(params: TagListRequest): Promise<TagListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getTags");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as TagListResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as TagListResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function getProducts(params: ProductListRequest): Promise<ProductListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getProducts");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as ProductListResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as ProductListResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function getServices(params: ServiceListRequest): Promise<ServiceListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getServices");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as ServiceListResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as ServiceListResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function searchServices(params: ServiceSearchRequest): Promise<ServiceListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "searchServices");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as ServiceListResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as ServiceListResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getKeyList");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as KeyListResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as KeyListResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "getKeyValueList");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as KeyValueListResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as KeyValueListResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<KeyValueListResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "searchKeyValueList");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as KeyValueListResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as KeyValueListResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "updateKeyValue");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as KeyValueResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as KeyValueResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }
 
 export function fetchKeyHistory(params: KVHistoryRequest): Promise<KVHistoryResponse | never> {
     let url: string = generateUrl(baseUrl, "AppService", "fetchKeyHistory");
+    var config = {
+        "transformResponse" : [function transformResponse(data) {
+		return data;
+    }]};
 
-    return axios.post(url, params)
-        .then(res => {
-            // handle success data
-            return Promise.resolve(res.data as KVHistoryResponse)
-        }).catch(err => {
+    return axios.post(url, params, config)
+        .catch(err => {
             // handle error response
-            return errorHandling(err.response)
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as KVHistoryResponse)
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
         });
 }

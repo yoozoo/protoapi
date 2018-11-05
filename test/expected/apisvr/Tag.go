@@ -7,3 +7,19 @@ type Tag struct {
 	Tag_id   int    `json:"tag_id"`
 	Tag_name string `json:"tag_name"`
 }
+
+func (r *Tag) GetTag_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Tag_id
+}
+
+func (r *Tag) GetTag_name() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Tag_name
+}

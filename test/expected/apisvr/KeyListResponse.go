@@ -6,3 +6,11 @@ package apisvr
 type KeyListResponse struct {
 	Keys []*Key `json:"keys"`
 }
+
+func (r *KeyListResponse) GetKeys() []*Key {
+	if r == nil {
+		var zeroVal []*Key
+		return zeroVal
+	}
+	return r.Keys
+}

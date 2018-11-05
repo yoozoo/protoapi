@@ -7,3 +7,19 @@ type Product struct {
 	Product_id   string `json:"product_id"`
 	Product_name string `json:"product_name"`
 }
+
+func (r *Product) GetProduct_id() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Product_id
+}
+
+func (r *Product) GetProduct_name() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Product_name
+}

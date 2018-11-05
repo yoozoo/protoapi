@@ -4,6 +4,7 @@ package apisvr
 
 import (
 	"github.com/labstack/echo"
+	"github.com/yoozoo/protoapi/protoapigo"
 )
 
 // AppService is the interface contains all the controllers
@@ -493,6 +494,10 @@ func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
 
 // RegisterAppService is used to bind routers
 func RegisterAppService(e *echo.Echo, srv AppService) {
+	// switch to strict JSONAPIBinder, if using echo's DefaultBinder
+	if _, ok := e.Binder.(*echo.DefaultBinder); ok {
+		e.Binder = new(protoapigo.JSONAPIBinder)
+	}
 	e.POST("/AppService.getEnv", _getEnv_Handler(srv))
 	e.POST("/AppService.registerService", _registerService_Handler(srv))
 	e.POST("/AppService.updateService", _updateService_Handler(srv))

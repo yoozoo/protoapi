@@ -10,3 +10,43 @@ type ServiceSearchRequest struct {
 	Offset  int    `json:"offset"`
 	Limit   int    `json:"limit"`
 }
+
+func (r *ServiceSearchRequest) GetTag_ids() []int {
+	if r == nil {
+		var zeroVal []int
+		return zeroVal
+	}
+	return r.Tag_ids
+}
+
+func (r *ServiceSearchRequest) GetPrefix() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.Prefix
+}
+
+func (r *ServiceSearchRequest) GetEnv_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Env_id
+}
+
+func (r *ServiceSearchRequest) GetOffset() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Offset
+}
+
+func (r *ServiceSearchRequest) GetLimit() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Limit
+}

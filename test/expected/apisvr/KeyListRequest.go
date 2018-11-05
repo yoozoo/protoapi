@@ -7,3 +7,19 @@ type KeyListRequest struct {
 	Service_id int `json:"service_id"`
 	Env_id     int `json:"env_id"`
 }
+
+func (r *KeyListRequest) GetService_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Service_id
+}
+
+func (r *KeyListRequest) GetEnv_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Env_id
+}

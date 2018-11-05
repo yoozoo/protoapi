@@ -7,7 +7,9 @@
 * 文件包含一些函数协助生成的前端调用API
 * 文件内代码使用TypeScript
 */
-import { Error, CommonError, GenericError, AuthError, ValidateError, BindError } from './AppServiceObjs'
+
+import { mapCommonErrorType } from './AppServiceObjs'
+
 /**
  * Defined Http Code for response handling
  */
@@ -22,44 +24,22 @@ export enum httpCode {
  *
  * @param {response} response the error response
  */
-export function errorHandling(response): Promise<never> {
-    switch (response.status) {
+export function errorHandling(err): Promise<never> {
+    if(err.response === undefined) {
+        throw err;
+    }
+    
+    switch (err.response.status) {
         case httpCode.BIZ_ERROR:
-            return Promise.reject(response.data as Error)
+            return Promise.reject(err.response.data)
+
         case httpCode.COMMON_ERROR:
-            let returnErr = mapCommonErrorType(response.data);
+            let returnErr = mapCommonErrorType(err.response.data);
             return Promise.reject(returnErr)
-        case httpCode.INTERNAL_ERROR:
-            return Promise.reject(response.data)
-        default:
-            return Promise.reject(new Error("Unknown Error"))
+
     }
-}
-/**
- *
- * @param {CommonError} commonErr the error object
- */
-function mapCommonErrorType(commonErr: CommonError): (string | GenericError | AuthError | ValidateError | BindError) {
-    for (let key in commonErr) {
-        if (commonErr.hasOwnProperty(key) && commonErr[key]) {
-            switch (key) {
-                case 'genericError':
-                    return commonErr[key] as GenericError
-                case 'authError':
-                    return commonErr[key] as AuthError
 
-                case 'validateError':
-                    return commonErr[key] as ValidateError
-
-                case 'bindError':
-                    return commonErr[key] as BindError
-                default:
-                    return "Unknow Error"
-            }
-
-        }
-    }
-    return "Unknow Error"
+    throw err.response.data;
 }
 
 /**

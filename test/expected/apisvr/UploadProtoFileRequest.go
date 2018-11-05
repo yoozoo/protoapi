@@ -8,3 +8,27 @@ type UploadProtoFileRequest struct {
 	Env_id     int    `json:"env_id"`
 	File       string `json:"file"`
 }
+
+func (r *UploadProtoFileRequest) GetService_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Service_id
+}
+
+func (r *UploadProtoFileRequest) GetEnv_id() int {
+	if r == nil {
+		var zeroVal int
+		return zeroVal
+	}
+	return r.Env_id
+}
+
+func (r *UploadProtoFileRequest) GetFile() string {
+	if r == nil {
+		var zeroVal string
+		return zeroVal
+	}
+	return r.File
+}
