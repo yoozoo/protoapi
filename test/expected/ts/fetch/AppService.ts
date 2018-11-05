@@ -12,7 +12,6 @@
 import {
     EnvListRequest,
     EnvListResponse,
-    Error,
     KVHistoryRequest,
     KVHistoryResponse,
     KeyListRequest,
@@ -39,15 +38,18 @@ import {
 } from './AppServiceObjs';
 import { generateUrl, errorHandling } from './helper';
 
-/*baseUrl 可更改*/
-const baseUrl = "http://192.168.115.60:8080";// use fetch
+var baseUrl = "http://192.168.115.60:8080";
+
+export function SetBaseUrl(url: string) {
+    baseUrl = url;
+}// use fetch
 function call<InType, OutType>(service: string, method: string, params: InType): Promise<OutType | never> {
     let url: string = generateUrl(baseUrl, service, method);
 
     return fetch(url, { method: 'POST', body: JSON.stringify(params) }).then(res => {
         return Promise.resolve(res.json())
     }).catch(err => {
-        return errorHandling(err.response)
+        return errorHandling(err)
     });
 }
 export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never> {
