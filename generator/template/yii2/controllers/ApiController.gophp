@@ -1,0 +1,49 @@
+<?php
+
+namespace app\modules\api\controllers;
+
+use app\modules\api;
+use app\modules\api\models;
+use Yii;
+use yii\web\Controller;
+use Yoozoo\ProtoApi;
+
+//require_once __DIR__ . '/interface.php';
+
+class ApiController extends Controller
+{
+    private $_handler;
+
+    public function init()
+    {
+        $this->_handler = new api\RequestHandler();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        if (class_exists("app\\modules\\api\\AuthHandler")){
+            $behaviors['authenticator'] = [
+                'class' => api\AuthHandler::className(),
+            ];
+        }
+        return $behaviors;
+    }
+
+    public function actionDemo()
+    {
+        $req = Yii::$app->request;
+        $demoRequest = new models\DemoRequest();
+        $demoRequest->init($req->getBodyParams());
+        $demoRequest->validate();
+        $res = $this->_handler->demo($demoRequest);
+        if ($res instanceof models\DemoResponse) {
+            $res->validate();
+            return $res->to_array();
+        }
+        throw new ProtoApi\GeneralException("return type of 'demo' incorrect.");
+    }
+}

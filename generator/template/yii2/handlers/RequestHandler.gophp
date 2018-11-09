@@ -1,0 +1,10 @@
+<?php
+namespace app\modules\api\handlers;
+
+use app\modules\api\models;
+use Yoozoo\ProtoApi;
+
+abstract class RequestHandler
+{
+    abstract public function demo(models\DemoRequest $req);
+}
