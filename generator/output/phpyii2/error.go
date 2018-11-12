@@ -5,29 +5,28 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/yoozoo/protoapi/util"
-
 	"github.com/yoozoo/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/util"
 )
 
-// NewMessage return a pointer of new Message struct
-func NewMessage(msg *data.MessageData, baseNameSpace string, enums []*data.EnumData) *Message {
+// NewError return a pointer of new Error struct
+func NewError(msg *data.MessageData, baseNameSpace string, enums []*data.EnumData) *Error {
 	nameSpace := baseNameSpace + "\\models"
 	filePath := strings.Replace(nameSpace, "\\", "/", -1)
 	filePath = filePath + "/" + strings.Title(msg.Name) + ".php"
-	o := &Message{msg, nameSpace, filePath, enums}
+	o := &Error{msg, nameSpace, filePath, enums}
 	return o
 }
 
-// Message is struct of php message class
-type Message struct {
+// Error is struct of php error class
+type Error struct {
 	*data.MessageData
 	NameSpace string
 	FilePath  string
 	Enums     []*data.EnumData
 }
 
-func (p *Message) IsObject(fieldType string) bool {
+func (p *Error) IsObject(fieldType string) bool {
 	switch fieldType {
 	case data.StringFieldType,
 		data.DoubleFieldType,
@@ -45,17 +44,17 @@ func (p *Message) IsObject(fieldType string) bool {
 	}
 }
 
-func (p *Message) Gen(result map[string]string) error {
+func (p *Error) Gen(result map[string]string) error {
 	buf := bytes.NewBufferString("")
 
-	tplContent := data.LoadTpl("/generator/template/yii2/models/message.gophp")
+	tplContent := data.LoadTpl("/generator/template/yii2/models/error.gophp")
 
 	funcMap := template.FuncMap{
 		"isObject":  p.IsObject,
 		"className": util.GetPHPClassName,
 	}
 
-	tpl, err := template.New("message").Funcs(funcMap).Parse(tplContent)
+	tpl, err := template.New("Error").Funcs(funcMap).Parse(tplContent)
 	if err != nil {
 		return err
 	}

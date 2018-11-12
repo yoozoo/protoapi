@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\api;
+namespace {{.NameSpace}};
 
 use Yii;
 use yii\web\Response;
@@ -14,7 +14,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'app\modules\api\controllers';
+    public $controllerNamespace = '{{.NameSpace}}\controllers';
 
     /**
      * {@inheritdoc}
@@ -34,7 +34,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
                 'enableCsrfValidation' => false,
             ],
             'errorHandler' => [
-                'class' => 'app\modules\api\handlers\ErrorHandler',
+                'class' => '{{.NameSpace}}\handlers\ErrorHandler',
             ],
         ]);
 
@@ -46,7 +46,9 @@ class Module extends \yii\base\Module implements BootstrapInterface
     public function bootstrap($app)
     {
         $app->getUrlManager()->addRules([
-            "POST api.demo" => "api/api/demo",
+            {{- range .Methods}}
+            "POST {{routeFromUrl .Name}}" => "{{routeToUrl .Name}}",
+            {{- end }}
         ], false);
     }
 }

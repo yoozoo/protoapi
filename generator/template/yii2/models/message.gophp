@@ -3,7 +3,8 @@ namespace {{ .NameSpace }};
 
 use Yoozoo\ProtoApi;
 
-class {{ .Name }} implements ProtoApi\Message {
+class {{className .Name }} implements ProtoApi\Message
+{
     {{- range .Fields }}
     protected ${{.Name}};
     {{- end}}
@@ -16,7 +17,7 @@ class {{ .Name }} implements ProtoApi\Message {
             $this->{{.Name}} = array();
             foreach ($response["{{.Name}}"] as ${{.Name}}) {
                 {{- if isObject .DataType }}
-                $tmp = new {{.Title .DataType}}();
+                $tmp = new {{className .DataType}}();
                 $tmp->init(${{.Name}});
                 $tmp->validate();
                 $this->{{.Name}}[] = $tmp;
@@ -26,7 +27,7 @@ class {{ .Name }} implements ProtoApi\Message {
             }
             {{- else}}
             {{- if isObject .DataType }}
-            $this->{{.Name}} = new {{.Title .DataType}}();
+            $this->{{.Name}} = new {{className .DataType}}();
             $this->{{.Name}}->init($response["{{.Name}}"]);
             $this->{{.Name}}->validate();
             {{- else}}
@@ -46,7 +47,7 @@ class {{ .Name }} implements ProtoApi\Message {
         {{- end}}
     }
     {{range .Fields }}
-    public function set_{{.Name}}({{if isObject .DataType}}{{.Title .Name}} {{end}}${{.Name}})
+    public function set_{{.Name}}({{if isObject .DataType}}{{className .Name}} {{end}}${{.Name}})
     {
         $this->{{.Name}} = ${{.Name}};
     }

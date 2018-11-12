@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\api\handlers;
+namespace {{ .NameSpace }};
 
 use Yii;
 use Yoozoo\ProtoApi;

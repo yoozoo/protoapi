@@ -1,17 +1,17 @@
 <?php
 
-namespace app\modules\api;
+namespace {{.NameSpace}};
 
-use app\modules\api\models;
+use {{.NameSpace}}\models;
 
 class RequestHandler extends handlers\RequestHandler{
-    function demo($req) {
-        $bizError = new models\BizError();
-        $bizError->set_message("This is a biz error.");
-        throw $bizError;
-
-        $res = new models\DemoResponse();
-        $res->set_reply($req->get_text());
-        return $res;
+    {{- range .Methods}}
+    /**
+     * @param models\{{className .InputType}} $req
+     * @return models\{{className .OutputType}}
+     */
+    function {{.Name}}(models\{{className .InputType}} $req) {
+        // implement here
     }
+    {{end}}
 }

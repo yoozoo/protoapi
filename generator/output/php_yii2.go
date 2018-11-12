@@ -1,12 +1,10 @@
 package output
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	"log"
 	"strings"
-	"text/template"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"github.com/yoozoo/protoapi/generator/data"
@@ -15,40 +13,12 @@ import (
 )
 
 type yii2Gen struct {
-	result            map[string]string
-	ModuleName        string
-	NameSpace         string
-	bizErrors         []string
-	comError          *data.MessageData
-	messageTpl        *template.Template
-	errorTpl          *template.Template
-	controllerTpl     *template.Template
-	ErrorHandlerTpl   *template.Template
-	RequestHandlerTpa *template.Template
-	moduleTpl         *template.Template
-}
-
-func (g *yii2Gen) getTpl(path string) (*template.Template, error) {
-	var err error
-	tpl := template.New("tpl")
-	tplStr := data.LoadTpl(path)
-	result, err := tpl.Parse(tplStr)
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
-}
-
-func (g *yii2Gen) genMessage(msg *data.MessageData) error {
-	buf := bytes.NewBufferString("")
-
-	obj := yii2.NewMessage(msg, g.NameSpace)
-	err := g.messageTpl.Execute(buf, obj)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	result     map[string]string
+	enums      []*data.EnumData
+	ModuleName string
+	NameSpace  string
+	bizErrors  []string
+	comError   *data.MessageData
 }
 
 func (g *yii2Gen) Init(request *plugin.CodeGeneratorRequest) {
@@ -66,9 +36,67 @@ func (g *yii2Gen) Init(request *plugin.CodeGeneratorRequest) {
 			g.NameSpace = opts.GetPhpNamespace()
 		}
 	}
-
-	g.messageTpl, _ = g.getTpl("/generator/template/echo_struct.gogo")
 }
+
+/* generate functions */
+func (g *yii2Gen) genController(methods []data.Method) error {
+	obj := yii2.NewController(g.NameSpace, methods)
+	err := obj.Gen(g.result)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (g *yii2Gen) genEnum(enum *data.EnumData) error {
+	obj := yii2.NewEnum(enum, g.NameSpace)
+	err := obj.Gen(g.result)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (g *yii2Gen) genError(msg *data.MessageData) error {
+	obj := yii2.NewError(msg, g.NameSpace, g.enums)
+
+	err := obj.Gen(g.result)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (g *yii2Gen) genHandler(methods []data.Method) error {
+	obj := yii2.NewHandler(methods, g.NameSpace)
+
+	err := obj.Gen(g.result)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (g *yii2Gen) genMessage(msg *data.MessageData) error {
+	obj := yii2.NewMessage(msg, g.NameSpace, g.enums)
+
+	err := obj.Gen(g.result)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (g *yii2Gen) genModule(service *data.ServiceData) error {
+	obj := yii2.NewModule(g.NameSpace, service.Name, service.Methods)
+	err := obj.Gen(g.result)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+/* ****************** */
 
 func (g *yii2Gen) isBizErr(msg *data.MessageData) bool {
 	for _, field := range g.bizErrors {
@@ -89,6 +117,10 @@ func (g *yii2Gen) isComErr(msg *data.MessageData) bool {
 }
 
 func (g *yii2Gen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+	// set enums
+	g.enums = enums
+
+	// set namespace
 	if g.NameSpace == "" {
 		g.NameSpace = strings.Replace(packageName, ".", "\\", -1)
 
@@ -97,6 +129,10 @@ func (g *yii2Gen) Gen(applicationName string, packageName string, service *data.
 		}
 
 		log.Printf("Use proto package name for php: %v", g.NameSpace)
+	}
+	// make sure namespace start with app\modules
+	if !strings.HasPrefix(g.NameSpace, "app\\modules\\") {
+		g.NameSpace = "app\\modules\\" + g.NameSpace
 	}
 
 	g.ModuleName = applicationName
@@ -121,29 +157,53 @@ func (g *yii2Gen) Gen(applicationName string, packageName string, service *data.
 		return nil, errors.New("Cannot find common error message")
 	}
 
-	for _, msg := range messages {
-		if g.isBizErr(msg) {
-
-		} else if g.isComErr(msg) {
-
-		} else {
-
-			filename := g.getStructFilename(g.PackageName, msg)
-			content := g.genStruct(msg)
-
-			result[filename] = content
+	// call genarator functions one by one
+	err = g.genController(service.Methods)
+	if err != nil {
+		return nil, err
+	}
+	err = g.genModule(service)
+	if err != nil {
+		return nil, err
+	}
+	err = g.genHandler(service.Methods)
+	if err != nil {
+		return nil, err
+	}
+	for _, enum := range enums {
+		err = g.genEnum(enum)
+		if err != nil {
+			return nil, err
 		}
 	}
 
-	if g.serviceTpl != nil {
-		filename := genEchoFileName(g.PackageName, service)
-		content := g.genServie(service)
-		result[filename] = content
+	for _, msg := range messages {
+		if g.isBizErr(msg) {
+			err = g.genError(msg)
+			if err != nil {
+				return nil, err
+			}
+		} else if g.isComErr(msg) {
+			err = g.genError(msg)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			// rename 'Empty' message to 'Blank' to avoid PHP compilation error
+			if "EMPTY" == strings.ToUpper(msg.Name) {
+				msg.Name = "Blank"
+			}
+
+			err := g.genMessage(msg)
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
 
-	return
+	return g.result, nil
 }
 
 func init() {
-	data.OutputMap["yii2"] = &echoGen{}
+	data.OutputMap["yii2"] = &yii2Gen{}
 }

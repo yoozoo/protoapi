@@ -1,14 +1,11 @@
 <?php
 
-namespace app\modules\api\controllers;
+namespace {{.NameSpace}}\controllers;
 
-use app\modules\api;
-use app\modules\api\models;
+use {{.NameSpace}}\models;
 use Yii;
 use yii\web\Controller;
 use Yoozoo\ProtoApi;
-
-//require_once __DIR__ . '/interface.php';
 
 class ApiController extends Controller
 {
@@ -16,7 +13,7 @@ class ApiController extends Controller
 
     public function init()
     {
-        $this->_handler = new api\RequestHandler();
+        $this->_handler = new \{{.NameSpace}}\RequestHandler();
     }
 
     /**
@@ -25,25 +22,26 @@ class ApiController extends Controller
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        if (class_exists("app\\modules\\api\\AuthHandler")){
+        if (class_exists("\\{{escape .NameSpace}}\\AuthHandler")){
             $behaviors['authenticator'] = [
-                'class' => api\AuthHandler::className(),
+                'class' => \{{.NameSpace}}\AuthHandler::className(),
             ];
         }
         return $behaviors;
     }
-
-    public function actionDemo()
+    {{range .Methods}}
+    public function action{{title .Name}}()
     {
         $req = Yii::$app->request;
-        $demoRequest = new models\DemoRequest();
-        $demoRequest->init($req->getBodyParams());
-        $demoRequest->validate();
-        $res = $this->_handler->demo($demoRequest);
-        if ($res instanceof models\DemoResponse) {
+        $request = new models\{{className .InputType}}();
+        $request->init($req->getBodyParams());
+        $request->validate();
+        $res = $this->_handler->{{.Name}}($request);
+        if ($res instanceof models\{{className .OutputType}}) {
             $res->validate();
             return $res->to_array();
         }
-        throw new ProtoApi\GeneralException("return type of 'demo' incorrect.");
+        throw new ProtoApi\GeneralException("return type of '{{.Name}}' incorrect.");
     }
+    {{end}}
 }

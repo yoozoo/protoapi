@@ -1,0 +1,9 @@
+<?php
+use MyCLabs\Enum\Enum;
+
+class {{className .Name}} extends Enum
+{
+    {{- range .Fields }}
+    const {{.Name}} = {{.Value}};
+    {{- end}}
+}
