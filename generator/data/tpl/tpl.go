@@ -507,19 +507,19 @@ AAD//6nV5A0iBgAA
 var _escDirs = map[string][]os.FileInfo{
 
 	"generator/template": {
+		_escData["/generator/template/echo_enum.gogo"],
 		_escData["/generator/template/echo_service.gogo"],
+		_escData["/generator/template/echo_struct.gogo"],
 		_escData["/generator/template/go"],
+		_escData["/generator/template/php_client.gophp"],
 		_escData["/generator/template/spring_service.gojava"],
 		_escData["/generator/template/spring_struct.gojava"],
 		_escData["/generator/template/ts"],
-		_escData["/generator/template/echo_enum.gogo"],
-		_escData["/generator/template/php_client.gophp"],
-		_escData["/generator/template/echo_struct.gogo"],
 	},
 
 	"generator/template/go": {
-		_escData["/generator/template/go/service.gogo"],
 		_escData["/generator/template/go/enum.gogo"],
+		_escData["/generator/template/go/service.gogo"],
 		_escData["/generator/template/go/struct.gogo"],
 	},
 

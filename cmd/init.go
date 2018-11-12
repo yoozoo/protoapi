@@ -96,7 +96,7 @@ func initCommandFunc(cmd *cobra.Command, args []string) {
 		}
 		fmt.Println(filepath.FromSlash(protoapiIncPath + "protoapi_common.proto"))
 	}
-	fmt.Println("Protoapi initialized.")
+	fmt.Println("protoapi initialized.")
 }
 
 // downloadFile will download a url to a local file. It's efficient because it will
