@@ -1,9 +1,8 @@
 #!/usr/bin/env bats
 
 @test "test.proto go output" {
-  skip
-  ../protoapi gen --lang=go result/ proto/test.proto
-  diff -I "^//.*$" -r result/apisvr/ expected/apisvr/
+  ../protoapi gen --lang=go result/go proto/test.proto
+  diff -I "^//.*$" -r result/go/apisvr/ expected/go/apisvr/
 }
 
 @test "test.proto ts output" {
