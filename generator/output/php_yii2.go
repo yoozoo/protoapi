@@ -88,7 +88,7 @@ func (g *yii2Gen) genMessage(msg *data.MessageData) error {
 }
 
 func (g *yii2Gen) genModule(service *data.ServiceData) error {
-	obj := yii2.NewModule(g.NameSpace, service.Name, service.Methods)
+	obj := yii2.NewModule(g.NameSpace, service)
 	err := obj.Gen(g.result)
 	if err != nil {
 		return err

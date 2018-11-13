@@ -46,8 +46,9 @@ class Module extends \yii\base\Module implements BootstrapInterface
     public function bootstrap($app)
     {
         $app->getUrlManager()->addRules([
-            {{- range .Methods}}
-            "POST {{routeFromUrl .Name}}" => "{{routeToUrl .Name}}",
+            {{- $serviceName:=.Service.Name}}
+            {{- range .Service.Methods}}
+            "POST {{$serviceName}}.{{.Name}}" => "{{$serviceName}}/api/{{.Name}}",
             {{- end }}
         ], false);
     }
