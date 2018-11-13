@@ -22,25 +22,6 @@
   version = "v1.0"
 
 [[projects]]
-  digest = "1:26971a24734a1b911111711f981ffc7463361b36483456f33da623570b7d214c"
-  name = "github.com/labstack/echo"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "6d227dfea4d2e52cb76856120b3c17f758139b4e"
-  version = "3.3.5"
-
-[[projects]]
-  digest = "1:faee5b9f53eb1ae4eb04708c040c8c4dd685ce46509671e57a08520a15c54368"
-  name = "github.com/labstack/gommon"
-  packages = [
-    "color",
-    "log",
-  ]
-  pruneopts = "UT"
-  revision = "d6898124de917583f5ff5592ef931d1dfe0ddc05"
-  version = "0.2.6"
-
-[[projects]]
   digest = "1:c658e84ad3916da105a761660dcaeb01e63416c8ec7bc62256a9b411a05fcd67"
   name = "github.com/mattn/go-colorable"
   packages = ["."]
@@ -114,7 +95,6 @@
     "github.com/golang/protobuf/proto",
     "github.com/golang/protobuf/protoc-gen-go/descriptor",
     "github.com/golang/protobuf/protoc-gen-go/plugin",
-    "github.com/labstack/echo",
     "github.com/spf13/cobra",
     "github.com/spf13/pflag",
   ]
