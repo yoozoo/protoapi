@@ -1,0 +1,47 @@
+<?php
+
+namespace {{.NameSpace}}\controllers;
+
+use {{.NameSpace}}\models;
+use Yii;
+use yii\web\Controller;
+use Yoozoo\ProtoApi;
+
+class ApiController extends Controller
+{
+    private $_handler;
+
+    public function init()
+    {
+        $this->_handler = new \{{.NameSpace}}\RequestHandler();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        if (class_exists("\\{{escape .NameSpace}}\\AuthHandler")){
+            $behaviors['authenticator'] = [
+                'class' => \{{.NameSpace}}\AuthHandler::className(),
+            ];
+        }
+        return $behaviors;
+    }
+    {{range .Methods}}
+    public function action{{title .Name}}()
+    {
+        $req = Yii::$app->request;
+        $request = new models\{{className .InputType}}();
+        $request->init($req->getBodyParams());
+        $request->validate();
+        $res = $this->_handler->{{.Name}}($request);
+        if ($res instanceof models\{{className .OutputType}}) {
+            $res->validate();
+            return $res->to_array();
+        }
+        throw new ProtoApi\GeneralException("return type of '{{.Name}}' incorrect.");
+    }
+    {{end}}
+}

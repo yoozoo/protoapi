@@ -1,0 +1,12 @@
+<?php
+namespace {{ .NameSpace }};
+
+use {{ .BaseNameSpace }}\models;
+use Yoozoo\ProtoApi;
+
+abstract class RequestHandler
+{
+    {{- range .Methods}}
+    abstract public function {{.Name}}(models\{{className .InputType}} $req);
+    {{- end}}
+}

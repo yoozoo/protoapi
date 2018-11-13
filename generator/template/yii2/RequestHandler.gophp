@@ -1,0 +1,17 @@
+<?php
+
+namespace {{.NameSpace}};
+
+use {{.NameSpace}}\models;
+
+class RequestHandler extends handlers\RequestHandler{
+    {{- range .Service.Methods}}
+    /**
+     * @param models\{{className .InputType}} $req
+     * @return models\{{className .OutputType}}
+     */
+    function {{.Name}}(models\{{className .InputType}} $req) {
+        // implement here
+    }
+    {{end}}
+}

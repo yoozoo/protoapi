@@ -6,6 +6,8 @@ syntax = "proto3";
 
 import "common.proto";
 
+package todolist;
+
 option go_package = "todolistsvr";
 
 message Todo { string title = 1; }

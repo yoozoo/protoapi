@@ -1,0 +1,73 @@
+<?php
+
+namespace {{ .NameSpace }};
+
+use Yoozoo\ProtoApi;
+
+class {{className .Name }} extends ProtoApi\BizErrorException implements ProtoApi\Message
+{
+    {{- range .Fields }}
+    protected ${{.Name}};
+    {{- end}}
+
+    public function init(array $response)
+    {
+        {{- range .Fields }}
+        if (isset($response["{{.Name}}"])) {
+            {{- if eq .Label "LABEL_REPEATED"}}
+            $this->{{.Name}} = array();
+            foreach ($response["{{.Name}}"] as ${{.Name}}) {
+                {{- if isObject .DataType }}
+                $tmp = new {{className .DataType}}();
+                $tmp->init(${{.Name}});
+                $tmp->validate();
+                $this->{{.Name}}[] = $tmp;
+                {{- else}}
+                $this->{{.Name}}[] = ${{.Name}};
+                {{- end}}
+            }
+            {{- else}}
+            {{- if isObject .DataType }}
+            $this->{{.Name}} = new {{className .DataType}}();
+            $this->{{.Name}}->init($response["{{.Name}}"]);
+            $this->{{.Name}}->validate();
+            {{- else}}
+            $this->{{.Name}} = $response["{{.Name}}"];
+            {{- end}}
+            {{- end}}
+        }
+        {{- end}}
+    }
+
+    public function validate()
+    {
+        {{- range .Fields }}
+        if (!isset($this->{{.Name}})) {
+            throw new ProtoApi\GeneralException("'{{.Name}}' is not exist");
+        }
+        {{- end}}
+    }
+    {{range .Fields }}
+    public function set_{{.Name}}({{if isObject .DataType}}{{className .Name}} {{end}}${{.Name}})
+    {
+        $this->{{.Name}} = ${{.Name}};
+    }
+
+    public function get_{{.Name}}()
+    {
+        return $this->{{.Name}};
+    }
+    {{end}}
+    public function to_array()
+    {
+        return array(
+        {{- range .Fields }}
+            {{- if isObject .DataType}}
+            "{{.Name}}" => $this->{{.Name}}->to_array(),
+            {{- else}}
+            "{{.Name}}" => $this->{{.Name}},
+            {{- end}}
+        {{- end}}
+        );
+    }
+}

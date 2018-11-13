@@ -485,6 +485,134 @@ AAD//6nV5A0iBgAA
 `,
 	},
 
+	"/generator/template/yii2/Module.gophp": {
+		name:    "Module.gophp",
+		local:   "generator/template/yii2/Module.gophp",
+		size:    1375,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/5RTXW/aMBR996+4qpBCETTvYbCPatNWiVJBN6la0GSSG/Dm2J7t7ENR/vtkJ4QQqKrl
+heTec8+xzz28eq32ihBBczSKJghleXNPc1y7j6qaElIYhCfGpv7lL2Pxb9zGKzRKCoPH6pYajN9JaY3V
+VH0SFnVGE5wSEo5GBEZAFYNcpgVHSDFjglkmBSScGkNgFBL/BosagX8sitRA3FI3DZYrjjkKa+BcjJQE
+AMALumcE5Rsm9qiZTWVSNcXQ/6piy1kCg0QKqyXnqO9bD2YQnNoQH1EmmJL/VskKkfjrumsPr32rPqsH
+UY3CRlHdnLb1J8aiaECVmsx14/dknkmdUwszOKwgij4sV4u3j9/u1sv75my9aYP2VuZKCufb8GsLcU+g
+8WeBxgYwm8Npy7f9WnwzPi7fT0SR743PZxTVxjl1mdJDqFKcJdSZEn43UnhscFC4M1I8eJLgnH5zQREF
+3XK8lfIHwy+Us9Qze9KMcoPPjxidvTzQkwxQa6k/UpFy1C8b1w/Tvh408fsuzbOKm+vOVgfNMMxgYPfM
+TOY7tMPTA3UiFJ+moAcct3SdkUPJhW7HjEV9yGRFLmZ6e/gfDp1OP9y19g7tZ80XVNCd45vMaZquCo79
+NJblBAYG9S+WoLMsmt2s6y/vYFWdoTUVO4QWtUC7l6npAa8elutHKMsudVXdNHupqiu3pqt+P6SKhUfM
++EwbRQodpc24zk5rV0X+BQAA//9/+Ld9XwUAAA==
+`,
+	},
+
+	"/generator/template/yii2/RequestHandler.gophp": {
+		name:    "RequestHandler.gophp",
+		local:   "generator/template/yii2/RequestHandler.gophp",
+		size:    373,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/4xPwUrEMBS85yvewYMWbD9gBT3qQQXXYy+hGW2hec3mJaKE9++y6VpQPOzpMW9mmJmb
+2zAGY9h6SLADqJT2yXrsj0B1Z0yWv8/eLw6z7IwZZitCLzhkSLq37GZEwmcCO6FxxdL/5oshIirlmqLl
+d1C7R/yYBrSPSOPiRLUKuqaplxq6CzZaT2tqX0pNPfah9oFDTq9fAap0EXHYLBEpR/7X85zTZjrpu3rf
+Mg9pWvhnrurlOZlXtE6qrTuafJjhwYlGRFRGT5PBTtWo+Q4AAP//qCrWrHUBAAA=
+`,
+	},
+
+	"/generator/template/yii2/controllers/ApiController.gophp": {
+		name:    "ApiController.gophp",
+		local:   "generator/template/yii2/controllers/ApiController.gophp",
+		size:    1195,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/2xTTY+bPBC+8ytG0UpA9CZ7hze0aVW1PbRdtb1UyypyzGSxRGyvPeSjyP+9whASkviC
+PfPM1zMP/7/TpQ4CybZoNeMITTP/zrb4q304l3MlyaiqQmPTIKjtDWCrCqxs6l1/hOguRyHyPa7zj0N0
+D1Dqr1L5k1GkllqkQcArZi0stThDAQ+EsrBwNgVNAACgjdgxQnhYlUwWPmtnr9eV4LCpJSehJAgpKIq9
+qwtszwOVws6yUygsQOIe8qtxfuJbjZa+dKAoTn286+o8Tqdduik074Us0QgqFHe98fFuM2ss2U4oY287
+GlywAM0MSkqSC3g6IMUGIs/UCg/Cko0med40aDnTCKP+82VNZd/9JI7PxcYFn0NWU4mSBGekTPgCC3ge
+YdsT+pohLLIbni7KJImHtd4o/m+U5OU8ghtuBqk28qKZE8eencYw+Yow/4ZUqsI6d5dU5j9NQ4KqngHn
+bgk2+AaLVpZJ8sC0nmWmW286grSWXg6dmvOmGUaC+Vepa/p91L7CbeQs83Jrn7PsFemDKo5PzLCtjeK7
+8B2rRMEIr5K1IrjS6CzrWXcuOsVfqcIHCmmJSY5qc3eAHzUNE8RwJQmD9n5Ll6vyIFIrZgw7XoLOW6XS
+qL3n8PR3559RomHVpwNH3a4rmvT56KgR1AbCYbwQhOTKGOQ0n8RjQaAsnAtc8C8AAP//YJBkmqsEAAA=
+`,
+	},
+
+	"/generator/template/yii2/handlers/ErrorHandler.gophp": {
+		name:    "ErrorHandler.gophp",
+		local:   "generator/template/yii2/handlers/ErrorHandler.gophp",
+		size:    819,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/6RQXWvqQBB9318xiA8Grhe53L6YmmJF6EtLwb4IgTJuRrs02Vl2NuAH+e8lBmusVFqc
+p5k95+w5M7d37s0pZbEgcagJdjv4+4QFzfZTVcVKlUIwNyZuGuYtc/rsOfDYmVgpnaMITL1n/4A2y8kD
+rQPZTCDdGJMuUChtw2qnAABcuciNhmVpdTBswZPNyE/Xmlw997p0aKM9v1HVZZbQQsFYCWg18RIOsdJ7
+s91bfn4XtfR1zY0ZDrvoXD/xJI6tUD+RgKGUCWcEI/g/GMQnkm5NhBEcrftJ4Ff0Hje96MitgHKhn6Sc
+cFGwvTrov+uC/tbv5rvDNAYnUF2dgkRwRZ1R0k60ovDYAL3oz7lIAur3c8mLR01jmQVv7OqrsL2burhQ
+hgHrC9Uv8WWqkM0OV6tUpT4CAAD//zSBgW8zAwAA
+`,
+	},
+
+	"/generator/template/yii2/handlers/RequestHandler.gophp": {
+		name:    "RequestHandler.gophp",
+		local:   "generator/template/yii2/handlers/RequestHandler.gophp",
+		size:    241,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/0yOMU4EMQxFe5/CBQUUzAUGCUEFBQgBDdI03sSwI2XibJwUYPnuiKw0ovR/tt+/uS3H
+Apk21kKB0QynZ9r4bUzuM0DXc3xPyv/RsknkpPNY+BD5EVleqjS5K+sMQAdtlULDkEgVX/nUWdsD5Zi4
+ggEiotk1VspfjNMTt6NEdR9gPy79kNaAnz2HtkpGs1HP/fJsX8zG/78Qp8dcenv/LuyOF5VPV/Ou4Rzd
+weE3AAD//+j458PxAAAA
+`,
+	},
+
+	"/generator/template/yii2/models/enum.gophp": {
+		name:    "enum.gophp",
+		local:   "generator/template/yii2/models/enum.gophp",
+		size:    146,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/zyLsQrCQBBE+/2K+QHzA1EsRCu1tLJZc4sKlzW4OVCW/Xe5A9O8GZh56+30mKiY4PTd
+Hflm172WsaEnGjKbwb3lmUdBVxkB+cyiyVCP5AQA7iu8We+C7vCUnAwRbRheajPc/+6m9gvnIhH9ooqm
+CAr6BQAA//8rGSPnkgAAAA==
+`,
+	},
+
+	"/generator/template/yii2/models/error.gophp": {
+		name:    "error.gophp",
+		local:   "generator/template/yii2/models/error.gophp",
+		size:    1999,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/5RU0W4aOxB991fMXSFlkQI/wIWKKNu+0DZq81IlETLLAK4We2ubhsTyv1d4s4vxegPZ
+h0TYc86cOeOZ/z+Vm5IQTreoSpojGAPDb3SLP90va0eE7BTCLyFehXi8k0KLaclGhOQFVQqMcf8PiAoH
+1gLuNfKlgjr68Ya9ZlIKme1zLDUTHNi2LHCLXHtRX1EpukZiCACAMQOQlK8Rhp8ZFksF1rqLUgqNucYl
+9IxxOQ8qawjypbWkCtwtCpbDasfzKidnOqVS0hfoSVSl4Ar7FdD9fTfr4WMrSJlSqNMG/5A0GpKnft9j
+qtnYCvAPDGd0gQUks+lNNpv/yO6y6X12m3jkh6+nN0wNJg0ljMHpTfujk7iVkEjzDXToAKo8b0JRnjCm
+vi9+Y65heEs1vX8pEQJFlaptCWPg+Hza7hpjbaivRg0mznNPS1fcX1qwJdUYZzp15eEJxg42itaFhcJo
+FTGW4AW1uNxr8k8tuSDfxfZGGv4Bm0N0bXf8cZ7DdrWgo8aI9HjiCFvL1fapJfG7jtk+iv/oQP/3NtFB
+Oa1Z1hspnl13moX1BTlKWjRbLU2uGvwVMAVcaMA9UzrxPO2urDqLL72gXoV63uRKjYm+Nmtb69laMMbl
+9IYysCzW2WBOOrqwPlEV8krUO8lb9KOT6o9+hORazN+WYZy3urys8e8OaRDnvWUYTyKDcxR2fcngnOG7
+PjMY7ZN+7aAl/wIAAP//fzbP1M8HAAA=
+`,
+	},
+
+	"/generator/template/yii2/models/message.gophp": {
+		name:    "message.gophp",
+		local:   "generator/template/yii2/models/message.gophp",
+		size:    1963,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/5RUUW/aPBR996+4X4TUIBX+AB9MTGV7YVu19WVqK2TCBTwF27PN2s7yf5/iNCFxnELz
+0Arb5/jcc+/x/x/kXhJOD6glzRCshfFXesAf/pdzE0KOGuGnEH+FeLhVwoi5ZBNCspxqDdb6/wWixIFz
+wA4yxwNyo6ECPHxBrekOiSUAANaOQFG+Qxh/YphvNDjnN6QSBjODGxhY6wkLCRUE+cY5Uh48rnOWwfbI
+M8MEB8aZSalS9AUGCrUUXOOwBPq/b95afGwLKdMaTVrj75NaQ/I4HDaYKja2BfwN4yVdYw7Jcv5xsVx9
+X9wu5neLm6RBXnwDs2d6NKspYQpebzqctM5thUKa7aFHB1Dd8CYU1RDG9Lf1L8wMjG+ooXcvEiFQVKo6
+SJgCx6d2LyuMc6G+CjWaec8bWvrO/aE521CDcaa2K/ePMPWwSbQuzDVGq4ixBBPU4fLT1Fx15IL7LrY3
+0vB32ByiK7vjw3kO29eCnhoj0uMXR9g6rnZXHYnv9WT7JP69gf7vNdFBOZ0sm70ST7479YP1GTkqmi+e
+M5SFijS5qvFXwDRwYQCfmTZJw9P+ysq1+KMX1KvRrOq7Umuj0+Zc5+11Dqz1dzZCGVgW62yQk54u7Fqq
+Ql6F5qh4h37Sqv7kR0huxOr1MYzzlpuXNf7NkAbnGrMM01kkOCdh15cE5wzf9ZlgdFeGlYOO/AsAAP//
+ZvO2hqsHAAA=
+`,
+	},
+
 	"/generator/template": {
 		name:  "template",
 		local: `generator/template`,
@@ -502,6 +630,30 @@ AAD//6nV5A0iBgAA
 		local: `generator/template/ts`,
 		isDir: true,
 	},
+
+	"/generator/template/yii2": {
+		name:  "yii2",
+		local: `generator/template/yii2`,
+		isDir: true,
+	},
+
+	"/generator/template/yii2/controllers": {
+		name:  "controllers",
+		local: `generator/template/yii2/controllers`,
+		isDir: true,
+	},
+
+	"/generator/template/yii2/handlers": {
+		name:  "handlers",
+		local: `generator/template/yii2/handlers`,
+		isDir: true,
+	},
+
+	"/generator/template/yii2/models": {
+		name:  "models",
+		local: `generator/template/yii2/models`,
+		isDir: true,
+	},
 }
 
 var _escDirs = map[string][]os.FileInfo{
@@ -515,6 +667,7 @@ var _escDirs = map[string][]os.FileInfo{
 		_escData["/generator/template/spring_service.gojava"],
 		_escData["/generator/template/spring_struct.gojava"],
 		_escData["/generator/template/ts"],
+		_escData["/generator/template/yii2"],
 	},
 
 	"generator/template/go": {
@@ -528,5 +681,28 @@ var _escDirs = map[string][]os.FileInfo{
 		_escData["/generator/template/ts/objs.gots"],
 		_escData["/generator/template/ts/service_axios.gots"],
 		_escData["/generator/template/ts/service_fetch.gots"],
+	},
+
+	"generator/template/yii2": {
+		_escData["/generator/template/yii2/Module.gophp"],
+		_escData["/generator/template/yii2/RequestHandler.gophp"],
+		_escData["/generator/template/yii2/controllers"],
+		_escData["/generator/template/yii2/handlers"],
+		_escData["/generator/template/yii2/models"],
+	},
+
+	"generator/template/yii2/controllers": {
+		_escData["/generator/template/yii2/controllers/ApiController.gophp"],
+	},
+
+	"generator/template/yii2/handlers": {
+		_escData["/generator/template/yii2/handlers/ErrorHandler.gophp"],
+		_escData["/generator/template/yii2/handlers/RequestHandler.gophp"],
+	},
+
+	"generator/template/yii2/models": {
+		_escData["/generator/template/yii2/models/enum.gophp"],
+		_escData["/generator/template/yii2/models/error.gophp"],
+		_escData["/generator/template/yii2/models/message.gophp"],
 	},
 }
