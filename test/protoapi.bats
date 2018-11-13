@@ -2,7 +2,11 @@
 
 @test "test.proto go output" {
   ../protoapi gen --lang=go result/go proto/test.proto
-  diff -I "^//.*$" -r result/go/apisvr/ expected/go/apisvr/
+  ../protoapi gen --lang=go result/go proto/echo.proto
+  ../protoapi gen --lang=go result/go proto/calc.proto
+  ../protoapi gen --lang=go result/go proto/todolist.proto
+
+  diff -I "^//.*$" -r result/go/ expected/go/
 }
 
 @test "test.proto ts output" {
