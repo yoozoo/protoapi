@@ -135,7 +135,7 @@ func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.M
 			Name:       mtd.GetName(),
 			InputType:  parseMessageDataType(mtd.GetInputType()),
 			OutputType: parseMessageDataType(mtd.GetOutputType()),
-			HttpMtd:    mapHttpMtd(mtd.GetName()),
+			HttpMtd:    mapHTTPMtd(mtd.GetName()),
 			URI:        serviceName + "." + mtd.GetName(),
 			Options:    getMethodOptions(mtd),
 		}
@@ -145,7 +145,7 @@ func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.M
 }
 
 // map http method according to the method name, assume only post and get for now
-func mapHttpMtd(method string) string {
+func mapHTTPMtd(method string) string {
 	isGet := strings.Contains(method, "Get")
 	if isGet {
 		return "get"
