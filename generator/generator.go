@@ -168,6 +168,7 @@ func createServices(file string, pkg string, services []*descriptor.ServiceDescr
 		serData.Methods = mtds
 		serData.Service = service
 		serData.Options = getServiceOptions(service)
+		serData.CommonErrorType = serData.Options["common_error"]
 
 		resultSers = append(resultSers, serData)
 	}
