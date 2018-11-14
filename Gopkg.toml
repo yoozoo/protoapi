@@ -24,6 +24,7 @@
 #   go-tests = true
 #   unused-packages = true
 
+ignored = ["github.com/labstack/echo"]
 
 [[constraint]]
   name = "github.com/golang/protobuf"
