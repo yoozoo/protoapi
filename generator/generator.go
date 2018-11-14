@@ -593,14 +593,18 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 
 	services := getServices(request.ProtoFile)
 
+	var service *data.ServiceData
 	if len(services) > 1 {
 		util.Die(fmt.Errorf("found %d services; only 1 service is supported now", len(services)))
+	} else if len(services) == 1 {
+		service = services[0]
 	}
 
 	if gen, ok := data.OutputMap[outputLang]; ok {
 		response := new(plugin.CodeGeneratorResponse)
 		gen.Init(request)
-		results, err := gen.Gen(applicationName, packageName, services[0], messages, enums, options)
+
+		results, err := gen.Gen(applicationName, packageName, service, messages, enums, options)
 		if err != nil {
 			util.Die(err)
 		}

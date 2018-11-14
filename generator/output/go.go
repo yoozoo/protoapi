@@ -79,6 +79,12 @@ func (g *goGen) Gen(applicationName string, packageName string, service *data.Se
 
 	// Temporary hack from go server gen here
 	// Should rewrite goGen completely later
+	if service == nil {
+		g.serviceTpl = nil
+		result, err = g.echoGen.Gen(applicationName, packageName, service, messages, enums, options)
+		return
+	}
+
 	g.serviceTpl = g.getTpl("/generator/template/go/service.gogo")
 	serviceContent := g.genGoServie(service)
 	serviceFilename := genEchoFileName(g.PackageName, service)

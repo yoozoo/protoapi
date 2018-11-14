@@ -62,6 +62,10 @@ func (s *echoStruct) ClassName() string {
 }
 
 func (s *echoStruct) IsCommonErrorStruct() bool {
+	if _goService == nil {
+		return false
+	}
+
 	return _goService.CommonError() == s.ClassName()
 }
 
