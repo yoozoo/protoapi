@@ -61,6 +61,10 @@ func (s *echoStruct) ClassName() string {
 	return strings.Title(s.Name)
 }
 
+func (s *echoStruct) IsCommonErrorStruct() bool {
+	return _goService.CommonError() == s.ClassName()
+}
+
 func (s *echoStruct) ValidateRequired() bool {
 	for _, f := range s.Fields {
 		if f.ValidateRequired() {

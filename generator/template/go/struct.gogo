@@ -42,7 +42,7 @@ func (r {{.ClassName}}) Validate() *ValidateError {
 	return nil
 }
 {{end}}
-{{if eq .ClassName "CommonError"}}
+{{if .IsCommonErrorStruct}}
 func (r {{.ClassName}}) Error() string {
 	return "Error"
 }
