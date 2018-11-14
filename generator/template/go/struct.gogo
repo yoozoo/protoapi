@@ -42,3 +42,8 @@ func (r {{.ClassName}}) Validate() *ValidateError {
 	return nil
 }
 {{end}}
+{{if eq .ClassName "CommonError"}}
+func (r {{.ClassName}}) Error() string {
+	return "Error"
+}
+{{end}}
