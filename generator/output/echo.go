@@ -93,7 +93,7 @@ func formatBuffer(buf *bytes.Buffer) string {
 }
 
 func (g *echoGen) getStructFilename(packageName string, msg *data.MessageData) string {
-	return strings.Replace(packageName, ".", "/", -1) + "/" + msg.Name + ".go"
+	return packageName + "/" + msg.Name + ".go"
 }
 
 func (g *echoGen) genStruct(msg *data.MessageData) string {
@@ -109,7 +109,7 @@ func (g *echoGen) genStruct(msg *data.MessageData) string {
 }
 
 func (g *echoGen) getEnumFilename(packageName string, enum *data.EnumData) string {
-	return strings.Replace(packageName, ".", "/", -1) + "/" + enum.Name + ".go"
+	return packageName + "/" + enum.Name + ".go"
 }
 
 func (g *echoGen) genEnum(enum *data.EnumData) string {
@@ -137,7 +137,7 @@ func (g *echoGen) genServie(service *data.ServiceData) string {
 }
 
 func genEchoFileName(packageName string, service *data.ServiceData) string {
-	return strings.Replace(packageName, ".", "/", -1) + "/" + service.Name + "Base.go"
+	return packageName + "/" + service.Name + "Base.go"
 }
 
 func genEchoPackageName(packageName string) string {

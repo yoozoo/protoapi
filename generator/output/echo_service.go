@@ -42,7 +42,7 @@ type echoService struct {
 }
 
 func newEchoService(msg *data.ServiceData, packageName string) *echoService {
-	ss := strings.Split(packageName, ".")
+	ss := strings.Split(packageName, "/")
 	s := ss[len(ss)-1]
 	o := &echoService{
 		msg,

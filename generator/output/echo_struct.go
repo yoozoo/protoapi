@@ -33,7 +33,7 @@ func (s *echoField) ValidateFormat() string {
 }
 
 func newEchoStruct(msg *data.MessageData, packageName string) *echoStruct {
-	ss := strings.Split(packageName, ".")
+	ss := strings.Split(packageName, "/")
 	s := ss[len(ss)-1]
 	o := &echoStruct{
 		msg,

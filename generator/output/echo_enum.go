@@ -11,7 +11,7 @@ type echoEnumField struct {
 }
 
 func newEchoEnum(enum *data.EnumData, packageName string) *echoEnum {
-	ss := strings.Split(packageName, ".")
+	ss := strings.Split(packageName, "/")
 	s := ss[len(ss)-1]
 	o := &echoEnum{
 		enum,
