@@ -135,7 +135,7 @@ func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.M
 			Name:       mtd.GetName(),
 			InputType:  parseMessageDataType(mtd.GetInputType()),
 			OutputType: parseMessageDataType(mtd.GetOutputType()),
-			HttpMtd:    mapHttpMtd(mtd.GetName()),
+			HttpMtd:    mapHTTPMtd(mtd.GetName()),
 			URI:        serviceName + "." + mtd.GetName(),
 			Options:    getMethodOptions(mtd),
 		}
@@ -145,7 +145,7 @@ func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.M
 }
 
 // map http method according to the method name, assume only post and get for now
-func mapHttpMtd(method string) string {
+func mapHTTPMtd(method string) string {
 	isGet := strings.Contains(method, "Get")
 	if isGet {
 		return "get"
@@ -168,6 +168,7 @@ func createServices(file string, pkg string, services []*descriptor.ServiceDescr
 		serData.Methods = mtds
 		serData.Service = service
 		serData.Options = getServiceOptions(service)
+		serData.CommonErrorType = serData.Options["common_error"]
 
 		resultSers = append(resultSers, serData)
 	}
@@ -592,10 +593,18 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 
 	services := getServices(request.ProtoFile)
 
+	var service *data.ServiceData
+	if len(services) > 1 {
+		util.Die(fmt.Errorf("found %d services; only 1 service is supported now", len(services)))
+	} else if len(services) == 1 {
+		service = services[0]
+	}
+
 	if gen, ok := data.OutputMap[outputLang]; ok {
 		response := new(plugin.CodeGeneratorResponse)
 		gen.Init(request)
-		results, err := gen.Gen(applicationName, packageName, services[0], messages, enums, options)
+
+		results, err := gen.Gen(applicationName, packageName, service, messages, enums, options)
 		if err != nil {
 			util.Die(err)
 		}

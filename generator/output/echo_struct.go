@@ -33,7 +33,7 @@ func (s *echoField) ValidateFormat() string {
 }
 
 func newEchoStruct(msg *data.MessageData, packageName string) *echoStruct {
-	ss := strings.Split(packageName, ".")
+	ss := strings.Split(packageName, "/")
 	s := ss[len(ss)-1]
 	o := &echoStruct{
 		msg,
@@ -59,6 +59,14 @@ func (s *echoStruct) init() {
 
 func (s *echoStruct) ClassName() string {
 	return strings.Title(s.Name)
+}
+
+func (s *echoStruct) IsCommonErrorStruct() bool {
+	if _goService == nil {
+		return false
+	}
+
+	return _goService.CommonError() == s.ClassName()
 }
 
 func (s *echoStruct) ValidateRequired() bool {

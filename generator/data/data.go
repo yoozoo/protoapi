@@ -110,10 +110,11 @@ type Method struct {
 }
 
 type ServiceData struct {
-	Name    string
-	Methods []Method
-	Options OptionMap
-	Service *descriptor.ServiceDescriptorProto
+	Name            string
+	Methods         []Method
+	Options         OptionMap
+	CommonErrorType string
+	Service         *descriptor.ServiceDescriptorProto
 }
 
 // Option is a structure represents the option declared in a proto file

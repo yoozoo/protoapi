@@ -8,6 +8,8 @@ import (
 	"github.com/yoozoo/protoapi/util"
 )
 
+var _goService *goService
+
 // Re-use everything in echoGen, only use different template
 type goGen struct {
 	DataTypes []*data.MessageData
@@ -24,18 +26,16 @@ func (g *goService) CommonError() string {
 }
 
 func (g *goService) HasCommonError() bool {
-	_, ok := g.ServiceData.Options["common_error"]
-	return ok
+	return g.ServiceData.CommonErrorType != ""
 }
 
 func (g *goService) hasCommonError(field string) bool {
-	errType, ok := g.ServiceData.Options["common_error"]
-	if !ok {
+	if !g.HasCommonError() {
 		return false
 	}
 
 	for _, t := range g.Gen.DataTypes {
-		if t.Name == errType {
+		if t.Name == g.ServiceData.CommonErrorType {
 			for _, f := range t.Fields {
 				if f.Name == field {
 					return true
@@ -58,7 +58,8 @@ func (g *goGen) genGoServie(service *data.ServiceData) string {
 	buf := bytes.NewBufferString("")
 
 	obj := newEchoService(service, g.PackageName)
-	err := g.serviceTpl.Execute(buf, &goService{obj, g})
+	_goService = &goService{obj, g}
+	err := g.serviceTpl.Execute(buf, _goService)
 	if err != nil {
 		util.Die(err)
 	}
@@ -74,17 +75,24 @@ func (g *goGen) Init(request *plugin.CodeGeneratorRequest) {
 }
 
 func (g *goGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
-	g.serviceTpl = nil
 	g.DataTypes = messages
-	result, err = g.echoGen.Gen(applicationName, packageName, service, messages, enums, options)
 
 	// Temporary hack from go server gen here
 	// Should rewrite goGen completely later
-	g.serviceTpl = g.getTpl("/generator/template/go/service.gogo")
+	if service == nil {
+		g.serviceTpl = nil
+		result, err = g.echoGen.Gen(applicationName, packageName, service, messages, enums, options)
+		return
+	}
 
-	filename := genEchoFileName(g.PackageName, service)
-	content := g.genGoServie(service)
-	result[filename] = content
+	g.serviceTpl = g.getTpl("/generator/template/go/service.gogo")
+	serviceContent := g.genGoServie(service)
+	serviceFilename := genEchoFileName(g.PackageName, service)
+	g.serviceTpl = nil
+
+	result, err = g.echoGen.Gen(applicationName, packageName, service, messages, enums, options)
+	result[serviceFilename] = serviceContent
+
 	return
 }
 
