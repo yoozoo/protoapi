@@ -25,20 +25,6 @@ var (
 	rgxSyntaxError = regexp.MustCompile(`(\d+):\d+: `)
 )
 
-func toGoType(dataType string, label string) string {
-	// if not primary type return data type and ignore the . in the data type
-	if _, ok := wrapperTypes[dataType]; !ok {
-		dataType = "*" + dataType
-	}
-
-	// check if the field is repeated
-	if label == data.FieldRepeatedLabel {
-		dataType = "[]" + dataType
-	}
-
-	return dataType
-}
-
 type echoGen struct {
 	ApplicationName string
 	PackageName     string
@@ -96,10 +82,10 @@ func (g *echoGen) getStructFilename(packageName string, msg *data.MessageData) s
 	return packageName + "/" + msg.Name + ".go"
 }
 
-func (g *echoGen) genStruct(msg *data.MessageData) string {
+func (g *echoGen) genStruct(msg *data.MessageData, enums []*data.EnumData) string {
 	buf := bytes.NewBufferString("")
 
-	obj := newEchoStruct(msg, g.PackageName)
+	obj := newEchoStruct(msg, g.PackageName, enums)
 	err := g.structTpl.Execute(buf, obj)
 	if err != nil {
 		util.Die(err)
@@ -184,7 +170,7 @@ func (g *echoGen) Gen(applicationName string, packageName string, service *data.
 
 	for _, msg := range messages {
 		filename := g.getStructFilename(g.PackageName, msg)
-		content := g.genStruct(msg)
+		content := g.genStruct(msg, enums)
 
 		result[filename] = content
 	}
