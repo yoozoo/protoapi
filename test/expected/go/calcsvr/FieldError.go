@@ -4,8 +4,8 @@ package calcsvr
 
 // FieldError
 type FieldError struct {
-	FieldName string             `json:"fieldName"`
-	ErrorType *ValidateErrorType `json:"errorType"`
+	FieldName string            `json:"fieldName"`
+	ErrorType ValidateErrorType `json:"errorType"`
 }
 
 func (r *FieldError) GetFieldName() string {
@@ -16,9 +16,9 @@ func (r *FieldError) GetFieldName() string {
 	return r.FieldName
 }
 
-func (r *FieldError) GetErrorType() *ValidateErrorType {
+func (r *FieldError) GetErrorType() ValidateErrorType {
 	if r == nil {
-		var zeroVal *ValidateErrorType
+		var zeroVal ValidateErrorType
 		return zeroVal
 	}
 	return r.ErrorType

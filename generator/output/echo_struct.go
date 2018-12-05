@@ -8,6 +8,7 @@ import (
 
 type echoField struct {
 	data.MessageField
+	isEnum bool
 }
 
 func (s *echoField) Title() string {
@@ -15,7 +16,18 @@ func (s *echoField) Title() string {
 }
 
 func (s *echoField) Type() string {
-	return toGoType(s.MessageField.DataType, s.MessageField.Label)
+	// if not primary type return data type and ignore the . in the data type
+	dataType := s.DataType
+        if _, ok := wrapperTypes[dataType]; !ok && !s.isEnum {
+                dataType = "*" + dataType
+        }
+
+        // check if the field is repeated
+        if s.Label == data.FieldRepeatedLabel {
+                dataType = "[]" + dataType
+        }
+
+        return dataType
 }
 
 func (s *echoField) ValidateRequired() bool {
@@ -32,7 +44,7 @@ func (s *echoField) ValidateFormat() string {
 	return ""
 }
 
-func newEchoStruct(msg *data.MessageData, packageName string) *echoStruct {
+func newEchoStruct(msg *data.MessageData, packageName string, enums []*data.EnumData) *echoStruct {
 	ss := strings.Split(packageName, "/")
 	s := ss[len(ss)-1]
 	o := &echoStruct{
@@ -40,7 +52,7 @@ func newEchoStruct(msg *data.MessageData, packageName string) *echoStruct {
 		s,
 		nil,
 	}
-	o.init()
+	o.init(enums)
 	return o
 }
 
@@ -50,10 +62,17 @@ type echoStruct struct {
 	Fields  []*echoField
 }
 
-func (s *echoStruct) init() {
+func (s *echoStruct) init(enums []*data.EnumData) {
 	s.Fields = make([]*echoField, len(s.MessageData.Fields))
 	for i, f := range s.MessageData.Fields {
-		s.Fields[i] = &echoField{f}
+		isEnum := false
+		for _, enum := range enums {
+			if enum.Name == f.DataType {
+				isEnum = true
+				break
+			}
+		}
+		s.Fields[i] = &echoField{f, isEnum}
 	}
 }
 

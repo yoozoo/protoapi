@@ -4,13 +4,13 @@ package apisvr
 
 // Error
 type Error struct {
-	Code    *ErrorCode `json:"code"`
-	Message string     `json:"message"`
+	Code    ErrorCode `json:"code"`
+	Message string    `json:"message"`
 }
 
-func (r *Error) GetCode() *ErrorCode {
+func (r *Error) GetCode() ErrorCode {
 	if r == nil {
-		var zeroVal *ErrorCode
+		var zeroVal ErrorCode
 		return zeroVal
 	}
 	return r.Code
