@@ -130,9 +130,19 @@ func genEchoPackageName(packageName string) string {
 	return strings.Replace(packageName, ".", "_", -1)
 }
 
+func isInStringArray(str string, arr []string) bool {
+	for _, s := range arr {
+		if str == s {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (g *echoGen) Init(request *plugin.CodeGeneratorRequest) {
 	for _, file := range request.ProtoFile {
-		if file.GetName() == googleDescriptorProtoName {
+		if !isInStringArray(file.GetName(), request.FileToGenerate) {
 			continue
 		}
 
