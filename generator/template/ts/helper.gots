@@ -73,7 +73,7 @@ export function generateQueryUrl<T>(url: string, params: T): string {
         return url;
     }
 
-    let parts = [];
+    let parts: string[] = [];
 
 
     for (let key in params) {
@@ -83,7 +83,7 @@ export function generateQueryUrl<T>(url: string, params: T): string {
         }
 
         if (val === null || typeof val === 'undefined') {
-            return;
+            return '';
         }
 
         let k, vals;
