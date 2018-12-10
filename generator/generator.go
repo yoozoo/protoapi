@@ -94,7 +94,11 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 }
 
 func parseMessageDataType(dataType string) string {
-	return dataType[strings.LastIndexByte(dataType, '.')+1:]
+	if strings.HasPrefix(dataType, ".") {
+		return dataType[1:]
+	}
+
+	return dataType
 }
 
 // getMessages returns the flattened message and enum definitions generated from the discriptors
@@ -125,13 +129,13 @@ func getMessages(files []*descriptor.FileDescriptorProto) ([]*data.MessageData, 
 }
 
 // map MethodDescriptorProto to Method
-func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.Method {
+func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []*data.Method {
 	methods := service.GetMethod()
 	serviceName := service.GetName()
-	var resultMtd []data.Method
+	var resultMtd []*data.Method
 	log.Printf("proto pkg: %s\n", pkg)
 	for _, mtd := range methods {
-		var mtdData = data.Method{
+		var mtdData = &data.Method{
 			Name:       mtd.GetName(),
 			InputType:  parseMessageDataType(mtd.GetInputType()),
 			OutputType: parseMessageDataType(mtd.GetOutputType()),
@@ -598,6 +602,24 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 		util.Die(fmt.Errorf("found %d services; only 1 service is supported now", len(services)))
 	} else if len(services) == 1 {
 		service = services[0]
+	}
+
+	data.Setup(request)
+
+	// temporary hack to ignore namespace for current package
+	// should have more strict handling later
+	if service != nil {
+		for _, m := range service.Methods {
+			msg, file := data.GetMessageProtoAndFile(m.InputType)
+			if file.IsFileToGenerate {
+				m.InputType = msg.Proto.GetName()
+			}
+
+			msg, file = data.GetMessageProtoAndFile(m.OutputType)
+			if file.IsFileToGenerate {
+				m.OutputType = msg.Proto.GetName()
+			}
+		}
 	}
 
 	if gen, ok := data.OutputMap[outputLang]; ok {

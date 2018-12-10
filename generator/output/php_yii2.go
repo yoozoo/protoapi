@@ -39,7 +39,7 @@ func (g *yii2Gen) Init(request *plugin.CodeGeneratorRequest) {
 }
 
 /* generate functions */
-func (g *yii2Gen) genController(methods []data.Method) error {
+func (g *yii2Gen) genController(methods []*data.Method) error {
 	obj := yii2.NewController(g.NameSpace, methods)
 	err := obj.Gen(g.result)
 	if err != nil {
@@ -67,7 +67,7 @@ func (g *yii2Gen) genError(msg *data.MessageData) error {
 	return nil
 }
 
-func (g *yii2Gen) genHandler(methods []data.Method) error {
+func (g *yii2Gen) genHandler(methods []*data.Method) error {
 	obj := yii2.NewHandler(methods, g.NameSpace)
 
 	err := obj.Gen(g.result)

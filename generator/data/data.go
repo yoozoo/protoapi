@@ -111,7 +111,7 @@ type Method struct {
 
 type ServiceData struct {
 	Name            string
-	Methods         []Method
+	Methods         []*Method
 	Options         OptionMap
 	CommonErrorType string
 	Service         *descriptor.ServiceDescriptorProto

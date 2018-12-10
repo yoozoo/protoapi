@@ -59,6 +59,6 @@ func (s *echoService) init() {
 		mtd := f
 		mtd.InputType = strings.Title(mtd.InputType)
 		mtd.OutputType = strings.Title(mtd.OutputType)
-		s.Methods[i] = &echoMethod{&mtd, s.Name}
+		s.Methods[i] = &echoMethod{mtd, s.Name}
 	}
 }
