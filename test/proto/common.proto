@@ -2,7 +2,9 @@ syntax = "proto3";
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "rpccommon";
+package protoapi.common;
+
+option go_package = "github.com/yoozoo/protoapi/common";
 
 extend google.protobuf.MethodOptions {
   string service_method = 51006;
