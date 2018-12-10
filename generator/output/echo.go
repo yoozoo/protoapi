@@ -179,6 +179,11 @@ func (g *echoGen) Gen(applicationName string, packageName string, service *data.
 	result = make(map[string]string)
 
 	for _, msg := range messages {
+		f := data.GetProtoFile(msg.File)
+		if !f.IsFileToGenerate {
+			continue
+		}
+
 		filename := g.getStructFilename(g.PackageName, msg)
 		content := g.genStruct(msg, enums)
 

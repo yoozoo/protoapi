@@ -15,6 +15,7 @@ import (
 // GenerateReq is the code-gen request struct passed to generators
 type GenerateReq struct {
 	Files      map[string]*ProtoFile
+	PackageMap map[string]*ProtoFile
 	MessageMap map[string]*ProtoMessage
 }
 
@@ -27,12 +28,14 @@ func Setup(request *plugin.CodeGeneratorRequest) {
 func NewGenerateReq(request *plugin.CodeGeneratorRequest) *GenerateReq {
 	result := &GenerateReq{}
 	result.Files = make(map[string]*ProtoFile)
+	result.PackageMap = make(map[string]*ProtoFile)
 	result.MessageMap = make(map[string]*ProtoMessage)
 
 	for _, file := range request.ProtoFile {
 		pf := NewProtoFile(file)
 		pkg := file.GetPackage()
-		result.Files[pkg] = pf
+		result.PackageMap[pkg] = pf
+		result.Files[file.GetName()] = pf
 
 		if pkg != "" {
 			pkg = pkg + "."
@@ -50,6 +53,15 @@ func NewGenerateReq(request *plugin.CodeGeneratorRequest) *GenerateReq {
 	return result
 }
 
+func GetProtoFile(filename string) (file *ProtoFile) {
+	file = _req.Files[filename]
+
+	if file == nil {
+		log.Println("proto file not found: " + filename)
+	}
+	return
+}
+
 func GetMessageProtoAndFile(name string) (msg *ProtoMessage, file *ProtoFile) {
 	var pkg string
 
@@ -63,7 +75,7 @@ func GetMessageProtoAndFile(name string) (msg *ProtoMessage, file *ProtoFile) {
 		pkg = name[:pos]
 	}
 
-	file = _req.Files[pkg]
+	file = _req.PackageMap[pkg]
 
 	if file == nil {
 		log.Println("pkg not found: " + pkg)
