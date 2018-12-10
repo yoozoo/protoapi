@@ -54,7 +54,7 @@ type tsStruct struct {
 	ClassName string
 	DataTypes []*data.MessageData
 	Enums     []*data.EnumData
-	Functions []data.Method
+	Functions []*data.Method
 	Gen       *tsGen
 }
 
@@ -81,7 +81,7 @@ func getServiceMtd(options data.OptionMap) string {
 	return "POST"
 }
 
-func getImportDataTypes(mtds []data.Method) map[string]bool {
+func getImportDataTypes(mtds []*data.Method) map[string]bool {
 	res := make(map[string]bool)
 
 	for _, mtd := range mtds {

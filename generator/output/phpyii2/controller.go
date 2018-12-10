@@ -11,7 +11,7 @@ import (
 )
 
 // NewController return a pointer of new controller struct
-func NewController(nameSpace string, methods []data.Method) *Controller {
+func NewController(nameSpace string, methods []*data.Method) *Controller {
 
 	fileDir := strings.Replace(nameSpace, "\\", "/", -1)
 	filePath := fileDir + "/controllers/ApiController.php"
@@ -24,7 +24,7 @@ func NewController(nameSpace string, methods []data.Method) *Controller {
 type Controller struct {
 	NameSpace string
 	FilePath  string
-	Methods   []data.Method
+	Methods   []*data.Method
 }
 
 func (p *Controller) escape(s string) string {

@@ -10,7 +10,7 @@ import (
 )
 
 // NewHandler return a pointer of new handler struct
-func NewHandler(methods []data.Method, baseNameSpace string) *Handler {
+func NewHandler(methods []*data.Method, baseNameSpace string) *Handler {
 	nameSpace := baseNameSpace + "\\handlers"
 	o := &Handler{methods, nameSpace, baseNameSpace}
 	return o
@@ -18,7 +18,7 @@ func NewHandler(methods []data.Method, baseNameSpace string) *Handler {
 
 // Handler is struct of php handler class
 type Handler struct {
-	Methods       []data.Method
+	Methods       []*data.Method
 	NameSpace     string
 	BaseNameSpace string
 }

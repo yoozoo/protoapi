@@ -17,7 +17,7 @@ type phpStruct struct {
 	NameSpace string
 	Name      string
 	Messages  []*data.MessageData
-	Methods   []data.Method
+	Methods   []*data.Method
 	Enums     []*data.EnumData
 	Time      string
 	ComErr    *data.MessageData

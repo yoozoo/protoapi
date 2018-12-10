@@ -129,13 +129,13 @@ func getMessages(files []*descriptor.FileDescriptorProto) ([]*data.MessageData, 
 }
 
 // map MethodDescriptorProto to Method
-func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []data.Method {
+func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []*data.Method {
 	methods := service.GetMethod()
 	serviceName := service.GetName()
-	var resultMtd []data.Method
+	var resultMtd []*data.Method
 	log.Printf("proto pkg: %s\n", pkg)
 	for _, mtd := range methods {
-		var mtdData = data.Method{
+		var mtdData = &data.Method{
 			Name:       mtd.GetName(),
 			InputType:  parseMessageDataType(mtd.GetInputType()),
 			OutputType: parseMessageDataType(mtd.GetOutputType()),
