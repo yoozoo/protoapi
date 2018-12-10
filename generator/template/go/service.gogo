@@ -40,7 +40,8 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 		resp{{if ne .ErrorType "" }}, bizError{{end}}, err := srv.{{.Title}}(c, req)
 		if err != nil {
 			{{if $s.HasCommonError}}
-			if e := err.(*{{$s.CommonError}}); e != nil {
+			// e:= err.(*{{$s.CommonError}}) will panic if assertion fail, which is not what we want
+			if e, ok := err.(*{{$s.CommonError}}); ok {
 				return c.JSON(420, e)
 			}
 			{{end}}
@@ -60,6 +61,10 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 
 // Register{{.Name}} is used to bind routers
 func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
+	Register{{.Name}}WithPrefix(e, srv, "")
+}
+// Register{{.Name}}WithPrefix is used to bind routers with custom prefix
+func Register{{.Name}}WithPrefix(e *echo.Echo, srv {{.Name}}, prefix string) {
 	// switch to strict JSONAPIBinder, if using echo's DefaultBinder
 	if _, ok := e.Binder.(*echo.DefaultBinder); ok {
 		e.Binder = new(protoapigo.JSONAPIBinder)
@@ -67,11 +72,11 @@ func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
 
 	{{- range .Methods }}
 	{{- if ne .ServiceType "POST" }}
-	e.GET("{{.Path}}", _{{.Name}}_Handler(srv))
+	e.GET(prefix + "{{.Path}}", _{{.Name}}_Handler(srv))
 	{{- end }}
 
 	{{- if ne .ServiceType "GET" }}
-	e.POST("{{.Path}}", _{{.Name}}_Handler(srv))
+	e.POST(prefix + "{{.Path}}", _{{.Name}}_Handler(srv))
 	{{- end }}
 	{{- end }}
 }
