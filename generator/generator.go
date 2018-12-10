@@ -94,7 +94,11 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 }
 
 func parseMessageDataType(dataType string) string {
-	return dataType[strings.LastIndexByte(dataType, '.')+1:]
+	if strings.HasPrefix(dataType, ".") {
+		return dataType[1:]
+	}
+
+	return dataType
 }
 
 // getMessages returns the flattened message and enum definitions generated from the discriptors
