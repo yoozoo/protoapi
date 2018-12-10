@@ -606,6 +606,22 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 
 	data.Setup(request)
 
+	// temporary hack to ignore namespace for current package
+	// should have more strict handling later
+	if service != nil {
+		for _, m := range service.Methods {
+			msg, file := data.GetMessageProtoAndFile(m.InputType)
+			if file.IsFileToGenerate {
+				m.InputType = msg.Proto.GetName()
+			}
+
+			msg, file = data.GetMessageProtoAndFile(m.OutputType)
+			if file.IsFileToGenerate {
+				m.OutputType = msg.Proto.GetName()
+			}
+		}
+	}
+
 	if gen, ok := data.OutputMap[outputLang]; ok {
 		response := new(plugin.CodeGeneratorResponse)
 		gen.Init(request)
