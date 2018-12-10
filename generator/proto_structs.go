@@ -3,6 +3,7 @@ package generator
 import (
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
+	"github.com/yoozoo/protoapi/util"
 )
 
 // define file/message/field structs to be used in language generators
@@ -13,15 +14,6 @@ type GenerateReq struct {
 	Files map[string]*ProtoFile
 }
 
-func isStrInSlice(str string, slice []string) bool {
-	for _, s := range slice {
-		if s == str {
-			return true
-		}
-	}
-	return false
-}
-
 func NewGenerateReq(request *plugin.CodeGeneratorRequest) *GenerateReq {
 	result := &GenerateReq{}
 	result.Files = make(map[string]*ProtoFile)
@@ -30,13 +22,9 @@ func NewGenerateReq(request *plugin.CodeGeneratorRequest) *GenerateReq {
 		pf := NewProtoFile(file)
 		result.Files[file.GetName()] = pf
 
-		if isStrInSlice(file.GetName(), request.FileToGenerate) {
+		if util.IsStrInSlice(file.GetName(), request.FileToGenerate) {
 			pf.IsFileToGenerate = true
 		}
-	}
-
-	for name, f := range result.Files {
-		println(name, f.IsFileToGenerate)
 	}
 
 	return result

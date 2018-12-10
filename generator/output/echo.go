@@ -142,7 +142,7 @@ func isInStringArray(str string, arr []string) bool {
 
 func (g *echoGen) Init(request *plugin.CodeGeneratorRequest) {
 	for _, file := range request.ProtoFile {
-		if !isInStringArray(file.GetName(), request.FileToGenerate) {
+		if !util.IsStrInSlice(file.GetName(), request.FileToGenerate) {
 			continue
 		}
 
