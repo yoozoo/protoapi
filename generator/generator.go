@@ -604,8 +604,7 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 		service = services[0]
 	}
 
-	r := NewGenerateReq(request)
-	util.Die(fmt.Errorf("%v", r))
+	data.Setup(request)
 
 	if gen, ok := data.OutputMap[outputLang]; ok {
 		response := new(plugin.CodeGeneratorResponse)

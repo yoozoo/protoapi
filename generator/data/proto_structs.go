@@ -1,6 +1,9 @@
-package generator
+package data
 
 import (
+	"log"
+	"strings"
+
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"github.com/yoozoo/protoapi/util"
@@ -11,23 +14,61 @@ import (
 
 // GenerateReq is the code-gen request struct passed to generators
 type GenerateReq struct {
-	Files map[string]*ProtoFile
+	Files      map[string]*ProtoFile
+	MessageMap map[string]*ProtoMessage
+}
+
+var _req *GenerateReq
+
+func Setup(request *plugin.CodeGeneratorRequest) {
+	_req = NewGenerateReq(request)
 }
 
 func NewGenerateReq(request *plugin.CodeGeneratorRequest) *GenerateReq {
 	result := &GenerateReq{}
 	result.Files = make(map[string]*ProtoFile)
+	result.MessageMap = make(map[string]*ProtoMessage)
 
 	for _, file := range request.ProtoFile {
 		pf := NewProtoFile(file)
-		result.Files[file.GetName()] = pf
+		pkg := file.GetPackage()
+		result.Files[pkg] = pf
+
+		if pkg != "" {
+			pkg = pkg + "."
+		}
 
 		if util.IsStrInSlice(file.GetName(), request.FileToGenerate) {
 			pf.IsFileToGenerate = true
 		}
+
+		for name, m := range pf.Messages {
+			result.MessageMap[pkg+name] = m
+		}
 	}
 
 	return result
+}
+
+func GetMessageProtoAndFile(name string) (msg *ProtoMessage, file *ProtoFile) {
+	var pkg string
+
+	msg = _req.MessageMap[name]
+	if msg == nil {
+		log.Println("msg not found: " + name)
+	}
+	pos := strings.LastIndex(name, ".")
+
+	if pos > -1 {
+		pkg = name[:pos]
+	}
+
+	file = _req.Files[pkg]
+
+	if file == nil {
+		log.Println("pkg not found: " + pkg)
+	}
+	return
 }
 
 // ProtoFile is a thin wrapper around descriptor.FileDescriptorProto
