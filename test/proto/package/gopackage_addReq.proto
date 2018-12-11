@@ -1,0 +1,12 @@
+/**
+ * 这个文件用于生成相关的前后端API代码
+ * 用protoapi指定此文件生成相关代码
+ */
+syntax = "proto3";
+
+option go_package = "calcsvr";
+
+message AddReq {
+  int32 x = 1;
+  int32 y = 2;
+}
