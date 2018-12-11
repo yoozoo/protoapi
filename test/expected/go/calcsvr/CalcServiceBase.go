@@ -40,9 +40,14 @@ func _add_Handler(srv CalcService) echo.HandlerFunc {
 
 // RegisterCalcService is used to bind routers
 func RegisterCalcService(e *echo.Echo, srv CalcService) {
+	RegisterCalcServiceWithPrefix(e, srv, "")
+}
+
+// RegisterCalcServiceWithPrefix is used to bind routers with custom prefix
+func RegisterCalcServiceWithPrefix(e *echo.Echo, srv CalcService, prefix string) {
 	// switch to strict JSONAPIBinder, if using echo's DefaultBinder
 	if _, ok := e.Binder.(*echo.DefaultBinder); ok {
 		e.Binder = new(protoapigo.JSONAPIBinder)
 	}
-	e.POST("/CalcService.add", _add_Handler(srv))
+	e.POST(prefix+"/CalcService.add", _add_Handler(srv))
 }

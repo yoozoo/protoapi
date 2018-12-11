@@ -37,7 +37,8 @@ func _add_Handler(srv TodolistService) echo.HandlerFunc {
 		resp, bizError, err := srv.Add(c, req)
 		if err != nil {
 
-			if e := err.(*CommonError); e != nil {
+			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
+			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
 
@@ -71,7 +72,8 @@ func _list_Handler(srv TodolistService) echo.HandlerFunc {
 		resp, err := srv.List(c, req)
 		if err != nil {
 
-			if e := err.(*CommonError); e != nil {
+			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
+			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
 
@@ -84,10 +86,15 @@ func _list_Handler(srv TodolistService) echo.HandlerFunc {
 
 // RegisterTodolistService is used to bind routers
 func RegisterTodolistService(e *echo.Echo, srv TodolistService) {
+	RegisterTodolistServiceWithPrefix(e, srv, "")
+}
+
+// RegisterTodolistServiceWithPrefix is used to bind routers with custom prefix
+func RegisterTodolistServiceWithPrefix(e *echo.Echo, srv TodolistService, prefix string) {
 	// switch to strict JSONAPIBinder, if using echo's DefaultBinder
 	if _, ok := e.Binder.(*echo.DefaultBinder); ok {
 		e.Binder = new(protoapigo.JSONAPIBinder)
 	}
-	e.POST("/TodolistService.add", _add_Handler(srv))
-	e.POST("/TodolistService.list", _list_Handler(srv))
+	e.POST(prefix+"/TodolistService.add", _add_Handler(srv))
+	e.POST(prefix+"/TodolistService.list", _list_Handler(srv))
 }

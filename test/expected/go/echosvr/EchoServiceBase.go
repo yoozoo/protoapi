@@ -37,9 +37,14 @@ func _echo_Handler(srv EchoService) echo.HandlerFunc {
 
 // RegisterEchoService is used to bind routers
 func RegisterEchoService(e *echo.Echo, srv EchoService) {
+	RegisterEchoServiceWithPrefix(e, srv, "")
+}
+
+// RegisterEchoServiceWithPrefix is used to bind routers with custom prefix
+func RegisterEchoServiceWithPrefix(e *echo.Echo, srv EchoService, prefix string) {
 	// switch to strict JSONAPIBinder, if using echo's DefaultBinder
 	if _, ok := e.Binder.(*echo.DefaultBinder); ok {
 		e.Binder = new(protoapigo.JSONAPIBinder)
 	}
-	e.POST("/EchoService.echo", _echo_Handler(srv))
+	e.POST(prefix+"/EchoService.echo", _echo_Handler(srv))
 }
