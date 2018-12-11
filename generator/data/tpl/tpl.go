@@ -269,14 +269,14 @@ wLXON23rtCqFE78DAAD//3AqAjycAwAA
 	"/generator/template/go/enum.gogo": {
 		name:    "enum.gogo",
 		local:   "generator/template/go/enum.gogo",
-		size:    490,
+		size:    494,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/3SQQWv6QBTEz3mfYhAPu/BX7/7JqbbgRQuVXsTDmryGUN0Nm81BlvfdyyYxUqi34TEz
-78esVnhxJaNiy94ELnG+ofEuONPU/7HZY7c/4HWzPSyJGlN8m4oR4/J9kCJE4db0p525sghqG4gKZ9sA
-RVmMC3hjK8byreZL2UIkXe/uGOd3maeST3PpeLAswLYUIU301dkCqkigU1TjI/jaVkqj7QUiZdZcucU6
-x9U0x8l6GgyRsic8D6A1ZpOe/RsDA0cmRJnn0HmL/s8xAZ1InvGlYZVOgyS0MalqG3Rv1ST0J87vuvnU
-t22ncqVxdu6CSAAwVveBPH8gjA/YlhD5CQAA//+hO0wK6gEAAA==
+H4sIAAAAAAAC/3SQsWrzMBSFZ9+nOIQMEvxxdv94alrIkhQauoQMin1rTG3JyPIQhN69yHYcCs12EOd8
++rjbLV5MyahYs1WOS1xv6KxxRnV1Vpn/2B1xOJ7wutufUqJOFd+qYnifvk8xBCJ368ang2o5BNTaERVG
+9w6CEu83sEpXjPSt5qbsEUJ8vbe9X99jHiGfqhl4qmzAugyBJNHXoAuIIrouU4kPZ2tdCYl+DPCUaNVy
+jyxHq7rzUr1MBU/JE5+HUIbVklf/5sHkkQSixLIbrMb4zzkKXSg884u3FTIeJKrNS1FrJ8eqpEB/6vzG
+rRfevl/gQuJqTANPADCjx0GePxTmD1iXEfsTAAD///3pkaPuAQAA
 `,
 	},
 
