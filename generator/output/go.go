@@ -2,6 +2,8 @@ package output
 
 import (
 	"bytes"
+	"fmt"
+	"sort"
 	"strings"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
@@ -24,7 +26,7 @@ type goService struct {
 
 // GetGoPackageAndType convert proto data type like protoapi.common.error to common.Error
 // and return its package name in go
-func GetGoPackageAndType(dataType string) (isFileToGenerate bool, pkg, refType string) {
+func getGoPackageAndType(dataType string) (isFileToGenerate bool, pkg, refType string) {
 	_, p := data.GetMessageProtoAndFile(dataType)
 	isFileToGenerate = p.IsFileToGenerate
 
@@ -36,6 +38,53 @@ func GetGoPackageAndType(dataType string) (isFileToGenerate bool, pkg, refType s
 	refType = pkgName + "." + structName
 
 	return
+}
+
+func appendGoImport(imports []string, dataType string) []string {
+	if !strings.Contains(dataType, ".") {
+		return imports
+	}
+
+	isFileToGenerate, pkg, refType := getGoPackageAndType(dataType)
+
+	if !isFileToGenerate {
+		if !util.IsStrInSlice(`"`+pkg+`"`, imports) {
+			imports = append(imports, `"`+pkg+`"`)
+		}
+
+		importGoTypes[dataType] = refType
+	}
+
+	return imports
+}
+
+func getGoImport(imports []string) (result string) {
+	if len(imports) == 0 {
+		return ""
+	}
+
+	sort.Slice(imports, func(i, j int) bool {
+		return imports[i] > imports[j]
+	})
+
+	result = fmt.Sprintf(`import (
+	%s
+)
+`, strings.Join(imports, "\n\t"))
+
+	return
+}
+
+func (g *goService) Imports() (result string) {
+	var imports []string
+
+	for _, m := range g.Methods {
+		imports = appendGoImport(imports, m.InputType)
+		imports = appendGoImport(imports, m.OutputType)
+		imports = appendGoImport(imports, m.ErrorType())
+	}
+
+	return getGoImport(imports)
 }
 
 func (g *goService) CommonError() string {
@@ -72,6 +121,8 @@ func (g *goService) HasCommonValidateError() bool {
 }
 
 func (g *goGen) genGoServie(service *data.ServiceData) string {
+	importGoTypes = make(map[string]string)
+
 	buf := bytes.NewBufferString("")
 
 	obj := newEchoService(service, g.PackageName)

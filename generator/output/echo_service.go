@@ -35,6 +35,30 @@ func (m *echoMethod) ErrorType() string {
 	return ""
 }
 
+func (m *echoMethod) wrapType(dataType string) string {
+	if val, ok := importGoTypes[dataType]; ok {
+		dataType = val
+	}
+
+	if _, ok := wrapperTypes[dataType]; !ok {
+		dataType = "*" + dataType
+	}
+
+	return dataType
+}
+
+func (m *echoMethod) ErrorGoType() string {
+	return m.wrapType(m.ErrorType())
+}
+
+func (m *echoMethod) InputGoType() string {
+	return m.wrapType(m.InputType)
+}
+
+func (m *echoMethod) OutputGoType() string {
+	return m.wrapType(m.OutputType)
+}
+
 type echoService struct {
 	*data.ServiceData
 	Package string
@@ -57,8 +81,6 @@ func (s *echoService) init() {
 	s.Methods = make([]*echoMethod, len(s.ServiceData.Methods))
 	for i, f := range s.ServiceData.Methods {
 		mtd := f
-		mtd.InputType = strings.Title(mtd.InputType)
-		mtd.OutputType = strings.Title(mtd.OutputType)
 		s.Methods[i] = &echoMethod{mtd, s.Name}
 	}
 }

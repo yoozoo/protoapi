@@ -1,12 +1,9 @@
 package output
 
 import (
-	"fmt"
-	"sort"
 	"strings"
 
 	"github.com/yoozoo/protoapi/generator/data"
-	"github.com/yoozoo/protoapi/util"
 )
 
 type echoField struct {
@@ -91,35 +88,10 @@ func (s *echoStruct) Imports() (result string) {
 	var imports []string
 
 	for _, f := range s.MessageData.Fields {
-		if !strings.Contains(f.DataType, ".") {
-			continue
-		}
-
-		isFileToGenerate, pkg, refType := GetGoPackageAndType(f.DataType)
-
-		if !isFileToGenerate {
-			if !util.IsStrInSlice(`"`+pkg+`"`, imports) {
-				imports = append(imports, `"`+pkg+`"`)
-			}
-
-			importGoTypes[f.DataType] = refType
-		}
+		imports = appendGoImport(imports, f.DataType)
 	}
 
-	if len(imports) == 0 {
-		return ""
-	}
-
-	sort.Slice(imports, func(i, j int) bool {
-		return imports[i] > imports[j]
-	})
-
-	result = fmt.Sprintf(`import (
-	%s
-)
-`, strings.Join(imports, "\n\t"))
-
-	return
+	return getGoImport(imports)
 }
 
 func (s *echoStruct) ClassName() string {
