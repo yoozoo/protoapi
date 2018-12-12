@@ -1,0 +1,36 @@
+/**
+ * 这个文件用于生成相关的前后端API代码
+ * 用protoapi指定此文件生成相关代码
+ */
+syntax = "proto3";
+
+import "common.proto";
+import "package_addReq.proto";
+
+package calcmain;
+option go_package = "calcsvrmain";
+
+message AddReq {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message AddResp {
+  int32 result = 1;
+}
+
+message AddError {
+  AddReq req = 1;
+  string error = 2;
+}
+
+service CalcService {
+  option (common.common_error) = "CommonError";
+  rpc add(AddReq) returns (AddResp) {
+    option (common.error) = "AddError";
+  }
+
+  rpc add2(calc.AddReq) returns (AddResp) {
+    option (common.error) = "AddError";
+  }
+}
