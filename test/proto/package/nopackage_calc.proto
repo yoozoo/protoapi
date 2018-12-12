@@ -20,6 +20,7 @@ message AddError {
 }
 
 service CalcService {
+  option (common.common_error) = "common.CommonError";
   rpc add(AddReq) returns (AddResp) {
     option (common.error) = "AddError";
   }

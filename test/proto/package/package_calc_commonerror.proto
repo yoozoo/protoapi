@@ -5,7 +5,7 @@
 syntax = "proto3";
 
 import "common.proto";
-import "mixpackage_addReq.proto";
+import "package_addReq.proto";
 
 package calcmain;
 option go_package = "calcsvrmain";
@@ -25,7 +25,7 @@ message AddError {
 }
 
 service CalcService {
-  option (common.common_error) = "common.CommonError";
+  option (common.common_error) = "CommonError";
   rpc add(AddReq) returns (AddResp) {
     option (common.error) = "AddError";
   }
