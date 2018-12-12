@@ -35,7 +35,7 @@ func (m *echoMethod) ErrorType() string {
 	return ""
 }
 
-func (m *echoMethod) wrapType(dataType string) string {
+func wrapGoType(dataType string) string {
 	if val, ok := importGoTypes[dataType]; ok {
 		dataType = val
 	}
@@ -48,15 +48,15 @@ func (m *echoMethod) wrapType(dataType string) string {
 }
 
 func (m *echoMethod) ErrorGoType() string {
-	return m.wrapType(m.ErrorType())
+	return wrapGoType(m.ErrorType())
 }
 
 func (m *echoMethod) InputGoType() string {
-	return m.wrapType(m.InputType)
+	return wrapGoType(m.InputType)
 }
 
 func (m *echoMethod) OutputGoType() string {
-	return m.wrapType(m.OutputType)
+	return wrapGoType(m.OutputType)
 }
 
 type echoService struct {

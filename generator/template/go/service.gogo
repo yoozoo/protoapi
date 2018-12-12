@@ -13,7 +13,6 @@ type {{.Name}} interface {
 	{{- range .Methods }}
 
 	{{.Title}}(c echo.Context, req {{.InputGoType}}) (resp {{.OutputGoType}}{{if ne .ErrorType ""}}, bizError *{{.ErrorGoType}}{{end}}, err error)
-	// {{.Title}}(echo.Context, *{{.InputType}}) (*{{.OutputType}}{{if ne .ErrorType ""}}, *{{.ErrorType}}{{end}})
 	{{- end }}
 }
 
@@ -24,7 +23,7 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 			{{if $s.HasCommonBindError}}
-			resp := {{$s.CommonError}}{BindError: &BindError{err.Error()}}
+			resp := {{$s.CommonErrorPointer}}{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 			{{else}}
 			return c.JSON(500, err)
@@ -33,7 +32,7 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 /*
 		{{if $s.HasCommonValidateError}}
 		if valErr := req.Validate(); valErr != nil {
-			resp := {{$s.CommonError}}{ValidateError: valErr}
+			resp := {{$s.CommonErrorPointer}}{ValidateError: valErr}
 			return c.JSON(420, resp)
 		}
 		{{end}}
@@ -41,8 +40,8 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 		resp{{if ne .ErrorType "" }}, bizError{{end}}, err := srv.{{.Title}}(c, req)
 		if err != nil {
 			{{if $s.HasCommonError}}
-			// e:= err.(*{{$s.CommonError}}) will panic if assertion fail, which is not what we want
-			if e, ok := err.(*{{$s.CommonError}}); ok {
+			// e:= err.({{$s.CommonError}}) will panic if assertion fail, which is not what we want
+			if e, ok := err.({{$s.CommonError}}); ok {
 				return c.JSON(420, e)
 			}
 			{{end}}

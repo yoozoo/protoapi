@@ -84,11 +84,24 @@ func (g *goService) Imports() (result string) {
 		imports = appendGoImport(imports, m.ErrorType())
 	}
 
+	if g.HasCommonError() {
+		imports = appendGoImport(imports, g.commonError())
+	}
+
 	return getGoImport(imports)
 }
 
-func (g *goService) CommonError() string {
+func (g *goService) commonError() string {
 	return g.ServiceData.Options["common_error"]
+}
+
+// CommonError returns common error in go type
+func (g *goService) CommonError() string {
+	return wrapGoType(g.commonError())
+}
+
+func (g *goService) CommonErrorPointer() string {
+	return "&" + wrapGoType(g.commonError())[1:]
 }
 
 func (g *goService) HasCommonError() bool {
