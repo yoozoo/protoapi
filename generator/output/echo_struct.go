@@ -1,15 +1,21 @@
 package output
 
 import (
+	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/yoozoo/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/util"
 )
 
 type echoField struct {
 	data.MessageField
 	isEnum bool
 }
+
+// this is ugly, should rely on proto_structs later
+var importGoTypes map[string]string
 
 func (s *echoField) Title() string {
 	return strings.Title(s.Name)
@@ -18,6 +24,10 @@ func (s *echoField) Title() string {
 func (s *echoField) Type() string {
 	// if not primary type return data type and ignore the . in the data type
 	dataType := s.DataType
+	if val, ok := importGoTypes[dataType]; ok {
+		dataType = val
+	}
+
 	if _, ok := wrapperTypes[dataType]; !ok && !s.isEnum {
 		dataType = "*" + dataType
 	}
@@ -63,6 +73,7 @@ type echoStruct struct {
 }
 
 func (s *echoStruct) init(enums []*data.EnumData) {
+	importGoTypes = make(map[string]string)
 	s.Fields = make([]*echoField, len(s.MessageData.Fields))
 	for i, f := range s.MessageData.Fields {
 		isEnum := false
@@ -74,6 +85,41 @@ func (s *echoStruct) init(enums []*data.EnumData) {
 		}
 		s.Fields[i] = &echoField{f, isEnum}
 	}
+}
+
+func (s *echoStruct) Imports() (result string) {
+	var imports []string
+
+	for _, f := range s.MessageData.Fields {
+		if !strings.Contains(f.DataType, ".") {
+			continue
+		}
+
+		isFileToGenerate, pkg, refType := GetGoPackageAndType(f.DataType)
+
+		if !isFileToGenerate {
+			if !util.IsStrInSlice(`"`+pkg+`"`, imports) {
+				imports = append(imports, `"`+pkg+`"`)
+			}
+
+			importGoTypes[f.DataType] = refType
+		}
+	}
+
+	if len(imports) == 0 {
+		return ""
+	}
+
+	sort.Slice(imports, func(i, j int) bool {
+		return imports[i] > imports[j]
+	})
+
+	result = fmt.Sprintf(`import (
+	%s
+)
+`, strings.Join(imports, "\n\t"))
+
+	return
 }
 
 func (s *echoStruct) ClassName() string {

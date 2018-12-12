@@ -2,6 +2,7 @@ package output
 
 import (
 	"bytes"
+	"strings"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"github.com/yoozoo/protoapi/generator/data"
@@ -19,6 +20,22 @@ type goGen struct {
 type goService struct {
 	*echoService
 	Gen *goGen
+}
+
+// GetGoPackageAndType convert proto data type like protoapi.common.error to common.Error
+// and return its package name in go
+func GetGoPackageAndType(dataType string) (isFileToGenerate bool, pkg, refType string) {
+	_, p := data.GetMessageProtoAndFile(dataType)
+	isFileToGenerate = p.IsFileToGenerate
+
+	pkg = p.Proto.GetOptions().GetGoPackage()
+
+	structName := dataType[strings.LastIndex(dataType, ".")+1:]
+	pkgName := pkg[strings.LastIndex(pkg, "/")+1:]
+
+	refType = pkgName + "." + structName
+
+	return
 }
 
 func (g *goService) CommonError() string {

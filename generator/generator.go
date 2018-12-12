@@ -374,13 +374,16 @@ func fixMessageName(messages []*data.MessageData, enums []*data.EnumData) {
 		enum.Name = name
 	}
 
-	// convert all message/enum names appeared in messages
 	for _, msg := range messages {
-		msg.Name = translateTable[msg.Name]
+		if strings.HasPrefix(msg.Name, ".") {
+			msg.Name = msg.Name[1:]
+		}
+
 		for idx := range msg.Fields {
-			if _, ok := translateTable[msg.Fields[idx].DataType]; ok {
-				// assign use the index access only, as the array is not a point array
-				msg.Fields[idx].DataType = translateTable[msg.Fields[idx].DataType]
+			dataType := msg.Fields[idx].DataType
+
+			if strings.HasPrefix(dataType, ".") {
+				msg.Fields[idx].DataType = dataType[1:]
 			}
 		}
 	}
