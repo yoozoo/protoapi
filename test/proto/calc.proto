@@ -6,7 +6,7 @@ syntax = "proto3";
 
 import "common.proto";
 
-option go_package = "api/calcsvr";
+option go_package = "calcsvr";
 
 message AddReq {
   int32 x = 1;
@@ -24,6 +24,6 @@ message AddError {
 
 service CalcService {
   rpc add(AddReq) returns (AddResp) {
-    option (protoapi.common.error) = "AddError";
+    option (error) = "AddError";
   }
 }
