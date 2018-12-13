@@ -41,7 +41,11 @@ func wrapGoType(dataType string) string {
 	}
 
 	if _, ok := wrapperTypes[dataType]; !ok {
-		dataType = "*" + dataType
+		if strings.Contains(dataType, ".") {
+			dataType = "*" + dataType
+		} else {
+			dataType = "*" + strings.Title(dataType)
+		}
 	}
 
 	return dataType
@@ -53,6 +57,15 @@ func (m *echoMethod) ErrorGoType() string {
 
 func (m *echoMethod) InputGoType() string {
 	return wrapGoType(m.InputType)
+}
+
+func (m *echoMethod) InputGoTypeName() string {
+	stmt := wrapGoType(m.InputType)
+	if strings.HasPrefix(stmt, "*") {
+		return stmt[1:]
+	}
+
+	return stmt
 }
 
 func (m *echoMethod) OutputGoType() string {

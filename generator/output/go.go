@@ -35,7 +35,7 @@ func getGoPackageAndType(dataType string) (isFileToGenerate bool, pkg, refType s
 	structName := dataType[strings.LastIndex(dataType, ".")+1:]
 	pkgName := pkg[strings.LastIndex(pkg, "/")+1:]
 
-	refType = pkgName + "." + structName
+	refType = pkgName + "." + strings.Title(structName)
 
 	return
 }

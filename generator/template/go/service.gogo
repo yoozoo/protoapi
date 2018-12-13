@@ -19,7 +19,7 @@ type {{.Name}} interface {
 {{- range .Methods }}
 func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
-		req := new({{.InputType}})
+		req := new({{.InputGoTypeName}})
 
 		if err = c.Bind(req); err != nil {
 			{{if $s.HasCommonBindError}}
