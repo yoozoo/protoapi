@@ -28,6 +28,10 @@ const (
 	PathSeparator = "/"
 	// FieldRepeatedLabel is the label for repeated data type
 	FieldRepeatedLabel = "LABEL_REPEATED"
+	// FieldOptionalLabel is the label for optional data type
+	FieldOptionalLabel = "LABEL_OPTIONAL"
+	// FieldRequiredLabel is the label for required data type
+	FieldRequiredLabel = "LABEL_REQUIRED"
 	// JavaPackageOption is Java package option constant
 	JavaPackageOption = "javaPackageOption"
 	// ServiceCommonErrorOption is service common_error option
