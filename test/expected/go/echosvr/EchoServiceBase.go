@@ -10,7 +10,6 @@ import (
 // EchoService is the interface contains all the controllers
 type EchoService interface {
 	Echo(c echo.Context, req *Msg) (resp *Msg, err error)
-	// Echo(echo.Context, *Msg) (*Msg)
 }
 
 func _echo_Handler(srv EchoService) echo.HandlerFunc {
