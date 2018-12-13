@@ -95,6 +95,11 @@ func (s *echoStruct) Imports() (result string) {
 }
 
 func (s *echoStruct) ClassName() string {
+	pos := strings.LastIndex(s.Name, ".")
+	if pos > 0 {
+		return strings.Title(s.Name[pos+1:])
+	}
+
 	return strings.Title(s.Name)
 }
 
