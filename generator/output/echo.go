@@ -170,7 +170,7 @@ func (g *echoGen) Gen(applicationName string, packageName string, service *data.
 
 	for _, msg := range messages {
 		f := data.GetProtoFile(msg.File)
-		if !f.IsFileToGenerate {
+		if !f.IsFileToGenerate && f.Proto.GetOptions().GetGoPackage() != "" {
 			continue
 		}
 
