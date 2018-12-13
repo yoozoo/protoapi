@@ -1,5 +1,11 @@
-.PHONY: expected
+.PHONY: copy gen
 
-expected:
+copy:
 	rm -rf expected/*
 	cp -r result/* expected
+
+gen:
+	../protoapi gen --lang=go expected/go proto/calc.proto
+	../protoapi gen --lang=go expected/go proto/test.proto
+	../protoapi gen --lang=go expected/go proto/echo.proto
+	../protoapi gen --lang=go expected/go proto/todolist.proto
