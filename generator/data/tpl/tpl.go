@@ -322,6 +322,25 @@ l9PuyPDiMq3/b1LgWueHtnVKVn6FUPGWnNYnb6Z6v9fKN937Z/aXDfJVUczvUaqSNbSjQ58Je+N/BQAA
 `,
 	},
 
+	"/generator/template/markdown.gomd": {
+		name:    "markdown.gomd",
+		local:   "generator/template/markdown.gomd",
+		size:    1263,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/6RSzW7bPBC88ykG1ndIAli6C8jhA5y2AfIDCE4vQQCvrZXMVn8mqaCuxHcvSMmOXNi5
+lBeSM8vRzo5eo+gtRoCr5VZqSA1CJgtGzhUrMpxivUejalNTI3H1zkrLugrb9ncbbuoyOlDX1+Io9fX4
+lkyMrkO4lCXD2knN4hlPz0vcLe6X4bXouugGC94UpGSV452UpHXByGqFirWTUlTljJvIWqf4X8lGI75F
++MhmW6ca1sKtgdMHTmvK2ZGi6wYF99KRXsHj7hQ+UcnWittLS4ggCP7HWknOkLLeKNkYWVexmONUwhUm
+vGtZG7wkD65ArFarl+RBuAa3xjRxFLWaVZgbUhtK2U+ylBtVR6PWS3JvrXt2Ild6r5NPfjOmeTTpqT09
+2tPaz2oOmYF3HvE9euvhfdW0Zrlv2NogCBpSVLJhFYsexwsqV44einetVJy6s9k3jH46A9Ejnk8W+pOr
+R8aKcT+2G36RXKTa2h5dN07Q5+juOZsHWnOB0G/WelRmkDrhhsl8EDNSivYzdB0Xmr3vcEGGBoMOrlJr
+e3Hg3Vg8dKDExUE9t2Y6qYRNqyrc/aKyKTgWLqQfuq5EJ4b/7y9jHp0dzc3iSxZe36bd52wWnH2nAmd8
+jF8aztPfxLf2Ed80o7O5+iwn6/NY8UmwZxI9DRT/HB7ENKvDadi9+5LUTy3EHJSm0jmgAmpEx8I/AQAA
+//+vZjf27wQAAA==
+`,
+	},
+
 	"/generator/template/php_client.gophp": {
 		name:    "php_client.gophp",
 		local:   "generator/template/php_client.gophp",
@@ -665,6 +684,7 @@ var _escDirs = map[string][]os.FileInfo{
 		_escData["/generator/template/echo_service.gogo"],
 		_escData["/generator/template/echo_struct.gogo"],
 		_escData["/generator/template/go"],
+		_escData["/generator/template/markdown.gomd"],
 		_escData["/generator/template/php_client.gophp"],
 		_escData["/generator/template/spring_service.gojava"],
 		_escData["/generator/template/spring_struct.gojava"],
