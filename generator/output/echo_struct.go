@@ -7,7 +7,7 @@ import (
 )
 
 type echoField struct {
-	data.MessageField
+	*data.MessageField
 	isEnum bool
 }
 

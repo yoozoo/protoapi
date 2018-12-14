@@ -54,7 +54,7 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 		// the message itself
 		fields := message.GetField()
 		for _, field := range fields {
-			var msgField data.MessageField
+			msgField := new(data.MessageField)
 			msgField.Name = field.GetName()
 			msgField.Key = field.GetName()
 			msgField.Label = field.GetLabel().String()
