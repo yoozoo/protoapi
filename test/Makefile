@@ -2,6 +2,7 @@
 
 clean:
 	rm -rf expected/go/*
+	rm -rf expected/package/go/*
 
 copy:
 	rm -rf expected/*

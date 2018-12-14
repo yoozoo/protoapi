@@ -13,7 +13,7 @@ func (r *AddReq) GetX() int {
 		var zeroVal int
 		return zeroVal
 	}
-	retur n r.X
+	return r.X
 }
 
 func (r *AddReq) GetY() int {
