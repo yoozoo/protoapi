@@ -17,6 +17,7 @@ type GenerateReq struct {
 	Files      map[string]*ProtoFile
 	PackageMap map[string]*ProtoFile
 	MessageMap map[string]*ProtoMessage
+	EnumMap    map[string]*ProtoEnum
 }
 
 var _req *GenerateReq
@@ -30,6 +31,7 @@ func NewGenerateReq(request *plugin.CodeGeneratorRequest) *GenerateReq {
 	result.Files = make(map[string]*ProtoFile)
 	result.PackageMap = make(map[string]*ProtoFile)
 	result.MessageMap = make(map[string]*ProtoMessage)
+	result.EnumMap = make(map[string]*ProtoEnum)
 
 	for _, file := range request.ProtoFile {
 		pf := NewProtoFile(file)
@@ -46,7 +48,12 @@ func NewGenerateReq(request *plugin.CodeGeneratorRequest) *GenerateReq {
 		}
 
 		for name, m := range pf.Messages {
+
 			result.MessageMap[pkg+name] = m
+		}
+
+		for name, e := range pf.Enums {
+			result.EnumMap[pkg+name] = e
 		}
 	}
 
@@ -84,6 +91,27 @@ func GetMessageProtoAndFile(name string) (msg *ProtoMessage, file *ProtoFile) {
 		if !util.IsStrInSlice(name, []string{"string", "int", "int64", "bool"}) {
 			log.Println("msg not found: " + name)
 		}
+	}
+	pos := strings.LastIndex(name, ".")
+
+	if pos > -1 {
+		pkg = name[:pos]
+	}
+
+	file = _req.PackageMap[pkg]
+
+	if file == nil {
+		log.Println("pkg not found: " + pkg)
+	}
+	return
+}
+
+func GetEnumProtoAndFile(name string) (e *ProtoEnum, file *ProtoFile) {
+	var pkg string
+
+	e = _req.EnumMap[name]
+	if e == nil {
+		return
 	}
 	pos := strings.LastIndex(name, ".")
 

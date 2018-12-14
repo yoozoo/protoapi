@@ -73,13 +73,8 @@ func (s *echoStruct) init(enums []*data.EnumData) {
 	importGoTypes = make(map[string]string)
 	s.Fields = make([]*echoField, len(s.MessageData.Fields))
 	for i, f := range s.MessageData.Fields {
-		isEnum := false
-		for _, enum := range enums {
-			if enum.Name == f.DataType {
-				isEnum = true
-				break
-			}
-		}
+		e, _ := data.GetEnumProtoAndFile(f.DataType)
+		isEnum := e != nil
 		s.Fields[i] = &echoField{f, isEnum}
 	}
 }
