@@ -4,12 +4,12 @@ package todolistsvr
 
 // ListResp
 type ListResp struct {
-	Items []*todolist.Todo `json:"items"`
+	Items []*Todo `json:"items"`
 }
 
-func (r *ListResp) GetItems() []*todolist.Todo {
+func (r *ListResp) GetItems() []*Todo {
 	if r == nil {
-		var zeroVal []*todolist.Todo
+		var zeroVal []*Todo
 		return zeroVal
 	}
 	return r.Items

@@ -9,11 +9,9 @@ import (
 
 // TodolistService is the interface contains all the controllers
 type TodolistService interface {
-	Add(c echo.Context, req *AddReq) (resp *AddResp, bizError *AddError, err error)
-	// Add(echo.Context, *AddReq) (*AddResp, *AddError)
+	Add(c echo.Context, req *AddReq) (resp *AddResp, bizError **AddError, err error)
 
 	List(c echo.Context, req *Empty) (resp *ListResp, err error)
-	// List(echo.Context, *Empty) (*ListResp)
 }
 
 func _add_Handler(srv TodolistService) echo.HandlerFunc {
@@ -22,14 +20,14 @@ func _add_Handler(srv TodolistService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -57,14 +55,14 @@ func _list_Handler(srv TodolistService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
