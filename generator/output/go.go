@@ -35,7 +35,11 @@ func getGoPackageAndType(dataType string) (isFileToGenerate bool, pkg, refType s
 	structName := dataType[strings.LastIndex(dataType, ".")+1:]
 	pkgName := pkg[strings.LastIndex(pkg, "/")+1:]
 
-	refType = pkgName + "." + strings.Title(structName)
+	if isFileToGenerate {
+		refType = strings.Title(structName)
+	} else {
+		refType = pkgName + "." + strings.Title(structName)
+	}
 
 	return
 }
@@ -47,13 +51,11 @@ func appendGoImport(imports []string, dataType string) []string {
 
 	isFileToGenerate, pkg, refType := getGoPackageAndType(dataType)
 
-	if !isFileToGenerate {
-		if !util.IsStrInSlice(`"`+pkg+`"`, imports) {
-			imports = append(imports, `"`+pkg+`"`)
-		}
-
-		importGoTypes[dataType] = refType
+	if !isFileToGenerate && !util.IsStrInSlice(`"`+pkg+`"`, imports) {
+		imports = append(imports, `"`+pkg+`"`)
 	}
+
+	importGoTypes[dataType] = refType
 
 	return imports
 }
