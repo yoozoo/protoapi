@@ -16,4 +16,5 @@ gen:
 	../protoapi gen --lang=ts expected/ts proto/test.proto
 	../protoapi gen --lang=ts-fetch expected/ts/fetch proto/test.proto
 	../protoapi gen --lang=ts-axios expected/ts/axios proto/test.proto
+	../protoapi gen --lang=phpclient expected/ proto/test.proto
 	../protoapi gen --lang=spring expected/ proto/test.proto
