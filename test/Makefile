@@ -18,3 +18,19 @@ gen:
 	../protoapi gen --lang=ts-axios expected/ts/axios proto/test.proto
 	../protoapi gen --lang=phpclient expected/ proto/test.proto
 	../protoapi gen --lang=spring expected/ proto/test.proto
+
+pkg:
+	../protoapi gen --lang=go expected/package/go proto/package/common.proto
+	../protoapi gen --lang=go expected/package/go proto/package/gopackage_addReqFull.proto
+	../protoapi gen --lang=go expected/package/go proto/package/gopackage_addReq.proto
+	../protoapi gen --lang=go expected/package/go proto/package/gopackage_calcFull.proto
+	../protoapi gen --lang=go expected/package/go proto/package/gopackage_calc.proto
+	../protoapi gen --lang=go expected/package/go proto/package/gopackage_calc_warn.proto
+	../protoapi gen --lang=go expected/package/go proto/package/mixpackage_addReq.proto
+	../protoapi gen --lang=go expected/package/go proto/package/mixpackage_calc.proto
+	../protoapi gen --lang=go expected/package/go proto/package/nopackage_calc.proto
+	../protoapi gen --lang=go expected/package/go proto/package/nopackage_calc_warn.proto
+	../protoapi gen --lang=go expected/package/go proto/package/package_addReq.proto
+	../protoapi gen --lang=go expected/package/go proto/package/package_calc_commonerror.proto
+	../protoapi gen --lang=go expected/package/go proto/package/package_calc.proto
+	../protoapi gen --lang=go expected/package/go proto/package/package_calc._without_commonerror.proto

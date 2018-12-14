@@ -7,6 +7,7 @@ before_script:
   - go build -v
   - ./protoapi init
   - mkdir -p -m 700 test/result/go/
+  - mkdir -p -m 700 test/result/package/go/
   - mkdir -p -m 700 test/result/ts/fetch
   - mkdir -p -m 700 test/result/ts/axios
 script:
