@@ -89,7 +89,9 @@ func GetMessageProtoAndFile(name string) (msg *ProtoMessage, file *ProtoFile) {
 	msg = _req.MessageMap[name]
 	if msg == nil {
 		if !util.IsStrInSlice(name, []string{"string", "int", "int64", "bool"}) {
-			log.Println("msg not found: " + name)
+			if _, ok := _req.EnumMap[name]; !ok {
+				log.Println("msg not found: " + name)
+			}
 		}
 	}
 	pos := strings.LastIndex(name, ".")

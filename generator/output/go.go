@@ -38,7 +38,11 @@ func getGoPackageAndType(dataType string) (isFileToGenerate bool, pkg, refType s
 	if isFileToGenerate {
 		refType = strings.Title(structName)
 	} else {
-		refType = pkgName + "." + strings.Title(structName)
+		if pkgName == "" {
+			refType = strings.Title(structName)
+		} else {
+			refType = pkgName + "." + strings.Title(structName)
+		}
 	}
 
 	return
