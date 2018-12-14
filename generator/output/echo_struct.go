@@ -18,16 +18,16 @@ func (s *echoField) Title() string {
 func (s *echoField) Type() string {
 	// if not primary type return data type and ignore the . in the data type
 	dataType := s.DataType
-        if _, ok := wrapperTypes[dataType]; !ok && !s.isEnum {
-                dataType = "*" + dataType
-        }
+	if _, ok := wrapperTypes[dataType]; !ok && !s.isEnum {
+		dataType = "*" + dataType
+	}
 
-        // check if the field is repeated
-        if s.Label == data.FieldRepeatedLabel {
-                dataType = "[]" + dataType
-        }
+	// check if the field is repeated
+	if s.Label == data.FieldRepeatedLabel {
+		dataType = "[]" + dataType
+	}
 
-        return dataType
+	return dataType
 }
 
 func (s *echoField) ValidateRequired() bool {

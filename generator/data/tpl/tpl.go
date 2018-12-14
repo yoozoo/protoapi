@@ -322,6 +322,31 @@ l9PuyPDiMq3/b1LgWueHtnVKVn6FUPGWnNYnb6Z6v9fKN937Z/aXDfJVUczvUaqSNbSjQ58Je+N/BQAA
 `,
 	},
 
+	"/generator/template/go_client.gogo": {
+		name:    "go_client.gogo",
+		local:   "generator/template/go_client.gogo",
+		size:    2379,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/6yVX2/bNhfGr8VPcV7BeCGurlwU240BXzSJNwRYkyJxdlMUKC0d2VwlUiOpZo7A7z7w
+jyTbWbeg2B1N8hz+znMeHy0WsNlzDVwDg4rXCDsUqJjBErYHaJU0krUcsq+oNJci77qnLi9ksxiOKFks
+4JcxiJkl9D3kG94gWOsOr27h5nYD66vrTU5Iy4ovbIfQ9/mHsLSWEN60UhnISJJuDwZ1SpIURSFLLnaL
+37UUfkMpqfwRlwsuO8Nr90OgWeyNaVNCCTGH1uU23NQI+Q1r0FrQRnWFgZ4AALCWP9z96va42BFLSNWJ
+ArIWfjgLo3CP5p2/nXWqjhEUepK0ecyygk7VLkl8N7+UzVqpZw8nff8aFBM7hFkFyxUMF3/mWJfaKeXY
+zsH73uedVdbCZyfDMu37eJh+jiGvAUVp7VQKulJOSSisnXgZjVU4JIWmUwLSQjaNFODVTV2WiTV/j1qz
+HXrAf5f2WZH/aXVuzSuQCjKuL/jTWqmQirqNUG7csPZYirOufluJLX+aZJiePl1FZdaia3TcmqHL7SsO
+jwxahQNrgQtDSCGF9h4/SjMplIy1HweunKl+Y3WH4cpAQodmF7L0xhs966s6KU+wBrWja1j7cbz6KVzo
+SfINngloCUeNmceAwJFYMurn3/nogD5NZjznu5QlZtQJcqR8xoWh/iolJypPOCfZBnkoXOsxd0ZhK2Ud
+vRgz+4DVaiKYOgv2bDl63uxlqcc3/WSYjQWc+SlT+McVM8z/565F25nNofUXM4V6PLntzHg0dyYLRvPT
+xFn/3qiwvVyB+52/Z0rvWT2kpyThlb/wvxUI7qpMRt157WNDM9yoWq5gHFGvfPMe7q6tTZ3genzHDc38
+g9TGjbc5pKxta14ww6UIM3cOfhjnN/h40VUVqiyi0pfiJCVWqEChzi9kecgva6kxoyQUfXEwONKEgZ7f
+ISvf1a7uEPLil/QjN8XeP3VvmOn0pfcKSQqmEd6+ebP0gaElyxX8/6wrvbO8eyc24EE0sQUTagynJPkb
+qOdUDmvYjaFzd+wN6rF+DFjbMM0CFRcl/gn5besaoSF89tKXAYZE38Pnd0P4Ed5bj1eE2RrwZqdflpdQ
+hfjvpgrhE9VPQy9PAqXyRs1SLgwqwWrQqL5i/KPBElJ4FYfiiOZ8XGLFutr8U8ZOfBHyUYD2vvIzJaXO
+dMffhr8CAAD//1ut0G9LCQAA
+`,
+	},
+
 	"/generator/template/php_client.gophp": {
 		name:    "php_client.gophp",
 		local:   "generator/template/php_client.gophp",
@@ -665,6 +690,7 @@ var _escDirs = map[string][]os.FileInfo{
 		_escData["/generator/template/echo_service.gogo"],
 		_escData["/generator/template/echo_struct.gogo"],
 		_escData["/generator/template/go"],
+		_escData["/generator/template/go_client.gogo"],
 		_escData["/generator/template/php_client.gophp"],
 		_escData["/generator/template/spring_service.gojava"],
 		_escData["/generator/template/spring_struct.gojava"],
