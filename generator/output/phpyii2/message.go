@@ -14,11 +14,6 @@ import (
 func NewMessage(msg *data.MessageData, baseNameSpace string, enums []*data.EnumData) *Message {
 	nameSpace := baseNameSpace + "\\models"
 	filePath := strings.Replace(nameSpace, "\\", "/", -1)
-
-	// todo: now only handle msg in current package
-	// should handle import from different packages
-	data.FlattenLocalPackage(msg)
-
 	filePath = filePath + "/" + strings.Title(msg.Name) + ".php"
 
 	o := &Message{msg, nameSpace, filePath, enums}

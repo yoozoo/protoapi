@@ -178,6 +178,8 @@ func (g *yii2Gen) Gen(applicationName string, packageName string, service *data.
 	}
 
 	for _, msg := range messages {
+		data.FlattenLocalPackage(msg)
+
 		if g.isBizErr(msg) {
 			err = g.genError(msg)
 			if err != nil {
