@@ -173,6 +173,7 @@ func (g *echoGen) Gen(applicationName string, packageName string, service *data.
 			continue
 		}
 
+		data.FlattenLocalPackage(msg)
 		obj := newEchoStruct(msg, g.PackageName, enums)
 
 		filename := g.getStructFilename(g.PackageName, obj)
