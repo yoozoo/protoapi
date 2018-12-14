@@ -1,4 +1,7 @@
-.PHONY: copy gen
+.PHONY: clean copy gen
+
+clean:
+	rm -rf expected/go/*
 
 copy:
 	rm -rf expected/*
