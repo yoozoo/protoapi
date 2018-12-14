@@ -14,7 +14,23 @@ import (
 func NewMessage(msg *data.MessageData, baseNameSpace string, enums []*data.EnumData) *Message {
 	nameSpace := baseNameSpace + "\\models"
 	filePath := strings.Replace(nameSpace, "\\", "/", -1)
+
+	// todo: now only handle msg in current package
+	// should handle import from different packages
+	_, p := data.GetMessageProtoAndFile(msg.Name)
+	if p.IsFileToGenerate {
+		msg.Name = msg.Name[strings.LastIndex(msg.Name, ".")+1:]
+	}
+
+	for _, f := range msg.Fields {
+		_, p = data.GetMessageProtoAndFile(f.DataType)
+		if p.IsFileToGenerate {
+			f.DataType = f.DataType[strings.LastIndex(f.DataType, ".")+1:]
+		}
+	}
+
 	filePath = filePath + "/" + strings.Title(msg.Name) + ".php"
+
 	o := &Message{msg, nameSpace, filePath, enums}
 	return o
 }
