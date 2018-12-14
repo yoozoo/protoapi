@@ -62,6 +62,20 @@ func GetProtoFile(filename string) (file *ProtoFile) {
 	return
 }
 
+func FlattenLocalPackage(msg *MessageData) {
+	_, p := GetMessageProtoAndFile(msg.Name)
+	if p.IsFileToGenerate {
+		msg.Name = msg.Name[strings.LastIndex(msg.Name, ".")+1:]
+	}
+
+	for _, f := range msg.Fields {
+		_, p = GetMessageProtoAndFile(f.DataType)
+		if p.IsFileToGenerate {
+			f.DataType = f.DataType[strings.LastIndex(f.DataType, ".")+1:]
+		}
+	}
+}
+
 func GetMessageProtoAndFile(name string) (msg *ProtoMessage, file *ProtoFile) {
 	var pkg string
 

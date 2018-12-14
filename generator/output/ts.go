@@ -197,6 +197,10 @@ func (g *tsGen) Init(request *plugin.CodeGeneratorRequest) {
 
 func (g *tsGen) Gen(applicationName string, packageName string, svr *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
 	g.initFiles(packageName, svr)
+	for _, msg := range messages {
+		data.FlattenLocalPackage(msg)
+	}
+
 	g.DataTypes = messages
 
 	/**
