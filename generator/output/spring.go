@@ -91,6 +91,18 @@ func (g *springGen) init(applicationName, packageName string) {
 }
 
 func (g *springGen) getStructFilename(packageName string, msg *data.MessageData) string {
+	_, p := data.GetMessageProtoAndFile(msg.Name)
+	if p.IsFileToGenerate {
+		msg.Name = msg.Name[strings.LastIndex(msg.Name, ".")+1:]
+	}
+
+	for _, f := range msg.Fields {
+		_, p = data.GetMessageProtoAndFile(f.DataType)
+		if p.IsFileToGenerate {
+			f.DataType = f.DataType[strings.LastIndex(f.DataType, ".")+1:]
+		}
+	}
+
 	return strings.Replace(packageName, ".", "/", -1) + "/" + msg.Name + ".java"
 }
 
