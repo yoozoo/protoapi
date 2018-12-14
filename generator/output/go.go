@@ -51,7 +51,7 @@ func appendGoImport(imports []string, dataType string) []string {
 
 	isFileToGenerate, pkg, refType := getGoPackageAndType(dataType)
 
-	if !isFileToGenerate && !util.IsStrInSlice(`"`+pkg+`"`, imports) {
+	if !isFileToGenerate && !util.IsStrInSlice(`"`+pkg+`"`, imports) && pkg != "" {
 		imports = append(imports, `"`+pkg+`"`)
 	}
 

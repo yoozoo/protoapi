@@ -70,7 +70,7 @@ func FlattenLocalPackage(msg *MessageData) {
 
 	for _, f := range msg.Fields {
 		_, p = GetMessageProtoAndFile(f.DataType)
-		if p.IsFileToGenerate {
+		if p == nil || p.IsFileToGenerate {
 			f.DataType = f.DataType[strings.LastIndex(f.DataType, ".")+1:]
 		}
 	}
