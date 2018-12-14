@@ -108,7 +108,7 @@ func (s *echoStruct) IsCommonErrorStruct() bool {
 		return false
 	}
 
-	return _goService.CommonError() == s.ClassName()
+	return _goService.CommonError() == "*"+s.ClassName()
 }
 
 func (s *echoStruct) ValidateRequired() bool {

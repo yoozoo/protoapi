@@ -43,7 +43,7 @@ func (r {{.ClassName}}) Validate() *ValidateError {
 }
 {{end}}
 {{if .IsCommonErrorStruct}}
-func (r {{.ClassName}}) Error() string {
+func (r *{{.ClassName}}) Error() string {
 	return "Error"
 }
 {{end}}
