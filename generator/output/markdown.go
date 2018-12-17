@@ -45,10 +45,8 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	// get the string value based on the label Type
 	getLabel := func(labelType string) string {
 		switch labelType {
-		case data.FieldOptionalLabel:
+		case "LABEL_OPTIONAL":
 			return "Optional"
-		case data.FieldRequiredLabel:
-			return "Required"
 		default:
 			return "Undefined"
 		}

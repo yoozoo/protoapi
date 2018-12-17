@@ -17,12 +17,14 @@
 
 ###Request method:
 - {{$met.HttpMtd}}
-{{range $mes := $mess}} {{- if eq $mes.Name $met.InputType}}###parameter:
+{{range $mes := $mess}} {{- if eq $mes.Name $met.InputType}}
+###parameter:
+
 | parameter name  | required  | type | description
 | :------------ |:--------------- | :-----| :----
-{{range .Fields}}| {{.Name}}     | {{getLabel .Label}} | {{if isRepeat .Label}} "array" {{else}} {{.DataType}} {{end}}|
+{{range .Fields}}| {{.Name}}     | {{getLabel .Label}} | {{.DataType}} {{if isRepeat .Label}} Array {{end}}|
 {{else}}{{- end}} {{end}}
-{{- if eq $mes.Name $met.OutputType}}###Return Example:
+{{- if eq $mes.Name $met.OutputType}}###Successful Return Example:
 
 ```json
 {
@@ -36,7 +38,7 @@
 
 | parameter name  | type            | description
 | :------------   |:--------------- | :-----
-{{range .Fields}}|{{.Name}}       | {{if isRepeat .Label}} "array" {{else}} {{.DataType}} {{end}}| 
+{{range .Fields}}|{{.Name}}       | {{.DataType}} {{if isRepeat .Label}} Array {{end}}| 
 {{end}}
 {{- end}}
 {{end}}
