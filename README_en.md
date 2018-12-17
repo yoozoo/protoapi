@@ -1,53 +1,69 @@
+[![Build Status](https://travis-ci.com/yoozoo/protoapi.svg?branch=master)](https://travis-ci.com/yoozoo/protoapi)
+
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-This file is not updated, please refer to README.md for latest version
+This README contains the requirements and the steps to use protoapi
+***If there are any inconsistencies, please refer to README.md for the latest version instead
 
-### What is this repository for?
+### Introduction ###
 
-* Quick summary: This repo is a plugin that auto generates boiler template frontend (Vue code with TypeScript) and backend code (java and go) for API services.
-  
-* Version 0.1
-
+* This project is based on the implementation of 'go'
+* Objective: to automatically generate the base code of the frontend and backend API, saving development time
+	* Frontend generate TypeScript client code
+	* Backend currently supports code to generate java(spring framework) and go(echo framework)
+* Current Version: 0.1.1
 
 ### Getting Started ###
 
-* go to the place you want to clone the repo:
-    * `git clone https://github.com/yoozoo/protoapi.git`
+Install `go 1.10` or above:
 
-* Install protoc-gen-go if you have not done so:
-    * go to `/usr/local` directory (same dir with .bash_profile for Mac)
-    * run cli: `go get -u github.com/golang/protobuf/protoc-gen-go` => installed in $GOBIN, defaulting to $GOPATH/bin
+* [Install go](https://golang.org/doc/install)
+* Make sure the $GOPATH is set accordingly
 
-* Make sure protoc is installed in correct folder:
-    * [follow the steps here](http://google.github.io/proto-lens/installing-protoc.html)
+### Installing Protoapi ###
 
-* Get other relevant lib:
-    * go to the cloned project folder: `cd protoapi`
-    * run cli: `go get` in the cloned repo folder
+1. Download the project code via:
+  * `go get github.com/yoozoo/protoapi`
 
-* build the plugin:
-    * run cli: `go build` in the cloned repo folder
-    * you will see a `[folder-name]` file is created in the repo root directory
-    * run cli  `go generate` in the cloned repo folder
+2. Automatically initialize [protoc] (https://github.com/protocolbuffers/protobuf) with `protoapi`:
+  * `protoapi init`
 
-* set up env:
-    * rename the file to `protoc-gen-ts`, in order to be able to use the ts generator plugin
-    * or soft link `protoapi` with `protoc-gen-ts` in $GOBIN: `ln -s $PATH-TO-GENERATED-FILE protoc-gen-ts`
+## Using protoapi ###
 
-* run the plugin:
+* help: `protoapi -h`
+* `protoapi gen --lang=[language] [output directory] [proto file]`
 
-    * for Mac Users:
-        * `protoc --ts_out :. test/hello.proto`:  generate TS files
-        * `protoc --ts_out=lang=spring:. ./test/hello.proto`: generate spring files
+* Generate front-end TypeScript code: `protoapi gen --lang=ts [output_folder] [proto file path]`
+* Generate front-end PHP code: `protoapi gen --lang=php [output_folder] [proto file path]`
+* Generate backend Spring code: `protoapi gen --lang=spring [output_folder] [proto file path]`
+* Generate backend echo code: `protoapi gen --lang=echo [output_folder] [proto file path]`
 
-    * for Windows users:
-        * if no softlink: `protoc --plugin=protoc-gen-ts=C:\Users\Admin\go\src\protoapi\protoapi.exe --ts_out=. .\test\protoconf\apps.proto`
-        * if with softlink or renamed to `protoc-gen-ts`: `protoc --ts_out . .\test\protoconf\apps.proto`
-        * generate spring files: `protoc --ts_out=lang=spring:. ./test/hello.proto`
-        * how to make a softlink(command): `mklink <Link to be created> <Target file>`; e.g. `mklink C:\Users\Admin\go\bin\protoc-gen-ts.exe C:\Users\Admin\go\src\protoapi\protoapi.exe`
+Example:
+* Generate front-end TypeScript code: `protoapi gen --lang=ts . ./test/proto/todolist.proto`
+* Generate backend Spring code: `protoapi gen --lang=spring . ./test/proto/todolist.proto`
 
-    * if you have other `.proto` files to test, just change the cli to: `protoc -I=. --ts_out=lang=ts:. $SRC_DIR/$TEST_FILE.proto`
+* For other related commands, please refer to [here] (docs/protoapi_cli.md)
+
+
+### Project Structure ###
+* generator
+    * data (contains data structure)
+        * tpl/tpl.go
+        * data.go (defines shared data structures)
+    * output contains (the specific logic of code generation)
+        * echo_xx.go (supports code for generating echo)
+        * spring_xx.go (supports generating spring code)
+        * vue_ts.go (supports generating code for vue using ts)
+        * php.go (supports generating php code)
+    * template (contains all template files)
+        * ts
+            Xx.gots (TS template)
+            Xx.govue (Vue template)
+        * echo_xx.gogo (go template corresponding to echo)
+        * spring_xx.gojava (java template corresponding to spring)
+        * php.gophp (php template)
+    * generator.go (contains some shared code generation function logic)
+* test (contains all the proto files generated by the test code)
 
 ### Contribution guidelines ###
 
@@ -55,10 +71,105 @@ This file is not updated, please refer to README.md for latest version
 * Code review
 * Other guidelines
 
-### Who do I talk to? ###
+### Creating a template ###
 
-* Repo owner or admin
-    - [Qinglei](ZHUQL@YOOZOO.COM)
-* Other community or team contact
-    - [WenTian](WengW@yoozoo.com)
-    - [HongBo](WuHongbo@yoozoo.com)
+1. Add a new template to the generator/template folder:
+
+* The specific syntax can be found in [here](https://golang.org/pkg/text/template/)
+* Existing examples can refer to the existing templates in the generator/template
+* The newly added template file is named after the suffix of the generated file. For example, if the ts file is generated, it is named: xxx.gots, and the generated java file is called xxx.gojava.
+
+2. Add a new xxx.go file in the generator/output folder or change the logic of an existing file
+
+* Backend code can refer to generator/output/spring.go
+* Front-end code can refer to generator/output/vue_ts.go
+* For example, if you want to generate more ts files:
+  * Add a new template: generator/template/ts/example.gots
+  * Inside generator/output/ts.go
+
+```golang
+        type tsGen struct {
+            // 1. Adding data
+            ...
+            exampleFile string
+            ...
+            exampleTpl       *template.Template
+
+        }
+        ...
+        /**
+        * Get TEMPLATE
+        */
+        func (g *tsGen) loadTpl() {
+            ...
+            // 2. Add an input template
+            g.exampleTpl = g.getTpl("/generator/template/ts/example.gots")
+        }
+
+        /**
+        * init filename with path
+        */
+        func initFiles(packageName string, service *data.ServiceData) *tsGen {
+            gen := &tsGen{
+                ...
+                // 3. Add generated file name
+                // The newly generated file will be named: example.ts, and which folder is generated according to packageName
+                // For example: packageName = yoozoo.protoconf.ts, the file will be generated with $output_dir/yoozoo/protoconf/ts
+                // packageName is defined in the proto file: "package yoozoo.protoconf.ts;"
+                exampleFile:      genFileName(packageName, "example"),
+            }
+            return gen
+        }
+
+        func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (map[string]string, error) {
+
+            ...
+            /**
+            * combine data with template
+            */
+            // 4. Finally, output the generated file
+            ...
+            result[gen.exampleFile] = gen.genContent(gen.exampleTpl, dataMap)
+            ...
+        }
+
+```
+
+3. Refer to [Create Execution File/Plugin] and [How to Use Plugin] to test the newly added template.
+    * Test existing proto sample files: `protoapi/test/hello.proto`
+    * or custom proto file test
+
+### Example of Proto file
+
+```
+syntax = "proto3"; // using syntax of proto3
+
+option java_package = "com.yoozoo.spring"; //the generated java file will be in [output_folder]/com/yoozoo/spring folder
+
+package com.yoozoo.ts; // the generated ts file will be in [output_folder]/com/yoozoo/ts folder
+import "test/messages.proto"; // importing/using other proto file
+
+// service definition
+service HelloService {
+    rpc SayHello (HelloRequest) returns (HelloResponse);
+}
+
+```
+
+### HTTP Method ###
+
+* All API generated use HTTP POST by default
+* Test using POST method using these apps or other similar apps:
+    * [Postman](https://app.getpostman.com/app/download/win64)
+    * Chrome Extension [Restlet](https://chrome.google.com/webstore/detail/restlet-client-rest-api-t/aejoelaoggembcahagimdiliamlcdmfm/related?hl=en)
+* GET can be used in certain scenarios, but it is discouraged because the query string does not serialize complex request objects very well.
+
+### Error Handling
+
+* [Error Handling Documentation](docs/ErrorHandling.md)
+
+### Relevant Information
+1. [Basic syntax and use of go](https://golang.org/doc/)
+2. [protobuf(proto3) basic syntax](https://developers.google.com/protocol-buffers/docs/proto3)
+3. [template basic syntax](https://golang.org/pkg/text/template/)
+4. [spring](https://spring.io/guides)
