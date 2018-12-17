@@ -347,6 +347,25 @@ dMffhr8CAAD//1ut0G9LCQAA
 `,
 	},
 
+	"/generator/template/markdown.gomd": {
+		name:    "markdown.gomd",
+		local:   "generator/template/markdown.gomd",
+		size:    1254,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/5xSS2/bPBC881cMou+QBLB0F5BDAOdrA+QBuE4vQYCspZXDVq+QVFCX4n8vSMmOVMQ5
+lBcu9zGa2dFjkjyliHC6fpEaUoNQyJKx5ZoVGc6x2aFVjWmolTh9Y6VlU8dd97uLs6ZK9qWzM3GA+nKY
+JZPCWsRrWTGcm/Qs73F3v8bV8nodnwlrk3MsOStJyXqLN1KSNiWjaBRq1h5KUb1lnCfOecT/KjYa6QXi
+WzYvTa7hHPwZanpf05q27IvC2gHBT/piQAh5H8V3VLFz4uLYESKKoktslOQCOetMydbIpk7FAnMI37ji
+1461wcPqxjeI5+fnh9WN8ARfjGnTJOk0q3hrSGWUc9hkJTPVJCPWw+raOT82g6uC1sknvxrT3pp8Lk+P
+8rQOu1pAFuDXkAkcg/T4um47s961nnIURS0pqtiwSoXocXih9gPoofi1k4pzH5tdy+inWxA90sXkoJ89
+Q2bsGO8D4fh/yWWuneth7bjD4KR/b9nc0IZLxOFyLmTjJRkaqMNaWUDqFbdM5r3tUinawVquc+d6YS2X
+mp3z2wipfUkc3c99Zw4LiqLoW5dlrHXRlVix6VSNq19UtSWnwtv0Qze1sGL4A/8SFrInB3En6THSj0/Y
+Ex20L7n4TiXmegfew5eGePqjBGrv9k09+tDX4OXkfG4rPjH2A0fnhuLfzIOYerWPhjtIrkj91EIsQHku
+PW0qocbs2PgnAAD//5YFF0DmBAAA
+`,
+	},
+
 	"/generator/template/php_client.gophp": {
 		name:    "php_client.gophp",
 		local:   "generator/template/php_client.gophp",
@@ -691,6 +710,7 @@ var _escDirs = map[string][]os.FileInfo{
 		_escData["/generator/template/echo_struct.gogo"],
 		_escData["/generator/template/go"],
 		_escData["/generator/template/go_client.gogo"],
+		_escData["/generator/template/markdown.gomd"],
 		_escData["/generator/template/php_client.gophp"],
 		_escData["/generator/template/spring_service.gojava"],
 		_escData["/generator/template/spring_struct.gojava"],
