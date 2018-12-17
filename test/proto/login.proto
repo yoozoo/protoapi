@@ -1,0 +1,23 @@
+/**
+ * 这个文件用于生成相关的前后端API代码
+ * 用protoapi指定此文件生成相关代码
+ */
+syntax = "proto3";
+
+message loginReq {
+    string account = 1;
+    int32 game_id = 2;
+    int32 op_id = 3;
+    int32 server_id = 4;
+}
+
+message loginResp {
+    int32 code = 1;
+    string msg = 2;
+    repeated string data = 3;
+}
+
+service LoginService {
+  rpc logingame(loginReq) returns (loginResp) {
+  }
+}
