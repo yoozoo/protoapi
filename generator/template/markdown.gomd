@@ -20,29 +20,35 @@
 {{range $mes := $mess}} {{- if eq $mes.Name $met.InputType}}
 ###parameter:
 
-| parameter name  | required  | type | description
-| :------------ |:--------------- | :-----| :----
-{{range .Fields}}| {{.Name}}     | {{getRequired .Label}} | {{.DataType}} {{if isRepeat .Label}} Array {{end}}|
-{{else}}{{- end}} {{end}}
+| parameter name  | required  | type  | description
+| :-------------- |:--------- | :---- | :----------
+{{range .Fields}}{{if isMessage .DataType}}{{range getFields .DataType}}{{if isMessage .DataType}}{{range getFields .DataType}}|{{.Name}} | {{getRequired .Options}} | {{.DataType}} {{if isRepeat .Label}} Array{{end}}| 
+{{end}} {{else}}|{{.Name}}  | {{getRequired .Options}} | {{.DataType}} {{if isRepeat .Label}} Array{{end}}| 
+{{end}}{{end}} {{/* end for getfields datatype */}}{{else}}|{{.Name}}   | {{getRequired .Options}} | {{.DataType}} {{if isRepeat .Label}} Array{{end}}| 
+{{end}}{{/* end for if datatype is another object */}}{{end}} {{/* foreach fields end */}}{{end}}{{/* end for input type */}}
 {{- if eq $mes.Name $met.OutputType}}###Successful Return Example:
 
 ```json
-{
-    {{range .Fields}}
-    "{{.Name}}": {{if isRepeat .Label}} [] {{else}} {{getDefVal .DataType}} {{end}}
-    {{end}}
+{ {{range .Fields}}
+    "{{.Name}}": {{if isRepeat .Label}} [] {{else if isMessage .DataType}} {
+        {{range getFields .DataType}} 
+        "{{.Name}}": {{if isRepeat .Label}} [] {{else if isMessage .DataType}} { {{range getFields .DataType}}
+            "{{.Name}}": {{if isRepeat .Label}} [] {{else}} {{getDefVal .DataType}} {{end}} {{end}} 
+        } {{/* end for if datatype is another object */}}
+        {{else}} {{getDefVal .DataType}} {{end}} {{end}}
+    } {{else}} {{getDefVal .DataType}} {{end}} {{end}} {{/* foreach fields end */}}
 }
 ```
 
 ###Return parameter description
 
 | parameter name  | type            | description
-| :------------   |:--------------- | :-----
-{{range .Fields}}|{{.Name}}       | {{.DataType}} {{if isRepeat .Label}} Array {{end}}| 
-{{end}}
-{{- end}}
-{{end}}
+| :------------   |:--------------- | :----------
+{{range .Fields}}{{if isMessage .DataType}}{{range getFields .DataType}}{{if isMessage .DataType}}{{range getFields .DataType}}|{{.Name}}       | {{.DataType}} {{if isRepeat .Label}} Array{{end}}| 
+{{end}} {{else}}|{{.Name}}       | {{.DataType}} {{if isRepeat .Label}} Array{{end}}| 
+{{end}}{{end}} {{/* end for getfields datatype */}}{{else}}|{{.Name}}       | {{.DataType}} {{if isRepeat .Label}} Array{{end}}| 
+{{end}}{{/* end for if datatype is another object */}}{{end}} {{/* foreach fields end */}}{{end}}{{/* end for output type */}}{{end}}{{/* foreach message end */}}
 ###Remarks
 
 - additional remarks
-{{end}}
+{{end}} {{/* foreach methods end */}}
