@@ -22,7 +22,7 @@
 
 | parameter name  | required  | type | description
 | :------------ |:--------------- | :-----| :----
-{{range .Fields}}| {{.Name}}     | {{getLabel .Label}} | {{.DataType}} {{if isRepeat .Label}} Array {{end}}|
+{{range .Fields}}| {{.Name}}     | {{getRequired .Label}} | {{.DataType}} {{if isRepeat .Label}} Array {{end}}|
 {{else}}{{- end}} {{end}}
 {{- if eq $mes.Name $met.OutputType}}###Successful Return Example:
 
