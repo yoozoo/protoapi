@@ -4,20 +4,42 @@
  */
 syntax = "proto3";
 
-message loginReq {
+import "common.proto";
+
+message LoginReq {
     string account = 1;
     int32 game_id = 2;
     int32 op_id = 3;
     int32 server_id = 4;
 }
 
-message loginResp {
+message LoginResp {
     int32 code = 1;
     string msg = 2;
-    repeated string data = 3;
+    LoginInfo loginInfo = 3;
+    repeated string data = 4;
+}
+
+message LoginInfo {
+    string user_id = 1;
+    string last_login = 2;
+    bool is_vip = 3;
+    AccountInfo accountInfo = 4;
+    VipStatus vipStatus = 5;
+}
+
+message AccountInfo {
+    string account_name = 1;
+    string join_time = 2;
+}
+
+enum VipStatus {
+    UNKNOWN = 0;
+    VIP_1 = 1;
+    VIP_2 = 2;
 }
 
 service LoginService {
-  rpc logingame(loginReq) returns (loginResp) {
+  rpc logingame(LoginReq) returns (LoginResp) {
   }
 }
