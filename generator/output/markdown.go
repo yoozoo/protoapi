@@ -42,22 +42,25 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	markdownTemplate := tpl.FSMustString(false, "/generator/template/markdown.gomd")
 
 	// create template function map
-	// get the string value based on the label Type
-	getLabel := func(labelType string) string {
-		switch labelType {
-		case "LABEL_OPTIONAL":
-			return "Optional"
-		default:
-			return "Undefined"
+	// get the required string value based on the options
+	getRequired := func(options data.OptionMap) string {
+		if val, exist := options["val_required"]; exist {
+			return val
+			// req, _ := strconv.ParseBool(val)
+			// if req {
+			// 	return "Required"
+			// }
+			// return "Optional"
 		}
-		return "Undefined"
+
+		return "Optional"
 	}
 
 	// get the default value of each data type
-	getDefVal := func(fieldType string) string {
-		switch fieldType {
+	getDefVal := func(dataType string) string {
+		switch dataType {
 		case data.BooleanFieldType:
-			return "true"
+			return "false"
 		case data.DoubleFieldType,
 			data.IntFieldType,
 			data.Int32FieldType,
@@ -78,7 +81,7 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	}
 
 	// return false for primitive data type and enum
-	isObject := func(fieldType string) bool {
+	isMessage := func(fieldType string) bool {
 		switch fieldType {
 		case data.StringFieldType,
 			data.DoubleFieldType,
@@ -96,11 +99,22 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		}
 	}
 
+	// get the messageData that matches the datatype and return the fields
+	getFields := func(fieldType string) []data.MessageField {
+		for _, message := range messages {
+			if message.Name == fieldType {
+				return message.Fields
+			}
+		}
+		return make([]data.MessageField, 0)
+	}
+
 	funcMap := template.FuncMap{
-		"getLabel":  getLabel,
-		"getDefVal": getDefVal,
-		"isRepeat":  isRepeat,
-		"isObject":  isObject,
+		"getRequired": getRequired,
+		"getDefVal":   getDefVal,
+		"isRepeat":    isRepeat,
+		"isMessage":   isMessage,
+		"getFields":   getFields,
 	}
 
 	// var comError *data.MessageData
