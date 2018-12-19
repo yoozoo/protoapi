@@ -75,7 +75,7 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 			data.BooleanFieldType:
 			return false
 		default:
-			// check if is enum
+			// check if it is enum
 			for _, enum := range enums {
 				if enum.Name == fieldType {
 					return false
@@ -95,11 +95,31 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		return make([]data.MessageField, 0)
 	}
 
+	//check if a field is not the last field in message
+	isNotLast := func(fieldName string, fields []data.MessageField) bool {
+		return fieldName != fields[len(fields)-1].Name
+	}
+
+	//check if a method is part of an input parameter or an output parameter
+	var isOfType func(messageName string, typeName string) bool
+	isOfType = func(messageName string, typeName string) bool {
+		for _, field := range getFields(typeName) {
+			if isMessage(field.DataType) {
+				return isOfType(messageName, field.DataType)
+			} else if messageName == typeName {
+				return true
+			}
+		}
+		return false
+	}
+
 	funcMap := template.FuncMap{
 		"getDefVal": getDefVal,
 		"isRepeat":  isRepeat,
 		"isMessage": isMessage,
 		"getFields": getFields,
+		"isNotLast": isNotLast,
+		"isOfType":  isOfType,
 	}
 
 	// var comError *data.MessageData
