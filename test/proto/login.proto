@@ -24,7 +24,7 @@ message LoginInfo {
     string user_id = 1;
     string last_login = 2;
     bool is_vip = 3;
-    AccountInfo accountInfo = 4;
+    repeated AccountInfo accountInfo = 4;
     VipStatus vipStatus = 5;
 }
 
