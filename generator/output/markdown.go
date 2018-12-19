@@ -42,20 +42,6 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	markdownTemplate := tpl.FSMustString(false, "/generator/template/markdown.gomd")
 
 	// create template function map
-	// get the required string value based on the options
-	getRequired := func(options data.OptionMap) string {
-		if val, exist := options["val_required"]; exist {
-			return val
-			// req, _ := strconv.ParseBool(val)
-			// if req {
-			// 	return "Required"
-			// }
-			// return "Optional"
-		}
-
-		return "Optional"
-	}
-
 	// get the default value of each data type
 	getDefVal := func(dataType string) string {
 		switch dataType {
@@ -67,7 +53,7 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 			data.Int64FieldType:
 			return "0"
 		case data.StringFieldType:
-			return "Success"
+			return "\"Success\""
 		}
 		return ""
 	}
@@ -110,11 +96,10 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	}
 
 	funcMap := template.FuncMap{
-		"getRequired": getRequired,
-		"getDefVal":   getDefVal,
-		"isRepeat":    isRepeat,
-		"isMessage":   isMessage,
-		"getFields":   getFields,
+		"getDefVal": getDefVal,
+		"isRepeat":  isRepeat,
+		"isMessage": isMessage,
+		"getFields": getFields,
 	}
 
 	// var comError *data.MessageData
