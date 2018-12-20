@@ -350,22 +350,19 @@ dMffhr8CAAD//1ut0G9LCQAA
 	"/generator/template/markdown.gomd": {
 		name:    "markdown.gomd",
 		local:   "generator/template/markdown.gomd",
-		size:    2317,
+		size:    1457,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/8xWy27bOhDd8ysG8V0kQSwhWQrIIoBz7w3gxIDrdBMECC2NbLZ6haSCpjT/vRhS1sN1
-UvexKFeyZnjmzJnRgR/C8DGCERwv1kKBUMAhFRnCCguUXGMCy1eoZKlLXgk4fkGpRFkEdf21DuIyD7eh
-kxPWQv3X3uU6AmMgWIgcwdpezmQGd7MFXE9uFsEJMyY8hQnGGZeiWMELl4IvM4S0lFCgIijJixXCaWgt
-If6To1YQXUJwi3pdJgqsBTo+prYxpfgKKciM8Qh0k4IOwb2np+CO52gtu3zrMDYajeAKllJgCgmqWIpK
-i7KI2BiGGC5zjs81Kg338yllsKenp/v5lBHFtdZVFIa1QhmsNJcxT9BpmYtYlmEDdj+/sZauDfFy126v
-6P9aV7c6sdalVVzyHDXKqN+wahpWylpjxiBSEGqWLl4rH3bMnSLBTVHVmgLWsk0HBwVlwAYkPtdCYkLP
-mu7Dpq8G20A0HhzYRL1nH4VBFiNKnmvwr8AsobFsjGn0BH/6pd1PY4IJ19xzBWNcU3OskGsIpnyJmbVw
-JSV/NQaLxNqNK+QewS1cWkrk8RpSV5Qibr+6NJdFr2kPBSnje6asRkd83lVwVutOQprJhzqOUam0zmCO
-upYFXH/heZVhxGi+n1RZMEPjdDzc4m5laGfoQta6/TlqpTmir6sZZ7Pr8GNRHho9DGukbWufU/EVal++
-DzUkcm4ttJd36PwqmZbExYEkLho53uOxuw4PxqxQTzD9yLM+8hm8EXgEYzBTnv/eDNg24CvelXrKlYZm
-IbZMz9osv38tc7uf6WOXnymEv6iZ8++aYQf04fb0D7fiAd9tpv2O32yn381B5jDwZPc1dybZN8Ld4vvt
-dmAW+/zWe2x33nVbiu/Y767XHmq2P+2uv2muBA9lCqUTpLNZ1k6nh5k39tKC+mnkXH5WjI2BJ4kgfXgG
-snnb7eEAx/932OJ8CwAA//+aVMTcDQkAAA==
+H4sIAAAAAAAC/8RUTWvbTBC+768Y8HtIApbugvcQcNqmJDEo9qkUPJZG8jbalbIfoe56/3vZlRRLoZS0
+l85JOzPPMx/PoC9p+jWDBVxsDlwD14BQ8YagJkkKDZWwP0KnWtNix+HihZTmrUys/WGTohXpGLq8ZK9U
+H1+xaDJwDpINFwTeT3JWa3hYb+BmdbtJLplz6RWsqGhQcVnDCyqO+4agahVI0oFKoawJrlLvA+N/goyG
+7H9I7skc2lKD971bj26tsabgZ8714AAKwQgeeFprOms+cGrKCKxpfCTrGNocu9A6W4BzAZg8oCDvGVss
+FnANe8WpgpJ0oXhneCsztvxVZk7PlrSBbX4XMthut9vmdwwA4GBMl6Wp1aSS2qAqsKS4W8EL1aYD2Ta/
+9T7A5nwijj8p+smY7t6UY90OFQoypLLpGsZRxy2tqzhmJLiVw9Rh6GFqPc5yOhOCREEAJ1D0bLmiMnyb
+QAOn6ULYCbLlzOCUTb77KMyymHPLQfGklyPUdm5oAwab1o5P55IVGuy7B+d4BVzn1BEaSO5wT43310rh
+0TmSpfcREpNupBUwATtXkwnOFeliHojI2GHPEY+3ahVhcYCqPx6SZbxVNqTHnFAoLPccjRI92qIgrSvb
+QE7GKgk331F0DWUs6P1Nt5I5J/CJPj+uH+YnOz+JCD4LNBXhneKfb/696veKn+232of4m2P4W+X/hdR/
+onSv0hupcxKonjRjS8Cy5GFF2IAavGOnszJi+L+NRD8DAAD//wmbAFSxBQAA
 `,
 	},
 
