@@ -23,7 +23,7 @@
 | parameter name  | required  | type  | description
 | :-------------- |:--------- | :---- | :----------
 {{- range .Fields}}
-|{{.Name}}       | required     | {{.DataType}} {{if isRepeat .Label}} Array{{end}}|
+|{{.Name}}        | required     | {{.DataType}} {{if isRepeat .Label}}Array{{end}} | {{if isEnum .DataType}}{{getEnumDesc .DataType}}{{end}}
 {{- end}} {{/* foreach fields end */}}
 {{end}}{{/* if input end */}}
 
@@ -39,7 +39,7 @@
 | parameter name  | type            | description
 | :------------   |:--------------- | :----------
 {{- range .Fields}}
-|{{.Name}}       | {{.DataType}} {{if isRepeat .Label}} Array{{end}}
+|{{.Name}}        | {{.DataType}} {{if isRepeat .Label}}Array{{end}} | {{if isEnum .DataType}}{{getEnumDesc .DataType}}{{end}}
 {{- end}}{{/* foreach fields end */}}
 {{end}}{{/* if output end */}}
 

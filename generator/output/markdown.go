@@ -67,6 +67,16 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		return false
 	}
 
+	// check if a field is of type enum
+	isEnum := func(fieldType string) bool {
+		for _, enum := range enums {
+			if enum.Name == fieldType {
+				return true
+			}
+		}
+		return false
+	}
+
 	// return false for primitive data type and enum
 	isMessage := func(fieldType string) bool {
 		switch fieldType {
@@ -77,12 +87,7 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 			return false
 		default:
 			// check if it is enum
-			for _, enum := range enums {
-				if enum.Name == fieldType {
-					return false
-				}
-			}
-			return true
+			return !isEnum(fieldType)
 		}
 	}
 
@@ -148,13 +153,29 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		return string(json)
 	}
 
+	// convert the enum to a description string
+	getEnumDesc := func(enumName string) string {
+		var desc string
+		for _, enum := range enums {
+			if enum.Name == enumName {
+				for _, field := range enum.Fields {
+					desc = desc + " " + field.Name
+				}
+				break
+			}
+		}
+		return desc
+	}
+
 	funcMap := template.FuncMap{
 		"isRepeat":          isRepeat,
 		"isMessage":         isMessage,
+		"isEnum":            isEnum,
 		"getFields":         getFields,
 		"isNotLast":         isNotLast,
 		"getMessagesOfType": getMessagesOfType,
 		"makeJSON":          makeJSON,
+		"getEnumDesc":       getEnumDesc,
 	}
 
 	// var comError *data.MessageData
