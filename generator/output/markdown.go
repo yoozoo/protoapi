@@ -2,6 +2,7 @@ package output
 
 import (
 	"bytes"
+	"encoding/json"
 	"strings"
 	"text/template"
 	"time"
@@ -53,7 +54,7 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 			data.Int64FieldType:
 			return "0"
 		case data.StringFieldType:
-			return "\"Success\""
+			return "Success"
 		}
 		return ""
 	}
@@ -95,12 +96,12 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		return make([]data.MessageField, 0)
 	}
 
-	//check if a field is not the last field in message
+	// check if a field is not the last field in message
 	isNotLast := func(fieldName string, fields []data.MessageField) bool {
 		return fieldName != fields[len(fields)-1].Name
 	}
 
-	//check if a method is part of an input parameter or an output parameter
+	// check if a method is part of an input parameter or an output parameter
 	var isOfType func(messageName string, typeName string) bool
 	isOfType = func(messageName string, typeName string) bool {
 		for _, field := range getFields(typeName) {
@@ -113,13 +114,47 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		return false
 	}
 
+	// filter the messages that is used in the field,
+	// used to filter which are input and output messages
+	// return array of message data
+	getMessagesOfType := func(typeName string) []*data.MessageData {
+		var filteredMess []*data.MessageData
+		for _, message := range messages {
+			if isOfType(message.Name, typeName) {
+				filteredMess = append(filteredMess, message)
+			}
+		}
+		return filteredMess
+	}
+
+	// make a map of string and interface and map message fields to it to be converted into json
+	var makeJSONMap func(fields []data.MessageField) map[string]interface{}
+	makeJSONMap = func(fields []data.MessageField) map[string]interface{} {
+		data := make(map[string]interface{})
+		for _, field := range fields {
+			if isMessage(field.DataType) {
+				data[field.Name] = makeJSONMap(getFields(field.DataType))
+			} else {
+				data[field.Name] = getDefVal(field.DataType)
+			}
+		}
+		return data
+	}
+
+	// convert the fields to map of string and interface and use MarshalIndent to generate Json
+	// return the string of the json
+	makeJSON := func(fields []data.MessageField) string {
+		json, _ := json.MarshalIndent(makeJSONMap(fields), "", "\t")
+		return string(json)
+	}
+
 	funcMap := template.FuncMap{
-		"getDefVal": getDefVal,
-		"isRepeat":  isRepeat,
-		"isMessage": isMessage,
-		"getFields": getFields,
-		"isNotLast": isNotLast,
-		"isOfType":  isOfType,
+		"isRepeat":          isRepeat,
+		"isMessage":         isMessage,
+		"getFields":         getFields,
+		"isNotLast":         isNotLast,
+		"getMessagesOfType": getMessagesOfType,
+		"makeJSON":          makeJSON,
 	}
 
 	// var comError *data.MessageData
