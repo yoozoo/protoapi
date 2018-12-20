@@ -18,7 +18,6 @@ type markdownStruct struct {
 	Messages []*data.MessageData
 	Methods  []*data.Method
 	Time     string
-	//ComErr   *data.MessageData
 }
 
 //contains logic to plug in values to the template specified
@@ -178,25 +177,12 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		"getEnumDesc":       getEnumDesc,
 	}
 
-	// var comError *data.MessageData
-	// for i, msg := range messages {
-	// 	if msg.Name == data.ComErrMsgName {
-	// 		comError = msg
-	// 		messages = append(messages[:i], messages[i+1:]...)
-	// 		break
-	// 	}
-	// }
-	// if comError == nil {
-	// 	return nil, errors.New("Cannot find common error message")
-	// }
-
 	// fill in data
 	templateData := markdownStruct{
 		Services: service,
 		Messages: messages,
 		Methods:  service.Methods,
 		Time:     time.Now().Format(time.RFC822),
-		//ComErr:   comError,
 	}
 
 	//create a template
