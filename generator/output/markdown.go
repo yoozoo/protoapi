@@ -17,6 +17,7 @@ type markdownStruct struct {
 	Services *data.ServiceData
 	Messages []*data.MessageData
 	Methods  []*data.Method
+	Enums    []*data.EnumData
 	Time     string
 }
 
@@ -41,10 +42,30 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	//读取template文件
 	markdownTemplate := tpl.FSMustString(false, "/generator/template/markdown.gomd")
 
+	// check if a field is of type enum
+	isEnum := func(fieldType string) bool {
+		for _, enum := range enums {
+			if enum.Name == fieldType {
+				return true
+			}
+		}
+		return false
+	}
+
+	// return the first enum field name
+	getDefEnum := func(fieldType string) string {
+		for _, enum := range enums {
+			if enum.Name == fieldType {
+				return enum.Fields[0].Name
+			}
+		}
+		return ""
+	}
+
 	// create template function map
 	// get the default value of each data type
-	getDefVal := func(dataType string) string {
-		switch dataType {
+	getDefVal := func(fieldType string) string {
+		switch fieldType {
 		case data.BooleanFieldType:
 			return "false"
 		case data.DoubleFieldType,
@@ -55,6 +76,10 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		case data.StringFieldType:
 			return "Success"
 		}
+
+		if isEnum(fieldType) {
+			return getDefEnum(fieldType)
+		}
 		return ""
 	}
 
@@ -62,16 +87,6 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	isRepeat := func(labelType string) bool {
 		if labelType == data.FieldRepeatedLabel {
 			return true
-		}
-		return false
-	}
-
-	// check if a field is of type enum
-	isEnum := func(fieldType string) bool {
-		for _, enum := range enums {
-			if enum.Name == fieldType {
-				return true
-			}
 		}
 		return false
 	}
@@ -148,33 +163,18 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	// convert the fields to map of string and interface and use MarshalIndent to generate Json
 	// return the string of the json
 	makeJSON := func(fields []data.MessageField) string {
-		json, _ := json.MarshalIndent(makeJSONMap(fields), "", "\t")
+		json, _ := json.MarshalIndent(makeJSONMap(fields), "", "   ")
 		return string(json)
 	}
 
-	// convert the enum to a description string
-	getEnumDesc := func(enumName string) string {
-		var desc string
-		for _, enum := range enums {
-			if enum.Name == enumName {
-				for _, field := range enum.Fields {
-					desc = desc + " " + field.Name
-				}
-				break
-			}
-		}
-		return desc
-	}
-
 	funcMap := template.FuncMap{
+		"isEnum":            isEnum,
 		"isRepeat":          isRepeat,
 		"isMessage":         isMessage,
-		"isEnum":            isEnum,
 		"getFields":         getFields,
 		"isNotLast":         isNotLast,
 		"getMessagesOfType": getMessagesOfType,
 		"makeJSON":          makeJSON,
-		"getEnumDesc":       getEnumDesc,
 	}
 
 	// fill in data
@@ -182,6 +182,7 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		Services: service,
 		Messages: messages,
 		Methods:  service.Methods,
+		Enums:    enums,
 		Time:     time.Now().Format(time.RFC822),
 	}
 

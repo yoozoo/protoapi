@@ -6,7 +6,9 @@ import (
 	"log"
 	"path/filepath"
 	"reflect"
+	"strconv"
 	"strings"
+	"unicode"
 
 	"github.com/golang/protobuf/proto"
 
@@ -25,15 +27,20 @@ const (
 )
 
 // createEnums create EnumData objects from the passed in enum discriptor
-func createEnums(pkg string, enums []*descriptor.EnumDescriptorProto) []*data.EnumData {
+func createEnums(pkg string, path string, enums []*descriptor.EnumDescriptorProto, cMap data.CommentMap) []*data.EnumData {
 	var result []*data.EnumData
-	for _, enum := range enums {
+	for eIndex, enum := range enums {
+		var enumCommPath = path + strconv.Itoa(eIndex)
 		var enumData = new(data.EnumData)
 		enumData.Name = pkg + "." + enum.GetName()
-		for _, field := range enum.GetValue() {
+		enumData.Comment = getCommentsFromMap(enumCommPath, cMap)
+
+		for fIndex, field := range enum.GetValue() {
+			var enumFieldCommPath = enumCommPath + strconv.Itoa(data.EnumFieldCommentPath) + strconv.Itoa(fIndex)
 			var enumField data.EnumField
 			enumField.Name = field.GetName()
 			enumField.Value = field.GetNumber()
+			enumField.Comment = getCommentsFromMap(enumFieldCommPath, cMap)
 			enumData.Fields = append(enumData.Fields, enumField)
 		}
 		result = append(result, enumData)
@@ -42,23 +49,27 @@ func createEnums(pkg string, enums []*descriptor.EnumDescriptorProto) []*data.En
 }
 
 // createMessages create message and enum definitions from the passed in descriptor
-func createMessages(file string, pkg string, messages []*descriptor.DescriptorProto) ([]*data.MessageData, []*data.EnumData) {
+func createMessages(file string, path string, pkg string, messages []*descriptor.DescriptorProto, cMap data.CommentMap) ([]*data.MessageData, []*data.EnumData) {
 	var resultMsg []*data.MessageData
 	var resultEnum []*data.EnumData
 
-	for _, message := range messages {
+	for mIndex, message := range messages {
+		var msgCommPath = path + strconv.Itoa(mIndex)
 		var msgData = new(data.MessageData)
 		msgData.Name = pkg + "." + message.GetName()
 		msgData.File = file
+		msgData.Comment = getCommentsFromMap(msgCommPath, cMap)
 
 		// the message itself
 		fields := message.GetField()
-		for _, field := range fields {
+		for fIndex, field := range fields {
+			var msgFieldPath = msgCommPath + strconv.Itoa(data.MessageFieldCommentPath) + strconv.Itoa(fIndex)
 			msgField := new(data.MessageField)
 			msgField.Name = field.GetName()
 			msgField.Key = field.GetName()
 			msgField.Label = field.GetLabel().String()
 			msgField.Options = getFieldOptions(field)
+			msgField.Comment = getCommentsFromMap(msgFieldPath, cMap)
 
 			switch field.GetType().String() {
 			case "TYPE_STRING":
@@ -83,14 +94,47 @@ func createMessages(file string, pkg string, messages []*descriptor.DescriptorPr
 
 			msgData.Fields = append(msgData.Fields, msgField)
 		}
-		resultEnum = append(resultEnum, createEnums(msgData.Name, message.GetEnumType())...)
+		resultEnum = append(resultEnum, createEnums(msgData.Name, strconv.Itoa(data.MessageEnumCommentPath), message.GetEnumType(), cMap)...)
 		// msg and enum definitions from the nested messages and enums (recursively)
-		msgs, enums := createMessages(file, msgData.Name, message.GetNestedType())
+		msgs, enums := createMessages(file, msgCommPath+strconv.Itoa(data.MessageNestedCommentPath), msgData.Name, message.GetNestedType(), cMap)
 		resultEnum = append(resultEnum, enums...)
 		resultMsg = append(resultMsg, msgs...)
 		resultMsg = append(resultMsg, msgData)
 	}
 	return resultMsg, resultEnum
+}
+
+func createCommentMap(codeInfo []*descriptor.SourceCodeInfo_Location) data.CommentMap {
+	result := make(data.CommentMap)
+	var replaceSpaces = func(s rune) rune {
+		if unicode.IsSpace(s) {
+			return ' '
+		}
+		return s
+	}
+	for _, c := range codeInfo {
+
+		if c.LeadingComments != nil || c.TrailingComments != nil {
+			path := c.GetPath()
+			var comment string
+			if c.LeadingComments != nil {
+				// have leading comment
+				comment += strings.Map(replaceSpaces, c.GetLeadingComments())
+				comment += " "
+			}
+			if c.TrailingComments != nil {
+				// have trailing comment
+				comment += strings.Map(replaceSpaces, c.GetTrailingComments())
+				comment += " "
+			}
+			var idx string
+			for _, p := range path {
+				idx += strconv.Itoa(int(p))
+			}
+			result[idx] = comment
+		}
+	}
+	return result
 }
 
 func parseMessageDataType(dataType string) string {
@@ -99,6 +143,15 @@ func parseMessageDataType(dataType string) string {
 	}
 
 	return dataType
+}
+
+func getCommentsFromMap(path string, cMap data.CommentMap) string {
+	result := ""
+	comment, exist := cMap[path]
+	if exist {
+		result = comment
+	}
+	return result
 }
 
 // getMessages returns the flattened message and enum definitions generated from the discriptors
@@ -110,7 +163,8 @@ func getMessages(files []*descriptor.FileDescriptorProto) ([]*data.MessageData, 
 		if file.GetName() == googleDescriptorProtoName {
 			continue
 		}
-
+		// create comment map for each file
+		cMap := createCommentMap(file.SourceCodeInfo.GetLocation())
 		packageName := file.GetPackage()
 		// packageName for this file
 		if len(packageName) > 0 {
@@ -118,9 +172,9 @@ func getMessages(files []*descriptor.FileDescriptorProto) ([]*data.MessageData, 
 		}
 
 		//enums at file level
-		resultEnum = append(resultEnum, createEnums(packageName, file.GetEnumType())...)
+		resultEnum = append(resultEnum, createEnums(packageName, strconv.Itoa(data.EnumCommentPath), file.GetEnumType(), cMap)...)
 		//messages at file level
-		msgs, enums := createMessages(file.GetName(), packageName, file.GetMessageType())
+		msgs, enums := createMessages(file.GetName(), strconv.Itoa(data.MessageCommentPath), packageName, file.GetMessageType(), cMap)
 		resultEnum = append(resultEnum, enums...)
 		resultMsg = append(resultMsg, msgs...)
 	}
@@ -129,18 +183,20 @@ func getMessages(files []*descriptor.FileDescriptorProto) ([]*data.MessageData, 
 }
 
 // map MethodDescriptorProto to Method
-func getMethods(pkg string, service *descriptor.ServiceDescriptorProto) []*data.Method {
+func getMethods(pkg string, path string, service *descriptor.ServiceDescriptorProto, cMap data.CommentMap) []*data.Method {
 	methods := service.GetMethod()
 	serviceName := service.GetName()
 	var resultMtd []*data.Method
 	log.Printf("proto pkg: %s\n", pkg)
-	for _, mtd := range methods {
+	for mIndex, mtd := range methods {
+		var mtdMessagePath = path + strconv.Itoa(mIndex)
 		var mtdData = &data.Method{
 			Name:       mtd.GetName(),
 			InputType:  parseMessageDataType(mtd.GetInputType()),
 			OutputType: parseMessageDataType(mtd.GetOutputType()),
 			HttpMtd:    mapHTTPMtd(mtd.GetName()),
 			URI:        serviceName + "." + mtd.GetName(),
+			Comment:    getCommentsFromMap(mtdMessagePath, cMap),
 			Options:    getMethodOptions(mtd),
 		}
 		resultMtd = append(resultMtd, mtdData)
@@ -159,16 +215,18 @@ func mapHTTPMtd(method string) string {
 }
 
 // createServices create message and enum definitions from the passed in descriptor
-func createServices(file string, pkg string, services []*descriptor.ServiceDescriptorProto) []*data.ServiceData {
+func createServices(file string, path string, pkg string, services []*descriptor.ServiceDescriptorProto, cMap data.CommentMap) []*data.ServiceData {
 	var resultSers []*data.ServiceData
 
-	for _, service := range services {
+	for sIndex, service := range services {
+		var serCommentPath = path + strconv.Itoa(sIndex)
 		var serData = new(data.ServiceData)
 		// the service itself
 
 		// Get all mtds for the service
 		serData.Name = service.GetName()
-		mtds := getMethods(pkg, service)
+		serData.Comment = getCommentsFromMap(serCommentPath, cMap)
+		mtds := getMethods(pkg, serCommentPath+strconv.Itoa(data.ServiceMethodCommentPath), service, cMap)
 		serData.Methods = mtds
 		serData.Service = service
 		serData.Options = getServiceOptions(service)
@@ -189,10 +247,12 @@ func getServices(files []*descriptor.FileDescriptorProto) []*data.ServiceData {
 
 	for _, file := range files {
 		packageName := file.GetPackage()
+		// create comment map for each file
+		cMap := createCommentMap(file.SourceCodeInfo.GetLocation())
 		// enums at file level
-		resultEnum = append(resultEnum, createEnums(packageName, file.GetEnumType())...)
+		resultEnum = append(resultEnum, createEnums(packageName, strconv.Itoa(data.EnumCommentPath), file.GetEnumType(), cMap)...)
 		// service at file level
-		sers := createServices(file.GetName(), packageName, file.GetService())
+		sers := createServices(file.GetName(), strconv.Itoa(data.ServiceCommentPath), packageName, file.GetService(), cMap)
 		resultSers = append(resultSers, sers...)
 	}
 	return resultSers

@@ -43,6 +43,22 @@ const (
 
 	// ComErrMsgName  is common error message name
 	ComErrMsgName = "CommonError"
+
+	// path numbers in FileDescriptorProto (describe proto file)
+	MessageCommentPath = 4
+	EnumCommentPath    = 5
+	ServiceCommentPath = 6
+
+	// path numbers in DescriptorProto (describe messages)
+	MessageFieldCommentPath  = 2 // field
+	MessageNestedCommentPath = 3 // nested
+	MessageEnumCommentPath   = 4 // enum
+
+	// path numbers in EnumDescriptorProto (describe enum)
+	EnumFieldCommentPath = 2 // field
+
+	// path numbers in ServiceDescriptorProto (describe service)
+	ServiceMethodCommentPath = 2
 )
 
 // ServiceOptions is the map of field number and field name in service options
@@ -74,14 +90,16 @@ func LoadTpl(tplPath string) string {
 
 // EnumField a enum entry for enum datatype
 type EnumField struct {
-	Name  string // enum entry name
-	Value int32  // enum entry value
+	Name    string // enum entry name
+	Value   int32  // enum entry value
+	Comment string
 }
 
 // EnumData a structure to represent a enum datatype
 type EnumData struct {
-	Name   string      // enum type name
-	Fields []EnumField // enum entries
+	Name    string // enum type name
+	Comment string
+	Fields  []EnumField // enum entries
 }
 
 // MessageField a field for the defined message.
@@ -90,14 +108,16 @@ type MessageField struct {
 	DataType string // message variable type
 	Key      string // coresponding key name for the variable, default is the same as variable name
 	Label    string
+	Comment  string
 	Options  OptionMap
 }
 
 // MessageData a structure to represent a message datatype
 type MessageData struct {
-	File   string          // file where this message is defined
-	Name   string          // name of the message (class, struct)
-	Fields []*MessageField // message members
+	File    string // file where this message is defined
+	Name    string // name of the message (class, struct)
+	Comment string
+	Fields  []*MessageField // message members
 }
 
 type Method struct {
@@ -106,11 +126,13 @@ type Method struct {
 	OutputType string
 	HttpMtd    string
 	URI        string
+	Comment    string
 	Options    OptionMap // service method option (default is GET and POST)
 }
 
 type ServiceData struct {
 	Name            string
+	Comment         string
 	Methods         []*Method
 	Options         OptionMap
 	CommonErrorType string
@@ -127,3 +149,7 @@ type CodeGenerator interface {
 
 // OutputMap the registra for output code type and its associated output plugin
 var OutputMap = make(map[string]CodeGenerator)
+
+// CommentMap map comment to message/service/field
+// path => comment
+type CommentMap map[string]string
