@@ -7,12 +7,17 @@ syntax = "proto3";
 import "common.proto";
 
 message LoginReq {
-    string account = 1;
+    string account = 1; //Account name
+    /*
+    game id refer to game table
+    */
     int32 game_id = 2;
-    int32 op_id = 3;
+    //operation Id
+    int32 op_id = 3; // test table
     int32 server_id = 4;
 }
 
+// login request return
 message LoginResp {
     int32 code = 1;
     string msg = 2;
@@ -20,26 +25,30 @@ message LoginResp {
     repeated string data = 4;
 }
 
-message LoginInfo {
-    string user_id = 1;
-    string last_login = 2;
-    bool is_vip = 3;
-    repeated AccountInfo accountInfo = 4;
-    VipStatus vipStatus = 5;
-}
-
 message AccountInfo {
     string account_name = 1;
     string join_time = 2;
 }
 
+message LoginInfo {
+    string user_id = 1;
+    string last_login = 2;
+    bool is_vip = 3;
+    repeated AccountInfo accountInfo = 4;
+    VipStatus vipStatus = 5; //this is an enum
+}
+
+
+
 enum VipStatus {
-    UNKNOWN = 0;
+    UNKNOWN = 0; //default value for status
     VIP_1 = 1;
     VIP_2 = 2;
 }
 
+//test service comment
 service LoginService {
+    //test method comment
   rpc logingame(LoginReq) returns (LoginResp) {
   }
 }
