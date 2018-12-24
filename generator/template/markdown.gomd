@@ -18,8 +18,8 @@
 - {{$met.HttpMtd}}
 
 ### parameter:
-{{range $mes := getMessagesOfType $met.InputType}}
-## {{$mes.Name}} {{if ne $mes.Comment ""}}({{$mes.Comment}}){{end}}
+{{range $mes := getMessagesOfType $met.InputType $met.InputType}}
+## {{$mes.Name}} {{if eq $mes.Name $met.InputType}}-ROOT-{{end}} {{if ne $mes.Comment ""}}({{$mes.Comment}}){{end}}
 | parameter name  | required  | type  | description
 | :-------------- |:--------- | :---- | :----------
 {{- range .Fields}}
@@ -34,8 +34,8 @@
 ```
 
 ### Return parameter description
-{{range $mes := getMessagesOfType $met.OutputType}}
-## {{$mes.Name}} {{if ne $mes.Comment ""}}({{$mes.Comment}}){{end}}
+{{range $mes := getMessagesOfType $met.OutputType $met.OutputType}}
+## {{$mes.Name}} {{if eq $mes.Name $met.OutputType}}-ROOT-{{end}} {{if ne $mes.Comment ""}}({{$mes.Comment}}){{end}}
 | parameter name  | type            | description
 | :------------   |:--------------- | :----------
 {{- range .Fields}}

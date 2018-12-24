@@ -105,42 +105,40 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		}
 	}
 
-	// get the messageData that matches the datatype and return the fields
-	getFields := func(fieldType string) []data.MessageField {
+	// get the messageData that matches the messageName and return the fields
+	getFields := func(messageName string) []data.MessageField {
 		for _, message := range messages {
-			if message.Name == fieldType {
+			if message.Name == messageName {
 				return message.Fields
 			}
 		}
 		return make([]data.MessageField, 0)
 	}
 
-	// check if a field is not the last field in message
-	isNotLast := func(fieldName string, fields []data.MessageField) bool {
-		return fieldName != fields[len(fields)-1].Name
-	}
-
-	// check if a method is part of an input parameter or an output parameter
-	var isOfType func(messageName string, typeName string) bool
-	isOfType = func(messageName string, typeName string) bool {
-		for _, field := range getFields(typeName) {
-			if isMessage(field.DataType) {
-				return isOfType(messageName, field.DataType)
-			} else if messageName == typeName {
-				return true
+	// return the messageData that matches messageName
+	getMessage := func(messageName string) *data.MessageData {
+		mData := &data.MessageData{}
+		for _, message := range messages {
+			if message.Name == messageName {
+				mData = message
+				break
 			}
 		}
-		return false
+		return mData
 	}
 
 	// filter the messages that is used in the field,
-	// used to filter which are input and output messages
-	// return array of message data
-	getMessagesOfType := func(typeName string) []*data.MessageData {
+	// return array of message data including the nested messages structure
+	var getMessagesOfType func(messageName string, rootName string) []*data.MessageData
+	getMessagesOfType = func(messageName string, rootName string) []*data.MessageData {
 		var filteredMess []*data.MessageData
-		for _, message := range messages {
-			if isOfType(message.Name, typeName) {
-				filteredMess = append(filteredMess, message)
+		mData := getMessage(messageName)
+
+		filteredMess = append(filteredMess, mData)
+
+		for _, field := range mData.Fields {
+			if isMessage(field.DataType) {
+				filteredMess = append(filteredMess, getMessagesOfType(field.DataType, rootName)...)
 			}
 		}
 		return filteredMess
@@ -172,7 +170,6 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		"isRepeat":          isRepeat,
 		"isMessage":         isMessage,
 		"getFields":         getFields,
-		"isNotLast":         isNotLast,
 		"getMessagesOfType": getMessagesOfType,
 		"makeJSON":          makeJSON,
 	}
