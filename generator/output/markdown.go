@@ -33,6 +33,16 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		packageName = "Yoozoo\\Agent"
 	}
 
+	msgMap := make(map[string]*data.MessageData)
+	for _, message := range messages {
+		msgMap[message.Name] = message
+	}
+
+	enumMap := make(map[string]*data.EnumData)
+	for _, enum := range enums {
+		enumMap[enum.Name] = enum
+	}
+
 	fileName := strings.Replace(packageName, "\\", "/", -1)
 	if len(fileName) > 0 {
 		fileName += "/"
@@ -44,20 +54,16 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 
 	// check if a field is of type enum
 	isEnum := func(fieldType string) bool {
-		for _, enum := range enums {
-			if enum.Name == fieldType {
-				return true
-			}
+		if _, exist := enumMap[fieldType]; exist {
+			return true
 		}
 		return false
 	}
 
 	// return the first enum field name
 	getDefEnum := func(fieldType string) string {
-		for _, enum := range enums {
-			if enum.Name == fieldType {
-				return enum.Fields[0].Name
-			}
+		if _, exist := enumMap[fieldType]; exist {
+			return enumMap[fieldType].Fields[0].Name
 		}
 		return ""
 	}
@@ -107,24 +113,18 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 
 	// get the messageData that matches the messageName and return the fields
 	getFields := func(messageName string) []data.MessageField {
-		for _, message := range messages {
-			if message.Name == messageName {
-				return message.Fields
-			}
+		if _, exist := msgMap[messageName]; exist {
+			return msgMap[messageName].Fields
 		}
 		return make([]data.MessageField, 0)
 	}
 
 	// return the messageData that matches messageName
 	getMessage := func(messageName string) *data.MessageData {
-		mData := &data.MessageData{}
-		for _, message := range messages {
-			if message.Name == messageName {
-				mData = message
-				break
-			}
+		if _, exist := msgMap[messageName]; exist {
+			return msgMap[messageName]
 		}
-		return mData
+		return &data.MessageData{}
 	}
 
 	// filter the messages that is used in the field,
