@@ -49,3 +49,8 @@
   ../protoapi gen --lang=yii2 result/ proto/todolist.proto
   diff -I "^//.*$" -r result/app/ expected/app/
 }
+
+@test "login.proto markdown output" {
+  ../protoapi gen --lang=markdown result/ proto/login.proto
+  diff -I "^//.*$" -r result/markdown/ expected/markdown/
+}
