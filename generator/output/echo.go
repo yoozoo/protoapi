@@ -78,14 +78,13 @@ func formatBuffer(buf *bytes.Buffer) string {
 	return ""
 }
 
-func (g *echoGen) getStructFilename(packageName string, msg *data.MessageData) string {
-	return packageName + "/" + msg.Name + ".go"
+func (g *echoGen) getStructFilename(packageName string, obj *echoStruct) string {
+	return packageName + "/" + obj.ClassName() + ".go"
 }
 
-func (g *echoGen) genStruct(msg *data.MessageData, enums []*data.EnumData) string {
+func (g *echoGen) genStruct(obj *echoStruct) string {
 	buf := bytes.NewBufferString("")
 
-	obj := newEchoStruct(msg, g.PackageName, enums)
 	err := g.structTpl.Execute(buf, obj)
 	if err != nil {
 		util.Die(err)
@@ -130,16 +129,6 @@ func genEchoPackageName(packageName string) string {
 	return strings.Replace(packageName, ".", "_", -1)
 }
 
-func isInStringArray(str string, arr []string) bool {
-	for _, s := range arr {
-		if str == s {
-			return true
-		}
-	}
-
-	return false
-}
-
 func (g *echoGen) Init(request *plugin.CodeGeneratorRequest) {
 	for _, file := range request.ProtoFile {
 		if !util.IsStrInSlice(file.GetName(), request.FileToGenerate) {
@@ -179,8 +168,15 @@ func (g *echoGen) Gen(applicationName string, packageName string, service *data.
 	result = make(map[string]string)
 
 	for _, msg := range messages {
-		filename := g.getStructFilename(g.PackageName, msg)
-		content := g.genStruct(msg, enums)
+		f := data.GetProtoFile(msg.File)
+		if !f.IsFileToGenerate && f.Proto.GetOptions().GetGoPackage() != "" {
+			continue
+		}
+
+		obj := newEchoStruct(msg, g.PackageName, enums)
+
+		filename := g.getStructFilename(g.PackageName, obj)
+		content := g.genStruct(obj)
 
 		result[filename] = content
 	}

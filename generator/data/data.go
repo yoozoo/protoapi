@@ -95,9 +95,9 @@ type MessageField struct {
 
 // MessageData a structure to represent a message datatype
 type MessageData struct {
-	File   string         // file where this message is defined
-	Name   string         // name of the message (class, struct)
-	Fields []MessageField // message members
+	File   string          // file where this message is defined
+	Name   string          // name of the message (class, struct)
+	Fields []*MessageField // message members
 }
 
 type Method struct {

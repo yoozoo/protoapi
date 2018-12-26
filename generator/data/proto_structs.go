@@ -15,7 +15,9 @@ import (
 // GenerateReq is the code-gen request struct passed to generators
 type GenerateReq struct {
 	Files      map[string]*ProtoFile
+	PackageMap map[string]*ProtoFile
 	MessageMap map[string]*ProtoMessage
+	EnumMap    map[string]*ProtoEnum
 }
 
 var _req *GenerateReq
@@ -27,12 +29,15 @@ func Setup(request *plugin.CodeGeneratorRequest) {
 func NewGenerateReq(request *plugin.CodeGeneratorRequest) *GenerateReq {
 	result := &GenerateReq{}
 	result.Files = make(map[string]*ProtoFile)
+	result.PackageMap = make(map[string]*ProtoFile)
 	result.MessageMap = make(map[string]*ProtoMessage)
+	result.EnumMap = make(map[string]*ProtoEnum)
 
 	for _, file := range request.ProtoFile {
 		pf := NewProtoFile(file)
 		pkg := file.GetPackage()
-		result.Files[pkg] = pf
+		result.PackageMap[pkg] = pf
+		result.Files[file.GetName()] = pf
 
 		if pkg != "" {
 			pkg = pkg + "."
@@ -43,11 +48,39 @@ func NewGenerateReq(request *plugin.CodeGeneratorRequest) *GenerateReq {
 		}
 
 		for name, m := range pf.Messages {
+
 			result.MessageMap[pkg+name] = m
+		}
+
+		for name, e := range pf.Enums {
+			result.EnumMap[pkg+name] = e
 		}
 	}
 
 	return result
+}
+
+func GetProtoFile(filename string) (file *ProtoFile) {
+	file = _req.Files[filename]
+
+	if file == nil {
+		log.Println("proto file not found: " + filename)
+	}
+	return
+}
+
+func FlattenLocalPackage(msg *MessageData) {
+	_, p := GetMessageProtoAndFile(msg.Name)
+	if p.IsFileToGenerate {
+		msg.Name = msg.Name[strings.LastIndex(msg.Name, ".")+1:]
+	}
+
+	for _, f := range msg.Fields {
+		_, p = GetMessageProtoAndFile(f.DataType)
+		if p == nil || p.IsFileToGenerate {
+			f.DataType = f.DataType[strings.LastIndex(f.DataType, ".")+1:]
+		}
+	}
 }
 
 func GetMessageProtoAndFile(name string) (msg *ProtoMessage, file *ProtoFile) {
@@ -55,7 +88,11 @@ func GetMessageProtoAndFile(name string) (msg *ProtoMessage, file *ProtoFile) {
 
 	msg = _req.MessageMap[name]
 	if msg == nil {
-		log.Println("msg not found: " + name)
+		if !util.IsStrInSlice(name, []string{"string", "int", "int64", "bool"}) {
+			if _, ok := _req.EnumMap[name]; !ok {
+				log.Println("msg not found: " + name)
+			}
+		}
 	}
 	pos := strings.LastIndex(name, ".")
 
@@ -63,7 +100,28 @@ func GetMessageProtoAndFile(name string) (msg *ProtoMessage, file *ProtoFile) {
 		pkg = name[:pos]
 	}
 
-	file = _req.Files[pkg]
+	file = _req.PackageMap[pkg]
+
+	if file == nil {
+		log.Println("pkg not found: " + pkg)
+	}
+	return
+}
+
+func GetEnumProtoAndFile(name string) (e *ProtoEnum, file *ProtoFile) {
+	var pkg string
+
+	e = _req.EnumMap[name]
+	if e == nil {
+		return
+	}
+	pos := strings.LastIndex(name, ".")
+
+	if pos > -1 {
+		pkg = name[:pos]
+	}
+
+	file = _req.PackageMap[pkg]
 
 	if file == nil {
 		log.Println("pkg not found: " + pkg)

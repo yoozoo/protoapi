@@ -15,6 +15,7 @@ func NewMessage(msg *data.MessageData, baseNameSpace string, enums []*data.EnumD
 	nameSpace := baseNameSpace + "\\models"
 	filePath := strings.Replace(nameSpace, "\\", "/", -1)
 	filePath = filePath + "/" + strings.Title(msg.Name) + ".php"
+
 	o := &Message{msg, nameSpace, filePath, enums}
 	return o
 }

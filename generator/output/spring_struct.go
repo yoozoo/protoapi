@@ -7,7 +7,7 @@ import (
 )
 
 type springField struct {
-	data.MessageField
+	*data.MessageField
 }
 
 func (s *springField) Title() string {

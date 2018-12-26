@@ -9,6 +9,25 @@
   diff -I "^//.*$" -r result/go/ expected/go/
 }
 
+@test "packagetest.proto go output" {
+  ../protoapi gen --lang=go result/package/go proto/package/common.proto
+  ../protoapi gen --lang=go result/package/go proto/package/gopackage_addReqFull.proto
+  ../protoapi gen --lang=go result/package/go proto/package/gopackage_addReq.proto
+  ../protoapi gen --lang=go result/package/go proto/package/gopackage_calcFull.proto
+  ../protoapi gen --lang=go result/package/go proto/package/gopackage_calc.proto
+  ../protoapi gen --lang=go result/package/go proto/package/gopackage_calc_warn.proto
+  ../protoapi gen --lang=go result/package/go proto/package/mixpackage_addReq.proto
+  ../protoapi gen --lang=go result/package/go proto/package/mixpackage_calc.proto
+  ../protoapi gen --lang=go result/package/go proto/package/nopackage_calc.proto
+  ../protoapi gen --lang=go result/package/go proto/package/nopackage_calc_warn.proto
+  ../protoapi gen --lang=go result/package/go proto/package/package_addReq.proto
+  ../protoapi gen --lang=go result/package/go proto/package/package_calc_commonerror.proto
+  ../protoapi gen --lang=go result/package/go proto/package/package_calc.proto
+  ../protoapi gen --lang=go result/package/go proto/package/package_calc._without_commonerror.proto
+
+  diff -r result/package/go/ expected/package/go/
+}
+
 @test "test.proto ts output" {
   ../protoapi gen --lang=ts result/ts proto/test.proto
   ../protoapi gen --lang=ts-fetch result/ts/fetch proto/test.proto

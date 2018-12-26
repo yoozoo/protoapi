@@ -9,44 +9,31 @@ import (
 
 // AppService is the interface contains all the controllers
 type AppService interface {
-	GetEnv(c echo.Context, req *EnvListRequest) (resp *EnvListResponse, bizError *Error, err error)
-	// GetEnv(echo.Context, *EnvListRequest) (*EnvListResponse, *Error)
+	GetEnv(c echo.Context, req *EnvListRequest) (resp *EnvListResponse, bizError **Error, err error)
 
-	RegisterService(c echo.Context, req *RegisterServiceRequest) (resp *RegisterServiceResponse, bizError *Error, err error)
-	// RegisterService(echo.Context, *RegisterServiceRequest) (*RegisterServiceResponse, *Error)
+	RegisterService(c echo.Context, req *RegisterServiceRequest) (resp *RegisterServiceResponse, bizError **Error, err error)
 
-	UpdateService(c echo.Context, req *UpdateServiceRequest) (resp *UpdateServiceResponse, bizError *Error, err error)
-	// UpdateService(echo.Context, *UpdateServiceRequest) (*UpdateServiceResponse, *Error)
+	UpdateService(c echo.Context, req *UpdateServiceRequest) (resp *UpdateServiceResponse, bizError **Error, err error)
 
-	UploadProtoFile(c echo.Context, req *UploadProtoFileRequest) (resp *UploadProtoFileResponse, bizError *Error, err error)
-	// UploadProtoFile(echo.Context, *UploadProtoFileRequest) (*UploadProtoFileResponse, *Error)
+	UploadProtoFile(c echo.Context, req *UploadProtoFileRequest) (resp *UploadProtoFileResponse, bizError **Error, err error)
 
-	GetTags(c echo.Context, req *TagListRequest) (resp *TagListResponse, bizError *Error, err error)
-	// GetTags(echo.Context, *TagListRequest) (*TagListResponse, *Error)
+	GetTags(c echo.Context, req *TagListRequest) (resp *TagListResponse, bizError **Error, err error)
 
-	GetProducts(c echo.Context, req *ProductListRequest) (resp *ProductListResponse, bizError *Error, err error)
-	// GetProducts(echo.Context, *ProductListRequest) (*ProductListResponse, *Error)
+	GetProducts(c echo.Context, req *ProductListRequest) (resp *ProductListResponse, bizError **Error, err error)
 
-	GetServices(c echo.Context, req *ServiceListRequest) (resp *ServiceListResponse, bizError *Error, err error)
-	// GetServices(echo.Context, *ServiceListRequest) (*ServiceListResponse, *Error)
+	GetServices(c echo.Context, req *ServiceListRequest) (resp *ServiceListResponse, bizError **Error, err error)
 
-	SearchServices(c echo.Context, req *ServiceSearchRequest) (resp *ServiceListResponse, bizError *Error, err error)
-	// SearchServices(echo.Context, *ServiceSearchRequest) (*ServiceListResponse, *Error)
+	SearchServices(c echo.Context, req *ServiceSearchRequest) (resp *ServiceListResponse, bizError **Error, err error)
 
-	GetKeyList(c echo.Context, req *KeyListRequest) (resp *KeyListResponse, bizError *Error, err error)
-	// GetKeyList(echo.Context, *KeyListRequest) (*KeyListResponse, *Error)
+	GetKeyList(c echo.Context, req *KeyListRequest) (resp *KeyListResponse, bizError **Error, err error)
 
-	GetKeyValueList(c echo.Context, req *KeyValueListRequest) (resp *KeyValueListResponse, bizError *Error, err error)
-	// GetKeyValueList(echo.Context, *KeyValueListRequest) (*KeyValueListResponse, *Error)
+	GetKeyValueList(c echo.Context, req *KeyValueListRequest) (resp *KeyValueListResponse, bizError **Error, err error)
 
-	SearchKeyValueList(c echo.Context, req *SearchKeyValueListRequest) (resp *KeyValueListResponse, bizError *Error, err error)
-	// SearchKeyValueList(echo.Context, *SearchKeyValueListRequest) (*KeyValueListResponse, *Error)
+	SearchKeyValueList(c echo.Context, req *SearchKeyValueListRequest) (resp *KeyValueListResponse, bizError **Error, err error)
 
-	UpdateKeyValue(c echo.Context, req *KeyValueRequest) (resp *KeyValueResponse, bizError *Error, err error)
-	// UpdateKeyValue(echo.Context, *KeyValueRequest) (*KeyValueResponse, *Error)
+	UpdateKeyValue(c echo.Context, req *KeyValueRequest) (resp *KeyValueResponse, bizError **Error, err error)
 
-	FetchKeyHistory(c echo.Context, req *KVHistoryRequest) (resp *KVHistoryResponse, bizError *Error, err error)
-	// FetchKeyHistory(echo.Context, *KVHistoryRequest) (*KVHistoryResponse, *Error)
+	FetchKeyHistory(c echo.Context, req *KVHistoryRequest) (resp *KVHistoryResponse, bizError **Error, err error)
 }
 
 func _getEnv_Handler(srv AppService) echo.HandlerFunc {
@@ -55,14 +42,14 @@ func _getEnv_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -90,14 +77,14 @@ func _registerService_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -125,14 +112,14 @@ func _updateService_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -160,14 +147,14 @@ func _uploadProtoFile_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -195,14 +182,14 @@ func _getTags_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -230,14 +217,14 @@ func _getProducts_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -265,14 +252,14 @@ func _getServices_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -300,14 +287,14 @@ func _searchServices_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -335,14 +322,14 @@ func _getKeyList_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -370,14 +357,14 @@ func _getKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -405,14 +392,14 @@ func _searchKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -440,14 +427,14 @@ func _updateKeyValue_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 
@@ -475,14 +462,14 @@ func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
 
 		if err = c.Bind(req); err != nil {
 
-			resp := CommonError{BindError: &BindError{err.Error()}}
+			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
 
 		}
 		/*
 
 			if valErr := req.Validate(); valErr != nil {
-				resp := CommonError{ValidateError: valErr}
+				resp := &CommonError{ValidateError: valErr}
 				return c.JSON(420, resp)
 			}
 

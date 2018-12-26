@@ -2,8 +2,6 @@ syntax = "proto3";
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "rpccommon";
-
 extend google.protobuf.MethodOptions {
   string service_method = 51006;
   string error = 51007;

@@ -2,6 +2,9 @@ package output
 
 import (
 	"bytes"
+	"fmt"
+	"sort"
+	"strings"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"github.com/yoozoo/protoapi/generator/data"
@@ -21,8 +24,90 @@ type goService struct {
 	Gen *goGen
 }
 
-func (g *goService) CommonError() string {
+// GetGoPackageAndType convert proto data type like protoapi.common.error to common.Error
+// and return its package name in go
+func getGoPackageAndType(dataType string) (isFileToGenerate bool, pkg, refType string) {
+	_, p := data.GetMessageProtoAndFile(dataType)
+	isFileToGenerate = p.IsFileToGenerate
+
+	pkg = p.Proto.GetOptions().GetGoPackage()
+
+	structName := dataType[strings.LastIndex(dataType, ".")+1:]
+	pkgName := pkg[strings.LastIndex(pkg, "/")+1:]
+
+	if isFileToGenerate {
+		refType = strings.Title(structName)
+	} else {
+		if pkgName == "" {
+			refType = strings.Title(structName)
+		} else {
+			refType = pkgName + "." + strings.Title(structName)
+		}
+	}
+
+	return
+}
+
+func appendGoImport(imports []string, dataType string) []string {
+	if !strings.Contains(dataType, ".") {
+		return imports
+	}
+
+	isFileToGenerate, pkg, refType := getGoPackageAndType(dataType)
+
+	if !isFileToGenerate && !util.IsStrInSlice(`"`+pkg+`"`, imports) && pkg != "" {
+		imports = append(imports, `"`+pkg+`"`)
+	}
+
+	importGoTypes[dataType] = refType
+
+	return imports
+}
+
+func getGoImport(imports []string) (result string) {
+	if len(imports) == 0 {
+		return ""
+	}
+
+	sort.Slice(imports, func(i, j int) bool {
+		return imports[i] > imports[j]
+	})
+
+	result = fmt.Sprintf(`import (
+	%s
+)
+`, strings.Join(imports, "\n\t"))
+
+	return
+}
+
+func (g *goService) Imports() (result string) {
+	var imports []string
+
+	for _, m := range g.Methods {
+		imports = appendGoImport(imports, m.InputType)
+		imports = appendGoImport(imports, m.OutputType)
+		imports = appendGoImport(imports, m.ErrorType())
+	}
+
+	if g.HasCommonError() {
+		imports = appendGoImport(imports, g.commonError())
+	}
+
+	return getGoImport(imports)
+}
+
+func (g *goService) commonError() string {
 	return g.ServiceData.Options["common_error"]
+}
+
+// CommonError returns common error in go type
+func (g *goService) CommonError() string {
+	return wrapGoType(g.commonError())
+}
+
+func (g *goService) CommonErrorPointer() string {
+	return "&" + wrapGoType(g.commonError())[1:]
 }
 
 func (g *goService) HasCommonError() bool {
@@ -55,6 +140,8 @@ func (g *goService) HasCommonValidateError() bool {
 }
 
 func (g *goGen) genGoServie(service *data.ServiceData) string {
+	importGoTypes = make(map[string]string)
+
 	buf := bytes.NewBufferString("")
 
 	obj := newEchoService(service, g.PackageName)

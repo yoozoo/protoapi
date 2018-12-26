@@ -69,6 +69,11 @@ func (g *phpClientGen) Gen(applicationName string, packageName string, service *
 			break
 		}
 	}
+
+	for _, msg := range messages {
+		data.FlattenLocalPackage(msg)
+	}
+
 	if comError == nil {
 		return nil, errors.New("Cannot find common error message")
 	}

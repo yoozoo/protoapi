@@ -158,7 +158,7 @@ func (g *tsGen) CommonErrorSubTypes() string {
 	return strings.Join(fieldTypes, "")
 }
 
-func (g *tsGen) GetCommoneErrorFields() []data.MessageField {
+func (g *tsGen) GetCommoneErrorFields() []*data.MessageField {
 	commonErrorType := g.service.Options["common_error"]
 	for _, t := range g.DataTypes {
 		if t.Name == commonErrorType {
@@ -197,6 +197,10 @@ func (g *tsGen) Init(request *plugin.CodeGeneratorRequest) {
 
 func (g *tsGen) Gen(applicationName string, packageName string, svr *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
 	g.initFiles(packageName, svr)
+	for _, msg := range messages {
+		data.FlattenLocalPackage(msg)
+	}
+
 	g.DataTypes = messages
 
 	/**
