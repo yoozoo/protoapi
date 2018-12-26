@@ -52,5 +52,5 @@
 
 @test "login.proto markdown output" {
   ../protoapi gen --lang=markdown result/ proto/login.proto
-  diff -I "^//.*$" -r result/Yoozoo/Agent/LoginService.md expected/Yoozoo/Agent/LoginService.md
+  diff -I "^//.*$" -r result/Yoozoo/Agent/ expected/Yoozoo/Agent/
 }
