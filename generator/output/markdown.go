@@ -30,7 +30,7 @@ func (g *markdownGen) Init(request *plugin.CodeGeneratorRequest) {
 func (g *markdownGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	//获取可能的package name
 	if len(packageName) == 0 {
-		packageName = "Yoozoo\\Agent"
+		packageName = "markdown"
 	}
 
 	msgMap := make(map[string]*data.MessageData)
@@ -72,8 +72,6 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	// get the default value of each data type
 	getDefVal := func(fieldType string) string {
 		switch fieldType {
-		case data.BooleanFieldType:
-			return "false"
 		case data.DoubleFieldType,
 			data.IntFieldType,
 			data.Int32FieldType,
@@ -112,11 +110,11 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	}
 
 	// get the messageData that matches the messageName and return the fields
-	getFields := func(messageName string) []data.MessageField {
+	getFields := func(messageName string) []*data.MessageField {
 		if _, exist := msgMap[messageName]; exist {
 			return msgMap[messageName].Fields
 		}
-		return make([]data.MessageField, 0)
+		return make([]*data.MessageField, 0)
 	}
 
 	// return the messageData that matches messageName
@@ -145,22 +143,24 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 	}
 
 	// make a map of string and interface and map message fields to it to be converted into json
-	var makeJSONMap func(fields []data.MessageField) map[string]interface{}
-	makeJSONMap = func(fields []data.MessageField) map[string]interface{} {
-		data := make(map[string]interface{})
+	var makeJSONMap func(fields []*data.MessageField) map[string]interface{}
+	makeJSONMap = func(fields []*data.MessageField) map[string]interface{} {
+		jsonData := make(map[string]interface{})
 		for _, field := range fields {
 			if isMessage(field.DataType) {
-				data[field.Name] = makeJSONMap(getFields(field.DataType))
+				jsonData[field.Name] = makeJSONMap(getFields(field.DataType))
+			} else if field.DataType == data.BooleanFieldType {
+				jsonData[field.Name] = false
 			} else {
-				data[field.Name] = getDefVal(field.DataType)
+				jsonData[field.Name] = getDefVal(field.DataType)
 			}
 		}
-		return data
+		return jsonData
 	}
 
 	// convert the fields to map of string and interface and use MarshalIndent to generate Json
 	// return the string of the json
-	makeJSON := func(fields []data.MessageField) string {
+	makeJSON := func(fields []*data.MessageField) string {
 		json, _ := json.MarshalIndent(makeJSONMap(fields), "", "   ")
 		return string(json)
 	}
