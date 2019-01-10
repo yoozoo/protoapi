@@ -71,7 +71,7 @@ func GetProtoFile(filename string) (file *ProtoFile) {
 
 func FlattenLocalPackage(msg *MessageData) {
 	_, p := GetMessageProtoAndFile(msg.Name)
-	if p.IsFileToGenerate {
+	if p == nil || p.IsFileToGenerate {
 		msg.Name = msg.Name[strings.LastIndex(msg.Name, ".")+1:]
 	}
 
