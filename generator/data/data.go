@@ -72,12 +72,6 @@ var ServiceOptions = map[int32]OptionInfo{
 	ServiceAuthOption:        OptionInfo{"auth_required", (*bool)(nil), BooleanFieldType},
 }
 
-// ServiceOptions is the map of field number and field name in service options
-// var ServiceOptions = map[int32]string{
-// 	ServiceCommonErrorOption: "common_error",
-// 	ServiceAuthOption:        "auth",
-// }
-
 // MethodOptions is the map of field number and field name in method options
 var MethodOptions = map[int32]string{
 	ServiceTypeMethodOption: "service_method",
