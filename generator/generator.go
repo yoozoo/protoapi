@@ -574,20 +574,33 @@ func getMethodOptions(method *descriptor.MethodDescriptorProto) data.OptionMap {
 // Get service options from proto file
 func getServiceOptions(service *descriptor.ServiceDescriptorProto) data.OptionMap {
 	options := make(map[string]string)
+
 	// create extension description
-	for field, name := range data.ServiceOptions {
+	for field, info := range data.ServiceOptions {
+
 		var extDesc = &proto.ExtensionDesc{
 			ExtendedType:  (*descriptor.ServiceOptions)(nil),
-			ExtensionType: (*string)(nil),
+			ExtensionType: info.DefaultNil,
 			Field:         field,
-			Name:          name,
-			Tag:           "bytes," + string(field) + ",opt,name=" + name,
+			Name:          info.Name,
+			Tag:           "bytes," + string(field) + ",opt,name=" + info.Name,
 		}
 
 		ext, err := proto.GetExtension(service.GetOptions(), extDesc)
+
 		if err == nil {
+
 			// add the service method option to the method data
-			options[name] = *ext.(*string)
+			// maybe make it into a function since all the other getOptions method might need it
+			switch info.Type {
+			case data.StringFieldType:
+				options[info.Name] = *ext.(*string)
+			case data.BooleanFieldType:
+				options[info.Name] = strconv.FormatBool(*ext.(*bool))
+			default:
+				options[info.Name] = *ext.(*string)
+			}
+
 		}
 	}
 	return options
