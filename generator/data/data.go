@@ -30,6 +30,11 @@ const (
 	FieldRepeatedLabel = "LABEL_REPEATED"
 	// JavaPackageOption is Java package option constant
 	JavaPackageOption = "javaPackageOption"
+
+	// ServiceAuthOption is service auth_required option
+	ServiceAuthOption = 51010
+	// MethodAuthOption is method auth_req option
+	MethodAuthOption = 51009
 	// ServiceCommonErrorOption is service common_error option
 	ServiceCommonErrorOption = 51008
 	// ServiceTypeMethodOption is service method option
@@ -62,14 +67,16 @@ const (
 )
 
 // ServiceOptions is the map of field number and field name in service options
-var ServiceOptions = map[int32]string{
-	ServiceCommonErrorOption: "common_error",
+var ServiceOptions = map[int32]OptionInfo{
+	ServiceCommonErrorOption: OptionInfo{"common_error", (*string)(nil), StringFieldType},
+	ServiceAuthOption:        OptionInfo{"auth", (*bool)(nil), BooleanFieldType},
 }
 
 // MethodOptions is the map of field number and field name in method options
 var MethodOptions = map[int32]string{
 	ServiceTypeMethodOption: "service_method",
 	ErrorTypeMethodOption:   "error",
+	MethodAuthOption:        "auth_required",
 }
 
 // FieldOptions is the map of field number and field name in field options
@@ -86,6 +93,12 @@ var debugTpl = os.Getenv("debugTpl") == "true"
 func LoadTpl(tplPath string) string {
 	//useLocal is true, the filesystem's contents are instead used.
 	return tpl.FSMustString(debugTpl, tplPath)
+}
+
+type OptionInfo struct {
+	Name       string
+	DefaultNil interface{}
+	Type       string
 }
 
 // EnumField a enum entry for enum datatype
