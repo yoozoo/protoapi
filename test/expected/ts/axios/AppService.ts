@@ -49,8 +49,10 @@ export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never>
     let url: string = generateUrl(baseUrl, "AppService", "getEnv");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -75,8 +77,10 @@ export function registerService(params: RegisterServiceRequest): Promise<Registe
     let url: string = generateUrl(baseUrl, "AppService", "registerService");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -101,8 +105,10 @@ export function updateService(params: UpdateServiceRequest): Promise<UpdateServi
     let url: string = generateUrl(baseUrl, "AppService", "updateService");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -127,8 +133,10 @@ export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadP
     let url: string = generateUrl(baseUrl, "AppService", "uploadProtoFile");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -153,8 +161,10 @@ export function getTags(params: TagListRequest): Promise<TagListResponse | never
     let url: string = generateUrl(baseUrl, "AppService", "getTags");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -179,8 +189,10 @@ export function getProducts(params: ProductListRequest): Promise<ProductListResp
     let url: string = generateUrl(baseUrl, "AppService", "getProducts");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -205,8 +217,10 @@ export function getServices(params: ServiceListRequest): Promise<ServiceListResp
     let url: string = generateUrl(baseUrl, "AppService", "getServices");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -231,8 +245,10 @@ export function searchServices(params: ServiceSearchRequest): Promise<ServiceLis
     let url: string = generateUrl(baseUrl, "AppService", "searchServices");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -257,8 +273,10 @@ export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | ne
     let url: string = generateUrl(baseUrl, "AppService", "getKeyList");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -283,8 +301,10 @@ export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueLi
     let url: string = generateUrl(baseUrl, "AppService", "getKeyValueList");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -309,8 +329,10 @@ export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<K
     let url: string = generateUrl(baseUrl, "AppService", "searchKeyValueList");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -335,8 +357,10 @@ export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueRespons
     let url: string = generateUrl(baseUrl, "AppService", "updateKeyValue");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {
@@ -361,8 +385,10 @@ export function fetchKeyHistory(params: KVHistoryRequest): Promise<KVHistoryResp
     let url: string = generateUrl(baseUrl, "AppService", "fetchKeyHistory");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.post(url, params, config)
         .catch(err => {

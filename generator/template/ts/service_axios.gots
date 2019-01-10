@@ -36,8 +36,10 @@ export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | nev
     let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
     var config = {
         "transformResponse" : [function transformResponse(data) {
-		return data;
-    }]};
+            return data;
+        }],
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    };
 
     return axios.{{$method}}(url, {{if ne $method "get" }}params{{else}}{ params }{{end}}, config)
         .catch(err => {
