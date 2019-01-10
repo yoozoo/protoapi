@@ -66,17 +66,23 @@ const (
 	ServiceMethodCommentPath = 2
 )
 
-// ServiceOptions is the map of field number and field name in service options
+//ServiceOptions is the map of field number and field name in service options
 var ServiceOptions = map[int32]OptionInfo{
 	ServiceCommonErrorOption: OptionInfo{"common_error", (*string)(nil), StringFieldType},
-	ServiceAuthOption:        OptionInfo{"auth", (*bool)(nil), BooleanFieldType},
+	ServiceAuthOption:        OptionInfo{"auth_required", (*bool)(nil), BooleanFieldType},
 }
+
+// ServiceOptions is the map of field number and field name in service options
+// var ServiceOptions = map[int32]string{
+// 	ServiceCommonErrorOption: "common_error",
+// 	ServiceAuthOption:        "auth",
+// }
 
 // MethodOptions is the map of field number and field name in method options
 var MethodOptions = map[int32]string{
 	ServiceTypeMethodOption: "service_method",
 	ErrorTypeMethodOption:   "error",
-	MethodAuthOption:        "auth_required",
+	MethodAuthOption:        "auth",
 }
 
 // FieldOptions is the map of field number and field name in field options
