@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"github.com/yoozoo/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/logger"
 	"github.com/yoozoo/protoapi/util"
 )
 
@@ -137,6 +139,19 @@ func (g *goService) HasCommonBindError() bool {
 
 func (g *goService) HasCommonValidateError() bool {
 	return g.hasCommonError("validateError")
+}
+
+func (g *goService) AuthRequired() bool {
+	for s, s1 := range g.Options {
+		logger.Log.Println(g.ServiceData.Name, " ", s, " ", s1)
+	}
+
+	if authString, ok := g.Options["auth_required"]; ok {
+		if authBool, err := strconv.ParseBool(authString); err == nil {
+			return authBool
+		}
+	}
+	return false
 }
 
 func (g *goGen) genGoServie(service *data.ServiceData) string {
