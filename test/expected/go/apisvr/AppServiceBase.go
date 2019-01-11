@@ -67,7 +67,7 @@ func _getEnv_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*EnvListResponse", OutputGoType)
+		c.Set("*EnvListResponse", "*EnvListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -103,7 +103,6 @@ func _registerService_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*RegisterServiceResponse", OutputGoType)
 
 		return c.JSON(200, resp)
 	}
@@ -139,7 +138,7 @@ func _updateService_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*UpdateServiceResponse", OutputGoType)
+		c.Set("*UpdateServiceResponse", "*UpdateServiceResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -175,7 +174,7 @@ func _uploadProtoFile_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*UploadProtoFileResponse", OutputGoType)
+		c.Set("*UploadProtoFileResponse", "*UploadProtoFileResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -211,7 +210,7 @@ func _getTags_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*TagListResponse", OutputGoType)
+		c.Set("*TagListResponse", "*TagListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -247,7 +246,7 @@ func _getProducts_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*ProductListResponse", OutputGoType)
+		c.Set("*ProductListResponse", "*ProductListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -283,7 +282,7 @@ func _getServices_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*ServiceListResponse", OutputGoType)
+		c.Set("*ServiceListResponse", "*ServiceListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -319,7 +318,7 @@ func _searchServices_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*ServiceListResponse", OutputGoType)
+		c.Set("*ServiceListResponse", "*ServiceListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -355,7 +354,7 @@ func _getKeyList_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*KeyListResponse", OutputGoType)
+		c.Set("*KeyListResponse", "*KeyListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -391,7 +390,7 @@ func _getKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*KeyValueListResponse", OutputGoType)
+		c.Set("*KeyValueListResponse", "*KeyValueListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -427,7 +426,7 @@ func _searchKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*KeyValueListResponse", OutputGoType)
+		c.Set("*KeyValueListResponse", "*KeyValueListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -463,7 +462,7 @@ func _updateKeyValue_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*KeyValueResponse", OutputGoType)
+		c.Set("*KeyValueResponse", "*KeyValueResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -499,7 +498,7 @@ func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.set("*KVHistoryResponse", OutputGoType)
+		c.Set("*KVHistoryResponse", "*KVHistoryResponse")
 
 		return c.JSON(200, resp)
 	}
