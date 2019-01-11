@@ -205,12 +205,13 @@ service AppService {
   // get env
   rpc getEnv(EnvListRequest) returns (EnvListResponse) {
     option (error) = "Error";
-    option (auth) = true;
+    option (auth_req) = true;
   }
   // register a service
   rpc registerService(RegisterServiceRequest)
       returns (RegisterServiceResponse) {
     option (error) = "Error";
+    option (auth_req) = false;
   }
   // update a service
   rpc updateService(UpdateServiceRequest) returns (UpdateServiceResponse) {

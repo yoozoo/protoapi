@@ -76,7 +76,7 @@ var ServiceOptions = map[int32]OptionInfo{
 var MethodOptions = map[int32]OptionInfo{
 	ServiceTypeMethodOption: OptionInfo{"service_method", (*string)(nil), StringFieldType},
 	ErrorTypeMethodOption:   OptionInfo{"error", (*string)(nil), StringFieldType},
-	MethodAuthOption:        OptionInfo{"auth", (*string)(nil), StringFieldType},
+	MethodAuthOption:        OptionInfo{"auth_req", (*bool)(nil), BooleanFieldType},
 }
 
 // FieldOptions is the map of field number and field name in field options
