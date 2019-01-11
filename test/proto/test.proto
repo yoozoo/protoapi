@@ -199,6 +199,7 @@ enum ErrorCode {
  * and get methods will be supported
  */
 service AppService {
+  option (auth_method) = "getTags";
   option (auth_required) = true;
   option (common_error) = "CommonError";
 
