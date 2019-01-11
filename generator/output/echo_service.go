@@ -109,3 +109,12 @@ func (s *echoService) init() {
 		s.Methods[i] = &echoMethod{mtd, s.Name, authReq}
 	}
 }
+
+func (s *echoService) GetAuthOutputType() string {
+	for _, f := range s.ServiceData.Methods {
+		if f.Name == s.ServiceData.AuthMethodType {
+			return f.OutputType
+		}
+	}
+	return ""
+}

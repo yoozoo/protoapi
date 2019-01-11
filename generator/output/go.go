@@ -136,6 +136,10 @@ func (g *goService) HasCommonBindError() bool {
 	return g.hasCommonError("bindError")
 }
 
+func (g *goService) HasCommonAuthError() bool {
+	return g.hasCommonError("authError")
+}
+
 func (g *goService) HasCommonValidateError() bool {
 	return g.hasCommonError("validateError")
 }
