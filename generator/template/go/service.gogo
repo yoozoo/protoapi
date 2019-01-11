@@ -54,8 +54,8 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 		}
 		{{- end}}
 
-		{{- if $s.AuthRequired}}
-		c.set("{{.OutputGoType}}", OutputGoType)
+		{{- if .AuthRequired}}
+		c.Set("{{.OutputGoType}}", "{{.OutputGoType}}")
 		{{- end}}
 
 		return c.JSON(200, resp)
