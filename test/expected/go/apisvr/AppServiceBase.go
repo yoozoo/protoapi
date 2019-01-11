@@ -7,6 +7,8 @@ import (
 	"github.com/yoozoo/protoapi/protoapigo"
 )
 
+const getTags_path string = "TagListResponse"
+
 // AppService is the interface contains all the controllers
 type AppService interface {
 	GetEnv(c echo.Context, req *EnvListRequest) (resp *EnvListResponse, bizError **Error, err error)
@@ -40,6 +42,14 @@ func _getEnv_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(EnvListRequest)
 
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
+
 		if err = c.Bind(req); err != nil {
 
 			resp := &CommonError{BindError: &BindError{err.Error()}}
@@ -67,7 +77,6 @@ func _getEnv_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*EnvListResponse", "*EnvListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -111,6 +120,14 @@ func _updateService_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(UpdateServiceRequest)
 
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
+
 		if err = c.Bind(req); err != nil {
 
 			resp := &CommonError{BindError: &BindError{err.Error()}}
@@ -138,7 +155,6 @@ func _updateService_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*UpdateServiceResponse", "*UpdateServiceResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -146,6 +162,14 @@ func _updateService_Handler(srv AppService) echo.HandlerFunc {
 func _uploadProtoFile_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(UploadProtoFileRequest)
+
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
 
 		if err = c.Bind(req); err != nil {
 
@@ -174,7 +198,6 @@ func _uploadProtoFile_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*UploadProtoFileResponse", "*UploadProtoFileResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -182,6 +205,14 @@ func _uploadProtoFile_Handler(srv AppService) echo.HandlerFunc {
 func _getTags_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(TagListRequest)
+
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
 
 		if err = c.Bind(req); err != nil {
 
@@ -210,7 +241,7 @@ func _getTags_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*TagListResponse", "*TagListResponse")
+		c.Set(getTags_path, resp)
 
 		return c.JSON(200, resp)
 	}
@@ -218,6 +249,14 @@ func _getTags_Handler(srv AppService) echo.HandlerFunc {
 func _getProducts_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(ProductListRequest)
+
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
 
 		if err = c.Bind(req); err != nil {
 
@@ -246,7 +285,6 @@ func _getProducts_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*ProductListResponse", "*ProductListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -254,6 +292,14 @@ func _getProducts_Handler(srv AppService) echo.HandlerFunc {
 func _getServices_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(ServiceListRequest)
+
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
 
 		if err = c.Bind(req); err != nil {
 
@@ -282,7 +328,6 @@ func _getServices_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*ServiceListResponse", "*ServiceListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -290,6 +335,14 @@ func _getServices_Handler(srv AppService) echo.HandlerFunc {
 func _searchServices_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(ServiceSearchRequest)
+
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
 
 		if err = c.Bind(req); err != nil {
 
@@ -318,7 +371,6 @@ func _searchServices_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*ServiceListResponse", "*ServiceListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -326,6 +378,14 @@ func _searchServices_Handler(srv AppService) echo.HandlerFunc {
 func _getKeyList_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(KeyListRequest)
+
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
 
 		if err = c.Bind(req); err != nil {
 
@@ -354,7 +414,6 @@ func _getKeyList_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*KeyListResponse", "*KeyListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -362,6 +421,14 @@ func _getKeyList_Handler(srv AppService) echo.HandlerFunc {
 func _getKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(KeyValueListRequest)
+
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
 
 		if err = c.Bind(req); err != nil {
 
@@ -390,7 +457,6 @@ func _getKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*KeyValueListResponse", "*KeyValueListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -398,6 +464,14 @@ func _getKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 func _searchKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(SearchKeyValueListRequest)
+
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
 
 		if err = c.Bind(req); err != nil {
 
@@ -426,7 +500,6 @@ func _searchKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*KeyValueListResponse", "*KeyValueListResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -434,6 +507,14 @@ func _searchKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 func _updateKeyValue_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(KeyValueRequest)
+
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
 
 		if err = c.Bind(req); err != nil {
 
@@ -462,7 +543,6 @@ func _updateKeyValue_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*KeyValueResponse", "*KeyValueResponse")
 
 		return c.JSON(200, resp)
 	}
@@ -470,6 +550,14 @@ func _updateKeyValue_Handler(srv AppService) echo.HandlerFunc {
 func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(KVHistoryRequest)
+
+		authInfo, ok := c.Get(getTags_path)(TagListResponse)
+		if !ok {
+
+			resp := &CommonError{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+
+		}
 
 		if err = c.Bind(req); err != nil {
 
@@ -498,7 +586,6 @@ func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
-		c.Set("*KVHistoryResponse", "*KVHistoryResponse")
 
 		return c.JSON(200, resp)
 	}
