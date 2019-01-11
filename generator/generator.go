@@ -531,19 +531,19 @@ func generateKeyList(messages []*data.MessageData) []string {
 func getFieldOptions(fieldPb *descriptor.FieldDescriptorProto) data.OptionMap {
 	options := make(map[string]string)
 	// create extension description
-	for field, name := range data.FieldOptions {
+	for field, info := range data.FieldOptions {
 		var extDesc = &proto.ExtensionDesc{
 			ExtendedType:  (*descriptor.FieldOptions)(nil),
-			ExtensionType: (*string)(nil),
+			ExtensionType: info.DefaultNil,
 			Field:         field,
-			Name:          name,
-			Tag:           "bytes," + string(field) + ",opt,name=" + name,
+			Name:          info.Name,
+			Tag:           "bytes," + string(field) + ",opt,name=" + info.Name,
 		}
 
 		ext, err := proto.GetExtension(fieldPb.GetOptions(), extDesc)
 		if err == nil {
-			// add the service method option to the method data
-			options[name] = *ext.(*string)
+			// add the field option to the method data
+			options[info.Name] = getStringOptions(ext, info)
 		}
 	}
 	return options
@@ -553,19 +553,19 @@ func getFieldOptions(fieldPb *descriptor.FieldDescriptorProto) data.OptionMap {
 func getMethodOptions(method *descriptor.MethodDescriptorProto) data.OptionMap {
 	options := make(map[string]string)
 	// create extension description
-	for field, name := range data.MethodOptions {
+	for field, info := range data.MethodOptions {
 		var extDesc = &proto.ExtensionDesc{
 			ExtendedType:  (*descriptor.MethodOptions)(nil),
-			ExtensionType: (*string)(nil),
+			ExtensionType: info.DefaultNil,
 			Field:         field,
-			Name:          name,
-			Tag:           "bytes," + string(field) + ",opt,name=" + name,
+			Name:          info.Name,
+			Tag:           "bytes," + string(field) + ",opt,name=" + info.Name,
 		}
 
 		ext, err := proto.GetExtension(method.GetOptions(), extDesc)
 		if err == nil {
 			// add the service method option to the method data
-			options[name] = *ext.(*string)
+			options[info.Name] = getStringOptions(ext, info)
 		}
 	}
 	return options
@@ -589,21 +589,24 @@ func getServiceOptions(service *descriptor.ServiceDescriptorProto) data.OptionMa
 		ext, err := proto.GetExtension(service.GetOptions(), extDesc)
 
 		if err == nil {
-
-			// add the service method option to the method data
-			// maybe make it into a function since all the other getOptions method might need it
-			switch info.Type {
-			case data.StringFieldType:
-				options[info.Name] = *ext.(*string)
-			case data.BooleanFieldType:
-				options[info.Name] = strconv.FormatBool(*ext.(*bool))
-			default:
-				options[info.Name] = *ext.(*string)
-			}
-
+			// add the service option to the method data
+			options[info.Name] = getStringOptions(ext, info)
 		}
 	}
 	return options
+}
+
+// get string representations of option value to be put into map[string][string]
+func getStringOptions(ext interface{}, info data.OptionInfo) string {
+	result := ""
+	switch info.Type {
+	case data.StringFieldType:
+		result = *ext.(*string)
+	case data.BooleanFieldType:
+		result = strconv.FormatBool(*ext.(*bool))
+	}
+
+	return result
 }
 
 // Get s from proto file

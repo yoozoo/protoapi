@@ -73,16 +73,16 @@ var ServiceOptions = map[int32]OptionInfo{
 }
 
 // MethodOptions is the map of field number and field name in method options
-var MethodOptions = map[int32]string{
-	ServiceTypeMethodOption: "service_method",
-	ErrorTypeMethodOption:   "error",
-	MethodAuthOption:        "auth",
+var MethodOptions = map[int32]OptionInfo{
+	ServiceTypeMethodOption: OptionInfo{"service_method", (*string)(nil), StringFieldType},
+	ErrorTypeMethodOption:   OptionInfo{"error", (*string)(nil), StringFieldType},
+	MethodAuthOption:        OptionInfo{"auth", (*string)(nil), StringFieldType},
 }
 
 // FieldOptions is the map of field number and field name in field options
-var FieldOptions = map[int32]string{
-	FormatFieldOption:   "val_format",
-	RequiredFieldOption: "val_required",
+var FieldOptions = map[int32]OptionInfo{
+	FormatFieldOption:   OptionInfo{"val_format", (*string)(nil), StringFieldType},
+	RequiredFieldOption: OptionInfo{"val_required", (*bool)(nil), BooleanFieldType},
 }
 
 var debugTpl = os.Getenv("debugTpl") == "true"

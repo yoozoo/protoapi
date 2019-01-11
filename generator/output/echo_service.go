@@ -20,7 +20,7 @@ func (m *echoMethod) Path() string {
 }
 
 func (m *echoMethod) ServiceType() string {
-	if servType, ok := m.Options[data.MethodOptions[data.ServiceTypeMethodOption]]; ok {
+	if servType, ok := m.Options[data.MethodOptions[data.ServiceTypeMethodOption].Name]; ok {
 		return servType
 	}
 
@@ -28,7 +28,7 @@ func (m *echoMethod) ServiceType() string {
 }
 
 func (m *echoMethod) ErrorType() string {
-	if errType, ok := m.Options[data.MethodOptions[data.ErrorTypeMethodOption]]; ok {
+	if errType, ok := m.Options[data.MethodOptions[data.ErrorTypeMethodOption].Name]; ok {
 		return errType
 	}
 

@@ -14,7 +14,7 @@ func (m *springMethod) Path() string {
 }
 
 func (m *springMethod) ServiceType() string {
-	if servType, ok := m.Options[data.MethodOptions[data.ServiceTypeMethodOption]]; ok {
+	if servType, ok := m.Options[data.MethodOptions[data.ServiceTypeMethodOption].Name]; ok {
 		return servType
 	}
 
