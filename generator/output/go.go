@@ -146,12 +146,16 @@ func (g *goService) HasCommonValidateError() bool {
 
 func (g *goService) AuthRequired() bool {
 
-	if authString, ok := g.Options["auth_required"]; ok {
+	if authString, ok := g.Options["auth"]; ok {
 		if authBool, err := strconv.ParseBool(authString); err == nil {
 			return authBool
 		}
 	}
 	return false
+}
+
+func (g *goService) ServicePath() string {
+	return "/" + g.Name
 }
 
 func (g *goGen) genGoServie(service *data.ServiceData) string {

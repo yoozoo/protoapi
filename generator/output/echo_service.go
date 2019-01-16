@@ -17,6 +17,10 @@ func (m *echoMethod) Title() string {
 	return strings.Title(m.Name)
 }
 
+func (m *echoMethod) MethodPath() string {
+	return "." + m.Name
+}
+
 func (m *echoMethod) Path() string {
 	return "/" + m.ServiceName + "." + m.Name
 }
@@ -35,15 +39,6 @@ func (m *echoMethod) ErrorType() string {
 	}
 
 	return ""
-}
-
-func (m *echoMethod) AuthRequired() bool {
-	if authString, ok := m.Options["auth_req"]; ok {
-		if authBool, err := strconv.ParseBool(authString); err == nil {
-			return authBool
-		}
-	}
-	return m.ServiceAuthReq
 }
 
 func wrapGoType(dataType string) string {
@@ -108,13 +103,4 @@ func (s *echoService) init() {
 		mtd := f
 		s.Methods[i] = &echoMethod{mtd, s.Name, authReq}
 	}
-}
-
-func (s *echoService) GetAuthOutputType() string {
-	for _, f := range s.ServiceData.Methods {
-		if f.Name == s.ServiceData.AuthMethodType {
-			return f.OutputType
-		}
-	}
-	return ""
 }

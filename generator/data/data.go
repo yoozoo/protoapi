@@ -31,12 +31,8 @@ const (
 	// JavaPackageOption is Java package option constant
 	JavaPackageOption = "javaPackageOption"
 
-	// ServiceMethodTypeOption is service auth_method option
-	ServiceMethodTypeOption = 51011
-	// ServiceAuthOption is service auth_required option
-	ServiceAuthOption = 51010
-	// MethodAuthOption is method auth_req option
-	MethodAuthOption = 51009
+	// ServiceAuthOption is service auth option
+	ServiceAuthOption = 51009
 	// ServiceCommonErrorOption is service common_error option
 	ServiceCommonErrorOption = 51008
 	// ServiceTypeMethodOption is service method option
@@ -71,15 +67,13 @@ const (
 //ServiceOptions is the map of field number and field name in service options
 var ServiceOptions = map[int32]OptionInfo{
 	ServiceCommonErrorOption: OptionInfo{"common_error", (*string)(nil), StringFieldType},
-	ServiceAuthOption:        OptionInfo{"auth_required", (*bool)(nil), BooleanFieldType},
-	ServiceMethodTypeOption:  OptionInfo{"auth_method", (*string)(nil), StringFieldType},
+	ServiceAuthOption:        OptionInfo{"auth", (*bool)(nil), BooleanFieldType},
 }
 
 // MethodOptions is the map of field number and field name in method options
 var MethodOptions = map[int32]OptionInfo{
 	ServiceTypeMethodOption: OptionInfo{"service_method", (*string)(nil), StringFieldType},
 	ErrorTypeMethodOption:   OptionInfo{"error", (*string)(nil), StringFieldType},
-	MethodAuthOption:        OptionInfo{"auth_req", (*bool)(nil), BooleanFieldType},
 }
 
 // FieldOptions is the map of field number and field name in field options
@@ -152,7 +146,6 @@ type ServiceData struct {
 	Methods         []*Method
 	Options         OptionMap
 	CommonErrorType string
-	AuthMethodType  string
 	Service         *descriptor.ServiceDescriptorProto
 }
 

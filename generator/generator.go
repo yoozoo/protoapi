@@ -231,7 +231,6 @@ func createServices(file string, path string, pkg string, services []*descriptor
 		serData.Service = service
 		serData.Options = getServiceOptions(service)
 		serData.CommonErrorType = serData.Options["common_error"]
-		serData.AuthMethodType = serData.Options["auth_method"]
 
 		resultSers = append(resultSers, serData)
 	}

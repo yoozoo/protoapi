@@ -5,13 +5,11 @@ import "google/protobuf/descriptor.proto";
 extend google.protobuf.MethodOptions {
   string service_method = 51006;
   string error = 51007;
-  bool auth_req = 51009;
 }
 
 extend google.protobuf.ServiceOptions {
   string common_error = 51008;
-  bool auth_required = 51010;
-  string auth_method = 51011;
+  bool auth = 51009;
 }
 
 extend google.protobuf.FieldOptions {
