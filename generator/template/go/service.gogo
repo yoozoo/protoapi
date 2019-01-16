@@ -8,34 +8,43 @@ import (
 	"github.com/yoozoo/protoapi/protoapigo"
 )
 
-{{- if ne .AuthMethodType ""}}
-const {{.AuthMethodType}}_path string = "{{.GetAuthOutputType}}";
-{{- end}}
-
 // {{.Name}} is the interface contains all the controllers
 type {{.Name}} interface {
+	{{if .AuthRequired}}
+	{{.Name}}Auth(c echo.Context) (err error)
+	{{end}}
 	{{- range .Methods }}
 
-	{{.Title}}(c echo.Context, req {{.InputGoType}}) (resp {{.OutputGoType}}{{if ne .ErrorType ""}}, bizError *{{.ErrorGoType}}{{end}}, err error)
+	{{.Title}}(c echo.Context, req {{.InputGoType}}) (resp {{.OutputGoType}}{{if ne .ErrorType ""}}, bizError {{.ErrorGoType}}{{end}}, err error)
 	{{- end }}
 }
+
+{{- if .AuthRequired}}
+func _{{.Name}}Auth_Handler(srv {{.Name}}) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) (err error) {
+
+			err = srv.{{.Name}}Auth(c)
+			if err != nil {
+				{{if $s.HasCommonError}}
+				// e:= err.({{$s.CommonError}}) will panic if assertion fail, which is not what we want
+				if e, ok := err.({{$s.CommonError}}); ok {
+					return c.JSON(420, e)
+				}
+				{{end}}
+				return c.String(500, err.Error())
+			}
+
+			return next(c)
+		}
+	}
+}
+{{- end}}
 
 {{- range .Methods }}
 func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new({{.InputGoTypeName}})
-
-		{{if .AuthRequired}}
-		authInfo, ok := c.Get({{$s.AuthMethodType}}_path)({{$s.GetAuthOutputType}})
-		if !ok {
-			{{if $s.HasCommonAuthError}}
-			resp := {{$s.CommonErrorPointer}}{AuthError: &AuthError{Message: "Authentication is not set"}}
-			return c.JSON(420, resp)
-			{{else}}
-			return c.JSON(500, err.Error())
-			{{end}}
-		}
-		{{end}}
 
 		if err = c.Bind(req); err != nil {
 			{{if $s.HasCommonBindError}}
@@ -70,10 +79,6 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 		}
 		{{- end}}
 
-		{{- if eq .Name $s.AuthMethodType}}
-		c.Set({{$s.AuthMethodType}}_path, resp)
-		{{- end}}
-
 		return c.JSON(200, resp)
 	}
 }
@@ -90,13 +95,25 @@ func Register{{.Name}}WithPrefix(e *echo.Echo, srv {{.Name}}, prefix string) {
 		e.Binder = new(protoapigo.JSONAPIBinder)
 	}
 
+	{{- if .AuthRequired}}
+	g := e.Group(prefix + "{{.ServicePath}}", _{{.Name}}Auth_Handler(srv))
+	{{- end}}
+
 	{{- range .Methods }}
 	{{- if ne .ServiceType "POST" }}
+	{{- if $s.AuthRequired}}
+	g.GET("{{.MethodPath}}", _{{.Name}}_Handler(srv))
+	{{- else}}
 	e.GET(prefix + "{{.Path}}", _{{.Name}}_Handler(srv))
+	{{- end }}
 	{{- end }}
 
 	{{- if ne .ServiceType "GET" }}
+	{{- if $s.AuthRequired}}
+	g.POST("{{.MethodPath}}", _{{.Name}}_Handler(srv))
+	{{- else}}
 	e.POST(prefix + "{{.Path}}", _{{.Name}}_Handler(srv))
+	{{- end }}
 	{{- end }}
 	{{- end }}
 }
