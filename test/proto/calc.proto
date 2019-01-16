@@ -23,7 +23,11 @@ message AddError {
 }
 
 service CalcService {
+  option (auth) = true;
   rpc add(AddReq) returns (AddResp) {
+    option (error) = "AddError";
+  }
+  rpc minus(AddReq) returns (AddResp) {
     option (error) = "AddError";
   }
 }

@@ -199,20 +199,17 @@ enum ErrorCode {
  * and get methods will be supported
  */
 service AppService {
-  option (auth_method) = "getTags";
-  option (auth_required) = true;
+  option (auth) = true;
   option (common_error) = "CommonError";
 
   // get env
   rpc getEnv(EnvListRequest) returns (EnvListResponse) {
     option (error) = "Error";
-    option (auth_req) = true;
   }
   // register a service
   rpc registerService(RegisterServiceRequest)
       returns (RegisterServiceResponse) {
     option (error) = "Error";
-    option (auth_req) = false;
   }
   // update a service
   rpc updateService(UpdateServiceRequest) returns (UpdateServiceResponse) {
