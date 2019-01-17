@@ -12,7 +12,7 @@ import (
 	"github.com/yoozoo/protoapi/util"
 )
 
-var _goService *goService
+var _goServices []*goService
 
 // Re-use everything in echoGen, only use different template
 type goGen struct {
@@ -165,7 +165,8 @@ func (g *goGen) genGoService(service *data.ServiceData) string {
 
 	obj := newEchoService(service, g.PackageName)
 
-	_goService = &goService{obj, g}
+	_goService := &goService{obj, g}
+	_goServices = append(_goServices, _goService)
 	err := g.serviceTpl.Execute(buf, _goService)
 	if err != nil {
 		util.Die(err)
@@ -183,6 +184,7 @@ func (g *goGen) Init(request *plugin.CodeGeneratorRequest) {
 
 func (g *goGen) Gen(applicationName string, packageName string, services []*data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	g.DataTypes = messages
+	result = make(map[string]string)
 
 	// Temporary hack from go server gen here
 	// Should rewrite goGen completely later
@@ -192,8 +194,6 @@ func (g *goGen) Gen(applicationName string, packageName string, services []*data
 		return
 	}
 
-	result, err = g.echoGen.Gen(applicationName, packageName, services, messages, enums, options)
-
 	for _, service := range services {
 		g.serviceTpl = g.getTpl("/generator/template/go/service.gogo")
 		serviceContent := g.genGoService(service)
@@ -202,6 +202,8 @@ func (g *goGen) Gen(applicationName string, packageName string, services []*data
 
 		result[serviceFilename] = serviceContent
 	}
+
+	result, err = g.echoGen.Gen(applicationName, packageName, services, messages, enums, options)
 
 	return
 }

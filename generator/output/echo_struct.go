@@ -99,11 +99,17 @@ func (s *echoStruct) ClassName() string {
 }
 
 func (s *echoStruct) IsCommonErrorStruct() bool {
-	if _goService == nil {
+	if _goServices == nil {
 		return false
 	}
 
-	return _goService.CommonError() == "*"+s.ClassName()
+	for _, serv := range _goServices {
+		if serv.CommonError() == "*"+s.ClassName() {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (s *echoStruct) ValidateRequired() bool {
