@@ -154,7 +154,7 @@ type OptionMap map[string]string
 
 type CodeGenerator interface {
 	Init(request *plugin.CodeGeneratorRequest)
-	Gen(applicationName string, packageName string, services *ServiceData, messages []*MessageData, enums []*EnumData, options OptionMap) (map[string]string, error)
+	Gen(applicationName string, packageName string, services []*ServiceData, messages []*MessageData, enums []*EnumData, options OptionMap) (map[string]string, error)
 }
 
 // OutputMap the registra for output code type and its associated output plugin

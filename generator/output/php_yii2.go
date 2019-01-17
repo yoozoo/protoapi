@@ -116,7 +116,14 @@ func (g *yii2Gen) isComErr(msg *data.MessageData) bool {
 	return false
 }
 
-func (g *yii2Gen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+func (g *yii2Gen) Gen(applicationName string, packageName string, services []*data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+	var service *data.ServiceData
+	if len(services) > 1 {
+		util.Die(fmt.Errorf("found %d services; only 1 service is supported now", len(services)))
+	} else if len(services) == 1 {
+		service = services[0]
+	}
+
 	// set enums
 	g.enums = enums
 

@@ -158,12 +158,13 @@ func (g *goService) ServicePath() string {
 	return "/" + g.Name
 }
 
-func (g *goGen) genGoServie(service *data.ServiceData) string {
+func (g *goGen) genGoService(service *data.ServiceData) string {
 	importGoTypes = make(map[string]string)
 
 	buf := bytes.NewBufferString("")
 
 	obj := newEchoService(service, g.PackageName)
+
 	_goService = &goService{obj, g}
 	err := g.serviceTpl.Execute(buf, _goService)
 	if err != nil {
@@ -180,24 +181,27 @@ func (g *goGen) Init(request *plugin.CodeGeneratorRequest) {
 	g.enumTpl = g.getTpl("/generator/template/go/enum.gogo")
 }
 
-func (g *goGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+func (g *goGen) Gen(applicationName string, packageName string, services []*data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	g.DataTypes = messages
 
 	// Temporary hack from go server gen here
 	// Should rewrite goGen completely later
-	if service == nil {
+	if services == nil || len(services) == 0 {
 		g.serviceTpl = nil
-		result, err = g.echoGen.Gen(applicationName, packageName, service, messages, enums, options)
+		result, err = g.echoGen.Gen(applicationName, packageName, services, messages, enums, options)
 		return
 	}
 
-	g.serviceTpl = g.getTpl("/generator/template/go/service.gogo")
-	serviceContent := g.genGoServie(service)
-	serviceFilename := genEchoFileName(g.PackageName, service)
-	g.serviceTpl = nil
+	result, err = g.echoGen.Gen(applicationName, packageName, services, messages, enums, options)
 
-	result, err = g.echoGen.Gen(applicationName, packageName, service, messages, enums, options)
-	result[serviceFilename] = serviceContent
+	for _, service := range services {
+		g.serviceTpl = g.getTpl("/generator/template/go/service.gogo")
+		serviceContent := g.genGoService(service)
+		serviceFilename := genEchoFileName(g.PackageName, service)
+		g.serviceTpl = nil
+
+		result[serviceFilename] = serviceContent
+	}
 
 	return
 }

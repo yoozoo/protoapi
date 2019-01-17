@@ -2,10 +2,12 @@ package output
 
 import (
 	"bytes"
+	"fmt"
 	"strings"
 	"text/template"
 
 	"github.com/yoozoo/protoapi/generator/data"
+	"github.com/yoozoo/protoapi/util"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 )
@@ -195,7 +197,14 @@ func (g *tsGen) Init(request *plugin.CodeGeneratorRequest) {
 	g.loadTpl()
 }
 
-func (g *tsGen) Gen(applicationName string, packageName string, svr *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
+func (g *tsGen) Gen(applicationName string, packageName string, svrs []*data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
+	var svr *data.ServiceData
+	if len(svrs) > 1 {
+		util.Die(fmt.Errorf("found %d services; only 1 service is supported now", len(svrs)))
+	} else if len(svrs) == 1 {
+		svr = svrs[0]
+	}
+
 	g.initFiles(packageName, svr)
 	for _, msg := range messages {
 		data.FlattenLocalPackage(msg)
