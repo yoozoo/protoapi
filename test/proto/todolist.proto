@@ -28,8 +28,7 @@ service TodolistService {
 
   rpc add(AddReq) returns (AddResp) {
     option (error) = "AddError";
-    option (auth) = true;
   }
-
+  
   rpc list(Empty) returns (listResp) {}
 }
