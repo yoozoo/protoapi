@@ -12,8 +12,6 @@ type CalcService interface {
 	CalcServiceAuth(c echo.Context) (err error)
 
 	Add(c echo.Context, req *AddReq) (resp *AddResp, bizError *AddError, err error)
-
-	Minus(c echo.Context, req *AddReq) (resp *AddResp, bizError *AddError, err error)
 }
 
 func _CalcServiceAuth_Handler(srv CalcService) echo.MiddlewareFunc {
@@ -22,6 +20,7 @@ func _CalcServiceAuth_Handler(srv CalcService) echo.MiddlewareFunc {
 
 			err = srv.CalcServiceAuth(c)
 			if err != nil {
+
 				return c.String(500, err.Error())
 			}
 
@@ -53,30 +52,6 @@ func _add_Handler(srv CalcService) echo.HandlerFunc {
 		return c.JSON(200, resp)
 	}
 }
-func _minus_Handler(srv CalcService) echo.HandlerFunc {
-	return func(c echo.Context) (err error) {
-		req := new(AddReq)
-
-		if err = c.Bind(req); err != nil {
-
-			return c.JSON(500, err)
-
-		}
-		/*
-
-		 */
-		resp, bizError, err := srv.Minus(c, req)
-		if err != nil {
-
-			return c.String(500, err.Error())
-		}
-		if bizError != nil {
-			return c.JSON(400, bizError)
-		}
-
-		return c.JSON(200, resp)
-	}
-}
 
 // RegisterCalcService is used to bind routers
 func RegisterCalcService(e *echo.Echo, srv CalcService) {
@@ -91,5 +66,4 @@ func RegisterCalcServiceWithPrefix(e *echo.Echo, srv CalcService, prefix string)
 	}
 	g := e.Group(prefix+"/CalcService", _CalcServiceAuth_Handler(srv))
 	g.POST(".add", _add_Handler(srv))
-	g.POST(".minus", _minus_Handler(srv))
 }

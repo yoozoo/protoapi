@@ -27,6 +27,9 @@ service CalcService {
   rpc add(AddReq) returns (AddResp) {
     option (error) = "AddError";
   }
+}
+
+service ExtendCalcService {
   rpc minus(AddReq) returns (AddResp) {
     option (error) = "AddError";
   }
