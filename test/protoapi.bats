@@ -5,6 +5,7 @@
   ../protoapi gen --lang=go result/go proto/echo.proto
   ../protoapi gen --lang=go result/go proto/calc.proto
   ../protoapi gen --lang=go result/go proto/todolist.proto
+  ../protoapi gen --lang=go result/go proto/nested.proto
 
   diff -I "^//.*$" -r result/go/ expected/go/
 }

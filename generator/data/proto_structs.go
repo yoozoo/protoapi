@@ -48,7 +48,6 @@ func NewGenerateReq(request *plugin.CodeGeneratorRequest) *GenerateReq {
 		}
 
 		for name, m := range pf.Messages {
-
 			result.MessageMap[pkg+name] = m
 		}
 
@@ -94,13 +93,8 @@ func GetMessageProtoAndFile(name string) (msg *ProtoMessage, file *ProtoFile) {
 			}
 		}
 	}
-	pos := strings.LastIndex(name, ".")
 
-	if pos > -1 {
-		pkg = name[:pos]
-	}
-
-	file = _req.PackageMap[pkg]
+	file = GetFileFromPackageWithName(name)
 
 	if file == nil {
 		log.Println("pkg not found: " + pkg)
@@ -115,18 +109,25 @@ func GetEnumProtoAndFile(name string) (e *ProtoEnum, file *ProtoFile) {
 	if e == nil {
 		return
 	}
-	pos := strings.LastIndex(name, ".")
 
-	if pos > -1 {
-		pkg = name[:pos]
-	}
-
-	file = _req.PackageMap[pkg]
+	file = GetFileFromPackageWithName(name)
 
 	if file == nil {
 		log.Println("pkg not found: " + pkg)
 	}
 	return
+}
+
+func GetFileFromPackageWithName(name string) (file *ProtoFile) {
+	slices := strings.Split(name, ".")
+	temp := ""
+	for _, s := range slices {
+		temp = temp + "." + s
+		if file, found := _req.PackageMap[temp[1:]]; found {
+			return file
+		}
+	}
+	return &ProtoFile{}
 }
 
 // ProtoFile is a thin wrapper around descriptor.FileDescriptorProto
@@ -146,9 +147,8 @@ func NewProtoFile(proto *descriptor.FileDescriptorProto) *ProtoFile {
 	}
 
 	p.Messages = make(map[string]*ProtoMessage)
-	for _, msg := range proto.MessageType {
-		p.Messages[msg.GetName()] = NewProtoMessage(msg)
-	}
+
+	initMessages(p, "", proto.GetMessageType())
 
 	p.Services = make(map[string]*ProtoService)
 	for _, svr := range proto.Service {
@@ -161,6 +161,17 @@ func NewProtoFile(proto *descriptor.FileDescriptorProto) *ProtoFile {
 	}
 
 	return p
+}
+
+func initMessages(p *ProtoFile, namePrefix string, msgs []*descriptor.DescriptorProto) {
+	for _, msg := range msgs {
+		name := namePrefix + msg.GetName()
+		p.Messages[name] = NewProtoMessage(msg)
+		nested := msg.GetNestedType()
+		if nested != nil {
+			initMessages(p, name+".", nested)
+		}
+	}
 }
 
 // ProtoOption is a thin wrapper around descriptor.OptionDescriptorProto
