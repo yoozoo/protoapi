@@ -1,7 +1,6 @@
 package output
 
 import (
-	"strconv"
 	"strings"
 
 	"github.com/yoozoo/protoapi/generator/data"
@@ -9,8 +8,7 @@ import (
 
 type echoMethod struct {
 	*data.Method
-	ServiceName    string
-	ServiceAuthReq bool
+	ServiceName string
 }
 
 func (m *echoMethod) Title() string {
@@ -87,20 +85,21 @@ type echoService struct {
 func newEchoService(msg *data.ServiceData, packageName string) *echoService {
 	ss := strings.Split(packageName, "/")
 	s := ss[len(ss)-1]
+
 	o := &echoService{
 		msg,
 		s,
 		nil,
 	}
 	o.init()
+
 	return o
 }
 
 func (s *echoService) init() {
 	s.Methods = make([]*echoMethod, len(s.ServiceData.Methods))
 	for i, f := range s.ServiceData.Methods {
-		authReq, _ := strconv.ParseBool(s.Options["auth_required"])
 		mtd := f
-		s.Methods[i] = &echoMethod{mtd, s.Name, authReq}
+		s.Methods[i] = &echoMethod{mtd, s.Name}
 	}
 }
