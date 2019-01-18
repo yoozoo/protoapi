@@ -8,6 +8,10 @@ import (
 	"github.com/yoozoo/protoapi/protoapigo"
 )
 
+{{- if ne .AuthMethodType ""}}
+const {{.AuthMethodType}}_path string = "{{.GetAuthOutputType}}";
+{{- end}}
+
 // {{.Name}} is the interface contains all the controllers
 type {{.Name}} interface {
 	{{- range .Methods }}
@@ -20,6 +24,18 @@ type {{.Name}} interface {
 func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new({{.InputGoTypeName}})
+
+		{{if .AuthRequired}}
+		authInfo, ok := c.Get({{$s.AuthMethodType}}_path)({{$s.GetAuthOutputType}})
+		if !ok {
+			{{if $s.HasCommonAuthError}}
+			resp := {{$s.CommonErrorPointer}}{AuthError: &AuthError{Message: "Authentication is not set"}}
+			return c.JSON(420, resp)
+			{{else}}
+			return c.JSON(500, err.Error())
+			{{end}}
+		}
+		{{end}}
 
 		if err = c.Bind(req); err != nil {
 			{{if $s.HasCommonBindError}}
@@ -52,6 +68,10 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 		if bizError != nil {
 			return c.JSON(400, bizError)
 		}
+		{{- end}}
+
+		{{- if eq .Name $s.AuthMethodType}}
+		c.Set({{$s.AuthMethodType}}_path, resp)
 		{{- end}}
 
 		return c.JSON(200, resp)
