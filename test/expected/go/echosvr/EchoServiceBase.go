@@ -17,16 +17,13 @@ func _echo_Handler(srv EchoService) echo.HandlerFunc {
 		req := new(Msg)
 
 		if err = c.Bind(req); err != nil {
-
 			return c.JSON(500, err)
-
 		}
 		/*
 
 		 */
 		resp, err := srv.Echo(c, req)
 		if err != nil {
-
 			return c.String(500, err.Error())
 		}
 
