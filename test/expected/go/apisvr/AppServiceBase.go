@@ -9,31 +9,31 @@ import (
 
 // AppService is the interface contains all the controllers
 type AppService interface {
-	GetEnv(c echo.Context, req *EnvListRequest) (resp *EnvListResponse, bizError **Error, err error)
+	GetEnv(c echo.Context, req *EnvListRequest) (resp *EnvListResponse, bizError *Error, err error)
 
-	RegisterService(c echo.Context, req *RegisterServiceRequest) (resp *RegisterServiceResponse, bizError **Error, err error)
+	RegisterService(c echo.Context, req *RegisterServiceRequest) (resp *RegisterServiceResponse, bizError *Error, err error)
 
-	UpdateService(c echo.Context, req *UpdateServiceRequest) (resp *UpdateServiceResponse, bizError **Error, err error)
+	UpdateService(c echo.Context, req *UpdateServiceRequest) (resp *UpdateServiceResponse, bizError *Error, err error)
 
-	UploadProtoFile(c echo.Context, req *UploadProtoFileRequest) (resp *UploadProtoFileResponse, bizError **Error, err error)
+	UploadProtoFile(c echo.Context, req *UploadProtoFileRequest) (resp *UploadProtoFileResponse, bizError *Error, err error)
 
-	GetTags(c echo.Context, req *TagListRequest) (resp *TagListResponse, bizError **Error, err error)
+	GetTags(c echo.Context, req *TagListRequest) (resp *TagListResponse, bizError *Error, err error)
 
-	GetProducts(c echo.Context, req *ProductListRequest) (resp *ProductListResponse, bizError **Error, err error)
+	GetProducts(c echo.Context, req *ProductListRequest) (resp *ProductListResponse, bizError *Error, err error)
 
-	GetServices(c echo.Context, req *ServiceListRequest) (resp *ServiceListResponse, bizError **Error, err error)
+	GetServices(c echo.Context, req *ServiceListRequest) (resp *ServiceListResponse, bizError *Error, err error)
 
-	SearchServices(c echo.Context, req *ServiceSearchRequest) (resp *ServiceListResponse, bizError **Error, err error)
+	SearchServices(c echo.Context, req *ServiceSearchRequest) (resp *ServiceListResponse, bizError *Error, err error)
 
-	GetKeyList(c echo.Context, req *KeyListRequest) (resp *KeyListResponse, bizError **Error, err error)
+	GetKeyList(c echo.Context, req *KeyListRequest) (resp *KeyListResponse, bizError *Error, err error)
 
-	GetKeyValueList(c echo.Context, req *KeyValueListRequest) (resp *KeyValueListResponse, bizError **Error, err error)
+	GetKeyValueList(c echo.Context, req *KeyValueListRequest) (resp *KeyValueListResponse, bizError *Error, err error)
 
-	SearchKeyValueList(c echo.Context, req *SearchKeyValueListRequest) (resp *KeyValueListResponse, bizError **Error, err error)
+	SearchKeyValueList(c echo.Context, req *SearchKeyValueListRequest) (resp *KeyValueListResponse, bizError *Error, err error)
 
-	UpdateKeyValue(c echo.Context, req *KeyValueRequest) (resp *KeyValueResponse, bizError **Error, err error)
+	UpdateKeyValue(c echo.Context, req *KeyValueRequest) (resp *KeyValueResponse, bizError *Error, err error)
 
-	FetchKeyHistory(c echo.Context, req *KVHistoryRequest) (resp *KVHistoryResponse, bizError **Error, err error)
+	FetchKeyHistory(c echo.Context, req *KVHistoryRequest) (resp *KVHistoryResponse, bizError *Error, err error)
 }
 
 func _getEnv_Handler(srv AppService) echo.HandlerFunc {

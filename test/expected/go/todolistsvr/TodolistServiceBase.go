@@ -9,7 +9,7 @@ import (
 
 // TodolistService is the interface contains all the controllers
 type TodolistService interface {
-	Add(c echo.Context, req *AddReq) (resp *AddResp, bizError **AddError, err error)
+	Add(c echo.Context, req *AddReq) (resp *AddResp, bizError *AddError, err error)
 
 	List(c echo.Context, req *Empty) (resp *ListResp, err error)
 }
