@@ -12,7 +12,7 @@ import (
 	"github.com/yoozoo/protoapi/util"
 )
 
-var _goService *goService
+var _goServices []*goService
 
 // Re-use everything in echoGen, only use different template
 type goGen struct {
@@ -158,13 +158,15 @@ func (g *goService) ServicePath() string {
 	return "/" + g.Name
 }
 
-func (g *goGen) genGoServie(service *data.ServiceData) string {
+func (g *goGen) genGoService(service *data.ServiceData) string {
 	importGoTypes = make(map[string]string)
 
 	buf := bytes.NewBufferString("")
 
 	obj := newEchoService(service, g.PackageName)
-	_goService = &goService{obj, g}
+
+	_goService := &goService{obj, g}
+	_goServices = append(_goServices, _goService)
 	err := g.serviceTpl.Execute(buf, _goService)
 	if err != nil {
 		util.Die(err)
@@ -180,24 +182,21 @@ func (g *goGen) Init(request *plugin.CodeGeneratorRequest) {
 	g.enumTpl = g.getTpl("/generator/template/go/enum.gogo")
 }
 
-func (g *goGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+func (g *goGen) Gen(applicationName string, packageName string, services []*data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	g.DataTypes = messages
-
-	// Temporary hack from go server gen here
-	// Should rewrite goGen completely later
-	if service == nil {
+	serviceResult := make(map[string]string)
+	for _, service := range services {
+		g.serviceTpl = g.getTpl("/generator/template/go/service.gogo")
+		serviceContent := g.genGoService(service)
+		serviceFilename := genEchoFileName(g.PackageName, service)
 		g.serviceTpl = nil
-		result, err = g.echoGen.Gen(applicationName, packageName, service, messages, enums, options)
-		return
+		serviceResult[serviceFilename] = serviceContent
 	}
 
-	g.serviceTpl = g.getTpl("/generator/template/go/service.gogo")
-	serviceContent := g.genGoServie(service)
-	serviceFilename := genEchoFileName(g.PackageName, service)
-	g.serviceTpl = nil
-
-	result, err = g.echoGen.Gen(applicationName, packageName, service, messages, enums, options)
-	result[serviceFilename] = serviceContent
+	result, err = g.echoGen.Gen(applicationName, packageName, services, messages, enums, options)
+	for k, v := range serviceResult {
+		result[k] = v
+	}
 
 	return
 }

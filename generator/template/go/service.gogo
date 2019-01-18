@@ -10,9 +10,9 @@ import (
 
 // {{.Name}} is the interface contains all the controllers
 type {{.Name}} interface {
-	{{if .AuthRequired}}
+	{{- if .AuthRequired}}
 	{{.Name}}Auth(c echo.Context) (err error)
-	{{end}}
+	{{- end}}
 	{{- range .Methods }}
 
 	{{.Title}}(c echo.Context, req {{.InputGoType}}) (resp {{.OutputGoType}}{{if ne .ErrorType ""}}, bizError {{.ErrorGoType}}{{end}}, err error)
@@ -23,15 +23,15 @@ type {{.Name}} interface {
 func _{{.Name}}Auth_Handler(srv {{.Name}}) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) (err error) {
-
 			err = srv.{{.Name}}Auth(c)
+
 			if err != nil {
-				{{if $s.HasCommonError}}
+				{{- if $s.HasCommonError}}
 				// e:= err.({{$s.CommonError}}) will panic if assertion fail, which is not what we want
 				if e, ok := err.({{$s.CommonError}}); ok {
 					return c.JSON(420, e)
 				}
-				{{end}}
+				{{- end}}
 				return c.String(500, err.Error())
 			}
 
@@ -40,19 +40,18 @@ func _{{.Name}}Auth_Handler(srv {{.Name}}) echo.MiddlewareFunc {
 	}
 }
 {{- end}}
-
-{{- range .Methods }}
+{{range .Methods }}
 func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new({{.InputGoTypeName}})
 
 		if err = c.Bind(req); err != nil {
-			{{if $s.HasCommonBindError}}
+			{{- if $s.HasCommonBindError}}
 			resp := {{$s.CommonErrorPointer}}{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-			{{else}}
+			{{- else}}
 			return c.JSON(500, err)
-			{{end}}
+			{{- end}}
 		}
 /*
 		{{if $s.HasCommonValidateError}}
@@ -64,12 +63,12 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 */
 		resp{{if ne .ErrorType "" }}, bizError{{end}}, err := srv.{{.Title}}(c, req)
 		if err != nil {
-			{{if $s.HasCommonError}}
+			{{- if $s.HasCommonError}}
 			// e:= err.({{$s.CommonError}}) will panic if assertion fail, which is not what we want
 			if e, ok := err.({{$s.CommonError}}); ok {
 				return c.JSON(420, e)
 			}
-			{{end}}
+			{{- end}}
 			return c.String(500, err.Error())
 		}
 
@@ -88,6 +87,7 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 func Register{{.Name}}(e *echo.Echo, srv {{.Name}}) {
 	Register{{.Name}}WithPrefix(e, srv, "")
 }
+
 // Register{{.Name}}WithPrefix is used to bind routers with custom prefix
 func Register{{.Name}}WithPrefix(e *echo.Echo, srv {{.Name}}, prefix string) {
 	// switch to strict JSONAPIBinder, if using echo's DefaultBinder

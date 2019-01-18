@@ -109,7 +109,7 @@ func (g *echoGen) genEnum(enum *data.EnumData) string {
 	return formatBuffer(buf)
 }
 
-func (g *echoGen) genServie(service *data.ServiceData) string {
+func (g *echoGen) genService(service *data.ServiceData) string {
 	buf := bytes.NewBufferString("")
 
 	obj := newEchoService(service, g.PackageName)
@@ -153,7 +153,7 @@ func (g *echoGen) Init(request *plugin.CodeGeneratorRequest) {
 	g.enumTpl = g.getTpl("/generator/template/echo_enum.gogo")
 }
 
-func (g *echoGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+func (g *echoGen) Gen(applicationName string, packageName string, services []*data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
 	if g.PackageName == "" {
 		g.PackageName = genEchoPackageName(packageName)
 
@@ -189,9 +189,11 @@ func (g *echoGen) Gen(applicationName string, packageName string, service *data.
 	}
 
 	if g.serviceTpl != nil {
-		filename := genEchoFileName(g.PackageName, service)
-		content := g.genServie(service)
-		result[filename] = content
+		for _, service := range services {
+			filename := genEchoFileName(g.PackageName, service)
+			content := g.genService(service)
+			result[filename] = content
+		}
 	}
 
 	return

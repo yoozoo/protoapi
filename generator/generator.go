@@ -676,27 +676,22 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 
 	services := getServices(request.ProtoFile)
 
-	var service *data.ServiceData
-	if len(services) > 1 {
-		util.Die(fmt.Errorf("found %d services; only 1 service is supported now", len(services)))
-	} else if len(services) == 1 {
-		service = services[0]
-	}
-
 	data.Setup(request)
 
 	// temporary hack to ignore namespace for current package
 	// should have more strict handling later
-	if service != nil {
-		for _, m := range service.Methods {
-			msg, file := data.GetMessageProtoAndFile(m.InputType)
-			if file.IsFileToGenerate {
-				m.InputType = msg.Proto.GetName()
-			}
+	if services != nil {
+		for _, s := range services {
+			for _, m := range s.Methods {
+				msg, file := data.GetMessageProtoAndFile(m.InputType)
+				if file.IsFileToGenerate {
+					m.InputType = msg.Proto.GetName()
+				}
 
-			msg, file = data.GetMessageProtoAndFile(m.OutputType)
-			if file.IsFileToGenerate {
-				m.OutputType = msg.Proto.GetName()
+				msg, file = data.GetMessageProtoAndFile(m.OutputType)
+				if file.IsFileToGenerate {
+					m.OutputType = msg.Proto.GetName()
+				}
 			}
 		}
 	}
@@ -705,7 +700,7 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 		response := new(plugin.CodeGeneratorResponse)
 		gen.Init(request)
 
-		results, err := gen.Gen(applicationName, packageName, service, messages, enums, options)
+		results, err := gen.Gen(applicationName, packageName, services, messages, enums, options)
 		if err != nil {
 			util.Die(err)
 		}
