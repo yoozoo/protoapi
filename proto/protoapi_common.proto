@@ -9,6 +9,7 @@ extend google.protobuf.MethodOptions {
 
 extend google.protobuf.ServiceOptions {
   string common_error = 51008;
+  bool auth = 51009;
 }
 
 extend google.protobuf.FieldOptions {

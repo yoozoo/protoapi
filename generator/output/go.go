@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
@@ -135,8 +136,26 @@ func (g *goService) HasCommonBindError() bool {
 	return g.hasCommonError("bindError")
 }
 
+func (g *goService) HasCommonAuthError() bool {
+	return g.hasCommonError("authError")
+}
+
 func (g *goService) HasCommonValidateError() bool {
 	return g.hasCommonError("validateError")
+}
+
+func (g *goService) AuthRequired() bool {
+
+	if authString, ok := g.Options["auth"]; ok {
+		if authBool, err := strconv.ParseBool(authString); err == nil {
+			return authBool
+		}
+	}
+	return false
+}
+
+func (g *goService) ServicePath() string {
+	return "/" + g.Name
 }
 
 func (g *goGen) genGoServie(service *data.ServiceData) string {

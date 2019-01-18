@@ -1,6 +1,7 @@
 package output
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/yoozoo/protoapi/generator/data"
@@ -8,11 +9,16 @@ import (
 
 type echoMethod struct {
 	*data.Method
-	ServiceName string
+	ServiceName    string
+	ServiceAuthReq bool
 }
 
 func (m *echoMethod) Title() string {
 	return strings.Title(m.Name)
+}
+
+func (m *echoMethod) MethodPath() string {
+	return "." + m.Name
 }
 
 func (m *echoMethod) Path() string {
@@ -20,7 +26,7 @@ func (m *echoMethod) Path() string {
 }
 
 func (m *echoMethod) ServiceType() string {
-	if servType, ok := m.Options[data.MethodOptions[data.ServiceTypeMethodOption]]; ok {
+	if servType, ok := m.Options[data.MethodOptions[data.ServiceTypeMethodOption].Name]; ok {
 		return servType
 	}
 
@@ -28,7 +34,7 @@ func (m *echoMethod) ServiceType() string {
 }
 
 func (m *echoMethod) ErrorType() string {
-	if errType, ok := m.Options[data.MethodOptions[data.ErrorTypeMethodOption]]; ok {
+	if errType, ok := m.Options[data.MethodOptions[data.ErrorTypeMethodOption].Name]; ok {
 		return errType
 	}
 
@@ -93,7 +99,8 @@ func newEchoService(msg *data.ServiceData, packageName string) *echoService {
 func (s *echoService) init() {
 	s.Methods = make([]*echoMethod, len(s.ServiceData.Methods))
 	for i, f := range s.ServiceData.Methods {
+		authReq, _ := strconv.ParseBool(s.Options["auth_required"])
 		mtd := f
-		s.Methods[i] = &echoMethod{mtd, s.Name}
+		s.Methods[i] = &echoMethod{mtd, s.Name, authReq}
 	}
 }
