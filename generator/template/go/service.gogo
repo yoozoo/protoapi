@@ -12,7 +12,7 @@ import (
 type {{.Name}} interface {
 	{{- range .Methods }}
 
-	{{.Title}}(c echo.Context, req {{.InputGoType}}) (resp {{.OutputGoType}}{{if ne .ErrorType ""}}, bizError *{{.ErrorGoType}}{{end}}, err error)
+	{{.Title}}(c echo.Context, req {{.InputGoType}}) (resp {{.OutputGoType}}{{if ne .ErrorType ""}}, bizError {{.ErrorGoType}}{{end}}, err error)
 	{{- end }}
 }
 
