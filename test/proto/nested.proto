@@ -1,0 +1,33 @@
+/**
+ * 这个文件用于生成相关的前后端API代码
+ * 用protoapi指定此文件生成相关代码
+ */
+syntax = "proto3";
+
+import "common.proto";
+
+option go_package = "nested";
+
+message AddReq {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message AddResp {
+  message Extra {
+    string message = 1;
+  }
+  int32 result = 1;
+  Extra extra = 2;
+}
+
+message AddError {
+  AddReq req = 1;
+  string error = 2;
+}
+
+service CalcService {
+  rpc add(AddReq) returns (AddResp) {
+    option (error) = "AddError";
+  }
+}
