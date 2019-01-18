@@ -50,3 +50,15 @@ func (r *ServiceSearchRequest) GetLimit() int {
 	}
 	return r.Limit
 }
+
+func (r ServiceSearchRequest) Validate() *ValidateError {
+	errs := []*FieldError{}
+	if r.Prefix == "" {
+		e := FIELD_REQUIRED
+		errs = append(errs, &FieldError{FieldName: r.Prefix, ErrorType: &e})
+	}
+	if len(errs) > 0 {
+		return &ValidateError{Errors: errs}
+	}
+	return nil
+}

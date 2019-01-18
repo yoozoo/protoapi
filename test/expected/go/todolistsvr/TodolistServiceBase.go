@@ -19,10 +19,8 @@ func _add_Handler(srv TodolistService) echo.HandlerFunc {
 		req := new(AddReq)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -34,12 +32,10 @@ func _add_Handler(srv TodolistService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.Add(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -54,10 +50,8 @@ func _list_Handler(srv TodolistService) echo.HandlerFunc {
 		req := new(Empty)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -69,12 +63,10 @@ func _list_Handler(srv TodolistService) echo.HandlerFunc {
 		*/
 		resp, err := srv.List(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 

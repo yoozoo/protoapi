@@ -9,7 +9,23 @@ import (
 
 // CalcService is the interface contains all the controllers
 type CalcService interface {
+	CalcServiceAuth(c echo.Context) (err error)
+
 	Add(c echo.Context, req *AddReq) (resp *AddResp, bizError *AddError, err error)
+}
+
+func _CalcServiceAuth_Handler(srv CalcService) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) (err error) {
+			err = srv.CalcServiceAuth(c)
+
+			if err != nil {
+				return c.String(500, err.Error())
+			}
+
+			return next(c)
+		}
+	}
 }
 
 func _add_Handler(srv CalcService) echo.HandlerFunc {
@@ -17,16 +33,13 @@ func _add_Handler(srv CalcService) echo.HandlerFunc {
 		req := new(AddReq)
 
 		if err = c.Bind(req); err != nil {
-
 			return c.JSON(500, err)
-
 		}
 		/*
 
 		 */
 		resp, bizError, err := srv.Add(c, req)
 		if err != nil {
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -48,5 +61,6 @@ func RegisterCalcServiceWithPrefix(e *echo.Echo, srv CalcService, prefix string)
 	if _, ok := e.Binder.(*echo.DefaultBinder); ok {
 		e.Binder = new(protoapigo.JSONAPIBinder)
 	}
-	e.POST(prefix+"/CalcService.add", _add_Handler(srv))
+	g := e.Group(prefix+"/CalcService", _CalcServiceAuth_Handler(srv))
+	g.POST(".add", _add_Handler(srv))
 }

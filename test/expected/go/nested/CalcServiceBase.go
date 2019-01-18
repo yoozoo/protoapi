@@ -17,16 +17,13 @@ func _add_Handler(srv CalcService) echo.HandlerFunc {
 		req := new(AddReq)
 
 		if err = c.Bind(req); err != nil {
-
 			return c.JSON(500, err)
-
 		}
 		/*
 
 		 */
 		resp, bizError, err := srv.Add(c, req)
 		if err != nil {
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
