@@ -10,3 +10,5 @@ out
 .project
 .settings
 tmp/
+.vscode/
+*.gob
