@@ -9,7 +9,7 @@ import (
 
 // CalcService is the interface contains all the controllers
 type CalcService interface {
-	Add(c echo.Context, req *AddReq) (resp *AddResp, bizError **AddError, err error)
+	Add(c echo.Context, req *AddReq) (resp *AddResp, bizError *AddError, err error)
 }
 
 func _add_Handler(srv CalcService) echo.HandlerFunc {
