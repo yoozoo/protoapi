@@ -11,7 +11,7 @@
 - `LoginService.logingame`
 
 ### 请求方式：
-- post
+- POST
 
 ### 参数：
 

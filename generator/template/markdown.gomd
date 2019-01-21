@@ -11,7 +11,7 @@
 - `{{$met.URI}}`
 
 ### 请求方式：
-- {{$met.HttpMtd}}
+- {{toUpper $met.HttpMtd}}
 
 ### 参数：
 {{range $mes := getMessagesOfType $met.InputType $met.InputType}}
