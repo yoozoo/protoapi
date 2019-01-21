@@ -54,68 +54,66 @@ service OneService {
 * The generated md file would look like this:
 
 
-# logingame
+    # logingame
 
-### A brief description:
-- rpc comment  
+    ### A brief description:
+    - rpc comment
 
-### Request URL:
-- 
-```URL
-    http://user.gtarcade.com/micro/OneService.logingame
-```
+    ### Request URL:
+    -
+    `http://user.gtarcade.com/micro/OneService.logingame`
 
-### Request method:
-- post
+    ### Request method:
+    - POST
 
-### parameter:
+    ### parameter:
 
-## Sample -ROOT- 
-| parameter name  | required  | type  | description
-| :-------------- |:--------- | :---- | :----------
-|name        | required     | string  | Account name  
-|aID        | required     | int  |  an Id Comment  
-|operator        | required     | int  | operator ID test   test operator   
+    ## Sample -ROOT-
+    | parameter name  | required  | type  | description
+    | :-------------- |:--------- | :---- | :----------
+    |name        | required     | string  | Account name
+    |aID        | required     | int  |  an Id Comment
+    |operator        | required     | int  | operator ID test   test operator
 
-## NestSample  (nested message  )
-| parameter name  | required  | type  | description
-| :-------------- |:--------- | :---- | :----------
-|nest        | required     | string  |  
+    ## NestSample  (nested message  )
+    | parameter name  | required  | type  | description
+    | :-------------- |:--------- | :---- | :----------
+    |nest        | required     | string  |
 
-### Successful Return Example:
+    ### Successful Return Example:
 
-```json
-{
-   "msg": "Success"
-}
-```
+    ```json
+    {
+    "msg": "Success"
+    }
+    ```
 
-### Return parameter description
+    ### Return parameter description
 
-## SampleResp -ROOT- ( message comment  )
-| parameter name  | type            | description
-| :------------   |:--------------- | :----------
-|msg        | string  | field comment  
+    ## SampleResp -ROOT- ( message comment  )
+    | parameter name  | type            | description
+    | :------------   |:--------------- | :----------
+    |msg        | string  | field comment
 
 
 
-### Enum description
+    ### Enum description
 
-## ValidateErrorType 
-| field name  | value   | description
-| :---------  |:------- | :----------
-|INVALID_EMAIL        | 0 | 
-|FIELD_REQUIRED        | 1 | 
+    ## ValidateErrorType
+    | field name  | value   | description
+    | :---------  |:------- | :----------
+    |INVALID_EMAIL        | 0 |
+    |FIELD_REQUIRED        | 1 |
 
-## Status (title enum comment  )
-| field name  | value   | description
-| :---------  |:------- | :----------
-|UNKNOWN        | 0 | enum comment  
-|VIP_1        | 1 | 
-|VIP_2        | 2 | 
-
-
-### Remarks
+    ## Status (title enum comment  )
+    | field name  | value   | description
+    | :---------  |:------- | :----------
+    |UNKNOWN        | 0 | enum comment
+    |VIP_1        | 1 |
+    |VIP_2        | 2 |
 
 
-- service comment  
+    ### Remarks
+
+
+    - service comment
