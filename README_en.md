@@ -168,6 +168,10 @@ service HelloService {
 
 * [Error Handling Documentation](docs/ErrorHandling.md)
 
+### Authentication
+
+* [Authentication Documentation](docs/protoapi_auth_en.md)
+
 ### Relevant Information
 1. [Basic syntax and use of go](https://golang.org/doc/)
 2. [protobuf(proto3) basic syntax](https://developers.google.com/protocol-buffers/docs/proto3)
