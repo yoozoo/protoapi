@@ -172,6 +172,7 @@ func (g *markdownGen) Gen(applicationName string, packageName string, service *d
 		"getFields":         getFields,
 		"getMessagesOfType": getMessagesOfType,
 		"makeJSON":          makeJSON,
+		"toUpper":           strings.ToUpper,
 	}
 
 	// fill in data

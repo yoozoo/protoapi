@@ -4,19 +4,16 @@
  
 # logingame
 
-### A brief description:
+### 简要描述：
 - test method comment  
 
-### Request URL:
-- 
-```URL
-    http://user.gtarcade.com/micro/LoginService.logingame
-```
+### 请求URL：
+- `LoginService.logingame`
 
-### Request method:
-- post
+### 请求方式：
+- POST
 
-### parameter:
+### 参数：
 
 ## LoginReq -ROOT- 
 | parameter name  | required  | type  | description
@@ -27,7 +24,7 @@
 |server_id        | required     | int  |  
 
 
-### Successful Return Example:
+### 返回示例：
 
 ```json
 {
@@ -47,7 +44,7 @@
 }
 ```
 
-### Return parameter description
+### 返回参数说明：
 
 ## LoginResp -ROOT- ( login request return  )
 | parameter name  | type            | description
@@ -74,7 +71,7 @@
 
 
 
-### Enum description
+### Enum说明：
 
 ## ValidateErrorType 
 | field name  | value   | description
@@ -90,7 +87,8 @@
 |VIP_2        | 2 | 
 
 
-### Remarks
+### 备注
 
 
 - test service comment  
+

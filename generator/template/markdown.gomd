@@ -4,19 +4,16 @@
 {{range $met := .Methods}} {{ $outputFields := getFields .OutputType }}{{/* get the fields from output messages to be converted to json */}}
 # {{$met.Name}}
 
-### A brief description:
+### 简要描述：
 - {{$met.Comment}}
 
-### Request URL:
-- 
-```URL
-    http://user.gtarcade.com/micro/{{$met.URI}}
-```
+### 请求URL：
+- `{{$met.URI}}`
 
-### Request method:
-- {{$met.HttpMtd}}
+### 请求方式：
+- {{toUpper $met.HttpMtd}}
 
-### parameter:
+### 参数：
 {{range $mes := getMessagesOfType $met.InputType $met.InputType}}
 ## {{$mes.Name}} {{if eq $mes.Name $met.InputType}}-ROOT-{{end}} {{if ne $mes.Comment ""}}({{$mes.Comment}}){{end}}
 | parameter name  | required  | type  | description
@@ -26,13 +23,13 @@
 {{- end}} {{/* foreach fields end */}}
 {{end}}{{/* if input end */}}
 
-### Successful Return Example:
+### 返回示例：
 
 ```json
 {{makeJSON $outputFields}}
 ```
 
-### Return parameter description
+### 返回参数说明：
 {{range $mes := getMessagesOfType $met.OutputType $met.OutputType}}
 ## {{$mes.Name}} {{if eq $mes.Name $met.OutputType}}-ROOT-{{end}} {{if ne $mes.Comment ""}}({{$mes.Comment}}){{end}}
 | parameter name  | type            | description
@@ -43,7 +40,7 @@
 {{end}}{{/* if output end */}}
 {{end}}{{/* foreach methods end */}}
 
-### Enum description
+### Enum说明：
 {{range $enum := .Enums}}
 ## {{$enum.Name}} {{if ne $enum.Comment ""}}({{$enum.Comment}}){{end}}
 | field name  | value   | description
@@ -53,7 +50,7 @@
 {{- end}}{{/* foreach fields end */}}
 {{end}}{{/* foreach range end */}}
 
-### Remarks
+### 备注
 
 {{if ne .Services.Comment ""}}
 - {{.Services.Comment}}

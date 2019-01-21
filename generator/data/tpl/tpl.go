@@ -350,21 +350,21 @@ dMffhr8CAAD//1ut0G9LCQAA
 	"/generator/template/markdown.gomd": {
 		name:    "markdown.gomd",
 		local:   "generator/template/markdown.gomd",
-		size:    1922,
+		size:    1858,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/7SVz0/jOBTH7/kr3lIOgJTkHu2uhBZWwwiIFMqccZOX1kNtB9uphnH9v49sx21SEBoQ
-41Pt98vv875x//4rTdOT+YoqoAoItHSNsESOkmhsYPEMnRRakI7CyQalooJnff+zz2rB8mg6PU3Tf5OQ
-6qKE23IOlxdX88wfJ8ZIwpcIxww1FP9AdoN6JRplLRgDx6LXXa//p7hulDMvMW6y0pvmzx2CtcbkZ84I
-eoXQBo9WCgYhATBUiixRgRawQKgF36B0PWgB35XgcJZbm8zAGHeR7JYwtDZJZrMZnMNCUmyhQVVL2mkq
-eJGk0fM/wRhyHZ0rfOpRabivrp1T8vDwcF9dJwAAK627Is97hTJbaiJr0qAHxWgtRT7ku6+urHVh03zM
-UxnV/aJ1d6ObWLcjkjDUKIsx0YjsZui+bD0un+CKR3rTrcMwcFADBzCGtoBPsDt7EZNWZTlPjUHeRH8e
-rhAJwdGRtSdD3h210yEk2e5bAO4qwBYkPvVUYuN+a3dT2I6nkGyhSCcLtsXod7DCxCsxJoXAJwtCcrWN
-iZ0Oa1zbb43JLogmodnQH1UVdkg0ZNdkgWtrz6UkzxGBD9mLw5WNbPIzaIVEUq+iUpE3QYBDtPdxJRzg
-vdVP+q6va1Sq7ddQoe4lh8sfhHVrLBInGyfmxBhGHvHrXXk7/YKmyvLBe+pjsr+podEneLB/h4rGQX9E
-RkE6+/WmiJz9QFUfldCnaeY9khneu1fNMUV4TNSBsC55z14XATqLe5udi9qN1h1PZssH3xezGh9OhuWb
-2Q1qQ9Y9vjmg0XA+PpRvrsxn4I4+oe6UZoWMyEfl/uACmewO5YbWB0r2D/oL077OrwAAAP//cFFF64IH
-AAA=
+H4sIAAAAAAAC/7RVQWsTQRS+7694Nj20hd3ciwpiK1baLqSp50yzL8lqdmY7OxuokwHtxYNgLiqi4KmI
+J6soiFLsnzFpbv4FmZ2dZDcthZQ6p8y877037/u+ndy84bruUr0TJhAmQKAVdhHaSJETgQHsHUDMmWAk
+DmGphzwJGfXS9EnqNVlUtaHlZde97ZhSaz5s+3VYX9uoe9mxIyUntI2wGKGA1VvgbaHosCBRCqSERZaK
+OBX3QuwGiQ630W48PwvVD2IEpaSsruggiA5CyyBanEVgCkCESULamIBgsIfQZLSHXM8gGDxKGIWVqlJO
+BaTUF/G2SYRKOU6lUoGzz0/HH5+NBoPx6Ze/J+8c14LusihCKixufPxj9PVwt7ZpQI0ctVvbUKpRhIze
+/ByeDGwpwXbjGHlGgHdfiHhLBLbkcHA4ep01LdBkedjKR/JbGQdZ/ga1lJS3erZ8uCQfDqQMW4D7MDk7
+l+PWfL/uSok0sHhqrmBnh4UFpZbyuhM+lvMUpw8x4SRCgRyo7gB94LifhhwD/Vvom0IfAkyaPIxFyKjT
+h1W3tKC/WvhtolBCOVK6YPjxjDt0byntpPkq9s62UnprRBAzrJkvTGoYIxHgbZI97Cp1h3NyYCnIUqay
+67aWm+oKtBhH0uxY+yENjKvy7AyjW2iCp1FjjNNXw/cfzo5+/fn9QsvtNBoNbUtHyog8xgc7/nb5W1BK
+Q4rJxivj4++jty/ncEzhK5rZz+GZYtJ/MY0xynRdahkdn/HQVQ1zbQ6ZxyD5k3Vh2JaIzCs5Y6N1mkYX
+OABpGmVvq44nE131cUlYmmPPCVU8LCmVTTJRqUe6KV6qTkGZqyvyULe5Dq4txvQtUzk8ej769kn/Pxli
+vB3kvbA54+LsBT8XmrZx/gUAAP//nIj5n0IHAAA=
 `,
 	},
 
