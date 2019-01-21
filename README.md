@@ -35,6 +35,7 @@
 * 生成前端PHP代码：`protoapi gen --lang=php [output_folder] [proto file path]`
 * 生成后端Spring代码：`protoapi gen --lang=spring [output_folder] [proto file path]`
 * 生成后端echo代码：`protoapi gen --lang=echo [output_folder] [proto file path]`
+* 生成后端markdown代码: `protoapi gen --lang=markdown [output_folder] [proto file path]`
 
 例如：
 * 生成前端TypeScript代码： `protoapi gen --lang=ts . ./test/proto/todolist.proto`
@@ -52,6 +53,7 @@
         * spring_xx.go 支持生成spring的代码
         * vue_ts.go 支持生成vue(使用ts)的代码
         * php.go 支持生成php的代码
+        * markdown.go 支持生成markdown的代码
     * template 包含所有模板文件
         * ts
             xx.gots TS的模板
@@ -59,6 +61,7 @@
         * echo_xx.gogo go的模板(对应echo)
         * spring_xx.gojava java的模板(对应spring)
         * php.gophp php的模板
+        * markdown.gomd markdown的模板
     * generator.go 包含一些共享的代码生成函数逻辑
 * test 包含所有测试代码生成的proto文件
 
