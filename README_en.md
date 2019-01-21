@@ -174,6 +174,9 @@ service HelloService {
 ### Markdown Support
 
 * [Markdown Documentation](docs/markdown_en.md)
+### Authentication
+
+* [Authentication Documentation](docs/protoapi_auth_en.md)
 
 ### Relevant Information
 1. [Basic syntax and use of go](https://golang.org/doc/)
