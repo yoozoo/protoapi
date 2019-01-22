@@ -38,14 +38,14 @@ func (s *echoField) Type() string {
 }
 
 func (s *echoField) ValidateRequired() bool {
-	if _, ok := s.Options[data.FieldOptions[data.RequiredFieldOption]]; ok {
+	if _, ok := s.Options[data.FieldOptions[data.RequiredFieldOption].Name]; ok {
 		return true
 	}
 	return false
 }
 
 func (s *echoField) ValidateFormat() string {
-	if format, ok := s.Options[data.FieldOptions[data.FormatFieldOption]]; ok {
+	if format, ok := s.Options[data.FieldOptions[data.FormatFieldOption].Name]; ok {
 		return format
 	}
 	return ""
@@ -99,11 +99,17 @@ func (s *echoStruct) ClassName() string {
 }
 
 func (s *echoStruct) IsCommonErrorStruct() bool {
-	if _goService == nil {
+	if _goServices == nil {
 		return false
 	}
 
-	return _goService.CommonError() == "*"+s.ClassName()
+	for _, serv := range _goServices {
+		if serv.CommonError() == "*"+s.ClassName() {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (s *echoStruct) ValidateRequired() bool {

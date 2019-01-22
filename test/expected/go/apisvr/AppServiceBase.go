@@ -9,6 +9,8 @@ import (
 
 // AppService is the interface contains all the controllers
 type AppService interface {
+	AppServiceAuth(c echo.Context) (err error)
+
 	GetEnv(c echo.Context, req *EnvListRequest) (resp *EnvListResponse, bizError *Error, err error)
 
 	RegisterService(c echo.Context, req *RegisterServiceRequest) (resp *RegisterServiceResponse, bizError *Error, err error)
@@ -36,15 +38,31 @@ type AppService interface {
 	FetchKeyHistory(c echo.Context, req *KVHistoryRequest) (resp *KVHistoryResponse, bizError *Error, err error)
 }
 
+func _AppServiceAuth_Handler(srv AppService) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) (err error) {
+			err = srv.AppServiceAuth(c)
+
+			if err != nil {
+				// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
+				if e, ok := err.(*CommonError); ok {
+					return c.JSON(420, e)
+				}
+				return c.String(500, err.Error())
+			}
+
+			return next(c)
+		}
+	}
+}
+
 func _getEnv_Handler(srv AppService) echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
 		req := new(EnvListRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -56,12 +74,10 @@ func _getEnv_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.GetEnv(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -76,10 +92,8 @@ func _registerService_Handler(srv AppService) echo.HandlerFunc {
 		req := new(RegisterServiceRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -91,12 +105,10 @@ func _registerService_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.RegisterService(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -111,10 +123,8 @@ func _updateService_Handler(srv AppService) echo.HandlerFunc {
 		req := new(UpdateServiceRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -126,12 +136,10 @@ func _updateService_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.UpdateService(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -146,10 +154,8 @@ func _uploadProtoFile_Handler(srv AppService) echo.HandlerFunc {
 		req := new(UploadProtoFileRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -161,12 +167,10 @@ func _uploadProtoFile_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.UploadProtoFile(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -181,10 +185,8 @@ func _getTags_Handler(srv AppService) echo.HandlerFunc {
 		req := new(TagListRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -196,12 +198,10 @@ func _getTags_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.GetTags(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -216,10 +216,8 @@ func _getProducts_Handler(srv AppService) echo.HandlerFunc {
 		req := new(ProductListRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -231,12 +229,10 @@ func _getProducts_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.GetProducts(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -251,10 +247,8 @@ func _getServices_Handler(srv AppService) echo.HandlerFunc {
 		req := new(ServiceListRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -266,12 +260,10 @@ func _getServices_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.GetServices(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -286,10 +278,8 @@ func _searchServices_Handler(srv AppService) echo.HandlerFunc {
 		req := new(ServiceSearchRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -301,12 +291,10 @@ func _searchServices_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.SearchServices(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -321,10 +309,8 @@ func _getKeyList_Handler(srv AppService) echo.HandlerFunc {
 		req := new(KeyListRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -336,12 +322,10 @@ func _getKeyList_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.GetKeyList(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -356,10 +340,8 @@ func _getKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 		req := new(KeyValueListRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -371,12 +353,10 @@ func _getKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.GetKeyValueList(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -391,10 +371,8 @@ func _searchKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 		req := new(SearchKeyValueListRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -406,12 +384,10 @@ func _searchKeyValueList_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.SearchKeyValueList(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -426,10 +402,8 @@ func _updateKeyValue_Handler(srv AppService) echo.HandlerFunc {
 		req := new(KeyValueRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -441,12 +415,10 @@ func _updateKeyValue_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.UpdateKeyValue(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -461,10 +433,8 @@ func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
 		req := new(KVHistoryRequest)
 
 		if err = c.Bind(req); err != nil {
-
 			resp := &CommonError{BindError: &BindError{err.Error()}}
 			return c.JSON(420, resp)
-
 		}
 		/*
 
@@ -476,12 +446,10 @@ func _fetchKeyHistory_Handler(srv AppService) echo.HandlerFunc {
 		*/
 		resp, bizError, err := srv.FetchKeyHistory(c, req)
 		if err != nil {
-
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
 			if e, ok := err.(*CommonError); ok {
 				return c.JSON(420, e)
 			}
-
 			return c.String(500, err.Error())
 		}
 		if bizError != nil {
@@ -503,17 +471,18 @@ func RegisterAppServiceWithPrefix(e *echo.Echo, srv AppService, prefix string) {
 	if _, ok := e.Binder.(*echo.DefaultBinder); ok {
 		e.Binder = new(protoapigo.JSONAPIBinder)
 	}
-	e.POST(prefix+"/AppService.getEnv", _getEnv_Handler(srv))
-	e.POST(prefix+"/AppService.registerService", _registerService_Handler(srv))
-	e.POST(prefix+"/AppService.updateService", _updateService_Handler(srv))
-	e.POST(prefix+"/AppService.uploadProtoFile", _uploadProtoFile_Handler(srv))
-	e.POST(prefix+"/AppService.getTags", _getTags_Handler(srv))
-	e.POST(prefix+"/AppService.getProducts", _getProducts_Handler(srv))
-	e.POST(prefix+"/AppService.getServices", _getServices_Handler(srv))
-	e.POST(prefix+"/AppService.searchServices", _searchServices_Handler(srv))
-	e.POST(prefix+"/AppService.getKeyList", _getKeyList_Handler(srv))
-	e.POST(prefix+"/AppService.getKeyValueList", _getKeyValueList_Handler(srv))
-	e.POST(prefix+"/AppService.searchKeyValueList", _searchKeyValueList_Handler(srv))
-	e.POST(prefix+"/AppService.updateKeyValue", _updateKeyValue_Handler(srv))
-	e.POST(prefix+"/AppService.fetchKeyHistory", _fetchKeyHistory_Handler(srv))
+	g := e.Group(prefix+"/AppService", _AppServiceAuth_Handler(srv))
+	g.POST(".getEnv", _getEnv_Handler(srv))
+	g.POST(".registerService", _registerService_Handler(srv))
+	g.POST(".updateService", _updateService_Handler(srv))
+	g.POST(".uploadProtoFile", _uploadProtoFile_Handler(srv))
+	g.POST(".getTags", _getTags_Handler(srv))
+	g.POST(".getProducts", _getProducts_Handler(srv))
+	g.POST(".getServices", _getServices_Handler(srv))
+	g.POST(".searchServices", _searchServices_Handler(srv))
+	g.POST(".getKeyList", _getKeyList_Handler(srv))
+	g.POST(".getKeyValueList", _getKeyValueList_Handler(srv))
+	g.POST(".searchKeyValueList", _searchKeyValueList_Handler(srv))
+	g.POST(".updateKeyValue", _updateKeyValue_Handler(srv))
+	g.POST(".fetchKeyHistory", _fetchKeyHistory_Handler(srv))
 }

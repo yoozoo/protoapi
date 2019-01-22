@@ -15,12 +15,16 @@ func (m *echoMethod) Title() string {
 	return strings.Title(m.Name)
 }
 
+func (m *echoMethod) MethodPath() string {
+	return "." + m.Name
+}
+
 func (m *echoMethod) Path() string {
 	return "/" + m.ServiceName + "." + m.Name
 }
 
 func (m *echoMethod) ServiceType() string {
-	if servType, ok := m.Options[data.MethodOptions[data.ServiceTypeMethodOption]]; ok {
+	if servType, ok := m.Options[data.MethodOptions[data.ServiceTypeMethodOption].Name]; ok {
 		return servType
 	}
 
@@ -28,7 +32,7 @@ func (m *echoMethod) ServiceType() string {
 }
 
 func (m *echoMethod) ErrorType() string {
-	if errType, ok := m.Options[data.MethodOptions[data.ErrorTypeMethodOption]]; ok {
+	if errType, ok := m.Options[data.MethodOptions[data.ErrorTypeMethodOption].Name]; ok {
 		return errType
 	}
 
@@ -81,12 +85,14 @@ type echoService struct {
 func newEchoService(msg *data.ServiceData, packageName string) *echoService {
 	ss := strings.Split(packageName, "/")
 	s := ss[len(ss)-1]
+
 	o := &echoService{
 		msg,
 		s,
 		nil,
 	}
 	o.init()
+
 	return o
 }
 

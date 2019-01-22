@@ -199,6 +199,7 @@ enum ErrorCode {
  * and get methods will be supported
  */
 service AppService {
+  option (auth) = true;
   option (common_error) = "CommonError";
 
   // get env

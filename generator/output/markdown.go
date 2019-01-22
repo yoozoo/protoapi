@@ -3,6 +3,7 @@ package output
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"strings"
 	"text/template"
 	"time"
@@ -10,6 +11,7 @@ import (
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"github.com/yoozoo/protoapi/generator/data"
 	"github.com/yoozoo/protoapi/generator/data/tpl"
+	"github.com/yoozoo/protoapi/util"
 )
 
 // create template data struct
@@ -27,7 +29,14 @@ type markdownGen struct{}
 func (g *markdownGen) Init(request *plugin.CodeGeneratorRequest) {
 }
 
-func (g *markdownGen) Gen(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+func (g *markdownGen) Gen(applicationName string, packageName string, services []*data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (result map[string]string, err error) {
+	var service *data.ServiceData
+	if len(services) > 1 {
+		util.Die(fmt.Errorf("found %d services; only 1 service is supported now", len(services)))
+	} else if len(services) == 1 {
+		service = services[0]
+	}
+
 	//获取可能的package name
 	if len(packageName) == 0 {
 		packageName = "markdown"

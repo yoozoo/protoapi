@@ -30,6 +30,9 @@ const (
 	FieldRepeatedLabel = "LABEL_REPEATED"
 	// JavaPackageOption is Java package option constant
 	JavaPackageOption = "javaPackageOption"
+
+	// ServiceAuthOption is service auth option
+	ServiceAuthOption = 51009
 	// ServiceCommonErrorOption is service common_error option
 	ServiceCommonErrorOption = 51008
 	// ServiceTypeMethodOption is service method option
@@ -61,21 +64,22 @@ const (
 	ServiceMethodCommentPath = 2
 )
 
-// ServiceOptions is the map of field number and field name in service options
-var ServiceOptions = map[int32]string{
-	ServiceCommonErrorOption: "common_error",
+//ServiceOptions is the map of field number and field name in service options
+var ServiceOptions = map[int32]OptionInfo{
+	ServiceCommonErrorOption: OptionInfo{"common_error", (*string)(nil), StringFieldType},
+	ServiceAuthOption:        OptionInfo{"auth", (*bool)(nil), BooleanFieldType},
 }
 
 // MethodOptions is the map of field number and field name in method options
-var MethodOptions = map[int32]string{
-	ServiceTypeMethodOption: "service_method",
-	ErrorTypeMethodOption:   "error",
+var MethodOptions = map[int32]OptionInfo{
+	ServiceTypeMethodOption: OptionInfo{"service_method", (*string)(nil), StringFieldType},
+	ErrorTypeMethodOption:   OptionInfo{"error", (*string)(nil), StringFieldType},
 }
 
 // FieldOptions is the map of field number and field name in field options
-var FieldOptions = map[int32]string{
-	FormatFieldOption:   "val_format",
-	RequiredFieldOption: "val_required",
+var FieldOptions = map[int32]OptionInfo{
+	FormatFieldOption:   OptionInfo{"val_format", (*string)(nil), StringFieldType},
+	RequiredFieldOption: OptionInfo{"val_required", (*bool)(nil), BooleanFieldType},
 }
 
 var debugTpl = os.Getenv("debugTpl") == "true"
@@ -86,6 +90,12 @@ var debugTpl = os.Getenv("debugTpl") == "true"
 func LoadTpl(tplPath string) string {
 	//useLocal is true, the filesystem's contents are instead used.
 	return tpl.FSMustString(debugTpl, tplPath)
+}
+
+type OptionInfo struct {
+	Name       string
+	DefaultNil interface{}
+	Type       string
 }
 
 // EnumField a enum entry for enum datatype
@@ -144,7 +154,7 @@ type OptionMap map[string]string
 
 type CodeGenerator interface {
 	Init(request *plugin.CodeGeneratorRequest)
-	Gen(applicationName string, packageName string, services *ServiceData, messages []*MessageData, enums []*EnumData, options OptionMap) (map[string]string, error)
+	Gen(applicationName string, packageName string, services []*ServiceData, messages []*MessageData, enums []*EnumData, options OptionMap) (map[string]string, error)
 }
 
 // OutputMap the registra for output code type and its associated output plugin
