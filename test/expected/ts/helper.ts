@@ -37,9 +37,11 @@ export function errorHandling(err): Promise<never> {
     switch (err.response.status) {
         case httpCode.BIZ_ERROR:
             return Promise.reject(data);
+
         case httpCode.COMMON_ERROR:
             let returnErr = mapCommonErrorType(data);
             return Promise.reject(returnErr);
+
     }
     throw data;
 }
