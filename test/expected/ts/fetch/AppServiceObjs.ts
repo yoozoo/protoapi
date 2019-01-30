@@ -247,10 +247,10 @@ export function mapCommonErrorType(commonErr: CommonError): (string | GenericErr
                 case 'bindError':
                     return commonErr[key] as BindError
                 default:
-                    return "Unknow Error"
+                    return "Unknown Error"
             }
 
         }
     }
-    return "Unknow Error"
+    return "Unknown Error"
 }

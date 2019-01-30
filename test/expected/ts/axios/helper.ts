@@ -28,18 +28,22 @@ export function errorHandling(err): Promise<never> {
     if(err.response === undefined) {
         throw err;
     }
-    
+    let data;
+    try {
+        data = JSON.parse(err.response.data);
+    } catch (err) {
+        data = err.response.data;
+    }
     switch (err.response.status) {
         case httpCode.BIZ_ERROR:
-            return Promise.reject(err.response.data)
+            return Promise.reject(data);
 
         case httpCode.COMMON_ERROR:
-            let returnErr = mapCommonErrorType(err.response.data);
-            return Promise.reject(returnErr)
+            let returnErr = mapCommonErrorType(data);
+            return Promise.reject(returnErr);
 
     }
-
-    throw err.response.data;
+    throw data;
 }
 
 /**
