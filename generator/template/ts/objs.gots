@@ -37,11 +37,11 @@ export function mapCommonErrorType(commonErr: {{.Gen.CommonError}}): (string{{.G
                     return commonErr[key] as {{ .DataType }}
 {{- end}}
                 default:
-                    return "Unknow Error"
+                    return "Unknown Error"
             }
 
         }
     }
-    return "Unknow Error"
+    return "Unknown Error"
 }
 {{end -}}
