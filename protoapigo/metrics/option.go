@@ -4,7 +4,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-var defaultMetricPath = "/noauth/metrics"
+var defaultMetricPath = "/metrics"
 
 type Option func(c *Options)
 

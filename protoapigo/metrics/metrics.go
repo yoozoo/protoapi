@@ -11,7 +11,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var defaultLabelNames = []string{"node", "host", "status"}
+var defaultLabelNames = []string{"node", "host", "uri", "status"}
 
 func MetricsFunc(options ...Option) echo.MiddlewareFunc {
 	opts := applyOptions(options...)
@@ -83,10 +83,10 @@ func MetricsFunc(options ...Option) echo.MiddlewareFunc {
 			latency := time.Since(start)
 			status := strconv.Itoa(res.Status)
 
-			reqCount.WithLabelValues(hostname, req.Host, status).Inc()
-			reqDur.WithLabelValues(hostname, req.Host, status).Observe(float64(latency.Nanoseconds()))
-			reqSize.WithLabelValues(hostname, req.Host, status).Observe(float64(req.ContentLength))
-			resSize.WithLabelValues(hostname, req.Host, status).Observe(float64(res.Size))
+			reqCount.WithLabelValues(hostname, req.Host, req.RequestURI, status).Inc()
+			reqDur.WithLabelValues(hostname, req.Host, req.RequestURI, status).Observe(float64(latency.Nanoseconds()))
+			reqSize.WithLabelValues(hostname, req.Host, req.RequestURI, status).Observe(float64(req.ContentLength))
+			resSize.WithLabelValues(hostname, req.Host, req.RequestURI, status).Observe(float64(res.Size))
 
 			return nil
 		}
