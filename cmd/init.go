@@ -85,16 +85,13 @@ func initCommandFunc(cmd *cobra.Command, args []string) {
 	}
 	// write protoapi include file
 	protoapiIncPath := workingDir + util.ProtoapiCommonInclude
-	if _, err := os.Stat(protoapiIncPath); os.IsNotExist(err) {
-		err = os.MkdirAll(protoapiIncPath, os.ModePerm)
-		if err != nil {
-			util.Die(fmt.Errorf("Failed create directory %s: %s", protoapiIncPath, err))
-		}
-		err = util.ExtractIncludes(protoapiIncPath)
-		if err != nil {
-			util.Die(fmt.Errorf("Failed to download protoapi include file into %s: %s", protoapiIncPath, err))
-		}
-		fmt.Println(filepath.FromSlash(protoapiIncPath + "protoapi_common.proto"))
+	os.MkdirAll(protoapiIncPath, os.ModePerm)
+	if _, err := os.Stat(protoapiIncPath); err!= nil {
+		util.Die(fmt.Errorf("Failed create directory %s: %s", protoapiIncPath, err))
+	}
+	err := util.ExtractIncludes(protoapiIncPath)
+	if err != nil {
+		util.Die(fmt.Errorf("Failed to download protoapi include file into %s: %s", protoapiIncPath, err))
 	}
 	fmt.Println("protoapi initialized.")
 }
