@@ -51,7 +51,10 @@ func generateCode(cmd *cobra.Command, args []string) {
 		genFlagValue.reset()
 	}()
 
-	executable, _ := os.Executable()
+	executable := os.Getenv("PROTOAPI_EXE")
+	if executable == "" {
+		executable, _ = os.Executable()
+	}
 
 	var params = make(map[string]string)
 	params[langFlag] = genFlagValue.langValue

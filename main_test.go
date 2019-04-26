@@ -20,16 +20,15 @@ func init() {
 	}
 }
 func TestCmd(t *testing.T) {
-
 	cli := cmd.RootCmd
 	buf := new(bytes.Buffer)
 	cli.SetOutput(buf)
-	// cli.SetArgs([]string{
-	// 	"gen", "--lang=go", "test/result/go", "test/proto/test.proto",
-	// })
 	cli.SetArgs([]string{
-		"help",
+		"gen", "--lang=go", "test/result/go", "test/proto/test.proto",
 	})
+	// cli.SetArgs([]string{
+	// 	"help",
+	// })
 
 	err := cli.Execute()
 	if err != nil {

@@ -34,11 +34,24 @@ func main() {
 
 	// when no any parameter and not reading from char device, treat it as being called by protoc
 	if len(args) == 1 && err == nil && (stat.Mode()&os.ModeCharDevice) == 0 {
+		protoapiPort := os.Getenv("PROTOAPI_PORT")
+		if protoapiPort != "" {
+			resp, err := http.Post("http://127.0.0.1:"+protoapiPort+"/", "application/protobuf", os.Stdin)
+			defer resp.Body.Close()
+
+			if err != nil {
+				util.Die(err)
+			}
+
+			body, err := ioutil.ReadAll(resp.Body)
+			os.Stdout.Write(body)
+			return
+		}
+
 		input, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
 			util.Die(fmt.Errorf("reading stdin error: %s", err.Error()))
 		}
-
 		response := generator.Generate(input)
 
 		output, err := proto.Marshal(response)
@@ -50,6 +63,7 @@ func main() {
 			util.Die(err)
 		}
 	} else {
+		go serv()
 		cmd.Execute()
 	}
 }
@@ -77,7 +91,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func serv() {
 	http.HandleFunc("/", handler)
 
-	listener, err := net.Listen("tcp", ":0")
+	listener, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
 		panic(err)
 	}
