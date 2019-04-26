@@ -187,7 +187,7 @@ func getMethods(pkg string, path string, service *descriptor.ServiceDescriptorPr
 	methods := service.GetMethod()
 	serviceName := service.GetName()
 	var resultMtd []*data.Method
-	log.Printf("proto pkg: %s\n", pkg)
+
 	for mIndex, mtd := range methods {
 		var mtdMessagePath = path + strconv.Itoa(mIndex)
 		var mtdData = &data.Method{
