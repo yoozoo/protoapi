@@ -7,8 +7,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
+	"net/http"
 	"os"
 	"runtime/debug"
+	"strconv"
 
 	"github.com/golang/protobuf/proto"
 
@@ -49,4 +52,39 @@ func main() {
 	} else {
 		cmd.Execute()
 	}
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	input, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.Write([]byte(fmt.Errorf("reading error: %s", err.Error()).Error()))
+		return
+	}
+
+	response := generator.Generate(input)
+	output, err := proto.Marshal(response)
+	if err != nil {
+		w.Write([]byte(fmt.Errorf("reading error: %s", err.Error()).Error()))
+		return
+	}
+
+	_, err = w.Write(output)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func serv() {
+	http.HandleFunc("/", handler)
+
+	listener, err := net.Listen("tcp", ":0")
+	if err != nil {
+		panic(err)
+	}
+
+	port := listener.Addr().(*net.TCPAddr).Port
+
+	os.Setenv("PROTOAPI_PORT", strconv.Itoa(port))
+	defer os.Unsetenv("PROTOAPI_PORT")
+	log.Fatal(http.Serve(listener, nil))
 }
