@@ -5,6 +5,7 @@ import (
 	"os"
 	"path"
 	"runtime"
+	"strings"
 	"testing"
 
 	"github.com/yoozoo/protoapi/cmd"
@@ -18,17 +19,17 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+
+	go serv()
 }
-func TestCmd(t *testing.T) {
+
+func test(t *testing.T, args string) {
+	println(args)
 	cli := cmd.RootCmd
 	buf := new(bytes.Buffer)
 	cli.SetOutput(buf)
-	cli.SetArgs([]string{
-		"gen", "--lang=go", "test/result/go", "test/proto/test.proto",
-	})
-	// cli.SetArgs([]string{
-	// 	"help",
-	// })
+
+	cli.SetArgs(strings.Split(args, " "))
 
 	err := cli.Execute()
 	if err != nil {
@@ -36,4 +37,18 @@ func TestCmd(t *testing.T) {
 	}
 
 	println(buf.String())
+}
+
+func TestCmd(t *testing.T) {
+	test(t, "gen --lang=go test/result/go test/proto/test.proto")
+	// test(t, "gen --lang=go test/result/go test/proto/calc.proto")
+	// test(t, "gen --lang=go test/result/go test/proto/todolist.proto")
+	// test(t, "gen --lang=go test/result/go test/proto/nested.proto")
+
+	test(t, "gen --lang=ts test/result/ts test/proto/test.proto")
+	test(t, "gen --lang=spring test/result/ test/proto/test.proto")
+
+	test(t, "gen --lang=phpclient test/result/ test/proto/test.proto")
+	test(t, "gen --lang=yii2 test/result/ test/proto/todolist.proto")
+	test(t, "gen --lang=markdown test/result/ test/proto/login.proto")
 }
