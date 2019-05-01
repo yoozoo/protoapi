@@ -182,3 +182,7 @@ service HelloService {
 2. [protobuf(proto3)基本语法](https://developers.google.com/protocol-buffers/docs/proto3)
 3. [template的基本语法](https://golang.org/pkg/text/template/)
 4. [spring](https://spring.io/guides)
+
+# TODO
+
+[ ] 修改Common Struct的识别方式，目前只有在提供Service文件时才能判断
