@@ -34,6 +34,7 @@ func main() {
 
 	// when no any parameter and not reading from char device, treat it as being called by protoc
 	if len(args) == 1 && err == nil && (stat.Mode()&os.ModeCharDevice) == 0 {
+		// check for PROTOAPI_PORT, if set means it's in go test
 		protoapiPort := os.Getenv("PROTOAPI_PORT")
 		if protoapiPort != "" {
 			resp, err := http.Post("http://127.0.0.1:"+protoapiPort+"/", "application/protobuf", os.Stdin)
@@ -63,7 +64,6 @@ func main() {
 			util.Die(err)
 		}
 	} else {
-		go serv()
 		cmd.Execute()
 	}
 }

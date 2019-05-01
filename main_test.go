@@ -40,6 +40,12 @@ func test(t *testing.T, args string) {
 }
 
 func TestCmd(t *testing.T) {
+	executable := os.Getenv("PROTOAPI_EXE")
+	if executable == "" {
+		t.Error("PROTOAPI_EXE is not set")
+		return
+	}
+
 	test(t, "gen --lang=go test/result/go test/proto/test.proto")
 	// test(t, "gen --lang=go test/result/go test/proto/calc.proto")
 	// test(t, "gen --lang=go test/result/go test/proto/todolist.proto")

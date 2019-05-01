@@ -67,9 +67,16 @@
 
 ## 如何参与项目
 
-* 写测试 Writing test
-* 代码审查 Code review
-* 添加新的template
+### 写测试 Writing test
+
+#### go test
+
+* 先完成编译`go build`
+* 将编译出来的可执行文件设置到`PROTOAPI_EXE`环境变量
+* 再执行`go test`
+
+### 代码审查 Code review
+
 
 ### 添加新的template
 
