@@ -12,3 +12,4 @@ out
 tmp/
 .vscode/
 *.gob
+*.out
