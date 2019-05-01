@@ -2,12 +2,16 @@ package main
 
 import (
 	"bytes"
+	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"testing"
 
+	"github.com/sergi/go-diff/diffmatchpatch"
 	"github.com/yoozoo/protoapi/cmd"
 )
 
@@ -89,4 +93,41 @@ func TestCmd(t *testing.T) {
 			test(t, cmd)
 		}
 	}
+
+	files, err := filePathWalkDir("test/expected")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, expectedFileName := range files {
+		resultFileName := strings.Replace(expectedFileName, "expected", "result", 1)
+
+		expectedFile, err := ioutil.ReadFile(expectedFileName)
+		if err != nil {
+			t.Error("expectedFile read err: ", expectedFileName, err)
+		}
+
+		resultFile, err := ioutil.ReadFile(resultFileName)
+		if err != nil {
+			t.Error("resultFile read err: ", resultFileName, err)
+		}
+
+		if string(expectedFile) != string(resultFile) {
+			dmp := diffmatchpatch.New()
+			diffs := dmp.DiffMain(string(expectedFile), string(resultFile), false)
+			t.Error("file different: ", expectedFileName, resultFileName)
+			fmt.Println(dmp.DiffPrettyText(diffs))
+		}
+	}
+}
+
+func filePathWalkDir(root string) ([]string, error) {
+	var files []string
+	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		if !info.IsDir() {
+			files = append(files, path)
+		}
+		return nil
+	})
+	return files, err
 }
