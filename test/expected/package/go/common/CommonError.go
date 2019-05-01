@@ -41,3 +41,7 @@ func (r *CommonError) GetBindError() *BindError {
 	}
 	return r.BindError
 }
+
+func (r *CommonError) Error() string {
+	return "Error"
+}
