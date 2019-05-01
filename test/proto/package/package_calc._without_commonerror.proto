@@ -8,7 +8,7 @@ import "common.proto";
 import "package_addReq.proto";
 
 package calcmain;
-option go_package = "calcsvrmain";
+option go_package = "calcsvrmain_without";
 
 message AddReq {
   int32 x = 1;
