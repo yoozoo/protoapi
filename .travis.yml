@@ -7,6 +7,6 @@ install:
 before_script:
   - go build -v
   - ./protoapi init
-  - export PROTOAPI_EXE=$(pwd)+protoapi
+  - export PROTOAPI_EXE=$(pwd)/protoapi
 script:
   - go test
