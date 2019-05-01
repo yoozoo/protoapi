@@ -3,6 +3,7 @@ go:
   - "1.10"
 install:
   - go get -v
+  - go get github.com/sergi/go-diff/diffmatchpatch
 before_script:
   - go build -v
   - ./protoapi init
