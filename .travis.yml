@@ -1,6 +1,7 @@
 language: go
 go:
   - "1.10"
+  - "1.12.4"
 install:
   - go get -v
   - go get github.com/sergi/go-diff/diffmatchpatch
