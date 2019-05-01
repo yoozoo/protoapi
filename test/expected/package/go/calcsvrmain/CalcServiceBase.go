@@ -19,11 +19,17 @@ func _add_Handler(srv CalcService) echo.HandlerFunc {
 		req := new(AddReq)
 
 		if err = c.Bind(req); err != nil {
-			return c.JSON(500, err)
+			resp := &CommonError{BindError: &BindError{err.Error()}}
+			return c.JSON(420, resp)
 		}
 		/*
 
-		 */
+			if valErr := req.Validate(); valErr != nil {
+				resp := &CommonError{ValidateError: valErr}
+				return c.JSON(420, resp)
+			}
+
+		*/
 		resp, bizError, err := srv.Add(c, req)
 		if err != nil {
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
@@ -44,11 +50,17 @@ func _add2_Handler(srv CalcService) echo.HandlerFunc {
 		req := new(AddReq)
 
 		if err = c.Bind(req); err != nil {
-			return c.JSON(500, err)
+			resp := &CommonError{BindError: &BindError{err.Error()}}
+			return c.JSON(420, resp)
 		}
 		/*
 
-		 */
+			if valErr := req.Validate(); valErr != nil {
+				resp := &CommonError{ValidateError: valErr}
+				return c.JSON(420, resp)
+			}
+
+		*/
 		resp, bizError, err := srv.Add2(c, req)
 		if err != nil {
 			// e:= err.(*CommonError) will panic if assertion fail, which is not what we want
