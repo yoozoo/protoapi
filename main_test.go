@@ -28,7 +28,6 @@ func init() {
 }
 
 func test(t *testing.T, args string) {
-	println(args)
 	cli := cmd.RootCmd
 	buf := new(bytes.Buffer)
 	cli.SetOutput(buf)
@@ -37,10 +36,10 @@ func test(t *testing.T, args string) {
 
 	err := cli.Execute()
 	if err != nil {
+		println(args)
 		t.Error(err)
+		println(buf.String())
 	}
-
-	println(buf.String())
 }
 
 func TestCmd(t *testing.T) {

@@ -661,9 +661,6 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 	}
 
 	applicationFile := filepath.Base(request.FileToGenerate[0])
-	log.Printf("proto file: %s\n", applicationFile)
-	log.Printf("code generated: %s\n", outputLang)
-
 	applicationName := applicationFile[0 : len(applicationFile)-len(filepath.Ext(applicationFile))]
 
 	packageName := getPackageName(request)
