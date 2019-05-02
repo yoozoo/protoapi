@@ -185,7 +185,7 @@ func (g *tsGen) HasCommonError() bool {
 func (g *tsGen) initFiles(packageName string, service *data.ServiceData) {
 	g.axiosFile = genFileName(packageName, service.Name)
 	g.fetchFile = genFileName(packageName, service.Name)
-	g.wechatFile = genFilename(packageName, service.Name)
+	g.wechatFile = genFileName(packageName, service.Name)
 
 	g.objsFile = genFileName(packageName, service.Name+"Objs")
 	g.helperFile = genFileName(packageName, "helper")
