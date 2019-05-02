@@ -74,6 +74,7 @@ func TestCmd(t *testing.T) {
 	gen --lang=ts test/result/ts test/proto/test.proto
 	gen --lang=ts-fetch test/result/ts/fetch test/proto/test.proto
 	gen --lang=ts-axios test/result/ts/axios test/proto/test.proto
+	gen --lang=ts-wechat test/result/ts/wechat test/proto/test.proto
 
 	gen --lang=spring test/result/ test/proto/test.proto
 

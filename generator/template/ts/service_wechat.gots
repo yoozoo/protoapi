@@ -1,0 +1,62 @@
+/**
+* 该文件生成于protoapi
+* 文件包含前端调用API的代码，供微信小程序使用
+* 文件内代码使用TypeScript
+*/
+import {
+    {{range $type, $bool := (getImportDataTypes .Functions)}}
+    {{- $type }},
+    {{end}}
+} from './{{.ClassName}}Objs';
+import { generateUrl, errorHandling } from './helper';
+
+const promisify = (wx) => {
+  return (method) => {
+    return (option) => {
+      return new Promise ((resolve,reject) => {
+        wx[method]({
+          ...option,
+          success:(res) => { resolve(res) },
+          fail: (err) => {reject(err)}
+        })
+      })
+    }
+  }
+}
+
+const wxPromisify = promisify(wx)
+const wxRequest = wxPromisify('request')
+
+var baseUrl = "http://192.168.115.60:8080";
+
+export function SetBaseUrl(url: string) {
+    baseUrl = url;
+}
+
+{{- $className := .ClassName -}}
+
+{{- range .Functions}}
+{{- $method := "POST" -}}
+{{- if eq (getServiceMtd .Options) "GET" -}}
+{{- $method := "GET" -}}
+{{end}}
+{{- $error :=  (getErrorType .Options) }}
+
+export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | never> {
+  let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
+
+  return wxRequest({ url: url, data: params, method:'{{$method}}'}).then(res => {
+    if (typeof res.data === 'object') {
+      try {
+        return Promise.resolve(res.data as {{.OutputType}})
+      } catch (e) {
+        return Promise.reject(res.data);
+      }
+    }
+    return Promise.reject(res.data);
+  }).catch(err => {
+    // handle error response
+    return errorHandling(err)
+  });
+}
+{{end -}}
