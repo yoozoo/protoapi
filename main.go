@@ -7,8 +7,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
+	"net/http"
 	"os"
 	"runtime/debug"
+	"strconv"
 
 	"github.com/golang/protobuf/proto"
 
@@ -31,11 +34,25 @@ func main() {
 
 	// when no any parameter and not reading from char device, treat it as being called by protoc
 	if len(args) == 1 && err == nil && (stat.Mode()&os.ModeCharDevice) == 0 {
+		// check for PROTOAPI_PORT, if set means it's in go test
+		protoapiPort := os.Getenv("PROTOAPI_PORT")
+		if protoapiPort != "" {
+			resp, err := http.Post("http://127.0.0.1:"+protoapiPort+"/", "application/protobuf", os.Stdin)
+			defer resp.Body.Close()
+
+			if err != nil {
+				util.Die(err)
+			}
+
+			body, err := ioutil.ReadAll(resp.Body)
+			os.Stdout.Write(body)
+			return
+		}
+
 		input, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
 			util.Die(fmt.Errorf("reading stdin error: %s", err.Error()))
 		}
-
 		response := generator.Generate(input)
 
 		output, err := proto.Marshal(response)
@@ -49,4 +66,39 @@ func main() {
 	} else {
 		cmd.Execute()
 	}
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	input, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.Write([]byte(fmt.Errorf("reading error: %s", err.Error()).Error()))
+		return
+	}
+
+	response := generator.Generate(input)
+	output, err := proto.Marshal(response)
+	if err != nil {
+		w.Write([]byte(fmt.Errorf("reading error: %s", err.Error()).Error()))
+		return
+	}
+
+	_, err = w.Write(output)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func serv() {
+	http.HandleFunc("/", handler)
+
+	listener, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		panic(err)
+	}
+
+	port := listener.Addr().(*net.TCPAddr).Port
+
+	os.Setenv("PROTOAPI_PORT", strconv.Itoa(port))
+	defer os.Unsetenv("PROTOAPI_PORT")
+	log.Fatal(http.Serve(listener, nil))
 }

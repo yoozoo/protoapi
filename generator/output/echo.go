@@ -130,6 +130,10 @@ func genEchoPackageName(packageName string) string {
 }
 
 func (g *echoGen) Init(request *plugin.CodeGeneratorRequest) {
+	g.ApplicationName = ""
+	g.PackageName = ""
+	_goServices = []*goService{}
+
 	for _, file := range request.ProtoFile {
 		if !util.IsStrInSlice(file.GetName(), request.FileToGenerate) {
 			continue

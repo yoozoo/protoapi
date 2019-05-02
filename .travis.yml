@@ -1,15 +1,13 @@
 language: go
 go:
   - "1.10"
+  - "1.12.4"
 install:
   - go get -v
+  - go get github.com/sergi/go-diff/diffmatchpatch
 before_script:
   - go build -v
   - ./protoapi init
-  - mkdir -p -m 700 test/result/go/
-  - mkdir -p -m 700 test/result/package/go/
-  - mkdir -p -m 700 test/result/ts/fetch
-  - mkdir -p -m 700 test/result/ts/axios
+  - export PROTOAPI_EXE=$(pwd)/protoapi
 script:
-  - cd test
-  - ./protoapi.bats
+  - go test

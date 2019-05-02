@@ -187,7 +187,7 @@ func getMethods(pkg string, path string, service *descriptor.ServiceDescriptorPr
 	methods := service.GetMethod()
 	serviceName := service.GetName()
 	var resultMtd []*data.Method
-	log.Printf("proto pkg: %s\n", pkg)
+
 	for mIndex, mtd := range methods {
 		var mtdMessagePath = path + strconv.Itoa(mIndex)
 		var mtdData = &data.Method{
@@ -661,9 +661,6 @@ func Generate(input []byte) *plugin.CodeGeneratorResponse {
 	}
 
 	applicationFile := filepath.Base(request.FileToGenerate[0])
-	log.Printf("proto file: %s\n", applicationFile)
-	log.Printf("code generated: %s\n", outputLang)
-
 	applicationName := applicationFile[0 : len(applicationFile)-len(filepath.Ext(applicationFile))]
 
 	packageName := getPackageName(request)
