@@ -33,6 +33,12 @@ export function SetBaseUrl(url: string) {
     baseUrl = url;
 }
 
+var authToken = "token";
+
+export function SetAuthToken(token: string) {
+  authToken = token;
+}
+
 {{- $className := .ClassName -}}
 
 {{- range .Functions}}
@@ -45,7 +51,7 @@ export function SetBaseUrl(url: string) {
 export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | never> {
   let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
 
-  return wxRequest({ url: url, data: params, method:'{{$method}}'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'{{$method}}', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as {{.OutputType}})
