@@ -55,10 +55,16 @@ export function SetBaseUrl(url: string) {
     baseUrl = url;
 }
 
+var authToken = "token";
+
+export function SetAuthToken(token: string) {
+  authToken = token;
+}
+
 export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "getEnv");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as EnvListResponse)
@@ -77,7 +83,7 @@ export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never>
 export function registerService(params: RegisterServiceRequest): Promise<RegisterServiceResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "registerService");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as RegisterServiceResponse)
@@ -96,7 +102,7 @@ export function registerService(params: RegisterServiceRequest): Promise<Registe
 export function updateService(params: UpdateServiceRequest): Promise<UpdateServiceResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "updateService");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as UpdateServiceResponse)
@@ -115,7 +121,7 @@ export function updateService(params: UpdateServiceRequest): Promise<UpdateServi
 export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadProtoFileResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "uploadProtoFile");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as UploadProtoFileResponse)
@@ -134,7 +140,7 @@ export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadP
 export function getTags(params: TagListRequest): Promise<TagListResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "getTags");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as TagListResponse)
@@ -153,7 +159,7 @@ export function getTags(params: TagListRequest): Promise<TagListResponse | never
 export function getProducts(params: ProductListRequest): Promise<ProductListResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "getProducts");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as ProductListResponse)
@@ -172,7 +178,7 @@ export function getProducts(params: ProductListRequest): Promise<ProductListResp
 export function getServices(params: ServiceListRequest): Promise<ServiceListResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "getServices");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as ServiceListResponse)
@@ -191,7 +197,7 @@ export function getServices(params: ServiceListRequest): Promise<ServiceListResp
 export function searchServices(params: ServiceSearchRequest): Promise<ServiceListResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "searchServices");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as ServiceListResponse)
@@ -210,7 +216,7 @@ export function searchServices(params: ServiceSearchRequest): Promise<ServiceLis
 export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "getKeyList");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as KeyListResponse)
@@ -229,7 +235,7 @@ export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | ne
 export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueListResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "getKeyValueList");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as KeyValueListResponse)
@@ -248,7 +254,7 @@ export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueLi
 export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<KeyValueListResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "searchKeyValueList");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as KeyValueListResponse)
@@ -267,7 +273,7 @@ export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<K
 export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "updateKeyValue");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as KeyValueResponse)
@@ -286,7 +292,7 @@ export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueRespons
 export function fetchKeyHistory(params: KVHistoryRequest): Promise<KVHistoryResponse | never> {
   let url: string = generateUrl(baseUrl, "AppService", "fetchKeyHistory");
 
-  return wxRequest({ url: url, data: params, method:'POST'}).then(res => {
+  return wxRequest({ url: url, data: params, method:'POST', header:{'Authorization': 'token ' + authToken}}).then(res => {
     if (typeof res.data === 'object') {
       try {
         return Promise.resolve(res.data as KVHistoryResponse)
