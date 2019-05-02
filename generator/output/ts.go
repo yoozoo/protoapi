@@ -40,14 +40,16 @@ type tsGen struct {
 	objsFile   string
 	helperFile string
 
-	axiosFile string
-	fetchFile string
+	axiosFile  string
+	fetchFile  string
+	wechatFile string
 
 	objsTpl   *template.Template
 	helperTpl *template.Template
 
-	axiosTpl *template.Template
-	fetchTpl *template.Template
+	axiosTpl  *template.Template
+	fetchTpl  *template.Template
+	wechatTpl *template.Template
 
 	service *data.ServiceData
 }
@@ -109,6 +111,8 @@ func genFileName(packageName string, fileName string) string {
 func (g *tsGen) loadTpl() {
 	g.axiosTpl = g.getTpl("/generator/template/ts/service_axios.gots")
 	g.fetchTpl = g.getTpl("/generator/template/ts/service_fetch.gots")
+	g.wechatTpl = g.getTpl("/generator/template/ts/service_wechat.gots")
+
 	g.objsTpl = g.getTpl("/generator/template/ts/objs.gots")
 	g.helperTpl = g.getTpl("/generator/template/ts/helper.gots")
 }
@@ -181,6 +185,8 @@ func (g *tsGen) HasCommonError() bool {
 func (g *tsGen) initFiles(packageName string, service *data.ServiceData) {
 	g.axiosFile = genFileName(packageName, service.Name)
 	g.fetchFile = genFileName(packageName, service.Name)
+	g.wechatFile = genFilename(packageName, service.Name)
+
 	g.objsFile = genFileName(packageName, service.Name+"Objs")
 	g.helperFile = genFileName(packageName, "helper")
 	g.service = service
@@ -191,6 +197,7 @@ type tsLibs int
 const (
 	tsLibFetch tsLibs = iota
 	tsLibAxios
+	tsLibWechat
 )
 
 func (g *tsGen) Init(request *plugin.CodeGeneratorRequest) {
@@ -227,6 +234,8 @@ func (g *tsGen) Gen(applicationName string, packageName string, svrs []*data.Ser
 	switch g.Lib {
 	case tsLibAxios:
 		result[g.axiosFile] = g.genContent(g.axiosTpl, dataMap)
+	case tsLibWechat:
+		result[g.wechatFile] = g.genContent(g.wechatTpl, dataMap)
 	default:
 		result[g.fetchFile] = g.genContent(g.fetchTpl, dataMap)
 	}
@@ -246,7 +255,9 @@ func getTSgen(lib tsLibs) *tsGen {
 func init() {
 	fetch := getTSgen(tsLibFetch)
 	axios := getTSgen(tsLibAxios)
+	wechat := getTSgen(tsLibWechat)
 	data.OutputMap["ts"] = axios
 	data.OutputMap["ts-fetch"] = fetch
 	data.OutputMap["ts-axios"] = axios
+	data.OutputMap["ts-wechat"] = wechat
 }

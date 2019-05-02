@@ -537,6 +537,28 @@ AAD//6nV5A0iBgAA
 `,
 	},
 
+	"/generator/template/ts/service_wechat.gots": {
+		name:    "service_wechat.gots",
+		local:   "generator/template/ts/service_wechat.gots",
+		size:    1398,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/5yTzU4bSRDH7/0UpRGSZywzxistYu31SvvB7rLSYiSzD9CMy/ag8fRsd9sC9fZhtUs+
+FBI4oBySQxJFkZCQAqccIIGXsTG3vELU02OPwckldevqqn9V/aq7XCySItycvrl+en948W589OL6weHw
+/EnCmWQ0CUkR7M1of290eDJ6+Hh8cnpz9t/46PjHjbXxs/+HF6/HL//9+H5/ePl8dPl2ePVqdHYwPn40
+Oj8YfrgaHx3nCvf2bLD1b+4m2Ax4mEhSLJOwlzAuQREAAKU4jTsIC3I3wRIsbDEWQbUObgflWhr4C5XU
+CAjwf+3HgQxZLDyts+xFmwlalzIPxi2tiYY2Zz0o+GWl/J8jKsQ67aHWja1tUahNe4AOxsipxL94VALk
+nPHfadyKwrgDuUQXowR5oUbIgHLYosKEQx2crpRJtVyufPeNX1le8SuVb/3lperK0sqSUyMEd9Ii7axr
+aKL8yea6fR5VQUgexh0vI5HL9nlUI5qQdLpg0ruhkk8CizqLsPxyNlrbxB7KLmuZLCdhQjpphrkJ24B/
+p4CbyAdhgH/KFviNxJIF57fVzTx4VqaDUxULOQ1IoZn7VHLVnMy6ZhS1nkOhlG/34SaU056oGs9anPSl
+ydXaq8IGZ71Q4PdK+Y2+nN7APxDjAPkPGbYIJczQhPrsSt0MagkcpXKUWjupJ+vB8Wok1eIo+zwGuhMy
+4SuVza61WVcJlArbEOMUieWhtZ1AKYwEaq3AnkFnlEoQsLgddry0hDE/oDLousg51CdjTKxchq55gGgf
+I3AUCYsF3grK+rz1XI1cXkJ7vuxi7HIU8zXCNrjm07C2kfdbVFKo1+tQsAgL3p14Y5LvfsZrzHwJKwF/
+NBvrfkK5QHciPEF717IRsiX7HAWLBuimQlTAnaV7cxoaUojgoveFvuYqbGMgZ/uakyS3T+Sr1LRn/m66
++/SvfAoAAP//cXrzJ3YFAAA=
+`,
+	},
+
 	"/generator/template/yii2/Module.gophp": {
 		name:    "Module.gophp",
 		local:   "generator/template/yii2/Module.gophp",
@@ -735,6 +757,7 @@ var _escDirs = map[string][]os.FileInfo{
 		_escData["/generator/template/ts/objs.gots"],
 		_escData["/generator/template/ts/service_axios.gots"],
 		_escData["/generator/template/ts/service_fetch.gots"],
+		_escData["/generator/template/ts/service_wechat.gots"],
 	},
 
 	"generator/template/yii2": {

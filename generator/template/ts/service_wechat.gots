@@ -1,0 +1,48 @@
+/**
+* 该文件生成于protoapi
+* 文件包含前端调用API的代码，供微信小程序使用
+* 文件内代码使用TypeScript
+*/
+import {
+    {{range $type, $bool := (getImportDataTypes .Functions)}}
+    {{- $type }},
+    {{end}}
+} from './{{.ClassName}}Objs';
+import { generateUrl, errorHandling } from './helper';
+
+var baseUrl = "http://192.168.115.60:8080";
+
+export function SetBaseUrl(url: string) {
+    baseUrl = url;
+}
+
+{{- $className := .ClassName -}}
+
+{{- range .Functions}}
+{{- $method := "post" -}}
+{{- if eq (getServiceMtd .Options) "GET" -}}
+{{- $method := "get" -}}
+{{end}}
+{{- $error :=  (getErrorType .Options) }}
+export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | never> {
+    let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
+
+    return axios.{{$method}}(url, {{if ne $method "get" }}params{{else}}{ params }{{end}}, config)
+        .catch(err => {
+            // handle error response
+            return errorHandling(err)
+        }).then(res => {
+            if (typeof res.data === 'string') {
+                try {
+                    var data = JSON.parse(res.data);
+
+                    return Promise.resolve(data as {{.OutputType}})
+                } catch (e) {
+                    return Promise.reject(res.data);
+                }
+            }
+
+            return Promise.reject(res.data);
+        });
+}
+{{end -}}
