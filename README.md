@@ -146,6 +146,13 @@
     * 可测试现有的proto样本文件：`protoapi/test/hello.proto`
     * 或自定义proto文件测试
 
+4. 完成更改后跑：
+    `go build`: 如果有代码逻辑改动， 需要重新生成执行文件
+    `go generate`： 如果有template改动， 需要重新插入模板
+        => 如果遇到`esc`的问题， 需要先install esc： `go get github.com/mjibson/esc`
+    `go install`： 如果新生成的执行文件不在go path里面，这个帮助挪过去
+    `protoapi gen --lang=ts [output_folder] [proto file path]`： 验证生成文件是否符合要求
+
 ### Proto文件举例
 
 ```
