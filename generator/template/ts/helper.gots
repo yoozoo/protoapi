@@ -11,6 +11,7 @@
 import { CommonError, GenericError, AuthError, ValidateError, BindError } from './{{.ClassName}}Objs'
 {{end}}
 
+export type CommonErrorType = GenericError | AuthError | BindError | ValidateError
 /**
  *
  * @param {CommonError} commonErr the error object
