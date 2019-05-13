@@ -13,35 +13,16 @@ export enum {{.Name}} {
     {{.Name}} = {{.Value}},
     {{- end }}
 }
-{{end }}
+{{end -}}
 // data types
 {{- range .DataTypes }}
+{{- $errorName := (getCommonErrorName .Name)}}
 export interface {{.Name}} {
+    {{ if (isCommonError .Name) }}
+    kind: {{$errorName}}
+    {{end}}
     {{- range .Fields }}
     {{.Name}}: {{ tsType .DataType}}{{if eq .Label "LABEL_REPEATED"}}[]{{end}}
     {{- end }}
-}
-{{end -}}
-
-{{if .Gen.HasCommonError}}
-/**
- *
- * @param {CommonError} commonErr the error object
- */
-export function mapCommonErrorType(commonErr: {{.Gen.CommonError}}): (string{{.Gen.CommonErrorSubTypes}}) {
-    for (let key in commonErr) {
-        if (commonErr.hasOwnProperty(key) && commonErr[key]) {
-            switch (key) {
-{{- range .Gen.GetCommoneErrorFields }}
-                case '{{ .Name }}':
-                    return commonErr[key] as {{ .DataType }}
-{{- end}}
-                default:
-                    return "Unknown Error"
-            }
-
-        }
-    }
-    return "Unknown Error"
 }
 {{end -}}
