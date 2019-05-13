@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"fmt"
 	"strings"
+	"unicode"
 	"text/template"
 
 	"github.com/yoozoo/protoapi/generator/data"
 	"github.com/yoozoo/protoapi/util"
-
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 )
 
@@ -101,6 +101,30 @@ func getImportDataTypes(mtds []*data.Method) map[string]bool {
 	return res
 }
 
+func isCommonError(name string) bool {
+	// if the data type belongs to one of the common error type
+	if(strings.HasSuffix(name, "Error") && !strings.Contains(name, "Field") && !strings.Contains(name, "Common")){
+		return true 
+	}
+	return false
+}
+
+func lowerInital(str string) string {
+	for i, v := range str {                                                                                                                                           
+        return string(unicode.ToLower(v)) + str[i+1:]
+    }  
+    return ""
+}
+
+func getCommonErrorName(name string) string {
+	// if the data type belongs to one of the common error type
+	if(strings.HasSuffix(name, "Error") && !strings.Contains(name, "Field") && !strings.Contains(name, "Common")){
+		return "\"" + lowerInital(name) + "\""
+	}
+	return ""
+}
+
+
 func genFileName(packageName string, fileName string) string {
 	return fileName + ".ts"
 }
@@ -124,6 +148,8 @@ func (g *tsGen) getTpl(path string) *template.Template {
 	var funcs = template.FuncMap{
 		"tsType":             toTypeScriptType,
 		"toLower":            strings.ToLower,
+		"isCommonError":	  isCommonError,
+		"getCommonErrorName": getCommonErrorName,
 		"getErrorType":       getErrorType,
 		"getServiceMtd":      getServiceMtd,
 		"getImportDataTypes": getImportDataTypes,
@@ -156,15 +182,14 @@ func (g *tsGen) CommonError() string {
 
 func (g *tsGen) CommonErrorSubTypes() string {
 	var fieldTypes []string
-	for _, f := range g.GetCommoneErrorFields() {
+	for _, f := range g.GetCommonErrorFields() {
 		subType := toTypeScriptType(f.DataType)
 		fieldTypes = append(fieldTypes, " | "+subType)
 	}
-
 	return strings.Join(fieldTypes, "")
 }
 
-func (g *tsGen) GetCommoneErrorFields() []*data.MessageField {
+func (g *tsGen) GetCommonErrorFields() []*data.MessageField {
 	commonErrorType := g.service.Options["common_error"]
 	for _, t := range g.DataTypes {
 		if t.Name == commonErrorType {

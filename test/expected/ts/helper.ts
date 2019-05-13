@@ -7,9 +7,8 @@
 * 文件包含一些函数协助生成的前端调用API
 * 文件内代码使用TypeScript
 */
-
-import { mapCommonErrorType } from './AppServiceObjs'
-
+import { CommonError, GenericError, AuthError, ValidateError, BindError } from './AppServiceObjs'
+export type CommonErrorType = GenericError | AuthError | BindError | ValidateError
 /**
  * Defined Http Code for response handling
  */
@@ -19,6 +18,31 @@ export enum httpCode {
     BIZ_ERROR = 400,
     COMMON_ERROR = 420,
     INTERNAL_ERROR = 500,
+}
+/**
+ *
+ * @param {CommonError} commonErr the error object
+ */
+export function mapCommonErrorType(commonErr: CommonError): CommonErrorType | null {
+    console.log(commonErr)
+    for (let key in commonErr) {
+        if (commonErr.hasOwnProperty(key) && commonErr[key]) {
+            switch (key) {
+                case 'genericError':
+                    return commonErr[key] as GenericError
+                case 'authError':
+                    return commonErr[key] as AuthError
+                case 'validateError':
+                    return commonErr[key] as ValidateError
+                case 'bindError':
+                    return commonErr[key] as BindError
+                default:
+                    return null
+            }
+  
+        }
+    }
+    return null
 }
 /**
  *
@@ -36,11 +60,23 @@ export function errorHandling(err): Promise<never> {
     }
     switch (err.response.status) {
         case httpCode.BIZ_ERROR:
-            return Promise.reject(data);
+            return Promise.reject({...err, message: data.message});
 
         case httpCode.COMMON_ERROR:
             let returnErr = mapCommonErrorType(data);
-            return Promise.reject(returnErr);
+            if(!returnErr){
+                throw data
+            }
+            var result
+            switch (returnErr.kind) {
+                case "validateError": 
+                    result = {...err.response, message: 'validate error', errors: returnErr.errors}
+                    break
+                default:
+                    result = {...err.response, message: returnErr.message}
+                    break
+            }
+            return Promise.reject(result);
 
     }
     throw data;
