@@ -39,7 +39,7 @@ import {
 } from './AppServiceObjs';
 import { generateUrl, errorHandling } from './helper';
 
-let baseUrl = "backend";
+var baseUrl = "backend";
 
 export function SetBaseUrl(url: string) {
     baseUrl = url;
