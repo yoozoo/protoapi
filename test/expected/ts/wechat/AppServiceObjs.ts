@@ -19,9 +19,9 @@ export enum ErrorCode {
     EtcdError = 1002,
     SystemError = 1003,
 }
-
 // data types
 export interface CommonError {
+    
     genericError: GenericError
     authError: AuthError
     validateError: ValidateError
@@ -29,52 +29,73 @@ export interface CommonError {
 }
 
 export interface GenericError {
+    
+    kind: "genericError"
+    
     message: string
 }
 
 export interface AuthError {
+    
+    kind: "authError"
+    
     message: string
 }
 
 export interface BindError {
+    
+    kind: "bindError"
+    
     message: string
 }
 
 export interface ValidateError {
+    
+    kind: "validateError"
+    
     errors: FieldError[]
 }
 
 export interface FieldError {
+    
     fieldName: string
     errorType: ValidateErrorType
 }
 
 export interface Empty {
+    
 }
 
 export interface EnvListRequest {
+    
 }
 
 export interface EnvListResponse {
+    
     envs: Env[]
 }
 
 export interface TagListRequest {
+    
 }
 
 export interface TagListResponse {
+    
     tags: Tag[]
 }
 
 export interface ProductListRequest {
+    
     env_id: number
 }
 
 export interface ProductListResponse {
+    
     products: Product[]
 }
 
 export interface ServiceListRequest {
+    
     tag_ids: number[]
     env_id: number
     offset: number
@@ -82,6 +103,7 @@ export interface ServiceListRequest {
 }
 
 export interface ServiceSearchRequest {
+    
     tag_ids: number[]
     prefix: string
     env_id: number
@@ -90,6 +112,7 @@ export interface ServiceSearchRequest {
 }
 
 export interface ServiceListResponse {
+    
     services: Service[]
     offset: number
     limit: number
@@ -97,48 +120,58 @@ export interface ServiceListResponse {
 }
 
 export interface KeyListRequest {
+    
     service_id: number
     env_id: number
 }
 
 export interface KeyListResponse {
+    
     keys: Key[]
 }
 
 export interface KeyValueListRequest {
+    
     service_id: number
     keys: Key[]
 }
 
 export interface SearchKeyValueListRequest {
+    
     key: string
     service_id: number
     env_id: number
 }
 
 export interface KeyValueListResponse {
+    
     key_values: KeyValue[]
 }
 
 export interface KeyValueRequest {
+    
     service_id: number
     key_values: KeyValue[]
 }
 
 export interface KeyValueResponse {
+    
     key_values: KeyValue[]
 }
 
 export interface KVHistoryRequest {
+    
     service_id: number
     key_id: number
 }
 
 export interface KVHistoryResponse {
+    
     KVhistorys: KVHistoryItem[]
 }
 
 export interface RegisterServiceRequest {
+    
     env_id: number
     product_id: string
     service_name: string
@@ -147,6 +180,7 @@ export interface RegisterServiceRequest {
 }
 
 export interface RegisterServiceResponse {
+    
     env_id: number
     product_id: string
     service_id: number
@@ -154,45 +188,53 @@ export interface RegisterServiceResponse {
 }
 
 export interface UpdateServiceRequest {
+    
     service_id: number
     tags: Tag[]
     desc: string
 }
 
 export interface UpdateServiceResponse {
+    
     service_id: number
     tags: Tag[]
     desc: string
 }
 
 export interface UploadProtoFileRequest {
+    
     service_id: number
     env_id: number
     file: string
 }
 
 export interface UploadProtoFileResponse {
+    
     service_id: number
     env_id: number
     key_count: number
 }
 
 export interface Env {
+    
     env_id: number
     env_name: string
 }
 
 export interface Tag {
+    
     tag_id: number
     tag_name: string
 }
 
 export interface Product {
+    
     product_id: string
     product_name: string
 }
 
 export interface Service {
+    
     service_id: number
     service_name: string
     product_id: string
@@ -202,6 +244,7 @@ export interface Service {
 }
 
 export interface Key {
+    
     key_id: number
     key: string
     dataType: string
@@ -210,6 +253,7 @@ export interface Key {
 }
 
 export interface KeyValue {
+    
     key_id: number
     key: string
     dataType: string
@@ -219,6 +263,7 @@ export interface KeyValue {
 }
 
 export interface KVHistoryItem {
+    
     updated_value: string
     updated_date: string
     updated_by: string
@@ -226,31 +271,9 @@ export interface KVHistoryItem {
 }
 
 export interface Error {
+    
+    kind: "error"
+    
     code: ErrorCode
     message: string
-}
-
-/**
- *
- * @param {CommonError} commonErr the error object
- */
-export function mapCommonErrorType(commonErr: CommonError): (string | GenericError | AuthError | ValidateError | BindError) {
-    for (let key in commonErr) {
-        if (commonErr.hasOwnProperty(key) && commonErr[key]) {
-            switch (key) {
-                case 'genericError':
-                    return commonErr[key] as GenericError
-                case 'authError':
-                    return commonErr[key] as AuthError
-                case 'validateError':
-                    return commonErr[key] as ValidateError
-                case 'bindError':
-                    return commonErr[key] as BindError
-                default:
-                    return "Unknown Error"
-            }
-
-        }
-    }
-    return "Unknown Error"
 }
