@@ -27,7 +27,7 @@ const promisify = (wx) => {
 const wxPromisify = promisify(wx)
 const wxRequest = wxPromisify('request')
 
-var baseUrl = "http://192.168.115.60:8080";
+var baseUrl = "backend";
 
 export function SetBaseUrl(url: string) {
     baseUrl = url;
