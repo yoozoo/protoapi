@@ -46,8 +46,8 @@ export function SetBaseUrl(url: string) {
 }
 // use axios
 export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getEnv");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "getEnv");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -61,7 +61,7 @@ export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never>
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as EnvListResponse)
                 } catch (e) {
@@ -74,8 +74,8 @@ export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never>
 }
 
 export function registerService(params: RegisterServiceRequest): Promise<RegisterServiceResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "registerService");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "registerService");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -89,7 +89,7 @@ export function registerService(params: RegisterServiceRequest): Promise<Registe
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as RegisterServiceResponse)
                 } catch (e) {
@@ -102,8 +102,8 @@ export function registerService(params: RegisterServiceRequest): Promise<Registe
 }
 
 export function updateService(params: UpdateServiceRequest): Promise<UpdateServiceResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "updateService");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "updateService");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -117,7 +117,7 @@ export function updateService(params: UpdateServiceRequest): Promise<UpdateServi
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as UpdateServiceResponse)
                 } catch (e) {
@@ -130,8 +130,8 @@ export function updateService(params: UpdateServiceRequest): Promise<UpdateServi
 }
 
 export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadProtoFileResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "uploadProtoFile");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "uploadProtoFile");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -145,7 +145,7 @@ export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadP
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as UploadProtoFileResponse)
                 } catch (e) {
@@ -158,8 +158,8 @@ export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadP
 }
 
 export function getTags(params: TagListRequest): Promise<TagListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getTags");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "getTags");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -173,7 +173,7 @@ export function getTags(params: TagListRequest): Promise<TagListResponse | never
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as TagListResponse)
                 } catch (e) {
@@ -186,8 +186,8 @@ export function getTags(params: TagListRequest): Promise<TagListResponse | never
 }
 
 export function getProducts(params: ProductListRequest): Promise<ProductListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getProducts");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "getProducts");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -201,7 +201,7 @@ export function getProducts(params: ProductListRequest): Promise<ProductListResp
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as ProductListResponse)
                 } catch (e) {
@@ -214,8 +214,8 @@ export function getProducts(params: ProductListRequest): Promise<ProductListResp
 }
 
 export function getServices(params: ServiceListRequest): Promise<ServiceListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getServices");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "getServices");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -229,7 +229,7 @@ export function getServices(params: ServiceListRequest): Promise<ServiceListResp
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as ServiceListResponse)
                 } catch (e) {
@@ -242,8 +242,8 @@ export function getServices(params: ServiceListRequest): Promise<ServiceListResp
 }
 
 export function searchServices(params: ServiceSearchRequest): Promise<ServiceListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "searchServices");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "searchServices");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -257,7 +257,7 @@ export function searchServices(params: ServiceSearchRequest): Promise<ServiceLis
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as ServiceListResponse)
                 } catch (e) {
@@ -270,8 +270,8 @@ export function searchServices(params: ServiceSearchRequest): Promise<ServiceLis
 }
 
 export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getKeyList");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "getKeyList");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -285,7 +285,7 @@ export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | ne
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as KeyListResponse)
                 } catch (e) {
@@ -298,8 +298,8 @@ export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | ne
 }
 
 export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "getKeyValueList");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "getKeyValueList");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -313,7 +313,7 @@ export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueLi
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as KeyValueListResponse)
                 } catch (e) {
@@ -326,8 +326,8 @@ export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueLi
 }
 
 export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<KeyValueListResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "searchKeyValueList");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "searchKeyValueList");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -341,7 +341,7 @@ export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<K
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as KeyValueListResponse)
                 } catch (e) {
@@ -354,8 +354,8 @@ export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<K
 }
 
 export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "updateKeyValue");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "updateKeyValue");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -369,7 +369,7 @@ export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueRespons
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as KeyValueResponse)
                 } catch (e) {
@@ -382,8 +382,8 @@ export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueRespons
 }
 
 export function fetchKeyHistory(params: KVHistoryRequest): Promise<KVHistoryResponse | never> {
-    let url: string = generateUrl(baseUrl, "AppService", "fetchKeyHistory");
-    var config = {
+    const url: string = generateUrl(baseUrl, "AppService", "fetchKeyHistory");
+    const config = {
         "transformResponse" : [function transformResponse(data) {
             return data;
         }],
@@ -397,7 +397,7 @@ export function fetchKeyHistory(params: KVHistoryRequest): Promise<KVHistoryResp
         }).then(res => {
             if (typeof res.data === 'string') {
                 try {
-                    var data = JSON.parse(res.data);
+                    const data = JSON.parse(res.data);
 
                     return Promise.resolve(data as KVHistoryResponse)
                 } catch (e) {
