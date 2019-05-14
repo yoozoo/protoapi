@@ -24,18 +24,18 @@ export enum httpCode {
  * @param {CommonError} commonErr the error object
  */
 export function mapCommonErrorType(commonErr: CommonError): CommonErrorType | null {
-    console.log(commonErr)
     for (let key in commonErr) {
         if (commonErr.hasOwnProperty(key) && commonErr[key]) {
+            let err = {...commonErr[key], kind: key}
             switch (key) {
                 case 'genericError':
-                    return commonErr[key] as GenericError
+                    return err as GenericError
                 case 'authError':
-                    return commonErr[key] as AuthError
+                    return err as AuthError
                 case 'validateError':
-                    return commonErr[key] as ValidateError
+                    return err as ValidateError
                 case 'bindError':
-                    return commonErr[key] as BindError
+                    return err as BindError
                 default:
                     return null
             }
@@ -49,13 +49,13 @@ export function mapCommonErrorType(commonErr: CommonError): CommonErrorType | nu
  * @param {response} response the error response
  */
 export function errorHandling(err): Promise<never> {
-    if(err.response === undefined) {
+    if(!err || err.response === undefined) {
         throw err;
     }
     let data;
     try {
         data = JSON.parse(err.response.data);
-    } catch (err) {
+    } catch (e) {
         data = err.response.data;
     }
     switch (err.response.status) {
@@ -65,21 +65,13 @@ export function errorHandling(err): Promise<never> {
         case httpCode.COMMON_ERROR:
             let returnErr = mapCommonErrorType(data);
             if(!returnErr){
-                throw data
+                throw err
             }
-            var result
-            switch (returnErr.kind) {
-                case "validateError": 
-                    result = {...err.response, message: 'validate error', errors: returnErr.errors}
-                    break
-                default:
-                    result = {...err.response, message: returnErr.message}
-                    break
-            }
-            return Promise.reject(result);
+            return Promise.reject({...err.response, ...returnErr});
+        default:
+            return Promise.reject(err)
 
     }
-    throw data;
 }
 
 /**
