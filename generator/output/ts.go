@@ -111,8 +111,8 @@ func isCommonError(name string) bool {
 
 func lowerInital(str string) string {
 	for i, v := range str {                                                                                                                                           
-        return string(unicode.ToLower(v)) + str[i+1:]
-    }  
+    	return string(unicode.ToLower(v)) + str[i+1:]
+	}  
     return ""
 }
 
@@ -148,7 +148,7 @@ func (g *tsGen) getTpl(path string) *template.Template {
 	var funcs = template.FuncMap{
 		"tsType":             toTypeScriptType,
 		"toLower":            strings.ToLower,
-		"isCommonError":	  isCommonError,
+		"isCommonError":      isCommonError,
 		"getCommonErrorName": getCommonErrorName,
 		"getErrorType":       getErrorType,
 		"getServiceMtd":      getServiceMtd,
