@@ -9,7 +9,7 @@
 * 文件内代码使用TypeScript
 * 该生成文件只提供前端API调用基本代码，实际情况可能需要根据具体项目具体要求不同而作出更改
 */
-import axios, { AxiosPromise } from 'axios';
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 import {
     EnvListRequest,
     EnvListResponse,
@@ -39,372 +39,138 @@ import {
 } from './AppServiceObjs';
 import { generateUrl, errorHandling } from './helper';
 
-var baseUrl = "http://192.168.115.60:8080";
+type Methods = "get" | "head" | "options" | "delete" | "post" | "put" | "patch"
 
-export function SetBaseUrl(url: string) {
+let baseUrl = "http://192.168.115.60:8080";
+
+const headers = {
+    "X-Requested-With": "XMLHttpRequest"
+};
+
+export const SetBaseUrl: (url: string) => string = (url) => {
     baseUrl = url;
+	return url;
 }
-// use axios
+
+export function setHeader(header: {[key: string]: string}) {
+    return Object.assign(headers, header);
+}
+
+const axiosResponseHandler: <T = any>(response: AxiosResponse<T>) => T
+= (response) => {
+    const res_data = response.data
+	if (typeof res_data === 'string') {
+		try {
+			return JSON.parse(res_data);
+		} catch (e) {
+			throw res_data;
+		}
+	}
+    throw res_data;
+}
+
+const axiosHandler: (url: string, method: Methods, params: any) => Promise<any>
+= (url, method, params) => {
+    const config: AxiosRequestConfig = {
+        transformResponse : (data) => data,
+        headers,
+    };
+    const methodsAcceptData = ["post", "put", "patch"].includes(method)
+    const axiosParams = methodsAcceptData ? params : undefined;
+    if (!methodsAcceptData && !!params){
+        config.params = params
+    }
+    const promise = methodsAcceptData
+        ? axios[method as "post" | "put" | "patch"](url, axiosParams, config)
+        : axios[method as "get" | "head" | "options" | "delete"].get(url, config);
+    
+    return promise
+    .catch(err => {
+        return errorHandling(err)
+    })
+    .then(res => {
+        try {
+            const resolved_data = axiosResponseHandler(res);
+            return Promise.resolve(resolved_data);
+        } catch (e) {
+            return Promise.reject(res.data);
+        }
+    });
+}
+
 export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "getEnv");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as EnvListResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<EnvListResponse>;
 }
+
 
 export function registerService(params: RegisterServiceRequest): Promise<RegisterServiceResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "registerService");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as RegisterServiceResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<RegisterServiceResponse>;
 }
+
 
 export function updateService(params: UpdateServiceRequest): Promise<UpdateServiceResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "updateService");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as UpdateServiceResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<UpdateServiceResponse>;
 }
+
 
 export function uploadProtoFile(params: UploadProtoFileRequest): Promise<UploadProtoFileResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "uploadProtoFile");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as UploadProtoFileResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<UploadProtoFileResponse>;
 }
+
 
 export function getTags(params: TagListRequest): Promise<TagListResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "getTags");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as TagListResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<TagListResponse>;
 }
+
 
 export function getProducts(params: ProductListRequest): Promise<ProductListResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "getProducts");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as ProductListResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<ProductListResponse>;
 }
+
 
 export function getServices(params: ServiceListRequest): Promise<ServiceListResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "getServices");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as ServiceListResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<ServiceListResponse>;
 }
+
 
 export function searchServices(params: ServiceSearchRequest): Promise<ServiceListResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "searchServices");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as ServiceListResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<ServiceListResponse>;
 }
+
 
 export function getKeyList(params: KeyListRequest): Promise<KeyListResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "getKeyList");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as KeyListResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<KeyListResponse>;
 }
+
 
 export function getKeyValueList(params: KeyValueListRequest): Promise<KeyValueListResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "getKeyValueList");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as KeyValueListResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<KeyValueListResponse>;
 }
+
 
 export function searchKeyValueList(params: SearchKeyValueListRequest): Promise<KeyValueListResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "searchKeyValueList");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as KeyValueListResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<KeyValueListResponse>;
 }
+
 
 export function updateKeyValue(params: KeyValueRequest): Promise<KeyValueResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "updateKeyValue");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as KeyValueResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<KeyValueResponse>;
 }
+
 
 export function fetchKeyHistory(params: KVHistoryRequest): Promise<KVHistoryResponse | never> {
     const url: string = generateUrl(baseUrl, "AppService", "fetchKeyHistory");
-    const config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.post(url, params, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    const data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as KVHistoryResponse)
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    return axiosHandler(url, "post", params) as Promise<KVHistoryResponse>;
 }
