@@ -4,12 +4,12 @@ import (
 	"bytes"
 	"fmt"
 	"strings"
-	"unicode"
 	"text/template"
+	"unicode"
 
+	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 	"github.com/yoozoo/protoapi/generator/data"
 	"github.com/yoozoo/protoapi/util"
-	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
 )
 
 /**
@@ -44,8 +44,10 @@ type tsGen struct {
 	fetchFile  string
 	wechatFile string
 
-	objsTpl   *template.Template
-	helperTpl *template.Template
+	objsTpl          *template.Template
+	helperTpl        *template.Template
+	fetchHelperTpl   *template.Template
+	helperCommonsTpl *template.Template
 
 	axiosTpl  *template.Template
 	fetchTpl  *template.Template
@@ -103,27 +105,26 @@ func getImportDataTypes(mtds []*data.Method) map[string]bool {
 
 func isCommonError(name string) bool {
 	// if the data type belongs to one of the common error type
-	if(strings.HasSuffix(name, "Error") && !strings.Contains(name, "Field") && !strings.Contains(name, "Common")){
-		return true 
+	if strings.HasSuffix(name, "Error") && !strings.Contains(name, "Field") && !strings.Contains(name, "Common") {
+		return true
 	}
 	return false
 }
 
 func lowerInital(str string) string {
-	for i, v := range str {                                                                                                                                           
+	for i, v := range str {
 		return string(unicode.ToLower(v)) + str[i+1:]
-	}  
+	}
 	return ""
 }
 
 func getCommonErrorName(name string) string {
 	// if the data type belongs to one of the common error type
-	if(strings.HasSuffix(name, "Error") && !strings.Contains(name, "Field") && !strings.Contains(name, "Common")){
+	if strings.HasSuffix(name, "Error") && !strings.Contains(name, "Field") && !strings.Contains(name, "Common") {
 		return "\"" + lowerInital(name) + "\""
 	}
 	return ""
 }
-
 
 func genFileName(packageName string, fileName string) string {
 	return fileName + ".ts"
@@ -139,6 +140,8 @@ func (g *tsGen) loadTpl() {
 
 	g.objsTpl = g.getTpl("/generator/template/ts/objs.gots")
 	g.helperTpl = g.getTpl("/generator/template/ts/helper.gots")
+	g.fetchHelperTpl = g.getTpl("/generator/template/ts/helper_fetch.gots")
+	g.helperCommonsTpl = g.getTpl("/generator/template/ts/helper_common_partials.gots")
 }
 
 /**
@@ -259,14 +262,16 @@ func (g *tsGen) Gen(applicationName string, packageName string, svrs []*data.Ser
 	switch g.Lib {
 	case tsLibAxios:
 		result[g.axiosFile] = g.genContent(g.axiosTpl, dataMap)
+		result[g.helperFile] = g.genContent(g.helperCommonsTpl, dataMap) + g.genContent(g.helperTpl, dataMap)
 	case tsLibWechat:
 		result[g.wechatFile] = g.genContent(g.wechatTpl, dataMap)
+		result[g.helperFile] = g.genContent(g.helperCommonsTpl, dataMap) + g.genContent(g.helperTpl, dataMap)
 	default:
 		result[g.fetchFile] = g.genContent(g.fetchTpl, dataMap)
+		result[g.helperFile] = g.genContent(g.helperCommonsTpl, dataMap) + g.genContent(g.fetchHelperTpl, dataMap)
 	}
 
 	result[g.objsFile] = g.genContent(g.objsTpl, dataMap)
-	result[g.helperFile] = g.genContent(g.helperTpl, dataMap)
 
 	return result, nil
 }
