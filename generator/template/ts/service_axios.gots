@@ -21,9 +21,17 @@ type Methods = "get" | "head" | "options" | "delete" | "post" | "put" | "patch"
 
 let baseUrl = "http://192.168.115.60:8080";
 
+const headers = {
+    "X-Requested-With": "XMLHttpRequest"
+};
+
 export const SetBaseUrl: (url: string) => string = (url) => {
     baseUrl = url;
 	return url;
+}
+
+export function setHeader(header: {[key: string]: string}) {
+    return Object.assign(headers, header);
 }
 
 const axiosResponseHandler: <T = any>(response: AxiosResponse<T>) => T
@@ -43,7 +51,7 @@ const axiosHandler: (url: string, method: Methods, params: any) => Promise<any>
 = (url, method, params) => {
     const config: AxiosRequestConfig = {
         transformResponse : (data) => data,
-        headers: {"X-Requested-With": "XMLHttpRequest"}
+        headers,
     };
     const methodsAcceptData = ["post", "put", "patch"].includes(method)
     const axiosParams = methodsAcceptData ? params : undefined;
