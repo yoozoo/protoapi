@@ -1,0 +1,32 @@
+
+/**
+ *
+ * @param {response} response the error response
+ */
+export async function errorHandling(error): Promise<any> {
+    if(!error) {
+        return error
+    }
+    if (!!error.data && typeof error.data === 'object') {
+        if (error.data.message) {
+            error.message = error.data.message
+        }
+        switch (error.status) {
+            case httpCode.BIZ_ERROR:
+                return error;
+            case httpCode.COMMON_ERROR:
+                const returnErr = (() => {
+                    try {
+                        return mapCommonErrorType(error.data);
+                    } catch (e) {
+                        return undefined;
+                    }
+                })()
+                if(!returnErr){
+                    return error;
+                }
+                return ({...error, ...returnErr});
+        }
+    }
+    return error;
+}

@@ -24,54 +24,16 @@ export enum httpCode {
  * @param {CommonError} commonErr the error object
  */
 export function mapCommonErrorType(commonErr: CommonError): CommonErrorType | null {
-    for (let key in commonErr) {
-        if (commonErr.hasOwnProperty(key) && commonErr[key]) {
-            let err = {...commonErr[key], kind: key}
-            switch (key) {
-                case 'genericError':
-                    return err as GenericError
-                case 'authError':
-                    return err as AuthError
-                case 'validateError':
-                    return err as ValidateError
-                case 'bindError':
-                    return err as BindError
-                default:
-                    return null
+    for (const key in commonErr) {
+        if (!!commonErr[key]) {
+            const err = Object.assign({ kind: key }, commonErr[key])
+            const commonErrTypes = ['genericError', 'authError', 'validateError', 'bindError']
+            if (commonErrTypes.includes(key)) {
+                return err
             }
-  
         }
     }
     return null
-}
-/**
- *
- * @param {response} response the error response
- */
-export function errorHandling(err): Promise<never> {
-    if(!err || err.response === undefined) {
-        throw err;
-    }
-    let data;
-    try {
-        data = JSON.parse(err.response.data);
-    } catch (e) {
-        data = err.response.data;
-    }
-    switch (err.response.status) {
-        case httpCode.BIZ_ERROR:
-            return Promise.reject({...err, message: data.message});
-
-        case httpCode.COMMON_ERROR:
-            let returnErr = mapCommonErrorType(data);
-            if(!returnErr){
-                throw err
-            }
-            return Promise.reject({...err.response, ...returnErr});
-        default:
-            return Promise.reject(err)
-
-    }
 }
 
 /**
@@ -159,4 +121,36 @@ export function generateQueryUrl<T>(url: string, params: T): string {
  */
 export function generateUrl<T>(url: string, serviceName: string, functionName: string): string {
     return url + "/" + serviceName + "." + functionName;
+}
+
+/**
+ *
+ * @param {response} response the error response
+ */
+export async function errorHandling(error): Promise<any> {
+    if(!error) {
+        return error
+    }
+    if (!!error.data && typeof error.data === 'object') {
+        if (error.data.message) {
+            error.message = error.data.message
+        }
+        switch (error.status) {
+            case httpCode.BIZ_ERROR:
+                return error;
+            case httpCode.COMMON_ERROR:
+                const returnErr = (() => {
+                    try {
+                        return mapCommonErrorType(error.data);
+                    } catch (e) {
+                        return undefined;
+                    }
+                })()
+                if(!returnErr){
+                    return error;
+                }
+                return ({...error, ...returnErr});
+        }
+    }
+    return error;
 }

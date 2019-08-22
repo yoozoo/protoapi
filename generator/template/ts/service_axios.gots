@@ -9,7 +9,7 @@
 * 文件内代码使用TypeScript
 * 该生成文件只提供前端API调用基本代码，实际情况可能需要根据具体项目具体要求不同而作出更改
 */
-import axios, { AxiosPromise } from 'axios';
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 import {
     {{range $type, $bool := (getImportDataTypes .Functions)}}
     {{- $type }},
@@ -17,46 +17,75 @@ import {
 } from './{{.ClassName}}Objs';
 import { generateUrl, errorHandling } from './helper';
 
-var baseUrl = "http://192.168.115.60:8080";
+type Methods = "get" | "head" | "options" | "delete" | "post" | "put" | "patch"
 
-export function SetBaseUrl(url: string) {
+let baseUrl = "http://192.168.115.60:8080";
+
+const headers = {
+    "X-Requested-With": "XMLHttpRequest"
+};
+
+export const SetBaseUrl: (url: string) => string = (url) => {
     baseUrl = url;
+	return url;
 }
-// use axios
+
+export function setHeader(header: {[key: string]: string}) {
+    return Object.assign(headers, header);
+}
+
+const axiosResponseHandler: <T = any>(response: AxiosResponse<T>) => T
+= (response) => {
+    const res_data = response.data
+	if (typeof res_data === 'string') {
+		try {
+			return JSON.parse(res_data);
+		} catch (e) {
+			throw res_data;
+		}
+	}
+    throw res_data;
+}
+
+const axiosHandler: (url: string, method: Methods, params: any) => Promise<any>
+= (url, method, params) => {
+    const config: AxiosRequestConfig = {
+        transformResponse : (data) => data,
+        headers,
+    };
+    const methodsAcceptData = ["post", "put", "patch"].includes(method)
+    const axiosParams = methodsAcceptData ? params : undefined;
+    if (!methodsAcceptData && !!params){
+        config.params = params
+    }
+    const promise = methodsAcceptData
+        ? axios[method as "post" | "put" | "patch"](url, axiosParams, config)
+        : axios[method as "get" | "head" | "options" | "delete"].get(url, config);
+    
+    return promise
+    .catch(err => {
+        return errorHandling(err)
+    })
+    .then(res => {
+        try {
+            const resolved_data = axiosResponseHandler(res);
+            return Promise.resolve(resolved_data);
+        } catch (e) {
+            return Promise.reject(res.data);
+        }
+    });
+}
 
 {{- $className := .ClassName -}}
-
 {{- range .Functions}}
 {{- $method := "post" -}}
 {{- if eq (getServiceMtd .Options) "GET" -}}
-{{- $method := "get" -}}
+    {{- $method := "get" -}}
 {{end}}
 {{- $error :=  (getErrorType .Options) }}
+
 export function {{.Name}}(params: {{.InputType}}): Promise<{{.OutputType}} | never> {
-    let url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
-    var config = {
-        "transformResponse" : [function transformResponse(data) {
-            return data;
-        }],
-        headers: {'X-Requested-With': 'XMLHttpRequest'}
-    };
-
-    return axios.{{$method}}(url, {{if ne $method "get" }}params{{else}}{ params }{{end}}, config)
-        .catch(err => {
-            // handle error response
-            return errorHandling(err)
-        }).then(res => {
-            if (typeof res.data === 'string') {
-                try {
-                    var data = JSON.parse(res.data);
-
-                    return Promise.resolve(data as {{.OutputType}})
-                } catch (e) {
-                    return Promise.reject(res.data);
-                }
-            }
-
-            return Promise.reject(res.data);
-        });
+    const url: string = generateUrl(baseUrl, "{{$className}}", "{{.Name}}");
+    return axiosHandler(url, "{{$method}}", params) as Promise<{{.OutputType}}>;
 }
 {{end -}}

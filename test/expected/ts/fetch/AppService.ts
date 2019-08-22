@@ -38,19 +38,52 @@ import {
 } from './AppServiceObjs';
 import { generateUrl, errorHandling } from './helper';
 
-var baseUrl = "backend";
+let baseUrl = "backend";
+const headers = {
+    "X-Requested-With": "XMLHttpRequest"
+};
 
 export function SetBaseUrl(url: string) {
     baseUrl = url;
-}// use fetch
-function call<InType, OutType>(service: string, method: string, params: InType): Promise<OutType | never> {
-    let url: string = generateUrl(baseUrl, service, method);
+}
 
-    return fetch(url, { method: 'POST', body: JSON.stringify(params) }).then(res => {
-        return Promise.resolve(res.json())
-    }).catch(err => {
-        return errorHandling(err)
-    });
+export function setHeader(header: {[key: string]: string}) {
+    return Object.assign(headers, header);
+}// use fetch
+async function call<InType, OutType>(
+    service: string,
+    method: string,
+    params: InType
+): Promise<OutType | never> {
+    const url = generateUrl(baseUrl, service, method);
+    try {
+        const fetchResolve = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(params),
+            headers
+        });
+
+        const resolvedData = await fetchResolve.json();
+
+        if (fetchResolve.statusText !== 'OK') {
+            const parsedError = {
+                headers: fetchResolve.headers,
+                type: fetchResolve.type,
+                statusText: fetchResolve.statusText,
+                status: fetchResolve.status,
+                ok: fetchResolve.ok,
+                redirected: fetchResolve.redirected,
+                url: fetchResolve.url,
+                data: resolvedData,
+            }
+            throw (parsedError);
+        }
+        return resolvedData as OutType;
+    }
+    catch (err) {
+        const handledError = await errorHandling(err);
+        throw handledError;
+    }
 }
 export function getEnv(params: EnvListRequest): Promise<EnvListResponse | never> {
     return call<EnvListRequest, EnvListResponse>("AppService", "getEnv", params);

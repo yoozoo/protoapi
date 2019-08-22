@@ -7,7 +7,10 @@
 * 文件包含一些函数协助生成的前端调用API
 * 文件内代码使用TypeScript
 */
-import { CommonError, GenericError, AuthError, ValidateError, BindError } from './AppServiceObjs'
+{{- if .Gen.HasCommonError}}
+import { CommonError, GenericError, AuthError, ValidateError, BindError } from './{{.ClassName}}Objs'
+{{end -}}
+
 export type CommonErrorType = GenericError | AuthError | BindError | ValidateError
 /**
  * Defined Http Code for response handling
@@ -121,34 +124,4 @@ export function generateQueryUrl<T>(url: string, params: T): string {
  */
 export function generateUrl<T>(url: string, serviceName: string, functionName: string): string {
     return url + "/" + serviceName + "." + functionName;
-}
-
-/**
- *
- * @param {response} response the error response
- */
-export function errorHandling(err): Promise<never> {
-    if(!err || err.response === undefined) {
-        return Promise.reject(err);
-    }
-    let data;
-    try {
-        data = JSON.parse(err.response.data);
-    } catch (e) {
-        data = err.response.data;
-    }
-    switch (err.response.status) {
-        case httpCode.BIZ_ERROR:
-            return Promise.reject({...err, message: data.message});
-
-        case httpCode.COMMON_ERROR:
-            let returnErr = mapCommonErrorType(data);
-            if(!returnErr){
-                throw err
-            }
-            return Promise.reject({...err.response, ...returnErr});
-        default:
-            return Promise.reject(err);
-
-    }
 }
