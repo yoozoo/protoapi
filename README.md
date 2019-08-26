@@ -89,7 +89,7 @@
 2. 在generator/output文件夹里添加新的xxx.go文件或改动现有文件的逻辑
 
 * 后端代码可参考generator/output/spring.go
-* 前端代码可参考generator/output/vue_ts.go
+* 前端代码可参考generator/output/ts.go
 * 例如，如果想要多生成一个ts文件：
   * 添加新的模板： generator/template/ts/example.gots
   * 在generator/output/ts.go里面
@@ -116,19 +116,21 @@
         /**
         * init filename with path
         */
-        func initFiles(packageName string, service *data.ServiceData) *tsGen {
-            gen := &tsGen{
-                ...
-                // 3. 添加生成的文件名
-                // 新生成文件会命名为： example.ts, 并根据packageName指定生成于哪个文件夹
-                // 例如： packageName = yoozoo.protoconf.ts的话， 文件会生成与 $output_dir/yoozoo/protoconf/ts
-                // packageName 定义于proto文件内： “package yoozoo.protoconf.ts;”
-                exampleFile:      genFileName(packageName, "example"),
-            }
-            return gen
-        }
+        func (g *tsGen) initFiles(packageName string, service *data.ServiceData) {
+        	g.axiosFile = genFileName(packageName, service.Name)
+			...
+			// 3. 添加生成的文件名
+			// 新生成文件会命名为： example.ts, 并根据packageName指定生成于哪个文件夹
+			// 例如： packageName = yoozoo.protoconf.ts的话， 文件会生成与 $output_dir/yoozoo/protoconf/ts
+			// packageName 定义于proto文件内： “package yoozoo.protoconf.ts;”
+            g.exampleFile=genFileName(packageName, "example"),
+            
+		}
 
-        func generateVueTsCode(applicationName string, packageName string, service *data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options []*data.Option) (map[string]string, error) {
+ 		/**
+        * init generate file
+        */
+        func (g *tsGen) Gen(applicationName string, packageName string, svrs []*data.ServiceData, messages []*data.MessageData, enums []*data.EnumData, options data.OptionMap) (map[string]string, error) {
 
             ...
             /**
@@ -136,7 +138,7 @@
             */
             // 4. 最后输出生成的文件
             ...
-            result[gen.exampleFile] = gen.genContent(gen.exampleTpl, dataMap)
+            result[g.exampleFile] = g.genContent(g.exampleTpl, dataMap)
             ...
         }
 
