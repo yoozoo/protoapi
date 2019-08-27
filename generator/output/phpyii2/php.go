@@ -12,10 +12,10 @@ func getPHPClassName(old string) string {
 		return "Blank"
 	}
 	switch old {
-	case data.IntFieldType:
+	case data.IntFieldType, data.Int32FieldType, data.Int64FieldType:
 		return "int"
 	case data.BooleanFieldType:
-		return "boolean"
+		return "bool"
 	case data.StringFieldType:
 		return "string"
 	case data.DoubleFieldType:

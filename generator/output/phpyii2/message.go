@@ -31,7 +31,9 @@ func (p *Message) IsObject(fieldType string) bool {
 	case data.StringFieldType,
 		data.DoubleFieldType,
 		data.IntFieldType,
-		data.BooleanFieldType:
+		data.BooleanFieldType,
+		data.Int32FieldType,
+		data.Int64FieldType:
 		return false
 	default:
 		// check if is enum
