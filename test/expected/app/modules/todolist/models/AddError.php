@@ -14,10 +14,9 @@ class AddError extends ProtoApi\BizErrorException implements ProtoApi\Message
         if (isset($response["req"])) {
             $this->req = new AddReq();
             $this->req->init($response["req"]);
-            $this->req->validate();
         }
         if (isset($response["error"])) {
-            $this->error = $response["error"];
+            $this->set_error ( $response["error"] );
         }
     }
 
@@ -26,12 +25,13 @@ class AddError extends ProtoApi\BizErrorException implements ProtoApi\Message
         if (!isset($this->req)) {
             throw new ProtoApi\GeneralException("'req' is not exist");
         }
+        $this->req->validate();
         if (!isset($this->error)) {
             throw new ProtoApi\GeneralException("'error' is not exist");
         }
     }
     
-    public function set_req(Req $req)
+    public function set_req(AddReq $req)
     {
         $this->req = $req;
     }
@@ -41,7 +41,7 @@ class AddError extends ProtoApi\BizErrorException implements ProtoApi\Message
         return $this->req;
     }
     
-    public function set_error($error)
+    public function set_error(string $error)
     {
         $this->error = $error;
     }
@@ -54,7 +54,7 @@ class AddError extends ProtoApi\BizErrorException implements ProtoApi\Message
     public function to_array()
     {
         return array(
-            "req" => $this->req->to_array(),
+            "req" =>  $this->req->to_array(),
             "error" => $this->error,
         );
     }

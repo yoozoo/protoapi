@@ -11,13 +11,8 @@ class ValidateError extends ProtoApi\BizErrorException implements ProtoApi\Messa
     public function init(array $response)
     {
         if (isset($response["errors"])) {
-            $this->errors = array();
-            foreach ($response["errors"] as $errors) {
-                $tmp = new FieldError();
-                $tmp->init($errors);
-                $tmp->validate();
-                $this->errors[] = $tmp;
-            }
+            $val = $response["errors"];
+            $this->set_errors( array_map( function($v) { $tmp = new FieldError(); $tmp->init($v); return $tmp; }, $val) );
         }
     }
 
@@ -26,9 +21,10 @@ class ValidateError extends ProtoApi\BizErrorException implements ProtoApi\Messa
         if (!isset($this->errors)) {
             throw new ProtoApi\GeneralException("'errors' is not exist");
         }
+        array_filter($this->errors, function($v) { $v->validate(); return false; });
     }
     
-    public function set_errors(Errors $errors)
+    public function set_errors(array $errors)
     {
         $this->errors = $errors;
     }
@@ -41,7 +37,7 @@ class ValidateError extends ProtoApi\BizErrorException implements ProtoApi\Messa
     public function to_array()
     {
         return array(
-            "errors" => $this->errors->to_array(),
+            "errors" => array_map( function ($v) {  return $v->to_array(); }, $this->errors),
         );
     }
 }

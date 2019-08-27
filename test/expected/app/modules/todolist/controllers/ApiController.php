@@ -27,6 +27,12 @@ class ApiController extends Controller
                 'class' => \app\modules\todolist\AuthHandler::className(),
             ];
         }
+        if (class_exists("\\app\\modules\\todolist\\CorsHandler")){
+            $behaviors['authenticator'] = [
+                'class' => \app\modules\todolist\CorsHandler::className(),
+            ];
+        }
+
         return $behaviors;
     }
     

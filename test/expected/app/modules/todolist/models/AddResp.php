@@ -10,7 +10,7 @@ class AddResp implements ProtoApi\Message
     public function init(array $response)
     {
         if (isset($response["count"])) {
-            $this->count = $response["count"];
+            $this->set_count ( $response["count"] );
         }
     }
 
@@ -21,7 +21,7 @@ class AddResp implements ProtoApi\Message
         }
     }
     
-    public function set_count($count)
+    public function set_count(int $count)
     {
         $this->count = $count;
     }
