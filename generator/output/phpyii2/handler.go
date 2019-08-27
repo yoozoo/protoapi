@@ -6,7 +6,6 @@ import (
 	"text/template"
 
 	"github.com/yoozoo/protoapi/generator/data"
-	"github.com/yoozoo/protoapi/util"
 )
 
 // NewHandler return a pointer of new handler struct
@@ -26,7 +25,7 @@ type Handler struct {
 func (p *Handler) Gen(result map[string]string) error {
 	filePath := strings.Replace(p.NameSpace, "\\", "/", -1)
 	funcMap := template.FuncMap{
-		"className": util.GetPHPClassName,
+		"className": getPHPClassName,
 	}
 
 	buf := bytes.NewBufferString("")

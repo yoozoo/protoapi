@@ -16,12 +16,17 @@ class Module extends \yii\base\Module implements BootstrapInterface
      */
     public $controllerNamespace = '{{.NameSpace}}\controllers';
 
+    public $prefix;
+    public $module_name;
     /**
      * {@inheritdoc}
      */
-    public function init()
+    public function beforeAction ( $action )
     {
-        parent::init();
+        if (!parent::beforeAction($action) )
+        {
+            return false;
+        }
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         Yii::$app->setComponents([
@@ -39,17 +44,25 @@ class Module extends \yii\base\Module implements BootstrapInterface
         ]);
 
         $handler = $this->get('errorHandler');
-        \Yii::$app->set('errorHandler', $handler);
+        Yii::$app->set('errorHandler', $handler);
         $handler->register();
+        return true;
     }
 
     public function bootstrap($app)
     {
+
         $app->getUrlManager()->addRules([
-            {{- $serviceName:=.Service.Name}}
-            {{- range .Service.Methods}}
-            "POST {{$serviceName}}.{{.Name}}" => "{{$serviceName}}/api/{{.Name}}",
-            {{- end }}
+            new \yii\web\GroupUrlRule ([
+                'prefix' => $this->prefix ,
+                'routePrefix' => $this->module_name,
+                'rules' => [
+                {{- $serviceName:=.Service.Name}}
+                {{- range .Service.Methods}}
+                    '{{$serviceName}}.{{.Name}}' => 'api/{{.Name}}',
+                {{- end }}
+                ],
+            ])
         ], false);
     }
 }

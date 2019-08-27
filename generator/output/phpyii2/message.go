@@ -5,8 +5,6 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/yoozoo/protoapi/util"
-
 	"github.com/yoozoo/protoapi/generator/data"
 )
 
@@ -53,7 +51,7 @@ func (p *Message) Gen(result map[string]string) error {
 
 	funcMap := template.FuncMap{
 		"isObject":  p.IsObject,
-		"className": util.GetPHPClassName,
+		"className": getPHPClassName,
 	}
 
 	tpl, err := template.New("message").Funcs(funcMap).Parse(tplContent)

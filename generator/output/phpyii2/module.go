@@ -5,8 +5,6 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/yoozoo/protoapi/util"
-
 	"github.com/yoozoo/protoapi/generator/data"
 )
 
@@ -40,7 +38,7 @@ func (p *Module) Gen(result map[string]string) error {
 	buf = bytes.NewBufferString("")
 	tplContent = data.LoadTpl("/generator/template/yii2/RequestHandler.gophp")
 	funcMap := template.FuncMap{
-		"className": util.GetPHPClassName,
+		"className": getPHPClassName,
 	}
 	tpl, err = template.New("Module").Funcs(funcMap).Parse(tplContent)
 	if err != nil {
