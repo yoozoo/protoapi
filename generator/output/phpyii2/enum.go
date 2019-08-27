@@ -6,7 +6,6 @@ import (
 	"text/template"
 
 	"github.com/yoozoo/protoapi/generator/data"
-	"github.com/yoozoo/protoapi/util"
 )
 
 // NewError return a pointer of new Error struct
@@ -31,7 +30,7 @@ func (p *Enum) Gen(result map[string]string) error {
 	tplContent := data.LoadTpl("/generator/template/yii2/models/enum.gophp")
 
 	funcMap := template.FuncMap{
-		"className": util.GetPHPClassName,
+		"className": getPHPClassName,
 	}
 
 	tpl, err := template.New("Enum").Funcs(funcMap).Parse(tplContent)

@@ -27,6 +27,12 @@ class ApiController extends Controller
                 'class' => \{{.NameSpace}}\AuthHandler::className(),
             ];
         }
+        if (class_exists("\\{{escape .NameSpace}}\\CorsHandler")){
+            $behaviors['authenticator'] = [
+                'class' => \{{.NameSpace}}\CorsHandler::className(),
+            ];
+        }
+
         return $behaviors;
     }
     {{range .Methods}}

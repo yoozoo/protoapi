@@ -6,7 +6,6 @@ import (
 	"text/template"
 
 	"github.com/yoozoo/protoapi/generator/data"
-	"github.com/yoozoo/protoapi/util"
 )
 
 // NewError return a pointer of new Error struct
@@ -51,7 +50,7 @@ func (p *Error) Gen(result map[string]string) error {
 
 	funcMap := template.FuncMap{
 		"isObject":  p.IsObject,
-		"className": util.GetPHPClassName,
+		"className": getPHPClassName,
 	}
 
 	tpl, err := template.New("Error").Funcs(funcMap).Parse(tplContent)
