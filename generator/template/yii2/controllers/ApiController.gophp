@@ -5,6 +5,7 @@ namespace {{.NameSpace}}\controllers;
 use {{.NameSpace}}\models;
 use Yii;
 use yii\web\Controller;
+use yii\base\InlineAction;
 use Yoozoo\ProtoApi;
 
 class ApiController extends Controller
@@ -49,4 +50,13 @@ class ApiController extends Controller
         throw new ProtoApi\GeneralException("return type of '{{.Name}}' incorrect.");
     }
     {{end}}
+    private $methods = [{{range .Methods}} '{{.Name}}' => 'action{{title .Name}}', {{end}}];
+
+    public function createAction($id)
+    {
+        if (isset($this->methods[$id])) {
+            return new InlineAction($id, $this, $this->methods[$id]);
+        }
+        return null;
+    }
 }
