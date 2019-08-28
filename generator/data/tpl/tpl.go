@@ -635,19 +635,20 @@ Mg9pWvhnrurlOZlXtE6qrTuafJjhwYlGRFRGT5PBTtWo+Q4AAP//qCrWrHUBAAA=
 	"/generator/template/yii2/controllers/ApiController.gophp": {
 		name:    "ApiController.gophp",
 		local:   "generator/template/yii2/controllers/ApiController.gophp",
-		size:    1401,
+		size:    1457,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/7xUy27bOhDd6ysGRgBJwbWzl67VpkHRdtE2aLspoiBgqHFEQCYZcuRHBf57IUqWJduL
-ootqY3LmzOMMz/j/N7rUQSDZGq1mHKFpFl/YGr+3F+dyriQZVVVobBoEtT0DrFWBlU2966cQ3WEvRL7F
-5/xuiO4BSv1SKr83itStFmkQ8IpZC7daHKGAO0JZWDiagiYAANBGbBghXD2VTBY+a2evnyvBYVVLTkJJ
-EFJQFHtXF9h+V1QKO88OobAEiVvIT+h8w9caLX3sQFGc+njX1bm5vu7SXUPzVsgSjaBCcdcbby4284wl
-2whl7HlHgwuWoJlBSUkygqcDUqwg8pN6wp2wZKNZnjcNWs40wqT//Lamsu9+FsfHYtOCDyGrqURJgjNS
-JnyEJTxMsO0X+pohLLOzOY3KJImHtd4o/m+S5PFIwf0NmTtl7D8gMyrzp2SGo0GqjRx1c1CMf+vGMPmC
-sPiMVKrCOndRIsz/NA0JqvoROHcuF4OvsGyXLEmumNbzzHRiTSeQ1tKLu9vNvGkGTrD4JHVNP/baVziP
-nGd+edrrPHtBeqeK/T0zbG2j+CJ8wypRMMKTZK2kTzZunvVjdy46xJ9o3AcKaYlJjmp1kcDXmgYGMZxo
-wqC93NL4qTyI1BMzhu3HoKNGqTRq62d4+K/KP6BEw6r3O466fa5o1uejvUZQKwgHeiEIyZUxyGkxi6eC
-QFk4F7jgdwAAAP//RNUysnkFAAA=
+H4sIAAAAAAAC/5xUXW/aShB9968YoUjYuRd4hwu3aVS1fWgbtX2pMIqW9TgeyexudscQau1/r/wRsA3t
+Q/2CvXPm45ydw3//m8wEgRI7dEZIhLKcfhY7/FZ9eB9LrdjqPEfrFkFQuAvATieYu0Ud+kHUvByJ4gNu
+4/tTdgvQ+qfW8YPVrO8MLYJA5sI5uDN0hgK+MKrEwfkoKAMAAGNpLxjh5jETKqmrNufFNicJaaEkk1ZA
+ijiM6lCTWD03nJGbrF5TYQkKDxAP6HzF5wIdf2hAYbSo833TZ3Z725S7hfINqQwtcaKlbw9nV4fZYib2
+pK27nOgUgiUYYVHxfN6BL05ISiGslXrEF3LswlEclyU6KQxCb/74ruCsnX4URedm/YbrsSg4Q8UkBWs7
+3sAS1j1s9YzrnmNYri506rSZz2tYFQ2jf3tFNmcK/vQ2m4GsOCvEBFjDFoEzhJSsY0gpZ7TgNBDDgfK8
+CmOaomTaI5ACkedgm1v6G33utXW/08ciF1bBelTNN6por/+kQadUTwPYbOCfjthdEYJBryGqkaksrVBP
+CNNPyJlOnPdXV0vUP2XJxHnL0/vLNbP4DMvKnPP5jTBmsmrlW/Qg1UlrisbTcVmeSMH0ozIFfz+ausNl
+5mRVm676nKyekN/q5PggrNi5MLoK34ucEsE4KFZZYeDUyarV3fvwNX/gjTqRlGOhJOr0KoEvBZ8YRDAw
+hkV3faTuVdUg1o/CWnHsgs67zZnVh1rD1/+4+D0qtCJ/9yLRVNcVjtp6fDQIOoXxid4YSEltLUqejqL+
+QqBKvA988CsAAP//3db1V7EFAAA=
 `,
 	},
 

@@ -27,10 +27,9 @@ class ApiController extends Controller
                 'class' => \{{.NameSpace}}\AuthHandler::className(),
             ];
         }
+        // cors need to be the first filter so it will be effective in all request
         if (class_exists("\\{{escape .NameSpace}}\\CorsHandler")){
-            $behaviors['authenticator'] = [
-                'class' => \{{.NameSpace}}\CorsHandler::className(),
-            ];
+            return ["cors" => [ 'class' => \{{.NameSpace}}\CorsHandler::className() ]] + $behaviors;
         }
 
         return $behaviors;
