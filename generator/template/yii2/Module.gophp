@@ -63,6 +63,6 @@ class Module extends \yii\base\Module implements BootstrapInterface
                 {{- end }}
                 ],
             ])
-        ], false);
+        ], true);
     }
 }

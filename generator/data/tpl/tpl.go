@@ -601,21 +601,21 @@ ixeCK+yybryv7l1xdNYlTotOlf8EAAD//zZ+2l2nBgAA
 	"/generator/template/yii2/Module.gophp": {
 		name:    "Module.gophp",
 		local:   "generator/template/yii2/Module.gophp",
-		size:    1725,
+		size:    1724,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/5RUXW/bOgx916/gBQLECZLm3bnJvV2xrwJpi3YdUMxBodh0ok2WNEleOxj+74NkJ7YT
-B8X0Yonk4aHJI/37n9opQgTN0CgaIxTFxQ3N8MEdynJOSG4Qnhib+81vxqIX3ET3aJQUBhvrhhqM3klp
-jdVUfRYWdUpjnBMyG48JjIEqBplMco6QYMoEs0wKiDk1hsB4RvwOVlUEvloUiYHokLp2sExxzFBYA6dk
-pCAAAJ7QrTEU/zOxQ81sIuOyNs78V+UbzmIYxFJYLTlHfXPowQKG3TZETZQZzkkngdKYstd5x1b957Pr
-6vyvS0pzEfvebDCVGi+rQwADWu1GPrj6VbdYCsE/imoUNgzbmKBGjGpIF+aWRptrASnlpi7UrfKwe2Is
-DAdUqelS1xOfLlOpM2phAXsRhOGH2/vV5Zfn64fbm7o7R2iD9kpmSgo3ueBbp4ihxp85GjuExRK6Lu/2
-wvDOqJGfR4Sh901OMYpq42bVn9KHUKU4i6lr0Oy7kcLHDvcM10aKO59keJp+3cOIgm44Xkn5g+FXylni
-M/ukvr3nIUanbwOOKIeotdSfqEg46rcbdyznXQU00ft2mrOM61FrqoMaDAsY2B0z0+UWbdAtaDQ/I4Kj
-uMkhWwuxNznNbZmxqIOWt5as1Xmt2JL0X5796xA48v2daUh8RVu0j5qvqKBbxzJd0iS5zzkeS1TgSyO+
-j1rm6lFzFwhBT9+rF8E3vu5QZYEeDWiZW7w7AbQekD6QK/HM1ItiCgOD+heL0Y08XFw8VCevgLLsRWgq
-tgiHyBXanUxMT7DnL4o2Q1le1PIqy0ptVLFZY5r0MqJIoCf/kc7Xzcu1nlT3YrQfe0n+BAAA//86oGPc
-vQYAAA==
+H4sIAAAAAAAC/5RUXW/iOhB996+YKyEREJT3cOHebrVflWirdrtStUGVSSbgXcf22s62qyj/fWUnkASC
+qvULtmfOnOHMif/9T+0UIYJmaBSNEYri4oZm+OAOZTknJDcIT4zN/eY3Y9ELbqJ7NEoKg83thhqM3klp
+jdVUfRYWdUpjnBMyG48JjIEqBplMco6QYMoEs0wKiDk1hsB4RvwOVlUGvloUiYHoULoOsExxzFBYA6dk
+pCAAAJ7QrTEU/zOxQ81sIuOyvpz5X5VvOIthEEthteQc9c1BgwUMuzJETZYZzkmngNKYstd55676n89O
+1flft5TmIvbabDCVGi+rQwADWu1GPrn6q26xFIJ/FNUobBi2MUGNGNWQLswtjTbXAlLKTd2oW+Vh98RY
+GA6oUtOlric+XaZSZ9TCAvYmCMMPt/eryy/P1w+3N7U6R2iD9kpmSgo3ueBbp4mhxp85GjuExRK6IR/2
+xvDBqLGfR4Shj01OMYpq42bVX9KnUKU4i6kTaPbdSOFzh3uGayPFnS8yPC2/7mFEQTccr6T8wfAr5Szx
+lX1RL+95iNHp24AjyiFqLfUnKhKO+m3hju28q4Amet8uc5ZxPWpNdVCDYQEDu2NmutyiDboNjeZnTHCU
+NzlUayH2V85zW2Ys6qAVrS1rdV47tiT9H8/+dQgc+f6baUh8R1u0j5qvqKBbxzJd0iS5zzkeW1TgS2O+
+j1rm6lFzlwhBj+7Vi+CFrxWqbqDHA1rmFu9OAK0HpA/kWjwz9aKYwsCg/sVidCMPFxcP1ck7oCx7EZqK
+LcIhc4V2JxPTk+z5i6LNUJYXtb3KsnIbVWzWXE16GVEk0FP/yOfr5uVaT/zQR/upl+RPAAAA//+zhHT0
+vAYAAA==
 `,
 	},
 
@@ -684,12 +684,12 @@ weE3AAD//+j458PxAAAA
 	"/generator/template/yii2/models/enum.gophp": {
 		name:    "enum.gophp",
 		local:   "generator/template/yii2/models/enum.gophp",
-		size:    146,
+		size:    176,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/zyLsQrCQBBE+/2K+QHzA1EsRCu1tLJZc4sKlzW4OVCW/Xe5A9O8GZh56+30mKiY4PTd
-Hflm172WsaEnGjKbwb3lmUdBVxkB+cyiyVCP5AQA7iu8We+C7vCUnAwRbRheajPc/+6m9gvnIhH9ooqm
-CAr6BQAA//8rGSPnkgAAAA==
+H4sIAAAAAAAC/zTNP6oCQQwG8D6n+C7w9gL7xEK0UhvByibuBhV24mB2QAm5u8zINvlD8uP7X+d7JlJO
+YpkHgTu6Iyc5tS2iJyomOHw2e77aZasltdITDRObwb31an4yAvKeRUdDfSQnAHD/w4v1Juh2D5lGQ0Q7
+DE+1Ge6LXdX5zFORGr5Q0TGCgr4BAAD//753MtqwAAAA
 `,
 	},
 
