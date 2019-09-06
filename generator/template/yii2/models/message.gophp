@@ -21,6 +21,13 @@ class {{className .Name }} implements ProtoApi\Message
             $this->{{.Name}} = new {{className .DataType}}();
             $this->{{.Name}}->init($response["{{.Name}}"]);
               {{- end}}
+            {{- else if isEnum .DataType}}
+              {{- if eq .Label "LABEL_REPEATED"}}
+            $val = $response["{{.Name}}"];
+            $this->set_{{.Name}}( array_map( function($v) { return new {{className .DataType}}($v); }, $val) );
+              {{- else}}
+            $this->set_{{.Name}} (new {{className .DataType}}($response["{{.Name}}"]));
+              {{- end}}
             {{- else}}
             $this->set_{{.Name}} ( $response["{{.Name}}"] );
             {{- end}}

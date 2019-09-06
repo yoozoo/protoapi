@@ -119,7 +119,7 @@ func (f *_escFile) Readdir(count int) ([]os.FileInfo, error) {
 		return nil, io.EOF
 	}
 
-	return fis[0:limit], nil
+	return []os.FileInfo(fis[0:limit]), nil
 }
 
 func (f *_escFile) Stat() (os.FileInfo, error) {
@@ -696,40 +696,40 @@ DE+1Ge6LXdX5zFORGr5Q0TGCgr4BAAD//753MtqwAAAA
 	"/generator/template/yii2/models/error.gophp": {
 		name:    "error.gophp",
 		local:   "generator/template/yii2/models/error.gophp",
-		size:    2240,
+		size:    2625,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/7RUXW/TMBR9z6+4RJGWSG3/QFjRpgVeBkywF8RQ5aW3q1FiB9vNuln+76jOkiaOO1oQ
-edhU+36ce3zOffuuWldBwEiJsiI5gtYw+0RK/Gp/GZMGwUYifOP8mfO7G8EVv6hoGgR5QaQEre3/XUaT
-B8YAbhWypYQ2+u6SPmdCcJFtc6wU5QxoWRVYIlO9qI8oJXnAQAcAAFpPQRD2gDB7T7FYSjDGXlSCK8wV
-LiHS2vbcoWxTkC2NCZrAzX1Bc1htWN70ZFTFRAjyBJFAWXEmMWkS7d9Xu+4+uoKYSokq7vK/hx2G8EeS
-9Cq11egKqPx8/xNzBbMrosjtU4X9qoNQ/AWza3KPBYTXF5fZ9eJLdpNd3GZXoZMR1aSAc/ADSYehak3l
-dC5RLbqYGCwRi5JUccdQHNUJaIhUWcE5MHwcPm8L3pg4SW3UdG45jeokBYFqI5g9TsFMLMAEktQzJxYS
-3XEajB2+P/Z/NbvF5X8lLyQrm+OBDsiE+MA7uOOPO5nAf3dAwjUp6JIojE/W7ZsX4TpMjSSr1oI/Wu47
-X35AhoIUnXnj8KzLPwMqgXEFuKVShb15zd864TQvNDJe0UKhGE03GUm7ns73HHaiXZFCYgpmJA2vDMZq
-65X0F/Cra3Dqvn9z5t+AjiqGzj6CPUua1s1cBzymtUXTW7Ku5jyedTfyARk/DAC7dbtNMiyfDojZU+UW
-V3xh5ztUt7k8zjn/eYn3dgWcz30rGV6E25FST+f7AZtF61p6ctzKdZp7ZL1vNPmXlek0Gpn0JGPsvqSV
-ggl+BwAA//+3ZdI+wAgAAA==
+H4sIAAAAAAAC/8xVbW/TMBD+nl9xVJGWSG3/QFjRpgW+DJhgXxBDlZdeN6PEDrabvVj+76jOkiaOU9oh
+JPJhU+17ee7uucdv35X3ZRAwUqAsSYagNcw/kQK/2l/GJEGwkQjfOH/m/OZKcMXPSpoEQZYTKUFr+3/r
+UfuBMYCPCtlKQmN9c06fUyG4SB8zLBXlDGhR5lggUx2rjyglucNABwAAWs9AEHaHMH9PMV9JMMZelIIr
+zBSuINTa5tyibFyQrYwJasPNbU4zWG9YVudkVEVECPIEoUBZciYxrh3t371Ztx9dQ0SlRBW1/t8nLYbJ
+jzjuRGqi0TVQ+fn2J2YK5hdEkeunErtRe6b4C+aX5BZzmFyenaeXyy/pVXp2nV5MHI+wIjmcgh9I0jdV
+91TOFhLVsrWJwDZiWZAyajsUhVUMGkJVlHAKDB/6423AGxPFibWaLWxPwypOQKDaCGaPEzBTCzCGOPHU
+iblEt5waY4vvj/n3eje4/FPyQrK08QGtB5iyTdFF8P9O72UO+7pn5/XaEfWAQLQ3z8iWHDeAg2CMtNIt
+bpjJBP67EQ2pSE5XRGF0tHC8eVEOh6oDzVD3gj/Y8bXC+AEZCpK36hlNTlr/E6ASGFeAj1SqSade81op
+Oo7ONRPXNFcoBtVNB9pSzRa7HraqsSa5xATMgBpeGgzXvRPSH8DPrt6pO//6zP8EOazoL+cB3bNN07qu
+a2R9tLZoOq+cyzmPaLpP4giN73qA3bitlPfDJ73G7FrlBld8aesbi1tfHrY5//gV7WgFnC58qgovxG2b
+Us0WuwJrGXVXenqYoDrJPbTeJZr+jWQ6iQZLetRibL+4oYIJfgcAAP//6gFUE0EKAAA=
 `,
 	},
 
 	"/generator/template/yii2/models/message.gophp": {
 		name:    "message.gophp",
 		local:   "generator/template/yii2/models/message.gophp",
-		size:    2204,
+		size:    2589,
 		modtime: 0,
 		compressed: `
-H4sIAAAAAAAC/7RUXW/TMBR9z6+4RJGWSG3/QFhR0QovBSbYC2KoctPb1iixg+1mG5b/O6qzpInjjhZE
-HjbVvh/nHp97Xr8pd2XASIGyJBmC1jD5SAr8Yn8ZkwbBXiJ85fwX5/e3gis+K2kaBFlOpASt7f9DRp0H
-xgAtyhwLZEpCk3D/AaUkWwx0AACg9RgEYVuEyTuK+VqCMfaiFFxhpnANkda24AFCk4JsbUxQB+5XOc1g
-s2eZopwBZVTFRAjyBJFAWXImMakT7d8Xux4+uoGYSokqbvO/hS2G8HuSdCo11egGqPy0+oGZgskNUeTu
-qcRu1V4o/oTJgqwwh3AxeztfLD/Pb+ezu/lN6GREFcnhGvxA0n6o2lE5nkpUyzYmBkvEsiBl3DIUR1UC
-GiJVlHANDB/6b9eANyZOUhs1nlpOoypJQaDaC2aPUzAjCzCBJPXMiblEd5waY4vvj/1fzG5w+V/JC8nK
-5nygPTIhPvEO7vjDTibw352QcEVyuiYK44t1++pZuA5TA8mqneAPlvt2L98jQ0Hy+WOGpZVJeNXmXwGV
-wLgCfKRShZ15zd9uwmW7UMt4Q3OFYjDdaCDtajw9ctiKdkNyiSmYgTS8MhiqrVPSX8Cvrt6p+/71md8B
-HVX0N/sM9ixpWtdzndgxrS2ajsm6mvPsrOvIJ2S87QF267ZO0i+f9og5UuUWV3xp5ztVt748b3P+s4l3
-vAKupz5LhmfhtqRU4+lxwNpo3ZUenWe5TnOPrI+NRv9imU6jwZJetBiHL2mkYILfAQAA//+cn2fxnAgA
-AA==
+H4sIAAAAAAAC/8xVUW+bMBB+51fcEFJBSvIHWDN1KttLt1VbX6Z1ilxySTyBzbBD21n+71NMIGBMlnSa
+NB5aBXx339333efXb4pN4TGSoyhIiqAUzD6SHL+YX1rHnrcVCF85/8X5/W3JJb8qaOx5aUaEAKXM/11E
+HQdaA82LDHNkUkATcP8BhSBr9JQHAKDUFErC1gizdxSzpQCtzYei5BJTiUsIlDIJdxCaEGRLrb364PYh
+oymstiyVlDOgjMqQlCV5hqBEUXAmMKoDzd+jVXcPXUFIhUAZtvHf/BaD/z2KOpmabHQFVHx6+IGphNk1
+keTuucBu1t5R/AmzG/KAGfg3V2+Tm8Xn5Da5ukuufSsiqEgGl+AGEvePyg0V07lAuWjPhGAGschJEbYT
+CoMqAgWBzAu4BIaPfe4a8FqHUWxOTedmpkEVxVCi3JbMvI5BTwzACKLY0SdmAu12aowtvj/WPxrd4HKz
+5IRkZOMCWhOYsG3eRfD/srfn4dj0DF8vpagHBMKjdUa25DwCToIxMkq7uWEl7bm/jXhIRTK6JBLDs43j
+1d45LKkOPENuSv5o6GuN8T0yLEmWPKVYGKb9izb+AqgAxiXgExXS7/SrX2pF58m5VuKKZhLLQXeTgbdU
+0/lhhq1rrEgmMAY9kIZTBsN176R0J3Crq/fW5r9+576CLFX0l/OE6ZmhKVX3NbI+Shk0nVvO1pzDNO0r
+cUTG6x5gO29r5f30cW8wh1HZySVfmP7G8tYfT9ucf3yLdrwCLucuV4W9cNuhVNP5ocHaRu2VnpxmqFZx
+h6wPhSZ/Y5lWocGSnrUYuydqpKC93wEAAP///OzzjR0KAAA=
 `,
 	},
 

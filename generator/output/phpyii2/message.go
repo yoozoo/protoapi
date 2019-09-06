@@ -46,6 +46,15 @@ func (p *Message) IsObject(fieldType string) bool {
 	}
 }
 
+func (p *Message) IsEnum(fieldType string) bool {
+	for _, enum := range p.Enums {
+		if enum.Name == fieldType {
+			return true
+		}
+	}
+	return false
+}
+
 func (p *Message) Gen(result map[string]string) error {
 	buf := bytes.NewBufferString("")
 
@@ -53,6 +62,7 @@ func (p *Message) Gen(result map[string]string) error {
 
 	funcMap := template.FuncMap{
 		"isObject":  p.IsObject,
+		"isEnum":    p.IsEnum,
 		"className": getPHPClassName,
 	}
 
