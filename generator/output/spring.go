@@ -13,8 +13,7 @@ import (
 
 var javaTypes = map[string]string{
 	// https://developers.google.com/protocol-buffers/docs/proto#scalar
-	"double":   "double",
-	"float":    "float",
+	"float64":  "double",
 	"int32":    "int",
 	"int64":    "long",
 	"uint32":   "int",
@@ -31,8 +30,7 @@ var javaTypes = map[string]string{
 }
 
 var wrapperTypes = map[string]string{
-	"double":   "Double",
-	"float":    "Float",
+	"float64":  "Double",
 	"int32":    "Integer",
 	"int64":    "Long",
 	"uint32":   "Integer",
