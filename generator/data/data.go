@@ -22,7 +22,7 @@ const (
 	// StringFieldType datatype string for string
 	StringFieldType = "string"
 	// DoubleFieldType datatype string for floating point, it is assumed to be at least of ieee double precision
-	DoubleFieldType = "double"
+	DoubleFieldType = "float64"
 
 	// PathSeparator the path seperator used to form the full key (ie, key/sub_key )
 	PathSeparator = "/"

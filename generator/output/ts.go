@@ -17,7 +17,7 @@ import (
  */
 var tsTypes = map[string]string{
 	"int":      "number",
-	"double":   "number",
+	"float64":  "number",
 	"float":    "number",
 	"int32":    "number",
 	"int64":    "number",
