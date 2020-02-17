@@ -6,7 +6,6 @@ import (
 	"text/template"
 
 	"github.com/yoozoo/protoapi/generator/data"
-	"github.com/yoozoo/protoapi/util"
 )
 
 // NewError return a pointer of new Error struct
@@ -44,6 +43,15 @@ func (p *Error) IsObject(fieldType string) bool {
 	}
 }
 
+func (p *Error) IsEnum(fieldType string) bool {
+	for _, enum := range p.Enums {
+		if enum.Name == fieldType {
+			return true
+		}
+	}
+	return false
+}
+
 func (p *Error) Gen(result map[string]string) error {
 	buf := bytes.NewBufferString("")
 
@@ -51,7 +59,8 @@ func (p *Error) Gen(result map[string]string) error {
 
 	funcMap := template.FuncMap{
 		"isObject":  p.IsObject,
-		"className": util.GetPHPClassName,
+		"isEnum":    p.IsEnum,
+		"className": getPHPClassName,
 	}
 
 	tpl, err := template.New("Error").Funcs(funcMap).Parse(tplContent)

@@ -1,4 +1,7 @@
 <?php
+
+namespace {{ .NameSpace }};
+
 use MyCLabs\Enum\Enum;
 
 class {{className .Name}} extends Enum

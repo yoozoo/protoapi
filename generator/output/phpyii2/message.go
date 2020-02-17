@@ -5,8 +5,6 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/yoozoo/protoapi/util"
-
 	"github.com/yoozoo/protoapi/generator/data"
 )
 
@@ -33,7 +31,9 @@ func (p *Message) IsObject(fieldType string) bool {
 	case data.StringFieldType,
 		data.DoubleFieldType,
 		data.IntFieldType,
-		data.BooleanFieldType:
+		data.BooleanFieldType,
+		data.Int32FieldType,
+		data.Int64FieldType:
 		return false
 	default:
 		// check if is enum
@@ -46,6 +46,15 @@ func (p *Message) IsObject(fieldType string) bool {
 	}
 }
 
+func (p *Message) IsEnum(fieldType string) bool {
+	for _, enum := range p.Enums {
+		if enum.Name == fieldType {
+			return true
+		}
+	}
+	return false
+}
+
 func (p *Message) Gen(result map[string]string) error {
 	buf := bytes.NewBufferString("")
 
@@ -53,7 +62,8 @@ func (p *Message) Gen(result map[string]string) error {
 
 	funcMap := template.FuncMap{
 		"isObject":  p.IsObject,
-		"className": util.GetPHPClassName,
+		"isEnum":    p.IsEnum,
+		"className": getPHPClassName,
 	}
 
 	tpl, err := template.New("message").Funcs(funcMap).Parse(tplContent)

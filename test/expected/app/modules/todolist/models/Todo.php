@@ -10,7 +10,7 @@ class Todo implements ProtoApi\Message
     public function init(array $response)
     {
         if (isset($response["title"])) {
-            $this->title = $response["title"];
+            $this->set_title ( $response["title"] );
         }
     }
 
@@ -21,7 +21,7 @@ class Todo implements ProtoApi\Message
         }
     }
     
-    public function set_title($title)
+    public function set_title(string $title)
     {
         $this->title = $title;
     }

@@ -5,6 +5,7 @@ namespace app\modules\todolist\controllers;
 use app\modules\todolist\models;
 use Yii;
 use yii\web\Controller;
+use yii\base\InlineAction;
 use Yoozoo\ProtoApi;
 
 class ApiController extends Controller
@@ -27,6 +28,11 @@ class ApiController extends Controller
                 'class' => \app\modules\todolist\AuthHandler::className(),
             ];
         }
+        // cors need to be the first filter so it will be effective in all request
+        if (class_exists("\\app\\modules\\todolist\\CorsHandler")){
+            return ["cors" => [ 'class' => \app\modules\todolist\CorsHandler::className() ]] + $behaviors;
+        }
+
         return $behaviors;
     }
     
@@ -58,4 +64,13 @@ class ApiController extends Controller
         throw new ProtoApi\GeneralException("return type of 'list' incorrect.");
     }
     
+    private $methods = [ 'add' => 'actionAdd',  'list' => 'actionList', ];
+
+    public function createAction($id)
+    {
+        if (isset($this->methods[$id])) {
+            return new InlineAction($id, $this, $this->methods[$id]);
+        }
+        return null;
+    }
 }

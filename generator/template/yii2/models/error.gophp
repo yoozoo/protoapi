@@ -14,26 +14,23 @@ class {{className .Name }} extends ProtoApi\BizErrorException implements ProtoAp
     {
         {{- range .Fields }}
         if (isset($response["{{.Name}}"])) {
-            {{- if eq .Label "LABEL_REPEATED"}}
-            $this->{{.Name}} = array();
-            foreach ($response["{{.Name}}"] as ${{.Name}}) {
-                {{- if isObject .DataType }}
-                $tmp = new {{className .DataType}}();
-                $tmp->init(${{.Name}});
-                $tmp->validate();
-                $this->{{.Name}}[] = $tmp;
-                {{- else}}
-                $this->{{.Name}}[] = ${{.Name}};
-                {{- end}}
-            }
-            {{- else}}
             {{- if isObject .DataType }}
+              {{- if eq .Label "LABEL_REPEATED"}}
+            $val = $response["{{.Name}}"];
+            $this->set_{{.Name}}( array_map( function($v) { $tmp = new {{className .DataType}}(); $tmp->init($v); return $tmp; }, $val) );
+              {{- else}}
             $this->{{.Name}} = new {{className .DataType}}();
             $this->{{.Name}}->init($response["{{.Name}}"]);
-            $this->{{.Name}}->validate();
+              {{- end}}
+            {{- else if isEnum .DataType}}
+              {{- if eq .Label "LABEL_REPEATED"}}
+            $val = $response["{{.Name}}"];
+            $this->set_{{.Name}}( array_map( function($v) { return new {{className .DataType}}($v); }, $val) );
+              {{- else}}
+            $this->set_{{.Name}} (new {{className .DataType}}($response["{{.Name}}"]));
+              {{- end}}
             {{- else}}
-            $this->{{.Name}} = $response["{{.Name}}"];
-            {{- end}}
+            $this->set_{{.Name}} ( $response["{{.Name}}"] );
             {{- end}}
         }
         {{- end}}
@@ -45,10 +42,17 @@ class {{className .Name }} extends ProtoApi\BizErrorException implements ProtoAp
         if (!isset($this->{{.Name}})) {
             throw new ProtoApi\GeneralException("'{{.Name}}' is not exist");
         }
+            {{- if isObject .DataType }}
+                {{- if eq .Label "LABEL_REPEATED"}}
+        array_filter($this->{{.Name}}, function($v) { $v->validate(); return false; });
+                {{- else}}
+        $this->{{.Name}}->validate();
+                {{- end}}
+            {{- end}}
         {{- end}}
     }
     {{range .Fields }}
-    public function set_{{.Name}}({{if isObject .DataType}}{{className .Name}} {{end}}${{.Name}})
+    public function set_{{.Name}}({{- if eq .Label "LABEL_REPEATED"}}array{{else}}{{className .DataType}}{{end}} ${{.Name}})
     {
         $this->{{.Name}} = ${{.Name}};
     }
@@ -62,8 +66,12 @@ class {{className .Name }} extends ProtoApi\BizErrorException implements ProtoAp
     {
         return array(
         {{- range .Fields }}
-            {{- if isObject .DataType}}
-            "{{.Name}}" => $this->{{.Name}}->to_array(),
+            {{- if isObject .DataType }}
+              {{- if eq .Label "LABEL_REPEATED"}}
+            "{{.Name}}" => array_map( function ($v) {  return $v->to_array(); }, $this->{{.Name}}),
+              {{- else}}
+            "{{.Name}}" =>  $this->{{.Name}}->to_array(),
+              {{- end}}
             {{- else}}
             "{{.Name}}" => $this->{{.Name}},
             {{- end}}

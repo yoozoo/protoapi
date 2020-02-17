@@ -11,7 +11,7 @@ class GenericError extends ProtoApi\BizErrorException implements ProtoApi\Messag
     public function init(array $response)
     {
         if (isset($response["message"])) {
-            $this->message = $response["message"];
+            $this->set_message ( $response["message"] );
         }
     }
 
@@ -22,7 +22,7 @@ class GenericError extends ProtoApi\BizErrorException implements ProtoApi\Messag
         }
     }
     
-    public function set_message($message)
+    public function set_message(string $message)
     {
         $this->message = $message;
     }

@@ -5,8 +5,6 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/yoozoo/protoapi/util"
-
 	"github.com/yoozoo/protoapi/generator/data"
 )
 
@@ -37,7 +35,7 @@ func (p *Controller) Gen(result map[string]string) error {
 	tplContent := data.LoadTpl("/generator/template/yii2/controllers/ApiController.gophp")
 	funcMap := template.FuncMap{
 		"escape":    p.escape,
-		"className": util.GetPHPClassName,
+		"className": getPHPClassName,
 		"title":     strings.Title,
 	}
 	tpl, err := template.New("Controller").Funcs(funcMap).Parse(tplContent)
