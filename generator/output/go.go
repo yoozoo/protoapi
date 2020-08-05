@@ -203,4 +203,5 @@ func (g *goGen) Gen(applicationName string, packageName string, services []*data
 
 func init() {
 	data.OutputMap["go"] = &goGen{}
+	data.OutputMap["echo_v3"] = &goGen{}
 }

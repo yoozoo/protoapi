@@ -266,6 +266,32 @@ wLXON23rtCqFE78DAAD//3AqAjycAwAA
 `,
 	},
 
+	"/generator/template/echo_v4/service.gogo": {
+		name:    "service.gogo",
+		local:   "generator/template/echo_v4/service.gogo",
+		size:    2943,
+		modtime: 0,
+		compressed: `
+H4sIAAAAAAAC/7RWUW/bNhB+Nn/FzQgGKVOloOheHPhhS700A5oEjbE9Fox0tojIpEJScTKB/304SrYl
+2U5TbH2TyLuP3913d2SSwIXKEJYoUXOLGdy/QKmVVbwUk6U6h483cH0zh9nHq3nMWMnTB75EqOv4tvl0
+jtV1fLUqlbbG/5wYmEwhdo4JvwoBG2GaKxgvhc2r+zhVq6Tg98by9CGhneTpw5iFjCUJAV/zFToHwoDN
+EYS0qBc8RUiVtFxIA7wo/BYtaFUUqA2zLyV2nbdeNRvV9TsQC4h/q2z+BR8roTFzjtZbc9oIUiAq8YWS
+Fp9tCAFqDai10mEDgbL1egeayyVC/BltrjIDzjGPNhe2QOcGUBFofCRuV7Ks7KWav5ToXAiBRlPS+k1l
+Oxt1LRYgEeIZnU1rMB47F8G9+McvkYv/2Hl4ahEcYEzcHGNHUrCoZApfe3n4+onLrEAdGP20S2jYRPRZ
+ZFmBa67xD/Ks2UijrbQEAgokPtvGrsUgo3Bvhdx6fq9k3tuO6H8KRj/FA8lCRtti4SP/aQpSFI3HRvMT
+E3/i5kKtVkr6nJGCo9EoSQAnU3KLA6rYuGcSwloUBZRcipRQuDGorVASFlwUEaxzkeZUoFJZWOfcwhph
+zaX12EQnAvUArxxwTvsN000q0vjPu5vr4MP7swgw9FtuG0pbe13rO6uFXAa/np154ZuSCELv6XxeWlOS
+hVLl8agadoB1vV/Jg5oY1MNJvyAGsn6PqtQUkylIXAf93mgPoBBaZaeQxr8LmQUaH8PzPbEPaE3WHb19
+p02mMFTiVvlB4Vy9dZjAz9vvupPXDdCeVoQdbmhgYfCQ5UalnWErqGPJKaOlQQB/8UJk3OIuCLGAJ17M
+tKZAND7GG5MgPN/sdLPy7Zh7Z0xajG+F6Tzbhv5pwppzDs4s6A6t3oyabJt5OzH9kAzZwWZ+vZd/YCt/
+ZycfbWQ3VP1NXeybuI39QG6bXG0vhb70PSKEvbHbSbhhw4b27892cnfGhb/lkgS+4FIYi7p3U1cGM7AK
+7oXMQKvK0p3sJ8meeYBw6ifDLM1VBINrpmajPY+/hc1vNS7Ec4DeIYLxOGRH6OysjxGDtbA5pJWxagWl
+Nz3CtXvycdZRCwLGi0lBHH90LH0xxZdaVWXQ+v0C47qO71A/iRRvuc2dG0ev3Mth70Vy7EnSrZ0Wu6me
+25u7+bhrcWL2acaXs3lAtBrEA6wOMmrnH3r3XnhvRWgqrft9PJLL2RsCoXD/SyTe/38KZfAs+zcAAP//
+hKmkD38LAAA=
+`,
+	},
+
 	"/generator/template/go/enum.gogo": {
 		name:    "enum.gogo",
 		local:   "generator/template/go/enum.gogo",
@@ -737,6 +763,12 @@ AA==
 		isDir: true,
 	},
 
+	"/generator/template/echo_v4": {
+		name:  "echo_v4",
+		local: `generator/template/echo_v4`,
+		isDir: true,
+	},
+
 	"/generator/template/go": {
 		name:  "go",
 		local: `generator/template/go`,
@@ -780,6 +812,7 @@ var _escDirs = map[string][]os.FileInfo{
 		_escData["/generator/template/echo_enum.gogo"],
 		_escData["/generator/template/echo_service.gogo"],
 		_escData["/generator/template/echo_struct.gogo"],
+		_escData["/generator/template/echo_v4"],
 		_escData["/generator/template/go"],
 		_escData["/generator/template/go_client.gogo"],
 		_escData["/generator/template/markdown.gomd"],
@@ -788,6 +821,10 @@ var _escDirs = map[string][]os.FileInfo{
 		_escData["/generator/template/spring_struct.gojava"],
 		_escData["/generator/template/ts"],
 		_escData["/generator/template/yii2"],
+	},
+
+	"generator/template/echo_v4": {
+		_escData["/generator/template/echo_v4/service.gogo"],
 	},
 
 	"generator/template/go": {
