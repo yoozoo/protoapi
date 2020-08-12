@@ -28,7 +28,7 @@ func _{{.Name}}Auth_Handler(srv {{.Name}}) echo.MiddlewareFunc {
 				{{- if $s.HasCommonError}}
 				// e:= err.({{$s.CommonError}}) will panic if assertion fail, which is not what we want
 				if e, ok := err.({{$s.CommonError}}); ok {
-					return c.JSON(420, e)
+					return c.JSON(400, e)
 				}
 				{{- end}}
 				return c.String(500, err.Error())
@@ -45,12 +45,7 @@ func _{{.Name}}_Handler(srv {{$.Name}}) echo.HandlerFunc {
 		req := new({{.InputGoTypeName}})
 
 		if err = c.Bind(req); err != nil {
-			{{- if $s.HasCommonBindError}}
-			resp := {{$s.CommonErrorPointer}}{BindError: &BindError{err.Error()}}
-			return c.JSON(420, resp)
-			{{- else}}
 			return c.JSON(500, err)
-			{{- end}}
 		}
 /*
 		{{if $s.HasCommonValidateError}}
