@@ -19,7 +19,7 @@ import { generateUrl, errorHandling } from './helper';
 let baseUrl = "backend";
 const headers = {
     "X-Requested-With": "XMLHttpRequest",
-    "Content-Type': 'application/json"
+    "Content-Type": "application/json"
 };
 
 export function SetBaseUrl(url: string) {
