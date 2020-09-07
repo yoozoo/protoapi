@@ -10,13 +10,8 @@ class ListResp implements ProtoApi\Message
     public function init(array $response)
     {
         if (isset($response["items"])) {
-            $this->items = array();
-            foreach ($response["items"] as $items) {
-                $tmp = new Todo();
-                $tmp->init($items);
-                $tmp->validate();
-                $this->items[] = $tmp;
-            }
+            $val = $response["items"];
+            $this->set_items( array_map( function($v) { $tmp = new Todo(); $tmp->init($v); return $tmp; }, $val) );
         }
     }
 
@@ -25,9 +20,10 @@ class ListResp implements ProtoApi\Message
         if (!isset($this->items)) {
             throw new ProtoApi\GeneralException("'items' is not exist");
         }
+        array_filter($this->items, function($v) { $v->validate(); return false; });
     }
     
-    public function set_items(Items $items)
+    public function set_items(array $items)
     {
         $this->items = $items;
     }
@@ -40,7 +36,7 @@ class ListResp implements ProtoApi\Message
     public function to_array()
     {
         return array(
-            "items" => $this->items->to_array(),
+            "items" => array_map( function ($v) {  return $v->to_array(); }, $this->items),
         );
     }
 }

@@ -40,7 +40,8 @@ import { generateUrl, errorHandling } from './helper';
 
 let baseUrl = "backend";
 const headers = {
-    "X-Requested-With": "XMLHttpRequest"
+    "X-Requested-With": "XMLHttpRequest",
+    "Content-Type": "application/json"
 };
 
 export function SetBaseUrl(url: string) {
@@ -65,7 +66,7 @@ async function call<InType, OutType>(
 
         const resolvedData = await fetchResolve.json();
 
-        if (fetchResolve.statusText !== 'OK') {
+        if (fetchResolve.status !== 200) {
             const parsedError = {
                 headers: fetchResolve.headers,
                 type: fetchResolve.type,

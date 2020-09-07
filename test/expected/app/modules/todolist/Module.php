@@ -16,12 +16,17 @@ class Module extends \yii\base\Module implements BootstrapInterface
      */
     public $controllerNamespace = 'app\modules\todolist\controllers';
 
+    public $prefix;
+    public $module_name;
     /**
      * {@inheritdoc}
      */
-    public function init()
+    public function beforeAction ( $action )
     {
-        parent::init();
+        if (!parent::beforeAction($action) )
+        {
+            return false;
+        }
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         Yii::$app->setComponents([
@@ -39,15 +44,23 @@ class Module extends \yii\base\Module implements BootstrapInterface
         ]);
 
         $handler = $this->get('errorHandler');
-        \Yii::$app->set('errorHandler', $handler);
+        Yii::$app->set('errorHandler', $handler);
         $handler->register();
+        return true;
     }
 
     public function bootstrap($app)
     {
+
         $app->getUrlManager()->addRules([
-            "POST TodolistService.add" => "TodolistService/api/add",
-            "POST TodolistService.list" => "TodolistService/api/list",
+            new \yii\web\GroupUrlRule ([
+                'prefix' => $this->prefix ,
+                'routePrefix' => $this->module_name,
+                'rules' => [
+                    'TodolistService.add' => 'api/add',
+                    'TodolistService.list' => 'api/list',
+                ],
+            ])
         ], false);
     }
 }

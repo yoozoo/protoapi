@@ -11,10 +11,10 @@ class FieldError implements ProtoApi\Message
     public function init(array $response)
     {
         if (isset($response["fieldName"])) {
-            $this->fieldName = $response["fieldName"];
+            $this->set_fieldName ( $response["fieldName"] );
         }
         if (isset($response["errorType"])) {
-            $this->errorType = $response["errorType"];
+            $this->set_errorType ( $response["errorType"] );
         }
     }
 
@@ -28,7 +28,7 @@ class FieldError implements ProtoApi\Message
         }
     }
     
-    public function set_fieldName($fieldName)
+    public function set_fieldName(string $fieldName)
     {
         $this->fieldName = $fieldName;
     }
@@ -38,7 +38,7 @@ class FieldError implements ProtoApi\Message
         return $this->fieldName;
     }
     
-    public function set_errorType($errorType)
+    public function set_errorType(ValidateErrorType $errorType)
     {
         $this->errorType = $errorType;
     }

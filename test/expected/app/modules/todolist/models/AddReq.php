@@ -12,7 +12,6 @@ class AddReq implements ProtoApi\Message
         if (isset($response["item"])) {
             $this->item = new Todo();
             $this->item->init($response["item"]);
-            $this->item->validate();
         }
     }
 
@@ -21,9 +20,10 @@ class AddReq implements ProtoApi\Message
         if (!isset($this->item)) {
             throw new ProtoApi\GeneralException("'item' is not exist");
         }
+        $this->item->validate();
     }
     
-    public function set_item(Item $item)
+    public function set_item(Todo $item)
     {
         $this->item = $item;
     }
@@ -36,7 +36,7 @@ class AddReq implements ProtoApi\Message
     public function to_array()
     {
         return array(
-            "item" => $this->item->to_array(),
+            "item" =>  $this->item->to_array(),
         );
     }
 }
